@@ -15,36 +15,33 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Pong\Ball.cpp">
+    <ClCompile Include="Stick.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="..\Pong\Game.cpp">
+    <ClCompile Include="Ball.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="..\Pong\main.cpp">
+    <ClCompile Include="Game.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="..\Pong\Score.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="..\Pong\Stick.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="prueba.cpp">
+    <ClCompile Include="Score.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Pong\Ball.h">
+    <ClInclude Include="Stick.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="..\Pong\Game.h">
+    <ClInclude Include="Ball.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="..\Pong\Score.h">
+    <ClInclude Include="Game.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="..\Pong\Stick.h">
+    <ClInclude Include="Score.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

@@ -145,18 +145,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Pong\Ball.cpp" />
-    <ClCompile Include="..\Pong\Game.cpp" />
-    <ClCompile Include="..\Pong\main.cpp" />
-    <ClCompile Include="..\Pong\Score.cpp" />
-    <ClCompile Include="..\Pong\Stick.cpp" />
-    <ClCompile Include="prueba.cpp" />
+    <ClCompile Include="Ball.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Score.cpp" />
+    <ClCompile Include="Stick.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Pong\Ball.h" />
-    <ClInclude Include="..\Pong\Game.h" />
-    <ClInclude Include="..\Pong\Score.h" />
-    <ClInclude Include="..\Pong\Stick.h" />
+    <ClInclude Include="Ball.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="Score.h" />
+    <ClInclude Include="Stick.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Pong\game.exe" />
