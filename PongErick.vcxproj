@@ -161,6 +161,7 @@
     <None Include="..\Pong\game.exe" />
     <None Include="..\Pong\main.exe" />
     <None Include="..\Pong\SDL2.dll" />
+    <None Include="Debug\SDL2.dll" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
