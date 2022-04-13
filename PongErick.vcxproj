@@ -150,6 +150,7 @@
     <ClCompile Include="..\Pong\main.cpp" />
     <ClCompile Include="..\Pong\Score.cpp" />
     <ClCompile Include="..\Pong\Stick.cpp" />
+    <ClCompile Include="prueba.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Pong\Ball.h" />
