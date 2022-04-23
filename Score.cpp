@@ -1,5 +1,6 @@
 #include "Score.h"
-#include "SDL.h"
+#include "../SDL2/include/SDL.h"
+
 
 Score::Score() {
 	Player1Score = 0;

@@ -1,4 +1,4 @@
-#include "SDL.h"
+#include "../SDL2/include/SDL.h"
 #include "Game.h"
 #include "Stick.h"
 #include "Ball.h"
