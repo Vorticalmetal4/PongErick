@@ -44,10 +44,10 @@ bool Game::Initialize() {
 
     GameBall = new Ball(WindowWidth / 2, WindowHeight / 2, 150, 150, thickness);
 
-    Player1 = new Stick(200, 300, thickness * 4, 400, thickness);
-    Player2 = new Stick(824, 300, thickness * 4, 400, thickness);
+    Player1 = new Stick(200, 300, thickness * 4, 400, thickness); // CPP: Memory leak
+    Player2 = new Stick(824, 300, thickness * 4, 400, thickness); // CPP: Memory leak
 
-    Sc = new Score();
+    Sc = new Score(); // CPP: Memory leak
 
 
     return true;
@@ -56,6 +56,8 @@ bool Game::Initialize() {
 void Game::Shutdown()
 {
     SDL_DestroyWindow(mWindow);
+    // CPP: Always nullify pointer, or you can get Invalid memory reference, etc.
+    // mWindow = nullptr;
     SDL_DestroyRenderer(mRenderer);
     SDL_Quit();
 }
@@ -143,6 +145,7 @@ void Game::GenerateOutput() {
 
     SDL_SetRenderDrawColor(mRenderer, 0, 255, 0, 255);
 
+    // MODULARIDAD: Player or any other actor in the game should render themselves, also this way you are not using CACHE memory in a smart way
     SDL_Rect PlayerOne{
         Player1->getXPosition(), //X top left
         Player1->getYPosition(), //Y top left
@@ -167,6 +170,7 @@ void Game::GenerateOutput() {
 
     SDL_SetRenderDrawColor(mRenderer, 255, 255, 255, 255);
 
+    // CPP: S1 to SN seems should be a table stored statically
     SDL_Rect S1{
         300,
         50,
@@ -348,7 +352,7 @@ void Game::GenerateOutput() {
         break;
     }
 
-
+    // CPP: Duplicated code, NO!
     switch (Sc->getPlayer2Score()) {
     case 0:
         SDL_RenderFillRect(mRenderer, &S8);
@@ -436,7 +440,7 @@ void Game::GenerateOutput() {
 
     ////////Drawing the ball
 
-
+    // MODULARITY: Ball should render itself
     SDL_Rect GBall{
         GameBall->getXPosition(),
         GameBall->getYPosition(),

@@ -14,7 +14,7 @@ Ball::Ball(int x, int y, int xVelocity, int yVelocity, int Size) {
 	this->Size = Size;
 }
 
-int Ball::getXPosition() { return xPosition; }
+int Ball::getXPosition() { return xPosition; } // ESTILO: Este formato es mas comun en .h y no cpp
 
 int Ball::getYPosition() { return yPosition; }
 
@@ -72,7 +72,7 @@ void Ball::WallCollition(int Height, int Width, Score* Sc) {
 			Sc->Player1Goal();
 		else
 			Sc->Player2Goal();
-		xPosition = static_cast<int>(Width / 2);
+		xPosition = static_cast<int>(Width / 2); // CPP: No casting on update loops, NO!
 		yPosition = static_cast<int>(Height / 2);
 
 		if (xVelocity >= 0) {
