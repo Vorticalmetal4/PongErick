@@ -24,7 +24,7 @@ void Score::Player2Goal() {
 	}
 }
 
-int Score::getPlayer1Score() { return Player1Score; }
+int Score::getPlayer1Score() { return Player1Score; } // ESTILO: Este formato es mas comun en .h y no cpp
 
 int Score::getPlayer2Score() { return Player2Score; }
 

@@ -1,4 +1,4 @@
-#pragma once
+#pragma once // CPP: Esto es valido para la  mayoria de los compiladores modernos, aunque siempre estar atento que no es la unica forma de evitar multiple inclusion
 
 class Ball {
 public:

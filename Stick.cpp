@@ -10,7 +10,7 @@ Stick::Stick(int x, int y, int height, int Velocity, int Width) {
 
 }
 
-int Stick::getYPosition() { return yPosition; }
+int Stick::getYPosition() { return yPosition; } // ESTILO: Este formato es mas comun en.h y no cpp
 
 int Stick::getXPosition() { return xPosition; }
 
