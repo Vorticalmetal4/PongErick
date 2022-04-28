@@ -48,6 +48,5 @@
   <ItemGroup>
     <None Include="..\Pong\game.exe" />
     <None Include="..\Pong\main.exe" />
-    <None Include="SDL2.dll" />
   </ItemGroup>
 </Project>
