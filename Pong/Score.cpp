@@ -1,5 +1,5 @@
 #include "Score.h"
-#include "./SDL2/include/SDL.h"
+#include "../SDL2/include/SDL.h"
 
 
 Score::Score() {
