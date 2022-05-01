@@ -59,13 +59,41 @@ void Renderer::Shutdown()
 }
 
 void Renderer::ProcessInput() {
+    SDL_Event event;
+    // While there are still events in the queue
+    while (SDL_PollEvent(&event)) {
+        switch (event.type) {
+        case SDL_QUIT:
+            mIsRunning = false;
+            break;
+        }
+    }
 
+    const Uint8* state = SDL_GetKeyboardState(NULL);
+    if (state[SDL_SCANCODE_ESCAPE])
+        mIsRunning = false;
+
+    else {
+        /*if (state[SDL_SCANCODE_W])
+            if (Player1->CheckBorders(Player1->getVelocity() * -deltaTime, 0, WindowHeight))
+                Player1->MoveYPosition(static_cast<int>(Player1->getVelocity() * -deltaTime));*/
+    }
 }
 
 void Renderer::UpdateGame() {
+    while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTicksCount + 16));
+
+    deltaTime = (SDL_GetTicks() - mTicksCount) / 1000.0f;
+    if (deltaTime > 0.05f) deltaTime = 0.05f;
+    mTicksCount = SDL_GetTicks();
+
 
 }
 
 void Renderer::GenerateOutput() {
+    SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
+    //Clearing the buffer
+    SDL_RenderClear(mRenderer);
 
+    SDL_RenderPresent(mRenderer);
 }

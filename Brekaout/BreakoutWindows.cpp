@@ -3,13 +3,20 @@
 
 
 int main(int argc, int **argv){
-    Renderer game;
-    bool success = game.Initialize();
+    Renderer render;
+    bool success = render.Initialize();
 
-    if (success)
-        game.RunLoop();
+    if (success) {
+        while (render.getmIsRunning()) {
+            render.ProcessInput();
+            render.UpdateGame();
+            render.GenerateOutput();
+        }
+    }
+        
 
-    game.Shutdown();
+    render.Shutdown();
 
     return 0;
 }
+
