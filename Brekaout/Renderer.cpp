@@ -57,3 +57,15 @@ void Renderer::Shutdown()
     mRenderer = nullptr;
     SDL_Quit();
 }
+
+void Renderer::ProcessInput() {
+
+}
+
+void Renderer::UpdateGame() {
+
+}
+
+void Renderer::GenerateOutput() {
+
+}

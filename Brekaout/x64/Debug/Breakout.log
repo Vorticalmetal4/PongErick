@@ -1,12 +1,7 @@
-﻿Renderer.obj : error LNK2019: símbolo externo SDL_GetError sin resolver al que se hace referencia en la función "public: bool __cdecl Renderer::Initialize(void)" (?Initialize@Renderer@@QEAA_NXZ)
-Renderer.obj : error LNK2019: símbolo externo SDL_CreateWindow sin resolver al que se hace referencia en la función "public: bool __cdecl Renderer::Initialize(void)" (?Initialize@Renderer@@QEAA_NXZ)
-Renderer.obj : error LNK2019: símbolo externo SDL_DestroyWindow sin resolver al que se hace referencia en la función "public: void __cdecl Renderer::Shutdown(void)" (?Shutdown@Renderer@@QEAAXXZ)
-Renderer.obj : error LNK2019: símbolo externo SDL_Log sin resolver al que se hace referencia en la función "public: bool __cdecl Renderer::Initialize(void)" (?Initialize@Renderer@@QEAA_NXZ)
-Renderer.obj : error LNK2019: símbolo externo SDL_CreateRenderer sin resolver al que se hace referencia en la función "public: bool __cdecl Renderer::Initialize(void)" (?Initialize@Renderer@@QEAA_NXZ)
-Renderer.obj : error LNK2019: símbolo externo SDL_DestroyRenderer sin resolver al que se hace referencia en la función "public: void __cdecl Renderer::Shutdown(void)" (?Shutdown@Renderer@@QEAAXXZ)
-Renderer.obj : error LNK2019: símbolo externo SDL_Init sin resolver al que se hace referencia en la función "public: bool __cdecl Renderer::Initialize(void)" (?Initialize@Renderer@@QEAA_NXZ)
-Renderer.obj : error LNK2019: símbolo externo SDL_Quit sin resolver al que se hace referencia en la función "public: void __cdecl Renderer::Shutdown(void)" (?Shutdown@Renderer@@QEAAXXZ)
-Renderer.obj : error LNK2019: símbolo externo "private: void __cdecl Renderer::ProcessInput(void)" (?ProcessInput@Renderer@@AEAAXXZ) sin resolver al que se hace referencia en la función "public: void __cdecl Renderer::RunLoop(void)" (?RunLoop@Renderer@@QEAAXXZ)
-Renderer.obj : error LNK2019: símbolo externo "private: void __cdecl Renderer::UpdateGame(void)" (?UpdateGame@Renderer@@AEAAXXZ) sin resolver al que se hace referencia en la función "public: void __cdecl Renderer::RunLoop(void)" (?RunLoop@Renderer@@QEAAXXZ)
-Renderer.obj : error LNK2019: símbolo externo "private: void __cdecl Renderer::GenerateOutput(void)" (?GenerateOutput@Renderer@@AEAAXXZ) sin resolver al que se hace referencia en la función "public: void __cdecl Renderer::RunLoop(void)" (?RunLoop@Renderer@@QEAAXXZ)
-D:\Erick\Documentos\Curso Cremaster\PongErick\Brekaout\x64\Debug\Breakout.exe : fatal error LNK1120: 11 externos sin resolver
+﻿  Renderer.cpp
+D:\Erick\Documentos\Curso Cremaster\PongErick\Brekaout\Renderer.h(20,21): warning C4099: 'SDL_Window': nombre de tipo visto anteriormente usando 'struct' ahora se ve usando 'class'
+D:\Erick\Documentos\Curso Cremaster\PongErick\SDL2\include\SDL_video.h(95): message : vea la declaración de 'SDL_Window'
+D:\Erick\Documentos\Curso Cremaster\PongErick\Brekaout\Renderer.h(22,23): warning C4099: 'SDL_Renderer': nombre de tipo visto anteriormente usando 'struct' ahora se ve usando 'class'
+D:\Erick\Documentos\Curso Cremaster\PongErick\SDL2\include\SDL_render.h(141): message : vea la declaración de 'SDL_Renderer'
+  Breakout.vcxproj -> D:\Erick\Documentos\Curso Cremaster\PongErick\Brekaout\x64\Debug\Breakout.exe
+          1 archivo(s) copiado(s).
