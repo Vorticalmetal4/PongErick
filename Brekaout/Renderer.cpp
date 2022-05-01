@@ -22,7 +22,7 @@ bool Renderer::Initialize() {
         return false;
     }
     mWindow = SDL_CreateWindow(
-        "Game Programming in C++ (Chapter 1)", // Window title
+        "Breakout", // Window title
         100, // Top left x-coordinate of window
         20, // Top left y-coordinate of window
         WindowWidth, // Width of window
