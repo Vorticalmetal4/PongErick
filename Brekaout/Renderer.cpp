@@ -2,10 +2,6 @@
 #include "Renderer.h"
 
 
-const int thickness = 15;
-const int WindowHeight = 700;
-const int WindowWidth = 1024;
-
 Renderer::Renderer(void)
     :mWindow(nullptr)
     , mIsRunning(true)
@@ -72,12 +68,7 @@ void Renderer::ProcessInput() {
     const Uint8* state = SDL_GetKeyboardState(NULL);
     if (state[SDL_SCANCODE_ESCAPE])
         mIsRunning = false;
-
-    else {
-        /*if (state[SDL_SCANCODE_W])
-            if (Player1->CheckBorders(Player1->getVelocity() * -deltaTime, 0, WindowHeight))
-                Player1->MoveYPosition(static_cast<int>(Player1->getVelocity() * -deltaTime));*/
-    }
+    
 }
 
 void Renderer::UpdateGame() {
@@ -90,10 +81,26 @@ void Renderer::UpdateGame() {
 
 }
 
+void Renderer::ClearRender() {
+    SDL_RenderClear(mRenderer);
+}
+
 void Renderer::GenerateOutput() {
     SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
     //Clearing the buffer
-    SDL_RenderClear(mRenderer);
 
     SDL_RenderPresent(mRenderer);
+}
+
+
+void Renderer::DrawRect(int x, int y, float width, float height) {
+    SDL_SetRenderDrawColor(mRenderer, 255, 0, 0, 255);
+    SDL_Rect Rect{
+    x,
+    y,
+    width,
+    height
+    };
+
+    SDL_RenderFillRect(mRenderer, &Rect);
 }
