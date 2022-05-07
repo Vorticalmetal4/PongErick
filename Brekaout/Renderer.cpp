@@ -93,8 +93,8 @@ void Renderer::GenerateOutput() {
 }
 
 
-void Renderer::DrawRect(int x, int y, float width, float height) {
-    SDL_SetRenderDrawColor(mRenderer, 255, 0, 0, 255);
+void Renderer::DrawRect(int x, int y, float width, float height, int r, int g, int b, int alpha) {
+    SDL_SetRenderDrawColor(mRenderer, r, g, b, alpha);
     SDL_Rect Rect{
     x,
     y,

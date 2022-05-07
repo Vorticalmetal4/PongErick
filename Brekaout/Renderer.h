@@ -1,10 +1,5 @@
 #pragma once
 
-struct Vector2 {
-    float x;
-    float y;
-};
-
 class Renderer {
 public:
     Renderer(void);
@@ -20,7 +15,7 @@ public:
     float getDeltaTime() { return deltaTime; }
     int getWindowHeight() { return WindowHeight; }
     int getWindowWidth() { return WindowWidth; }
-    void DrawRect(int x, int y, float width, float height);
+    void DrawRect(int x, int y, float width, float height, int r, int g, int b, int alpha);
 
 private:
 

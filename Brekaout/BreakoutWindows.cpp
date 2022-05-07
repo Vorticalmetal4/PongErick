@@ -1,25 +1,28 @@
 #include "BreakoutWindows.h"
 #include "Renderer.h"
 #include "Player.h"
+#include "Ball.h"
 
 
 int main(int argc, int **argv){
-    Renderer render;
-    bool success = render.Initialize();
-    Player* Player1 = new Player(&render);
+    Renderer Rend;
+    bool success = Rend.Initialize();
+    Player* Player1 = new Player(&Rend);
+    Ball* MainBall = new Ball(&Rend, Player1);
 
     if (success) {
-        while (render.getmIsRunning()) {
-            render.ProcessInput();
-            render.UpdateGame();
-            render.ClearRender();
+        while (Rend.getmIsRunning()) {
+            Rend.ProcessInput();
+            Rend.UpdateGame();
+            Rend.ClearRender();
+            MainBall->Update();
             Player1->Update();
-            render.GenerateOutput();
+            Rend.GenerateOutput();
         }
     }
         
 
-    render.Shutdown();
+    Rend.Shutdown();
 
     return 0;
 }

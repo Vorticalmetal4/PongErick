@@ -25,8 +25,8 @@ void Player::Update() {
 				Position.x -= PlayerVelocity * Rend->getDeltaTime();
 	}
 
-	Rend->DrawRect(Position.x, Position.y, width, height);
-
+	Rend->DrawRect(Position.x, Position.y, width, height, 178, 102, 255, 255);
 
 }
+
 
