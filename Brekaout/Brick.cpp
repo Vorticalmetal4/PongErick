@@ -1,5 +1,7 @@
 #include "Brick.h"
 #include "Renderer.h"
+#include "Ball.h"
+#include <cmath>
 
 Brick::Brick(){
 	width = 97;
@@ -40,8 +42,13 @@ void Brick::Draw(int Row) {
 			Rend->DrawRect(Position.x, Position.y, width, height, 76, 0, 153, 255); //Dark Purple
 		break;
 	}
-
-
-	
 }
 
+void Brick::CheckCollition(Ball* Ball) {
+	if (Ball->getXPosition() >= Position.x && Ball->getXPosition() + Ball->getWidth() <= Position.x + width) {
+		if (Ball->getYPosition() + Ball->getHeight() >= Position.y && Ball->getYPosition() <= Position.y + height) {
+			Ball->setXVelocity(-1);
+			Ball->setYVelocity(-1);
+		}
+	}
+}

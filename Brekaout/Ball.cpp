@@ -1,6 +1,7 @@
 #include "Ball.h"
 #include "Renderer.h"
 #include "Player.h"
+#include "Brick.h"
 
 #include <iostream>
 using namespace std;
@@ -11,7 +12,7 @@ Ball::Ball(Renderer *Rend, Player* Player1) {
 	Velocity.x = 150;
 	Velocity.y = 150;
 	Position.x = 500;
-	Position.y = 150;
+	Position.y = 450;
 	width = 10;
 	height = 10;
 }
@@ -21,6 +22,7 @@ void Ball::Update() {
 	float DeltaTime = Rend->getDeltaTime();
 	float XInc = DeltaTime * Velocity.x;
 	float YInc = DeltaTime * Velocity.y;
+	int PlayerXPosition = Player1->getXPosition();
 
 
 
@@ -34,14 +36,24 @@ void Ball::Update() {
 		Position.y += YInc;
 	else
 		Velocity.y *= -1;
-	
-	if (Position.x >= Player1->getXPosition() && Position.x + width <= Player1->getXPosition() + Player1->getWidth()) {
-		if (Position.y + height >= Player1->getYPosition() && Position.y + height <= Player1->getYPosition() + Player1->getHeight()) {
-			Velocity.x *= -1;
-			Velocity.y *= -1;
-		}
 
+	if (Position.y > Rend->getWindowHeight() / 2) {
+		if (Position.x >= PlayerXPosition && Position.x + width <= PlayerXPosition + Player1->getWidth()) {
+			if (Position.y + height >= Player1->getYPosition() && Position.y + height <= Player1->getYPosition() + Player1->getHeight()) {
+				Velocity.y *= -1;
+				if (Position.x + width / 2 >= PlayerXPosition + Player1->getWidth() / 2) {
+					if (Velocity.x < 0)
+						Velocity.x *= 1;
+				}
+				else {
+					if (Velocity.x > 0)
+						Velocity.x *= 1;
+				}
+			}
+
+		}
 	}
+
 
 	Rend->DrawRect(Position.x, Position.y, width, height, 255, 153, 204, 255);
 
