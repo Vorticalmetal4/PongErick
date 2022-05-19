@@ -55,6 +55,9 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Values\InitialData.ini" />
+    <None Include="Values\InitialData.ini">
+      <Filter>Archivos de origen</Filter>
+    </None>
+    <None Include="InitialData.ini" />
   </ItemGroup>
 </Project>
