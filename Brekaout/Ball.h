@@ -15,6 +15,7 @@ public:
 	Ball(class Renderer* Rend, class Player* Player1);
 	int getXPosition() { return Position.x; }
 	int getYPosition() { return Position.y; }
+	int getXVelocity() { return Velocity.x; }
 	int getHeight() { return height; }
 	int getWidth() { return width; }
 	void setXVelocity(int x) { Velocity.x *= x; }

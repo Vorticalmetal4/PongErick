@@ -10,6 +10,7 @@ public:
     void UpdateGame();
     void ClearRender();
     void GenerateOutput();
+    void Write();
 
     bool getmIsRunning() { return mIsRunning; }
     float getDeltaTime() { return deltaTime; }
@@ -22,8 +23,8 @@ private:
     class SDL_Window* mWindow; // CPP: Puedes hacer mas general tu API de graficos con void*
     bool mIsRunning;
     class SDL_Renderer* mRenderer;
-    float deltaTime;
-    float mTicksCount;
+    float deltaTime = 0;
+    float mTicksCount  = 0;
     const int WindowHeight = 700;
     const int WindowWidth = 1024;
 

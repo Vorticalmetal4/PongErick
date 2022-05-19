@@ -8,6 +8,7 @@ struct VectorPositionBrick {
 class Brick {
 public:
 	Brick();
+	~Brick();
 	void setData(class Renderer* Rend, int XPosition, int YPosition, float Separation);
 	void Draw(int raw);
 
@@ -15,6 +16,7 @@ public:
 	int getYPosition() { return Position.y; }
 	int getWidth() { return width; }
 	int getHeight() { return height; }
+	bool getActive() { return Active; }
 
 	void CheckCollition(class Ball* Ball);
 
@@ -23,5 +25,6 @@ private:
 	int width;
 	int height;
 	Renderer* Rend;
+	bool Active;
 	
 };

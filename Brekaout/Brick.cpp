@@ -3,11 +3,20 @@
 #include "Ball.h"
 #include <cmath>
 
+#include <iostream>
+using namespace std;
+
 Brick::Brick(){
+	Rend = nullptr;
 	width = 97;
 	height = 20;
 	Position.x = 5;
 	Position.y = 100;
+	Active = true;
+}
+
+Brick::~Brick() {
+	
 }
 
 void Brick::setData(Renderer* Rend, int XPosition, int YPosition, float Separation) {
@@ -43,12 +52,20 @@ void Brick::Draw(int Row) {
 		break;
 	}
 }
-
 void Brick::CheckCollition(Ball* Ball) {
 	if (Ball->getXPosition() >= Position.x && Ball->getXPosition() + Ball->getWidth() <= Position.x + width) {
-		if (Ball->getYPosition() + Ball->getHeight() >= Position.y && Ball->getYPosition() <= Position.y + height) {
-			Ball->setXVelocity(-1);
+		if (Ball->getYPosition() >= Position.y && Ball->getYPosition() <= Position.y + height) {
+			Active = false;	
 			Ball->setYVelocity(-1);
+			if (Ball->getXPosition() + Ball->getWidth() / 2 >= Position.x + width / 2) {
+				if (Ball->getXVelocity() < 0)
+					Ball->setXVelocity(-1);
+			}
+			else {
+				if (Ball->getXVelocity() > 0)
+					Ball->setXVelocity(-1);
+			}
 		}
 	}
+
 }

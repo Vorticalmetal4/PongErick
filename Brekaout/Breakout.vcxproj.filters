@@ -30,6 +30,12 @@
     <ClCompile Include="Brick.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="..\Inih\cpp\INIReader.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Inih\ini.c">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BreakoutWindows.h">
@@ -47,5 +53,9 @@
     <ClInclude Include="Brick.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="InitialData.ini" />
+    <None Include="test.ini" />
   </ItemGroup>
 </Project>

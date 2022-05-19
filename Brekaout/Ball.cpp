@@ -3,8 +3,6 @@
 #include "Player.h"
 #include "Brick.h"
 
-#include <iostream>
-using namespace std;
 
 Ball::Ball(Renderer *Rend, Player* Player1) {
 	this->Rend = Rend;
@@ -43,11 +41,11 @@ void Ball::Update() {
 				Velocity.y *= -1;
 				if (Position.x + width / 2 >= PlayerXPosition + Player1->getWidth() / 2) {
 					if (Velocity.x < 0)
-						Velocity.x *= 1;
+						Velocity.x *= -1;
 				}
 				else {
 					if (Velocity.x > 0)
-						Velocity.x *= 1;
+						Velocity.x *= -1;
 				}
 			}
 

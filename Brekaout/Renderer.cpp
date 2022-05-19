@@ -1,4 +1,5 @@
 #include "../SDL2/include/SDL.h"
+#include "../SDL2/include/SDL_ttf.h"
 #include "Renderer.h"
 
 
@@ -103,4 +104,10 @@ void Renderer::DrawRect(int x, int y, float width, float height, int r, int g, i
     };
 
     SDL_RenderFillRect(mRenderer, &Rect);
+}
+
+void Renderer::Write() {
+    TTF_Font* Font;
+    //TTF_Init();
+    //Font = TTF_OpenFont("arial.ttf", 24);
 }
