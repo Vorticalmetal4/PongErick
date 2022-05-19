@@ -3,8 +3,8 @@
 #include "../SDL2/include/SDL.h"
 
 #include <iostream>
+#include <string>
 #include "../Inih/cpp/INIReader.h"
-
 
 using namespace std;
 
@@ -12,21 +12,20 @@ const Uint8* state = SDL_GetKeyboardState(NULL);
 
 Player::Player(Renderer* Rend) {
 
-	INIReader ConFile("./InitialData.ini");
+	//INIReader ConFile("D:/Erick/Documentos/Curso Cremaster/Proyectos Erick/Brekaout/Values/InitialData.ini");
+	INIReader ConFile("Values/InitialData.ini");
 
-	if (ConFile.ParseError() < 0) 
+	if (ConFile.ParseError() < 0)
 		cout << "Couldn't find InitialData.ini" << endl;
-
 
 	this -> Rend = Rend;
 	PlayerVelocity = ConFile.GetInteger("Player", "PlayerVelocity", -1);
-	Position.x = 500;
-	Position.y = 650;
-	width = 80;
-	height = 20;
+	Position.x = ConFile.GetInteger("Player", "PositionX", 1);
+	Position.y = ConFile.GetInteger("Player", "PositionY", 1);
+	width = ConFile.GetInteger("Player", "Width", 80);
+	height = ConFile.GetInteger("Player", "Height", 20);
 
 
-	cout << PlayerVelocity;
 }
 
 void Player::Update() {

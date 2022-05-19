@@ -55,7 +55,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="InitialData.ini" />
-    <None Include="test.ini" />
+    <None Include="Values\InitialData.ini" />
   </ItemGroup>
 </Project>
