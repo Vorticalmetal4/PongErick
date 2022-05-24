@@ -1,0 +1,18 @@
+﻿          1 archivo(s) copiado(s).
+  Renderer.cpp
+D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\Renderer.h(23,21): warning C4099: 'SDL_Window': nombre de tipo visto anteriormente usando 'struct' ahora se ve usando 'class'
+D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\SDL2\include\SDL_video.h(95): message : vea la declaración de 'SDL_Window'
+D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\Renderer.h(25,23): warning C4099: 'SDL_Renderer': nombre de tipo visto anteriormente usando 'struct' ahora se ve usando 'class'
+D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\SDL2\include\SDL_render.h(141): message : vea la declaración de 'SDL_Renderer'
+D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\Renderer.cpp(79,31): warning C4244: '=': conversión de 'Uint32' a 'float'; posible pérdida de datos
+D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\Renderer.cpp(101,5): warning C4838: la conversión de 'float' en 'int' requiere una conversión de restricción
+D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\Renderer.cpp(101,5): warning C4244: 'inicializando': conversión de 'float' a 'int'; posible pérdida de datos
+D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\Renderer.cpp(102,5): warning C4838: la conversión de 'float' en 'int' requiere una conversión de restricción
+D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\Renderer.cpp(102,5): warning C4244: 'inicializando': conversión de 'float' a 'int'; posible pérdida de datos
+  Breakout.vcxproj -> D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\x64\Debug\Breakout.exe
+  D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\\..\SDL2\lib\x64\freetype.dll
+  D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\\..\SDL2\lib\x64\libfreetype-6.dll
+  D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\\..\SDL2\lib\x64\SDL2.dll
+  D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\\..\SDL2\lib\x64\SDL2_ttf.dll
+  D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\\..\SDL2\lib\x64\zlib1.dll
+          5 archivo(s) copiado(s).

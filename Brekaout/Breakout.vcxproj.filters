@@ -55,9 +55,9 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Values\InitialData.ini">
-      <Filter>Archivos de origen</Filter>
-    </None>
-    <None Include="InitialData.ini" />
+    <None Include="Resources\InitialData.ini" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Resources\ArialCE.ttf" />
   </ItemGroup>
 </Project>

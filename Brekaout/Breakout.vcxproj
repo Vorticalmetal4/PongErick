@@ -126,13 +126,16 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;freetype.lib</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;freetype.lib;SDL2_ttf.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>../SDL2/lib/x64/</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(ProjectDir)\..\SDL2\lib\x$(PlatformArchitecture)\*.dll" "$(TargetDir)"
 </Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>copy "$(ProjectDir)\Resources\ArialCE.ttf" "$(TargetDir)"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -167,8 +170,10 @@
     <ClInclude Include="Renderer.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="InitialData.ini" />
-    <None Include="Values\InitialData.ini" />
+    <None Include="Resources\InitialData.ini" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Resources\ArialCE.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

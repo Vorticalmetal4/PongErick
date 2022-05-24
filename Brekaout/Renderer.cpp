@@ -34,7 +34,6 @@ bool Renderer::Initialize() {
 
     mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-
     return true;
 }
 
@@ -107,7 +106,21 @@ void Renderer::DrawRect(int x, int y, float width, float height, int r, int g, i
 }
 
 void Renderer::Write() {
-    TTF_Font* Font;
-    //TTF_Init();
-    //Font = TTF_OpenFont("arial.ttf", 24);
+    TTF_Init();
+    TTF_Font* Font = TTF_OpenFont("ArialCE.ttf", 25);
+    SDL_Color TextColor = { 255, 255, 255 , 255};
+    SDL_Surface* TextSurface = TTF_RenderText_Solid(Font, "Texto de prueba", TextColor);
+    SDL_Texture* Texture = SDL_CreateTextureFromSurface(mRenderer, TextSurface);
+    int TextW = 0;
+    int TextH = 0;
+    SDL_QueryTexture(Texture, NULL, NULL, &TextW, &TextH);
+    SDL_Rect TextRect = {0, 0, TextW, TextH};
+    SDL_RenderCopy(mRenderer, Texture, NULL, &TextRect);
+
+    TTF_CloseFont(Font);
+    SDL_DestroyTexture(Texture);
+    SDL_FreeSurface(TextSurface);
+    TTF_Quit();
+
+
 }

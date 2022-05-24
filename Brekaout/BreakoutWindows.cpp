@@ -46,6 +46,7 @@ int main(int argc, int **argv){
                 }
             MainBall->Update();
             Player1->Update();
+            Rend.Write();
             Rend.GenerateOutput();
         }
     }

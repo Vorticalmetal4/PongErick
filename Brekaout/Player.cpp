@@ -12,11 +12,11 @@ const Uint8* state = SDL_GetKeyboardState(NULL);
 
 Player::Player(Renderer* Rend) {
 
-	INIReader ConFile("D:/Erick/Documentos/Curso Cremaster/Proyectos Erick/Brekaout/InitialData.ini");
-	//INIReader ConFile("InitialData.ini");
+	//INIReader ConFile("D:/Erick/Documentos/Curso Cremaster/Proyectos Erick/Brekaout/InitialData.ini");
+	INIReader ConFile("InitialData.ini");
 
 	if (ConFile.ParseError() < 0)
-		cout << "Couldn't find InitialData.ini" << endl;
+		cout << "Couldn't find the Configuration File" << endl;
 
 	this -> Rend = Rend;
 	PlayerVelocity = ConFile.GetInteger("Player", "PlayerVelocity", -1);
