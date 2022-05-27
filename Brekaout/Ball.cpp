@@ -5,6 +5,7 @@
 #include "HUD.h"
 #include "../Inih/cpp/INIReader.h"
 #include <iostream>
+#include <ctime>
 
 using namespace std;
 
@@ -27,6 +28,10 @@ Ball::Ball(Renderer *Rend, Player* Player1, HUD* Hud) {
 	height = width;
 	Position.x = InitialPosition.x;
 	Position.y = InitialPosition.y;
+
+	srand(time(NULL));
+	if ((rand() % (10 - 2 + 1) + 2) % 2 == 0)
+		Velocity.x *= -1;
 }
 
 void Ball::Update() {
@@ -51,6 +56,8 @@ void Ball::Update() {
 			Hud->LoseALife();
 			Position.x = InitialPosition.x;
 			Position.y = InitialPosition.y;
+			if ((rand() % (10 - 2 + 1) + 2) % 2 == 0)
+				Velocity.x *= -1;
 		}
 
 		else

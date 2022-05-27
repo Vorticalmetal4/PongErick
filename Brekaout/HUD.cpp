@@ -16,6 +16,7 @@ HUD::HUD(Renderer *Rend) {
 
 	this->Rend = Rend;
 	Lives = ConFile.GetInteger("HUD", "Lives", -1);
+	Puntuation = ConFile.GetInteger("HUD", "Puntuation", 0);
 }
 
 void HUD::UpdateHUD() {
@@ -24,9 +25,20 @@ void HUD::UpdateHUD() {
 	LivesText.copy(NText, LivesText.size() + 1);
 	NText[LivesText.size()] = '\0';
 	Rend->Write(NText, 0, 0, 920, 30);
+
+	string PuntuationText = "Puntuation: " + to_string(Puntuation);
+	char* PText = new char[LivesText.size() + 1];
+	PuntuationText.copy(PText, PuntuationText.size() + 1);
+	PText[PuntuationText.size()] = '\0';
+	Rend->Write(PText, 0, 0, 0 , 30);
+	
 }
 
 
 void HUD::LoseALife() {
 	Lives -= 1;
+}
+
+void HUD::IncPuntuation(int Inc) {
+	Puntuation += Inc;
 }

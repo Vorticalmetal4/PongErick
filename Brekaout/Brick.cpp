@@ -52,20 +52,23 @@ void Brick::Draw(int Row) {
 		break;
 	}
 }
-void Brick::CheckCollition(Ball* Ball) {
+bool Brick::CheckCollition(Ball* Ball) {
 	if (Ball->getXPosition() >= Position.x && Ball->getXPosition() + Ball->getWidth() <= Position.x + width) {
 		if (Ball->getYPosition() >= Position.y && Ball->getYPosition() <= Position.y + height) {
 			Active = false;	
 			Ball->setYVelocity(-1);
-			if (Ball->getXPosition() + Ball->getWidth() / 2 >= Position.x + width / 2) {
-				if (Ball->getXVelocity() < 0)
-					Ball->setXVelocity(-1);
+			if (Ball->getXPosition() + Ball->getWidth() / 2 >= Position.x + width / 2) { //If the ball collide with the rigth part
+				if (Ball->getXVelocity() < 0)	//And Velocity < 0
+					Ball->setXVelocity(-1);  //Change the direction
 			}
 			else {
 				if (Ball->getXVelocity() > 0)
 					Ball->setXVelocity(-1);
 			}
+
+			return true;
 		}
 	}
+	return false;
 
 }

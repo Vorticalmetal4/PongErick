@@ -26,6 +26,7 @@ int main(int argc, int **argv){
         for (int j = 0; j < BricksRows; j++)
             Bricks[i][j].setData(&Rend, i, j, BricksSeparation);
 
+    int TotalBricks = BricksColumns * BricksRows;
 
     if (success) {
         while (Rend.getmIsRunning()) {
@@ -39,7 +40,10 @@ int main(int argc, int **argv){
             for (int i = 0; i < BricksColumns; i++)
                 for (int j = 0; j < BricksRows; j++) {
                     if (Bricks[i][j].getActive()) {
-                        Bricks[i][j].CheckCollition(MainBall);
+                        if (Bricks[i][j].CheckCollition(MainBall)) {
+                            TotalBricks--;
+                            PHUD->IncPuntuation(100);
+                        }
                         Bricks[i][j].Draw(j);
                     }      
                 }
