@@ -12,7 +12,7 @@ struct VectorVelocity {
 
 class Ball {
 public:
-	Ball(class Renderer* Rend, class Player* Player1);
+	Ball(class Renderer* Rend, class Player* Player1, class HUD* Hud);
 	int getXPosition() { return Position.x; }
 	int getYPosition() { return Position.y; }
 	int getXVelocity() { return Velocity.x; }
@@ -26,7 +26,9 @@ private:
 
 	Renderer* Rend;
 	Player* Player1;
+	HUD* Hud;
 	VectorPositionB Position;
+	VectorPositionB InitialPosition;
 	VectorVelocity Velocity;
 	int height;
 	int width;

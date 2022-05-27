@@ -160,6 +160,7 @@ copy "$(ProjectDir)\Resources\InitialData.ini" "$(TargetDir)"</Command>
     <ClCompile Include="Ball.cpp" />
     <ClCompile Include="BreakoutWindows.cpp" />
     <ClCompile Include="Brick.cpp" />
+    <ClCompile Include="HUD.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Renderer.cpp" />
   </ItemGroup>
@@ -167,6 +168,7 @@ copy "$(ProjectDir)\Resources\InitialData.ini" "$(TargetDir)"</Command>
     <ClInclude Include="Ball.h" />
     <ClInclude Include="BreakoutWindows.h" />
     <ClInclude Include="Brick.h" />
+    <ClInclude Include="HUD.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Renderer.h" />
   </ItemGroup>

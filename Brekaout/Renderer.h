@@ -1,4 +1,4 @@
-#pragma once
+#pragma once 
 
 class Renderer {
 public:
@@ -10,7 +10,7 @@ public:
     void UpdateGame();
     void ClearRender();
     void GenerateOutput();
-    void Write();
+    void Write(char* NText, int TextW, int TextH, int TextX, int TextY);
 
     bool getmIsRunning() { return mIsRunning; }
     float getDeltaTime() { return deltaTime; }

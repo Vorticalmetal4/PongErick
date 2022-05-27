@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Ball.h"
 #include "Brick.h"
+#include "HUD.h"
 
 
 #include <iostream>
@@ -17,16 +18,14 @@ int main(int argc, int **argv){
 
     Renderer Rend;
     bool success = Rend.Initialize();
+    HUD* PHUD = new HUD(&Rend);
     Player* Player1 = new Player(&Rend);
     Brick Bricks[BricksColumns][BricksRows];
-    Ball* MainBall = new Ball(&Rend, Player1);
+    Ball* MainBall = new Ball(&Rend, Player1, PHUD);
     for (int i = 0; i < BricksColumns; i++)
         for (int j = 0; j < BricksRows; j++)
             Bricks[i][j].setData(&Rend, i, j, BricksSeparation);
-    
-    /*Brick* Test = new Brick;
-    Test->setData(&Rend, 100, 100, BricksSeparation);
-    delete Test;*/
+
 
     if (success) {
         while (Rend.getmIsRunning()) {
@@ -46,7 +45,7 @@ int main(int argc, int **argv){
                 }
             MainBall->Update();
             Player1->Update();
-            Rend.Write();
+            PHUD->UpdateHUD();
             Rend.GenerateOutput();
         }
     }
