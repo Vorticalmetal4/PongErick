@@ -1,19 +1,5 @@
 ﻿          1 archivo(s) copiado(s).
           1 archivo(s) copiado(s).
-  Ball.cpp
-D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\Ball.h(18,38): warning C4244: 'return': conversión de 'float' a 'int'; posible pérdida de datos
-D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\Ball.cpp(23,33): warning C4244: '=': conversión de 'long' a 'float'; posible pérdida de datos
-D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\Ball.cpp(24,33): warning C4244: '=': conversión de 'long' a 'float'; posible pérdida de datos
-D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\Ball.cpp(32,12): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
-D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\Ball.cpp(47,21): warning C4244: '+=': conversión de 'float' a 'int'; posible pérdida de datos
-D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\Ball.cpp(53,21): warning C4244: '+=': conversión de 'float' a 'int'; posible pérdida de datos
-D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\Ball.cpp(85,48): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
-D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\Ball.cpp(85,41): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
-  BreakoutWindows.cpp
-D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\Ball.h(18,38): warning C4244: 'return': conversión de 'float' a 'int'; posible pérdida de datos
-D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\BreakoutWindows.cpp(16,39): warning C4305: 'inicializando': truncamiento de 'double' a 'float'
-  HUD.cpp
-  Generando código...
   Breakout.vcxproj -> D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\x64\Debug\Breakout.exe
   D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\\..\SDL2\lib\x64\freetype.dll
   D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\\..\SDL2\lib\x64\libfreetype-6.dll
