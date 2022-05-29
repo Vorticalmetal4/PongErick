@@ -1,9 +1,12 @@
 #include "Renderer.h"
 #include "Player.h"
 #include "../SDL2/include/SDL.h"
+#include "../Inih/cpp/INIReader.h"
+#include "Ray.h"
+#include "Brick.h"
 
 #include <iostream>
-#include "../Inih/cpp/INIReader.h"
+#include <vector>
 
 using namespace std;
 
@@ -23,6 +26,9 @@ Player::Player(Renderer* Rend) {
 	width = ConFile.GetInteger("Player", "Width", 80);
 	height = ConFile.GetInteger("Player", "Height", 20);
 
+	Power = ' ';
+	Ammo = 0;
+
 
 }
 
@@ -35,10 +41,36 @@ void Player::Update() {
 		if (state[SDL_SCANCODE_A])
 			if(Position.x - PlayerVelocity * Rend->getDeltaTime() >= 0)
 				Position.x -= PlayerVelocity * Rend->getDeltaTime();
+		if (state[SDL_SCANCODE_S]) {
+			if (Ammo > 0) {
+				Ray* NRay = new Ray(Position.x + width / 2, Position.y, Rend);
+				Rays.push_back(NRay);
+				Ammo--;
+			}
+		}
+
 	}
 
 	Rend->DrawRect(Position.x, Position.y, width, height, 178, 102, 255, 255);
 
 }
 
+void Player::ChangePower(string NPower) {
+	Power = NPower;
+	switch (Power[0]) {
+		case 'T':
+			Ammo++;
+		break;
+	}
+
+}
+
+bool Player::CheckLasersCollition(Brick* ActualBrick) {
+	for (int i = 0; i < Rays.size(); i++) {
+		if (Rays[i]->CheckCollition(ActualBrick, Rend->getDeltaTime())) {
+			Rays.erase(Rays.begin() + i);
+			return true;
+		}
+	}
+}
 
