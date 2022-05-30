@@ -17,8 +17,8 @@ public:
 	int getWidth() { return width; }
 	int getHeight() { return height; }
 	bool getActive() { return Active; }
-
 	bool CheckCollition(class Ball* Ball);
+	void setYPosition(int Y) {Position.y = Y; }
 
 private:
 	VectorPositionBrick Position;

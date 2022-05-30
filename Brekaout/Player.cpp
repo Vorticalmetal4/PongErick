@@ -13,7 +13,6 @@ using namespace std;
 const Uint8* state = SDL_GetKeyboardState(NULL);
 
 Player::Player(Renderer* Rend) {
-
 	INIReader ConFile("InitialData.ini");
 
 	if (ConFile.ParseError() < 0)
@@ -43,13 +42,21 @@ void Player::Update() {
 				Position.x -= PlayerVelocity * Rend->getDeltaTime();
 		if (state[SDL_SCANCODE_S]) {
 			if (Ammo > 0) {
-				Ray* NRay = new Ray(Position.x + width / 2, Position.y, Rend);
+				Ray* NRay = new Ray(Position.x + width / 2, Position.y);
 				Rays.push_back(NRay);
 				Ammo--;
 			}
 		}
 
 	}
+
+	if (Rays.size() > 0) {
+		for (int i = 0; i < Rays.size(); i++) {
+			Rays[i]->Move(Rend->getDeltaTime());
+			Rend->DrawRect(Rays[i]->getPositionX(), Rays[i]->getPositionY(), Rays[i]->getWidth(), Rays[i]->getHeigth(), 178, 102, 255, 255);
+		}
+	}
+
 
 	Rend->DrawRect(Position.x, Position.y, width, height, 178, 102, 255, 255);
 
@@ -67,10 +74,12 @@ void Player::ChangePower(string NPower) {
 
 bool Player::CheckLasersCollition(Brick* ActualBrick) {
 	for (int i = 0; i < Rays.size(); i++) {
-		if (Rays[i]->CheckCollition(ActualBrick, Rend->getDeltaTime())) {
+		if (Rays[i]->CheckCollition(ActualBrick, Rend->getDeltaTime(), Power[0], Rend->getWindowHeight())) {
+			Rays[i]->~Ray();
 			Rays.erase(Rays.begin() + i);
 			return true;
 		}
 	}
+	return false;
 }
 

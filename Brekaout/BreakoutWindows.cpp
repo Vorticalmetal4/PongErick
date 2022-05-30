@@ -5,6 +5,7 @@
 #include "Brick.h"
 #include "HUD.h"
 #include "Power.h"
+#include "../Inih/cpp/INIReader.h"
 
 
 #include <iostream>
@@ -18,6 +19,13 @@ int main(int argc, int** argv) {
     const int BricksRows = 6;
     const float BricksSeparation = 4.2;
     bool BallUp = false;
+
+    INIReader ConFile("InitialData.ini");
+
+    if (ConFile.ParseError() < 0)
+        cout << "Main: Couldn't find the Configuration File" << endl;
+
+    int PowerProbability = ConFile.GetInteger("Power", "Probability", 0);
 
     Renderer Rend;
     bool success = Rend.Initialize();
@@ -50,17 +58,18 @@ int main(int argc, int** argv) {
                         if (Bricks[i][j].CheckCollition(MainBall)) {
                             TotalBricks--;
                             PHUD->IncPuntuation(100);
-                            if ((rand() % (100) + 10) <= 20) {
+                            if ((rand() % (100) + 1) <= PowerProbability) {
                                 Power* NPower = new Power(Player1, Powers.size() + 1, &Rend, Bricks[i][j].getXPosition(), Bricks[i][j].getYPosition() + 10);
                                 Powers.push_back(NPower);
                                 cout << Powers.size() << endl;
                             }
                         }
                         Bricks[i][j].Draw(j);
+                        if (Player1->getLaserCount() > 0)
+                            Player1->CheckLasersCollition(&Bricks[i][j]);
+                        
                     }
 
-                    if (Player1->getLaserCount() > 0)
-                        Player1->CheckLasersCollition(&Bricks[i][j]);
                 }
             }
             MainBall->Update();
