@@ -20,8 +20,11 @@ Ball::Ball(Renderer *Rend, Player* Player1, HUD* Hud) {
 	if (ConFile.ParseError() < 0)
 		cout << "Ball: Couldn't find the Configuration File" << endl;
 
-	Velocity.x = ConFile.GetInteger("Ball", "InitialVelocity", -1);
-	Velocity.y = ConFile.GetInteger("Ball", "InitialVelocity", -1);
+	InitialVelocity = ConFile.GetInteger("Ball", "InitialVelocity", -1);
+	Velocity.x = InitialVelocity;
+	Velocity.y = InitialVelocity;
+	MaxVelocity = ConFile.GetInteger("Ball", "MaxVelocity", 1);
+	VelocityIncrease = ConFile.GetInteger("Ball", "VelocityIncrease", 1);
 	InitialPosition.x = ConFile.GetInteger("Ball", "InitialX", -1);
 	InitialPosition.y = ConFile.GetInteger("Ball", "InitialY", -1);
 	width = ConFile.GetInteger("Ball", "Size", 1);
@@ -45,8 +48,11 @@ void Ball::Update() {
 
 	if (Position.x + XInc + width <= Rend->getWindowWidth() && Position.x + XInc >= 0)
 		Position.x += XInc;
-	else
+	else {
 		Velocity.x *= -1;
+		IncXVelocity();
+		IncYVelocity();
+	}
 
 
 	if (Position.y + YInc + height <= Rend->getWindowHeight() && Position.y + YInc >= 0)
@@ -56,6 +62,8 @@ void Ball::Update() {
 			Hud->LoseALife();
 			Position.x = InitialPosition.x;
 			Position.y = InitialPosition.y;
+			Velocity.x = InitialVelocity;
+			Velocity.y = InitialVelocity;
 			if ((rand() % (10 - 2 + 1) + 2) % 2 == 0)
 				Velocity.x *= -1;
 		}
@@ -70,6 +78,9 @@ void Ball::Update() {
 		if (Position.x >= PlayerXPosition && Position.x + width <= PlayerXPosition + Player1->getWidth()) {
 			if (Position.y + height >= Player1->getYPosition() && Position.y + height <= Player1->getYPosition() + Player1->getHeight()) {
 				Velocity.y *= -1;
+				IncXVelocity();
+				IncYVelocity();
+
 				if (Position.x + width / 2 >= PlayerXPosition + Player1->getWidth() / 2) {
 					if (Velocity.x < 0)
 						Velocity.x *= -1;
@@ -83,9 +94,29 @@ void Ball::Update() {
 		}
 	}
 
-
 	Rend->DrawRect(Position.x, Position.y, width, height, 255, 153, 204, 255);
-
-
 	
+}
+
+void Ball::IncXVelocity() {
+	if (Velocity.x > 0) {
+		if (Velocity.x + VelocityIncrease <= MaxVelocity)
+			Velocity.x += VelocityIncrease;
+	}
+	else {
+		if (Velocity.x - VelocityIncrease >= MaxVelocity)
+			Velocity.x -= VelocityIncrease;
+	}
+}
+
+void Ball::IncYVelocity() {
+	if (Velocity.y > 0) {
+		if (Velocity.y + VelocityIncrease <= MaxVelocity)
+			Velocity.y += VelocityIncrease;
+	}
+	else {
+		if (Velocity.y - VelocityIncrease >= MaxVelocity)
+			Velocity.y -= VelocityIncrease;
+	}
+
 }

@@ -25,7 +25,7 @@ Player::Player(Renderer* Rend) {
 	width = ConFile.GetInteger("Player", "Width", 80);
 	height = ConFile.GetInteger("Player", "Height", 20);
 
-	Power = ' ';
+	Power = "No power";
 	Ammo = 0;
 
 
@@ -33,22 +33,22 @@ Player::Player(Renderer* Rend) {
 
 void Player::Update() {
 	
-	if (Rend->getmIsRunning()) {
-		if (state[SDL_SCANCODE_D])
-			if(Position.x + (PlayerVelocity * Rend->getDeltaTime() + width) <= Rend -> getWindowWidth())
-				Position.x += PlayerVelocity * Rend->getDeltaTime();
-		if (state[SDL_SCANCODE_A])
-			if(Position.x - PlayerVelocity * Rend->getDeltaTime() >= 0)
-				Position.x -= PlayerVelocity * Rend->getDeltaTime();
-		if (state[SDL_SCANCODE_S]) {
-			if (Ammo > 0) {
-				Ray* NRay = new Ray(Position.x + width / 2, Position.y);
-				Rays.push_back(NRay);
-				Ammo--;
-			}
+	
+	if (state[SDL_SCANCODE_D])
+		if(Position.x + (PlayerVelocity * Rend->getDeltaTime() + width) <= Rend -> getWindowWidth())
+			Position.x += PlayerVelocity * Rend->getDeltaTime();
+	if (state[SDL_SCANCODE_A])
+		if(Position.x - PlayerVelocity * Rend->getDeltaTime() >= 0)
+			Position.x -= PlayerVelocity * Rend->getDeltaTime();
+	if (state[SDL_SCANCODE_S]) {
+		if (Ammo > 0) {
+			Ray* NRay = new Ray(Position.x + width / 2, Position.y);
+			Rays.push_back(NRay);
+			Ammo--;
 		}
-
 	}
+
+	
 
 	if (Rays.size() > 0) {
 		for (int i = 0; i < Rays.size(); i++) {
@@ -64,12 +64,7 @@ void Player::Update() {
 
 void Player::ChangePower(string NPower) {
 	Power = NPower;
-	switch (Power[0]) {
-		case 'T':
-			Ammo++;
-		break;
-	}
-
+	Ammo = 1;
 }
 
 bool Player::CheckLasersCollition(Brick* ActualBrick) {
@@ -77,6 +72,8 @@ bool Player::CheckLasersCollition(Brick* ActualBrick) {
 		if (Rays[i]->CheckCollition(ActualBrick, Rend->getDeltaTime(), Power[0], Rend->getWindowHeight())) {
 			Rays[i]->~Ray();
 			Rays.erase(Rays.begin() + i);
+			if (Ammo == 0)
+				Power = "No Power";
 			return true;
 		}
 	}

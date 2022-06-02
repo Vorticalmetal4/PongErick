@@ -1,23 +1,10 @@
 ﻿          1 archivo(s) copiado(s).
           1 archivo(s) copiado(s).
-  Player.cpp
+  BreakoutWindows.cpp
 D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\Player.h(22,22): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
-D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\SDL2\include\SDL_video.h(95,37): warning C4099: 'SDL_Window': nombre de tipo visto anteriormente usando 'class' ahora se ve usando 'struct'
-D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\Renderer.h(23): message : vea la declaración de 'SDL_Window'
-D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\SDL2\include\SDL_render.h(141,20): warning C4099: 'SDL_Renderer': nombre de tipo visto anteriormente usando 'class' ahora se ve usando 'struct'
-D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\Renderer.h(25): message : vea la declaración de 'SDL_Renderer'
-D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\SDL2\include\SDL_render.h(142,41): warning C4099: 'SDL_Renderer': nombre de tipo visto anteriormente usando 'class' ahora se ve usando 'struct'
-D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\SDL2\include\SDL_render.h(141): message : vea la declaración de 'SDL_Renderer'
-D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\Player.cpp(39,56): warning C4244: '+=': conversión de 'float' a 'int'; posible pérdida de datos
-D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\Player.cpp(42,56): warning C4244: '-=': conversión de 'float' a 'int'; posible pérdida de datos
-D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\Player.cpp(56,108): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
-D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\Player.cpp(56,86): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
-D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\Player.cpp(61,48): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
-D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\Player.cpp(61,41): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
-D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\Player.cpp(77,62): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-  Ray.cpp
-D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\Player.h(22,22): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
-  Generando código...
+D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\Ball.h(18,38): warning C4244: 'return': conversión de 'float' a 'int'; posible pérdida de datos
+D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\BreakoutWindows.cpp(28,39): warning C4305: 'inicializando': truncamiento de 'double' a 'float'
+D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\BreakoutWindows.cpp(44,15): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
   Breakout.vcxproj -> D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\x64\Debug\Breakout.exe
   D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\\..\SDL2\lib\x64\freetype.dll
   D:\Erick\Documentos\Curso Cremaster\Proyectos Erick\Brekaout\\..\SDL2\lib\x64\libfreetype-6.dll

@@ -61,14 +61,16 @@ bool Brick::CheckCollition(Ball* Ball) {
 		else
 			return false;
 
-		Ball->setYVelocity(-1);
+		Ball->ChangeYDirection();
+		Ball->IncXVelocity();
+		Ball->IncYVelocity();
 		if (Ball->getXPosition() + Ball->getWidth() / 2 >= Position.x + width / 2) { //If the ball collide with the rigth part
-			if (Ball->getXVelocity() < 0)	//And Velocity < 0
-				Ball->setXVelocity(-1);  //Change the direction
+			if (Ball->getXVelocity() < 0) 	//And Velocity < 0
+				Ball->ChangeXDirection();  //Change the direction
 		}
 		else {
-			if (Ball->getXVelocity() > 0)
-				Ball->setXVelocity(-1);
+			if (Ball->getXVelocity() > 0) 
+				Ball->ChangeXDirection();
 		}
 
 		return true;

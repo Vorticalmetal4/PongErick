@@ -15,10 +15,7 @@ using namespace std;
 
 int main(int argc, int** argv) {
 
-    const int BricksColumns = 10;
-    const int BricksRows = 6;
-    const float BricksSeparation = 4.2;
-    bool BallUp = false;
+
 
     INIReader ConFile("InitialData.ini");
 
@@ -26,61 +23,75 @@ int main(int argc, int** argv) {
         cout << "Main: Couldn't find the Configuration File" << endl;
 
     int PowerProbability = ConFile.GetInteger("Power", "Probability", 0);
+    const int BricksColumns = 10;
+    const int BricksRows = 6;
+    const float BricksSeparation = 4.2;
+    int BricksRemaining = BricksColumns * BricksRows;
 
     Renderer Rend;
     bool success = Rend.Initialize();
     Player* Player1 = new Player(&Rend);
-    HUD* PHUD = new HUD(&Rend, Player1);
+    HUD* PHUD = new HUD(&Rend, Player1, BricksRemaining);
     Brick Bricks[BricksColumns][BricksRows];
     Ball* MainBall = new Ball(&Rend, Player1, PHUD);
     for (int i = 0; i < BricksColumns; i++)
         for (int j = 0; j < BricksRows; j++)
             Bricks[i][j].setData(&Rend, i, j, BricksSeparation);
 
-    int TotalBricks = BricksColumns * BricksRows;
 
     vector<Power*> Powers;
 
     srand(time(NULL));
 
     if (success) {
-        while (Rend.getmIsRunning()) {
+        while (Rend.getIsRunning()) {
             Rend.ProcessInput();
             Rend.UpdateGame();
             Rend.ClearRender();
-            if (MainBall->getYPosition() < Rend.getWindowHeight() / 2)
-                BallUp = true;
-            else
-                BallUp = false;
             for (int i = 0; i < BricksColumns; i++) {
                 for (int j = 0; j < BricksRows; j++) {
                     if (Bricks[i][j].getActive()) {
                         if (Bricks[i][j].CheckCollition(MainBall)) {
-                            TotalBricks--;
-                            PHUD->IncPuntuation(100);
+                            BricksRemaining--;
+                            PHUD->DecBricks();
                             if ((rand() % (100) + 1) <= PowerProbability) {
-                                Power* NPower = new Power(Player1, Powers.size() + 1, &Rend, Bricks[i][j].getXPosition(), Bricks[i][j].getYPosition() + 10);
+                                Power* NPower = new Power(Player1, &Rend, Bricks[i][j].getXPosition(), Bricks[i][j].getYPosition() + 10);
                                 Powers.push_back(NPower);
-                                cout << Powers.size() << endl;
                             }
                         }
                         Bricks[i][j].Draw(j);
-                        if (Player1->getLaserCount() > 0)
-                            Player1->CheckLasersCollition(&Bricks[i][j]);
+                        if (Player1->getLaserCount() > 0) {
+                            if (Player1->CheckLasersCollition(&Bricks[i][j])) {
+                                if (Player1->getPower()[0] == 'T') {
+                                    for (int k = 0; k < BricksRows; k++) {
+                                        if (k != i)
+                                            if (Bricks[i][j].getXPosition() == Bricks[k][j].getXPosition() && Bricks[i][j].getYPosition() == Bricks[k][j].getYPosition())
+                                                Bricks[i][j].setActive(false);
+                                    }
+                                }
+                                else {
+                                    BricksRemaining--;
+                                    PHUD->DecBricks();
+                                }
+                            }
+                        }
                         
                     }
 
                 }
             }
-            MainBall->Update();
-            Player1->Update();
 
-            if (Powers.size() > 0) {
-                for (int i = 0; i < Powers.size(); i++)
-                    if (Powers[i]->CheckCollition())
-                        Powers.erase(Powers.begin() + i);
-                    else
-                        Powers[i]->Update();
+            if (BricksRemaining > 0 && PHUD->getLives() > 0) {
+                MainBall->Update();
+                Player1->Update();
+
+                if (Powers.size() > 0) {
+                    for (int i = 0; i < Powers.size(); i++)
+                        if (Powers[i]->CheckCollition())
+                            Powers.erase(Powers.begin() + i);
+                        else
+                            Powers[i]->Update();
+                }
             }
 
             PHUD->UpdateHUD();

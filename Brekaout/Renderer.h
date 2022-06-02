@@ -12,7 +12,7 @@ public:
     void GenerateOutput();
     void Write(char* NText, int TextW, int TextH, int TextX, int TextY);
 
-    bool getmIsRunning() { return mIsRunning; }
+    bool getIsRunning() { return mIsRunning; }
     float getDeltaTime() { return deltaTime; }
     int getWindowHeight() { return WindowHeight; }
     int getWindowWidth() { return WindowWidth; }

@@ -17,6 +17,7 @@ public:
 	int getWidth() { return width; }
 	int getHeight() { return height; }
 	bool getActive() { return Active; }
+	void setActive(bool Change) { Active = Change; }
 	bool CheckCollition(class Ball* Ball);
 	void setYPosition(int Y) {Position.y = Y; }
 

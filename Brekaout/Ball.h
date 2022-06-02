@@ -18,8 +18,10 @@ public:
 	int getXVelocity() { return Velocity.x; }
 	int getHeight() { return height; }
 	int getWidth() { return width; }
-	void setXVelocity(int x) { Velocity.x *= x; }
-	void setYVelocity(int y) { Velocity.y *= y; }
+	void ChangeXDirection() { Velocity.x *= -1; }
+	void ChangeYDirection() { Velocity.y *= -1; }
+	void IncXVelocity();
+	void IncYVelocity();
 	void Update();
 
 private:
@@ -32,4 +34,7 @@ private:
 	VectorVelocity Velocity;
 	int height;
 	int width;
+	int InitialVelocity;
+	int MaxVelocity;
+	int VelocityIncrease;
 };

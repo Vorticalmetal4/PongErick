@@ -30,10 +30,15 @@ bool Ray::CheckCollition(Brick* ActualBrick, int DeltaTime, char Power, int Wind
 	if (NYPosition >= ActualBrick->getYPosition() && NYPosition <= ActualBrick->getYPosition() + ActualBrick->getHeight()){ 
 		if (Position.x >= ActualBrick->getXPosition() && Position.x <= ActualBrick->getXPosition() + ActualBrick->getWidth()) {
 			switch (Power) {
-			case 'T':
-				ActualBrick->setYPosition(WindowHeight - ActualBrick->getHeight());
+				case 'T':
+					ActualBrick->setYPosition(WindowHeight - ActualBrick->getHeight());
+				break;
+
+				case 'L':
+					ActualBrick->setActive(false);
 				break;
 			}
+
 			return true;
 		}
 	}

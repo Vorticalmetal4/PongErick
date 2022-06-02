@@ -9,10 +9,8 @@
 
 using namespace std;
 
-Power::Power(Player* MainPlayer, int VectorPosition, Renderer* Rend, int X, int Y) {
+Power::Power(Player* MainPlayer, Renderer* Rend, int X, int Y) {
 	this->MainPlayer = MainPlayer;
-	PowerType = "T";
-	this->VectorPosition = VectorPosition;
 	this->Rend = Rend;
 	this->Position.x = X;
 	this->Position.y = Y;
@@ -24,8 +22,13 @@ Power::Power(Player* MainPlayer, int VectorPosition, Renderer* Rend, int X, int 
 
 	Velocity = ConFile.GetInteger("Power", "Velocity", 0);
 	Height = ConFile.GetInteger("Power", "Height", 0);
+	LaserProbability = ConFile.GetInteger("Power", "LaserProbability", 0);
 
 	srand(time(NULL));
+	if ((rand() % (100) + 1) <= LaserProbability) 
+		PowerType = "L";
+	else
+		PowerType = "T";
 
 }
 

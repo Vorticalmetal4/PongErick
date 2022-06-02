@@ -11,7 +11,7 @@ struct VectorPositionPow {
 
 class Power {
 public:
-	Power(class Player* MainPlayer, int VectorPosition, class Renderer* Rend, int X, int Y);
+	Power(class Player* MainPlayer, class Renderer* Rend, int X, int Y);
 	void Update();
 	bool CheckCollition();
 
@@ -19,9 +19,9 @@ private:
 	Player* MainPlayer;
 	Renderer* Rend;
 	string PowerType;
-	int VectorPosition;
 	VectorPositionPow Position;
 	int Velocity;
 	int Height;
+	int LaserProbability;
 
 };
