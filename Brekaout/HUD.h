@@ -8,8 +8,8 @@ class HUD {
 public:
 	HUD(class Renderer* Rend, class Player* MainPlayer, int Bricks);
 	void UpdateHUD();
-	void LoseALife() { Lives--; }
-	void DecBricks() { Bricks--; }
+	void LoseALife() { Lives--; } // logica puede ir en UpdateHUD
+	void DecBricks() { Bricks--; } // logica puede ir en UpdateHUD
 	int getLives() { return Lives; }
 
 private:

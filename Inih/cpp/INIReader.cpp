@@ -9,6 +9,8 @@
 //
 // https://github.com/benhoyt/inih
 
+// No es tu codigo, si lo incluyes agregalo en un folder especial del nombre de la biblioteca inih
+
 #include <algorithm>
 #include <cctype>
 #include <cstdlib>

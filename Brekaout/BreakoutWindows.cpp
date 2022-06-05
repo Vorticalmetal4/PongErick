@@ -15,45 +15,44 @@ using namespace std;
 
 int main(int argc, int** argv) {
 
-
-
-    INIReader ConFile("InitialData.ini");
+    INIReader ConFile("InitialData.ini"); // esta bien, utilizar una biblioteca externa para un proposito tan sencillo es un exceso. puedes hacerlo tu mismo de forma muy sencilla
 
     if (ConFile.ParseError() < 0)
-        cout << "Main: Couldn't find the Configuration File" << endl;
+        cout << "Main: Couldn't find the Configuration File" << endl; // Como reemplazarias el string "Main:" y hacerlo generico en cualquier otro archivo o funcion?
 
     int PowerProbability = ConFile.GetInteger("Power", "Probability", 0);
-    const int BricksColumns = 10;
+    const int BricksColumns = 10; // deberia ser posible configurarlo en el ini
     const int BricksRows = 6;
     const float BricksSeparation = 4.2;
     int BricksRemaining = BricksColumns * BricksRows;
 
     Renderer Rend;
     bool success = Rend.Initialize();
-    Player* Player1 = new Player(&Rend);
-    HUD* PHUD = new HUD(&Rend, Player1, BricksRemaining);
+    Player* Player1 = new Player(&Rend); // memory leak, realmente necesitas un pointer? 
+    HUD* PHUD = new HUD(&Rend, Player1, BricksRemaining); // memory leak, realmente necesitas un pointer? 
     Brick Bricks[BricksColumns][BricksRows];
-    Ball* MainBall = new Ball(&Rend, Player1, PHUD);
+    Ball* MainBall = new Ball(&Rend, Player1, PHUD); // memory leak, realmente necesitas un pointer? 
     for (int i = 0; i < BricksColumns; i++)
         for (int j = 0; j < BricksRows; j++)
             Bricks[i][j].setData(&Rend, i, j, BricksSeparation);
 
 
-    vector<Power*> Powers;
+    vector<Power*> Powers; // memory leak
 
     srand(time(NULL));
 
     if (success) {
+        // La memoria principal de tu programa se incremente con el tiempo, identifica porque y arreglalo
         while (Rend.getIsRunning()) {
             Rend.ProcessInput();
             Rend.UpdateGame();
             Rend.ClearRender();
-            for (int i = 0; i < BricksColumns; i++) {
+            for (int i = 0; i < BricksColumns; i++) { // indentacion tipo Java, recuerdo que esto no es lo comun en los proyectos 
                 for (int j = 0; j < BricksRows; j++) {
                     if (Bricks[i][j].getActive()) {
                         if (Bricks[i][j].CheckCollition(MainBall)) {
                             BricksRemaining--;
-                            PHUD->DecBricks();
+                            PHUD->DecBricks(); // PHUD, recibe un struct con todos los valores del estado del juego. Reemplaza todas las funciones del HUD por un Updata(gameData)
                             if ((rand() % (100) + 1) <= PowerProbability) {
                                 Power* NPower = new Power(Player1, &Rend, Bricks[i][j].getXPosition(), Bricks[i][j].getYPosition() + 10);
                                 Powers.push_back(NPower);

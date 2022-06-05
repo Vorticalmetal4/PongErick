@@ -1,5 +1,5 @@
-#include "../SDL2/include/SDL.h"
-#include "../SDL2/include/SDL_ttf.h"
+#include "../SDL2/include/SDL.h"  // nunca uses paths relativos cuando incluyas archivos debe  ser  #include "SDL2/include/SDL.h"
+#include "../SDL2/include/SDL_ttf.h" // nunca uses paths relativos cuando incluyas archivos debe ser  #include "SDL2/include/SDL_ttf.h"
 #include "Renderer.h"
 
 Renderer::Renderer(void)
@@ -18,11 +18,11 @@ bool Renderer::Initialize() {
         return false;
     }
     mWindow = SDL_CreateWindow(
-        "Breakout", // Window title
-        100, // Top left x-coordinate of window
-        20, // Top left y-coordinate of window
-        WindowWidth, // Width of window
-        WindowHeight, // Height of window
+        "Breakout", // Window title // deberia pasarse como parametro en initialize
+        100, // Top left x-coordinate of window // deberia pasarse como parametro en initialize
+        20, // Top left y-coordinate of window // deberia pasarse como parametro en initialize
+        WindowWidth, // Width of window // deberia pasarse como parametro en initialize
+        WindowHeight, // Height of window // deberia pasarse como parametro en initialize
         0 // Flags (0 for no flags set)
     );
 
@@ -107,7 +107,7 @@ void Renderer::DrawRect(int x, int y, float width, float height, int r, int g, i
 void Renderer::Write(char* NText, int TextW, int TextH, int TextX, int TextY) {
 
     TTF_Init();
-    TTF_Font* Font = TTF_OpenFont("ArialCE.ttf", 25);
+    TTF_Font* Font = TTF_OpenFont("ArialCE.ttf", 25); // string que debe configurarse en el config ini
     SDL_Color TextColor = { 255, 255, 255 , 255};
     SDL_Surface* TextSurface = TTF_RenderText_Solid(Font, NText, TextColor);
     SDL_Texture* Texture = SDL_CreateTextureFromSurface(mRenderer, TextSurface);

@@ -11,6 +11,8 @@ https://github.com/benhoyt/inih
 
 */
 
+
+// No es tu codigo, si lo incluyes agregalo en un folder especial del nombre de la biblioteca inih
 #if defined(_MSC_VER) && !defined(_CRT_SECURE_NO_WARNINGS)
 #define _CRT_SECURE_NO_WARNINGS
 #endif
