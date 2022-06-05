@@ -10,7 +10,7 @@
 
 using namespace std;
 
-const Uint8* state = SDL_GetKeyboardState(NULL);
+const Uint8* state = SDL_GetKeyboardState(NULL);  // no debe haber referencias a codigo del renderer
 
 Player::Player(Renderer* Rend) {
 	INIReader ConFile("InitialData.ini");
@@ -31,18 +31,20 @@ Player::Player(Renderer* Rend) {
 
 }
 
+// no destructor ??
+
 void Player::Update() {
 	
 	
-	if (state[SDL_SCANCODE_D])
+	if (state[SDL_SCANCODE_D]) // no debe haber referencias a codigo del renderer, en este caso el input lo controla el renderer
 		if(Position.x + (PlayerVelocity * Rend->getDeltaTime() + width) <= Rend -> getWindowWidth())
 			Position.x += PlayerVelocity * Rend->getDeltaTime();
-	if (state[SDL_SCANCODE_A])
+	if (state[SDL_SCANCODE_A])  // no debe haber referencias a codigo del renderer
 		if(Position.x - PlayerVelocity * Rend->getDeltaTime() >= 0)
 			Position.x -= PlayerVelocity * Rend->getDeltaTime();
-	if (state[SDL_SCANCODE_S]) {
+	if (state[SDL_SCANCODE_S]) {  // no debe haber referencias a codigo del renderer
 		if (Ammo > 0) {
-			Ray* NRay = new Ray(Position.x + width / 2, Position.y);
+			Ray* NRay = new Ray(Position.x + width / 2, Position.y); // memory leak
 			Rays.push_back(NRay);
 			Ammo--;
 		}

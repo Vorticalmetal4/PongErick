@@ -13,7 +13,7 @@ class Power {
 public:
 	Power(class Player* MainPlayer, class Renderer* Rend, int X, int Y);
 	void Update();
-	bool CheckCollition();
+	bool CheckCollition(); // spelling -> CheckCollision
 
 private:
 	Player* MainPlayer;
