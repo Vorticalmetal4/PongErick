@@ -6,7 +6,8 @@
 #include <iostream>
 using namespace std;
 
-Brick::Brick(){
+Brick::Brick()
+{
 	Rend = nullptr;
 	width = 97;
 	height = 20;
@@ -15,18 +16,22 @@ Brick::Brick(){
 	Active = true;
 }
 
-Brick::~Brick() {
+Brick::~Brick() 
+{
 	
 }
 
-void Brick::setData(Renderer* Rend, int XPosition, int YPosition, float Separation) {
-	this->Rend = Rend;
+void Brick::setData(Renderer* _Rend, int XPosition, int YPosition, float Separation)
+{
+	Rend = _Rend;
 	Position.x += XPosition * width + XPosition * Separation;
 	Position.y += YPosition * height + YPosition * Separation;
 }
 
-void Brick::Draw(int Row) {
-	switch (Row) {
+void Brick::Draw(int Row) 
+{
+	switch (Row) 
+	{
 		case 0:
 			Rend->DrawRect(Position.x, Position.y, width, height, 255, 0, 0, 255); //Red
 		break;
@@ -52,8 +57,12 @@ void Brick::Draw(int Row) {
 		break;
 	}
 }
-bool Brick::CheckCollition(Ball* Ball) {
-	if (Ball->getXPosition() >= Position.x && Ball->getXPosition() + Ball->getWidth() <= Position.x + width) {
+
+
+bool Brick::CheckCollition(Ball* Ball)
+{
+	if (Ball->getXPosition() >= Position.x && Ball->getXPosition() + Ball->getWidth() <= Position.x + width)
+	{
 		if (Ball->getYPosition() >= Position.y && Ball->getYPosition() <= Position.y + height)
 			Active = false;
 		else if (Ball->getYPosition() + Ball->getHeight() >= Position.y && Ball->getYPosition() + Ball->getHeight() <= Position.y + height)
@@ -64,11 +73,13 @@ bool Brick::CheckCollition(Ball* Ball) {
 		Ball->ChangeYDirection();
 		Ball->IncXVelocity();
 		Ball->IncYVelocity();
-		if (Ball->getXPosition() + Ball->getWidth() / 2 >= Position.x + width / 2) { //If the ball collide with the rigth part
+		if (Ball->getXPosition() + Ball->getWidth() / 2 >= Position.x + width / 2) 
+		{ //If the ball collide with the rigth part
 			if (Ball->getXVelocity() < 0) 	//And Velocity < 0
 				Ball->ChangeXDirection();  //Change the direction
 		}
-		else {
+		else 
+		{
 			if (Ball->getXVelocity() > 0) 
 				Ball->ChangeXDirection();
 		}

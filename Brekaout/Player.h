@@ -4,14 +4,17 @@
 
 using namespace std;
 
-struct VectorPosition {
+struct VectorPosition 
+{
 	int x;
 	int y;
 };
 
-class Player {
+class Player 
+{
 public:
 	Player(class Renderer* Rend);
+	~Player();
 	void Update();
 	int getXPosition() { return Position.x; }
 	int getYPosition() { return Position.y; }

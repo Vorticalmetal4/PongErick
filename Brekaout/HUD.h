@@ -4,17 +4,19 @@
 
 using namespace std;
 
-class HUD {
+struct GameData
+{
+	int Lives;
+	int BricksRemaining;
+};
+
+class HUD 
+{
 public:
-	HUD(class Renderer* Rend, class Player* MainPlayer, int Bricks);
-	void UpdateHUD();
-	void LoseALife() { Lives--; } // logica puede ir en UpdateHUD
-	void DecBricks() { Bricks--; } // logica puede ir en UpdateHUD
-	int getLives() { return Lives; }
+	HUD(class Renderer* _Rend, class Player* _MainPlayer);
+	void UpdateHUD(GameData Data);
 
 private:
 	Renderer* Rend;
 	Player* MainPlayer;
-	int Lives;
-	int Bricks;
 };

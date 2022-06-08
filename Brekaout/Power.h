@@ -3,17 +3,20 @@
 using namespace std;
 
 
-struct VectorPositionPow {
-	float x;
-	float y;
+struct VectorPositionPow 
+{
+	int x;
+	int y;
 };
 
 
-class Power {
+class Power 
+{
 public:
 	Power(class Player* MainPlayer, class Renderer* Rend, int X, int Y);
+	~Power();
 	void Update();
-	bool CheckCollition(); // spelling -> CheckCollision
+	bool CheckCollision(); // spelling -> CheckCollision
 
 private:
 	Player* MainPlayer;

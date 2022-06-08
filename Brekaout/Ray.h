@@ -2,12 +2,14 @@
 
 #include <iostream>
 
-struct VectorPositionRay {
+struct VectorPositionRay 
+{
 	int x;
 	int y;
 };
 
-class Ray {
+class Ray 
+{
 public:
 	Ray(int X, int Y);
 	~Ray();

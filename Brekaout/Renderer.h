@@ -1,9 +1,13 @@
 #pragma once 
 
-class Renderer {
+#include <string>
+using namespace std;
+
+class Renderer 
+{
 public:
     Renderer(void);
-    bool Initialize();
+    bool Initialize(string Name, int TLXCoordinate, int TPYCoordinate, int Width, int Height, int Flags);
     void RunLoop();
     void Shutdown();
     void ProcessInput();
@@ -17,6 +21,7 @@ public:
     int getWindowHeight() { return WindowHeight; }
     int getWindowWidth() { return WindowWidth; }
     void DrawRect(int x, int y, float width, float height, int r, int g, int b, int alpha);
+    char CheckMovement();
 
 private:
 
@@ -25,8 +30,9 @@ private:
     class SDL_Renderer* mRenderer;
     float deltaTime = 0;
     float mTicksCount  = 0;
-    const int WindowHeight = 700;
-    const int WindowWidth = 1024;
+    int WindowHeight;
+    int WindowWidth;
+    
 
 };
 

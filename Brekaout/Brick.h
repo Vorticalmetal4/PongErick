@@ -1,11 +1,13 @@
 #pragma once
 
-struct VectorPositionBrick {
+struct VectorPositionBrick 
+{
 	int x;
 	int y;
 };
 
-class Brick {
+class Brick 
+{
 public:
 	Brick();
 	~Brick();

@@ -1,18 +1,21 @@
 #pragma once
 
-struct VectorPositionB {
+struct VectorPositionB 
+{
 	int x;
 	int y;
 };
 
-struct VectorVelocity {
+struct VectorVelocity 
+{
 	float x;
 	float y;
 };
 
-class Ball {
+class Ball 
+{
 public:
-	Ball(class Renderer* Rend, class Player* Player1, class HUD* Hud);
+	Ball(class Renderer* _Rend, class Player* _Player1);
 	int getXPosition() { return Position.x; }
 	int getYPosition() { return Position.y; }
 	int getXVelocity() { return Velocity.x; }
@@ -22,13 +25,12 @@ public:
 	void ChangeYDirection() { Velocity.y *= -1; }
 	void IncXVelocity();
 	void IncYVelocity();
-	void Update();
+	bool Update();
 
 private:
 
-	Renderer* Rend;
-	Player* Player1;
-	HUD* Hud;
+	Renderer* Rend = nullptr; 
+	Player* Player1 = nullptr;
 	VectorPositionB Position;
 	VectorPositionB InitialPosition;
 	VectorVelocity Velocity;

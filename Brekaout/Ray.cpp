@@ -6,7 +6,8 @@
 #include <iostream>
 using namespace std;
 
-Ray::Ray(int X, int Y) {
+Ray::Ray(int X, int Y) 
+{
 	Position.x = X;
 	Position.y = Y;
 
@@ -20,16 +21,21 @@ Ray::Ray(int X, int Y) {
 	Velocity = ConFile.GetInteger("Ray", "Velocity", 0);
 }
 
-Ray::~Ray() {
+Ray::~Ray()
+{
 
 }
 
-bool Ray::CheckCollition(Brick* ActualBrick, int DeltaTime, char Power, int WindowHeight) {
+bool Ray::CheckCollition(Brick* ActualBrick, int DeltaTime, char Power, int WindowHeight)
+{
 	int NYPosition = Position.y - DeltaTime * Velocity;
 
-	if (NYPosition >= ActualBrick->getYPosition() && NYPosition <= ActualBrick->getYPosition() + ActualBrick->getHeight()){ 
-		if (Position.x >= ActualBrick->getXPosition() && Position.x <= ActualBrick->getXPosition() + ActualBrick->getWidth()) {
-			switch (Power) {
+	if (NYPosition >= ActualBrick->getYPosition() && NYPosition <= ActualBrick->getYPosition() + ActualBrick->getHeight())
+	{ 
+		if (Position.x >= ActualBrick->getXPosition() && Position.x <= ActualBrick->getXPosition() + ActualBrick->getWidth())
+		{
+			switch (Power)
+			{
 				case 'T':
 					ActualBrick->setYPosition(WindowHeight - ActualBrick->getHeight());
 				break;

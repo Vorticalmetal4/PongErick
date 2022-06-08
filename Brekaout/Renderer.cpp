@@ -2,31 +2,45 @@
 #include "../SDL2/include/SDL_ttf.h" // nunca uses paths relativos cuando incluyas archivos debe ser  #include "SDL2/include/SDL_ttf.h"
 #include "Renderer.h"
 
+const Uint8* State = SDL_GetKeyboardState(NULL);
+
+
 Renderer::Renderer(void)
     :mWindow(nullptr)
     , mIsRunning(true)
     , mRenderer(NULL)
 {
-
+    
 }
 
-bool Renderer::Initialize() {
+bool Renderer::Initialize(string Name, int TLXCoordinate, int TLYCoordinate, int Width, int Height, int Flags)
+{
 
     int sdlResult = SDL_Init(SDL_INIT_VIDEO);
-    if (sdlResult != 0) {
+    if (sdlResult != 0)
+    {
         SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
         return false;
     }
+
+    char* NText = new char[Name.size() + 1]; // memory leak
+    Name.copy(NText, Name.size() + 1);
+    NText[Name.size()] = '\0';
+
     mWindow = SDL_CreateWindow(
-        "Breakout", // Window title // deberia pasarse como parametro en initialize
-        100, // Top left x-coordinate of window // deberia pasarse como parametro en initialize
-        20, // Top left y-coordinate of window // deberia pasarse como parametro en initialize
-        WindowWidth, // Width of window // deberia pasarse como parametro en initialize
-        WindowHeight, // Height of window // deberia pasarse como parametro en initialize
-        0 // Flags (0 for no flags set)
+        NText, // Window title // deberia pasarse como parametro en initialize
+        TLXCoordinate, // Top left x-coordinate of window // deberia pasarse como parametro en initialize
+        TLYCoordinate, // Top left y-coordinate of window // deberia pasarse como parametro en initialize
+        Width, // Width of window // deberia pasarse como parametro en initialize
+        Height, // Height of window // deberia pasarse como parametro en initialize
+        Flags // Flags (0 for no flags set)
     );
 
-    if (!mWindow) {
+    WindowHeight = Height;
+    WindowWidth = Width;
+
+    if (!mWindow) 
+    {
         SDL_Log("Failed to create window: %s", SDL_GetError());
         return false;
     }
@@ -36,8 +50,10 @@ bool Renderer::Initialize() {
     return true;
 }
 
-void Renderer::RunLoop() {
-    while (mIsRunning) {
+void Renderer::RunLoop()
+{
+    while (mIsRunning)
+    {
         ProcessInput();
         UpdateGame();
         GenerateOutput();
@@ -53,11 +69,14 @@ void Renderer::Shutdown()
     SDL_Quit();
 }
 
-void Renderer::ProcessInput() {
+void Renderer::ProcessInput()
+{
     SDL_Event event;
     // While there are still events in the queue
-    while (SDL_PollEvent(&event)) {
-        switch (event.type) {
+    while (SDL_PollEvent(&event)) 
+    {
+        switch (event.type) 
+        {
         case SDL_QUIT:
             mIsRunning = false;
             break;
@@ -70,7 +89,8 @@ void Renderer::ProcessInput() {
     
 }
 
-void Renderer::UpdateGame() {
+void Renderer::UpdateGame()
+{
     while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTicksCount + 16));
 
     deltaTime = (SDL_GetTicks() - mTicksCount) / 1000.0f;
@@ -80,11 +100,13 @@ void Renderer::UpdateGame() {
 
 }
 
-void Renderer::ClearRender() {
+void Renderer::ClearRender()
+{
     SDL_RenderClear(mRenderer);
 }
 
-void Renderer::GenerateOutput() {
+void Renderer::GenerateOutput()
+{
     SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
     //Clearing the buffer
 
@@ -92,7 +114,8 @@ void Renderer::GenerateOutput() {
 }
 
 
-void Renderer::DrawRect(int x, int y, float width, float height, int r, int g, int b, int alpha) {
+void Renderer::DrawRect(int x, int y, float width, float height, int r, int g, int b, int alpha) 
+{
     SDL_SetRenderDrawColor(mRenderer, r, g, b, alpha);
     SDL_Rect Rect{
     x,
@@ -104,7 +127,8 @@ void Renderer::DrawRect(int x, int y, float width, float height, int r, int g, i
     SDL_RenderFillRect(mRenderer, &Rect);
 }
 
-void Renderer::Write(char* NText, int TextW, int TextH, int TextX, int TextY) {
+void Renderer::Write(char* NText, int TextW, int TextH, int TextX, int TextY)
+{
 
     TTF_Init();
     TTF_Font* Font = TTF_OpenFont("ArialCE.ttf", 25); // string que debe configurarse en el config ini
@@ -120,4 +144,14 @@ void Renderer::Write(char* NText, int TextW, int TextH, int TextX, int TextY) {
     SDL_FreeSurface(TextSurface);
     TTF_Quit();
 
+}
+
+char Renderer::CheckMovement() 
+{
+    if (State[SDL_SCANCODE_RIGHT])
+        return 'R';
+    else if (State[SDL_SCANCODE_LEFT])
+        return 'L';
+    else if (State[SDL_SCANCODE_SPACE])
+        return 'P';
 }
