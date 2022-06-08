@@ -3,9 +3,6 @@
 #include "Ball.h"
 #include <cmath>
 
-#include <iostream>
-using namespace std;
-
 Brick::Brick()
 {
 	Rend = nullptr;

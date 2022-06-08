@@ -4,10 +4,7 @@
 #include "Brick.h"
 #include "HUD.h"
 #include "../Inih/cpp/INIReader.h"
-#include <iostream>
 #include <ctime>
-
-using namespace std;
 
 Ball::Ball(Renderer *_Rend, Player* _Player1) 
 	:Rend(_Rend),
@@ -19,7 +16,7 @@ Ball::Ball(Renderer *_Rend, Player* _Player1)
 	INIReader ConFile("InitialData.ini");
 
 	if (ConFile.ParseError() < 0)
-		cout << "Ball: Couldn't find the Configuration File" << endl;
+		ConFile.PrintError("Ball");
 
 	InitialVelocity = ConFile.GetInteger("Ball", "InitialVelocity", -1);
 	Velocity.x = InitialVelocity;

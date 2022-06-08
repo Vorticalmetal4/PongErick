@@ -131,7 +131,7 @@ void Renderer::Write(char* NText, int TextW, int TextH, int TextX, int TextY)
 {
 
     TTF_Init();
-    TTF_Font* Font = TTF_OpenFont("ArialCE.ttf", 25); // string que debe configurarse en el config ini
+    TTF_Font* Font = TTF_OpenFont("ArialCE.ttf", 25);
     SDL_Color TextColor = { 255, 255, 255 , 255};
     SDL_Surface* TextSurface = TTF_RenderText_Solid(Font, NText, TextColor);
     SDL_Texture* Texture = SDL_CreateTextureFromSurface(mRenderer, TextSurface);

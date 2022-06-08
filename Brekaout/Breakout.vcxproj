@@ -135,7 +135,8 @@
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>copy "$(ProjectDir)\Resources\ArialCE.ttf" "$(TargetDir)"
-copy "$(ProjectDir)\Resources\InitialData.ini" "$(TargetDir)"</Command>
+copy "$(ProjectDir)\Resources\InitialData.ini" "$(TargetDir)"
+</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

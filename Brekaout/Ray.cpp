@@ -14,7 +14,7 @@ Ray::Ray(int X, int Y)
 	INIReader ConFile("InitialData.ini");
 
 	if (ConFile.ParseError() < 0)
-		cout << "Player: Couldn't find the Configuration File" << endl;
+		ConFile.PrintError("Ray");
 
 	Width = ConFile.GetInteger("Ray", "Width", 0);
 	Height = ConFile.GetInteger("Ray", "Height", 0);

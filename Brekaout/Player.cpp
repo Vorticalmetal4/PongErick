@@ -5,10 +5,7 @@
 #include "Ray.h"
 #include "Brick.h"
 
-#include <iostream>
 #include <vector>
-
-using namespace std;
 
 Player::Player(Renderer* _Rend)
 	:Rend(_Rend)
@@ -16,7 +13,7 @@ Player::Player(Renderer* _Rend)
 	INIReader ConFile("InitialData.ini");
 
 	if (ConFile.ParseError() < 0)
-		cout << "Player: Couldn't find the Configuration File" << endl;
+		ConFile.PrintError("Player");
 
 	PlayerVelocity = ConFile.GetInteger("Player", "PlayerVelocity", -1);
 	Position.x = ConFile.GetInteger("Player", "PositionX", 1);

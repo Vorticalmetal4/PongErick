@@ -33,7 +33,6 @@ private:
     int WindowHeight;
     int WindowWidth;
     
-
 };
 
 

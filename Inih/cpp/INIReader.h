@@ -83,6 +83,8 @@ public:
     // Return true if a value exists with the given section and field names.
     INI_API bool HasValue(const std::string& section, const std::string& name) const;
 
+    INI_API void PrintError(const std::string& Origin) const;
+
 private:
     int _error;
     std::map<std::string, std::string> _values;

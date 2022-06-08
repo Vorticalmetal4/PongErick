@@ -2,11 +2,9 @@
 #include "Renderer.h"
 #include "Player.h"
 
-#include <iostream>
 #include <string>
 #include "../Inih/cpp/INIReader.h"
 
-using namespace std;
 
 HUD::HUD(Renderer *_Rend, Player* _MainPlayer)
 	:Rend(_Rend),

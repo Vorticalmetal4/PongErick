@@ -5,9 +5,6 @@
 
 #include <string>
 #include <ctime>
-#include <iostream>
-
-using namespace std;
 
 Power::Power(Player* _MainPlayer, Renderer* _Rend, int _X, int _Y)
 	:MainPlayer(_MainPlayer),
@@ -17,7 +14,7 @@ Power::Power(Player* _MainPlayer, Renderer* _Rend, int _X, int _Y)
 	INIReader ConFile("InitialData.ini");
 
 	if (ConFile.ParseError() < 0)
-		cout << "Power: Couldn't find the Configuration File" << endl; // error, Ball->Power. Mismo comentario que en main, como reemplazarias el string "Main:" y hacerlo generico en cualquier otro archivo o funcion?
+		ConFile.PrintError("Power");
 
 	Velocity = ConFile.GetInteger("Power", "Velocity", 0);
 	Height = ConFile.GetInteger("Power", "Height", 0);

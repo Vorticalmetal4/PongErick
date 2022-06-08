@@ -16,6 +16,7 @@
 #include <cstdlib>
 #include "../ini.h"
 #include "INIReader.h"
+#include <iostream>
 
 using std::string;
 
@@ -115,4 +116,10 @@ int INIReader::ValueHandler(void* user, const char* section, const char* name,
         reader->_values[key] += "\n";
     reader->_values[key] += value ? value : "";
     return 1;
+}
+
+void INIReader::PrintError(const std::string& Origin) const
+{
+    std::cout << Origin + ": Couldn't find the Configuration File" << std::endl;
+    
 }

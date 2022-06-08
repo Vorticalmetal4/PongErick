@@ -7,13 +7,8 @@
 #include "Power.h"
 #include "../Inih/cpp/INIReader.h"
 
-
-#include <iostream>
 #include <vector>
 #include <ctime>
-using namespace std;
-
-
 
 int main(int argc, int** argv) 
 {
@@ -21,12 +16,13 @@ int main(int argc, int** argv)
     INIReader ConFile("InitialData.ini"); // esta bien, utilizar una biblioteca externa para un proposito tan sencillo es un exceso. puedes hacerlo tu mismo de forma muy sencilla
 
     if (ConFile.ParseError() < 0)
-        cout << "Main: Couldn't find the Configuration File" << endl; // Como reemplazarias el string "Main:" y hacerlo generico en cualquier otro archivo o funcion?
+        ConFile.PrintError("BreakoutWindow"); // Como reemplazarias el string "Main:" y hacerlo generico en cualquier otro archivo o funcion?
 
     int PowerProbability = ConFile.GetInteger("Power", "Probability", 0);
     const int BricksColumns = 10; // deberia ser posible configurarlo en el ini
     const int BricksRows = 6;
     const float BricksSeparation = 4.2;
+    int i, j, k;
     GameData Data;
     Data.BricksRemaining = BricksColumns * BricksRows;
     Data.Lives = 5;
@@ -59,9 +55,9 @@ int main(int argc, int** argv)
             Rend.ProcessInput();
             Rend.UpdateGame();
             Rend.ClearRender();
-            for (int i = 0; i < BricksColumns; i++)
+            for (i = 0; i < BricksColumns; i++)
             { // indentacion tipo Java, recuerdo que esto no es lo comun en los proyectos 
-                for (int j = 0; j < BricksRows; j++)
+                for (j = 0; j < BricksRows; j++)
                 {
                     if (Bricks[i][j].getActive())
                     {
@@ -81,7 +77,7 @@ int main(int argc, int** argv)
                             {
                                 if (Player1->getPower()[0] == 'T') 
                                 {    //Check if alredy exists a traitorous brick in the position of the new traitor
-                                    for (int k = 0; k < BricksRows; k++) 
+                                    for (k = 0; k < BricksRows; k++) 
                                     {
                                         if (k != i)
                                             if (Bricks[i][j].getXPosition() == Bricks[k][j].getXPosition() && Bricks[i][j].getYPosition() == Bricks[k][j].getYPosition())
@@ -106,7 +102,7 @@ int main(int argc, int** argv)
 
                 if (Powers.size() > 0) 
                 {
-                    for (int i = 0; i < Powers.size(); i++)
+                    for (i = 0; i < Powers.size(); i++)
                         if (Powers[i]->CheckCollision())
                             Powers.erase(Powers.begin() + i);
                         else
