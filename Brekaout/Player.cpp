@@ -48,8 +48,7 @@ void Player::Update() {
 		case 'P':
 			if (Ammo > 0)
 			{
-				Ray* NRay = new Ray(Position.x + width / 2, Position.y); // memory leak
-				Rays.push_back(NRay);
+				PlayersRay->SetData(Position.x + width / 2, Position.y); // memory leak
 				Ammo--;
 			}
 		break;

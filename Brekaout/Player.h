@@ -22,7 +22,6 @@ public:
 	int getHeight() { return height; }
 	void ChangePower(string NPower);
 	string getPower() { return Power; }
-	int getLaserCount() { return Rays.size(); }
 	bool CheckLasersCollition(class Brick* ActualBrick);
 
 private:
@@ -34,6 +33,6 @@ private:
 	int height;
 	int Ammo;
 	string Power;
-	vector<class Ray*> Rays;
+	class Ray* PlayersRay;
 
 };

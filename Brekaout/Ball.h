@@ -41,4 +41,9 @@ private:
 	int MaxVelocity;
 	int VelocityIncrease;
 	bool CollWPlayer;
+
+	float DeltaTime;
+	float XInc;
+	float YInc;
+	float PlayerXPosition;
 };

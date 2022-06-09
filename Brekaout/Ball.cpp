@@ -39,10 +39,10 @@ Ball::Ball(Renderer *_Rend, Player* _Player1)
 bool Ball::Update() 
 {
 
-	float DeltaTime = Rend->getDeltaTime();
-	float XInc = DeltaTime * Velocity.x;
-	float YInc = DeltaTime * Velocity.y;
-	int PlayerXPosition = Player1->getXPosition();
+	DeltaTime = Rend->getDeltaTime();
+	XInc = DeltaTime * Velocity.x;
+	YInc = DeltaTime * Velocity.y;
+	PlayerXPosition = Player1->getXPosition();
 
 
 

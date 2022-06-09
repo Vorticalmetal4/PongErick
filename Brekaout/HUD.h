@@ -19,4 +19,6 @@ public:
 private:
 	Renderer* Rend;
 	Player* MainPlayer;
+	string ActualText;
+	char* NText;
 };

@@ -38,11 +38,9 @@ Power::~Power()
 
 void Power::Update() 
 {
-
-	string PowerText = PowerType;
-	char* NText = new char[PowerText.size() + 1]; // memory leak
-	PowerText.copy(NText, PowerText.size() + 1);
-	NText[PowerText.size()] = '\0';
+	NText = new char[PowerType.size() + 1]; // memory leak
+	PowerType.copy(NText, PowerType.size() + 1);
+	NText[PowerType.size()] = '\0';
 	Rend->Write(NText, 0, Height, Position.x, Position.y);
 
 }

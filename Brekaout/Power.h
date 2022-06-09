@@ -26,5 +26,6 @@ private:
 	int Velocity;
 	int Height;
 	int LaserProbability;
+	char* NText;
 
 };

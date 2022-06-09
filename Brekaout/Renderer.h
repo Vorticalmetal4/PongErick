@@ -36,6 +36,7 @@ private:
     int WindowWidth; 
     string FontName;
     int FontSize;
+    char* FText;
     
 };
 

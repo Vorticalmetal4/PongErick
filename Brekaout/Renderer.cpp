@@ -27,7 +27,7 @@ bool Renderer::Initialize(string Name, int TLXCoordinate, int TLYCoordinate, int
         return false;
     }
 
-    char* NText = new char[Name.size() + 1]; // memory leak
+    char* NText = new char[Name.size() + 1]; 
     Name.copy(NText, Name.size() + 1);
     NText[Name.size()] = '\0';
 
@@ -137,7 +137,7 @@ void Renderer::Write(char* NText, int TextW, int TextH, int TextX, int TextY)
 {
 
     TTF_Init();
-    char* FText = new char[FontName.size() + 1]; // memory leak
+    FText = new char[FontName.size() + 1]; 
     FontName.copy(FText, FontName.size() + 1);
     FText[FontName.size()] = '\0';
 
