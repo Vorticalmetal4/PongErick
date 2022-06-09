@@ -24,6 +24,8 @@ Player::Player(Renderer* _Rend)
 	Power = "No power";
 	Ammo = 0;
 
+	PlayersRay = new Ray();
+
 
 }
 
@@ -48,7 +50,7 @@ void Player::Update() {
 		case 'P':
 			if (Ammo > 0)
 			{
-				PlayersRay->SetData(Position.x + width / 2, Position.y); // memory leak
+				PlayersRay->SetData(Position.x + width / 2, Position.y, true); // memory leak
 				Ammo--;
 			}
 		break;
@@ -56,13 +58,10 @@ void Player::Update() {
 	
 
 
-	if (Rays.size() > 0)
+	if (PlayersRay->getActive())
 	{
-		for (int i = 0; i < Rays.size(); i++) 
-		{
-			Rays[i]->Move(Rend->getDeltaTime());
-			Rend->DrawRect(Rays[i]->getPositionX(), Rays[i]->getPositionY(), Rays[i]->getWidth(), Rays[i]->getHeigth(), 178, 102, 255, 255);
-		}
+		PlayersRay->Move(Rend->getDeltaTime());
+		Rend->DrawRect(PlayersRay->getPositionX(), PlayersRay->getPositionY(), PlayersRay->getWidth(), PlayersRay->getHeigth(), 178, 102, 255, 255);	
 	}
 
 
@@ -78,13 +77,11 @@ void Player::ChangePower(string NPower)
 
 bool Player::CheckLasersCollition(Brick* ActualBrick)
 {
-	for (int i = 0; i < Rays.size(); i++)
+	if (PlayersRay->getActive()) 
 	{
-		if (Rays[i]->CheckCollition(ActualBrick, Rend->getDeltaTime(), Power[0], Rend->getWindowHeight())) {
-			Rays[i]->~Ray();
-			Rays.erase(Rays.begin() + i);
-			if (Ammo == 0)
-				Power = "No Power";
+		if (PlayersRay->CheckCollition(ActualBrick, Rend->getDeltaTime(), Power[0], Rend->getWindowHeight())) {
+			PlayersRay->SetData(-50, -50, false);
+			Power = "No Power";
 			return true;
 		}
 	}

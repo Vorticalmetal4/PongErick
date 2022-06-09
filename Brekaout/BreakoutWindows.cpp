@@ -72,21 +72,19 @@ int main(int argc, int** argv)
                             }
                         }
                         Bricks[i][j].Draw(j);
-                        if (Player1.getLaserCount() > 0)
-                        { //Check collision with laser
-                            if (Player1.CheckLasersCollition(&Bricks[i][j])) 
-                            {
-                                if (Player1.getPower()[0] == 'T') 
-                                {    //Check if alredy exists a traitorous brick in the position of the new traitor
-                                    for (k = 0; k < BricksRows; k++) 
-                                    {
-                                        if (k != i)
-                                            if (Bricks[i][j].getXPosition() == Bricks[k][j].getXPosition() && Bricks[i][j].getYPosition() == Bricks[k][j].getYPosition())
-                                                Bricks[i][j].setActive(false);
-                                    }
+   
+                        if (Player1.CheckLasersCollition(&Bricks[i][j])) 
+                        {
+                            if (Player1.getPower()[0] == 'T') 
+                            {    //Check if alredy exists a traitorous brick in the position of the new traitor
+                                for (k = 0; k < BricksRows; k++) 
+                                {
+                                    if (k != i)
+                                        if (Bricks[i][j].getXPosition() == Bricks[k][j].getXPosition() && Bricks[i][j].getYPosition() == Bricks[k][j].getYPosition())
+                                            Bricks[i][j].setActive(false);
                                 }
-                                 Data.BricksRemaining--;
                             }
+                                Data.BricksRemaining--;
                         }
                         
                     }

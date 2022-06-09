@@ -6,10 +6,9 @@
 #include <iostream>
 using namespace std;
 
-Ray::Ray(int X, int Y) 
+Ray::Ray() 
 {
-	Position.x = X;
-	Position.y = Y;
+	Active = false;
 
 	INIReader ConFile("InitialData.ini");
 
@@ -24,6 +23,12 @@ Ray::Ray(int X, int Y)
 Ray::~Ray()
 {
 
+}
+
+void Ray::SetData(int X, int Y, bool _Active) {
+	Position.x = X;
+	Position.y = Y;
+	Active = _Active;
 }
 
 bool Ray::CheckCollition(Brick* ActualBrick, int DeltaTime, char Power, int WindowHeight)

@@ -11,7 +11,7 @@ struct VectorPositionRay
 class Ray 
 {
 public:
-	Ray(int X, int Y);
+	Ray();
 	~Ray();
 	int getPositionX() { return Position.x; }
 	int getPositionY() { return Position.y; }
@@ -19,6 +19,8 @@ public:
 	int getHeigth() { return Height; }
 	void Move(float DeltaTime) { Position.y -= Velocity; }
 	bool CheckCollition(class Brick* ActualBrick, int DeltaTime, char Power, int WindowHeight);
+	void SetData(int X, int Y, bool _Active);
+	bool getActive() { return Active; }
 	
 
 private:
@@ -26,4 +28,5 @@ private:
 	int Width;
 	int Height;
 	int Velocity;
+	bool Active;
 };
