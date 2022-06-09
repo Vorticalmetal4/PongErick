@@ -33,17 +33,18 @@ int main(int argc, int** argv)
                                    ConFile.GetInteger("Window", "TopLeftYCoordinate", 0),
                                    ConFile.GetInteger("Window", "Width", 0),
                                    ConFile.GetInteger("Window", "Height", 0),
-                                   ConFile.GetInteger("Window", "Flags", 0));
-    Player* Player1 = new Player(&Rend); // memory leak, realmente necesitas un pointer? 
-    HUD* PHUD = new HUD(&Rend, Player1); // memory leak, realmente necesitas un pointer? 
+                                   ConFile.GetInteger("Window", "Flags", 0),
+                                   ConFile.GetString("Window", "Font", "Error"));
+    Player Player1 = Player(&Rend); // memory leak, realmente necesitas un pointer? 
+    HUD PHUD = HUD(&Rend, &Player1); // memory leak, realmente necesitas un pointer? 
     Brick Bricks[BricksColumns][BricksRows];
-    Ball* MainBall = new Ball(&Rend, Player1); // memory leak, realmente necesitas un pointer? 
+    Ball MainBall = Ball(&Rend, &Player1); // memory leak, realmente necesitas un pointer? 
     for (int i = 0; i < BricksColumns; i++)
         for (int j = 0; j < BricksRows; j++)
             Bricks[i][j].setData(&Rend, i, j, BricksSeparation);
 
 
-    vector<Power*> Powers; // memory leak
+    vector<Power> Powers; // memory leak
 
     srand(time(NULL));
 
@@ -61,21 +62,21 @@ int main(int argc, int** argv)
                 {
                     if (Bricks[i][j].getActive())
                     {
-                        if (Bricks[i][j].CheckCollition(MainBall)) 
+                        if (Bricks[i][j].CheckCollition(&MainBall)) 
                         {
                             Data.BricksRemaining--;
                             if ((rand() % (100) + 1) <= PowerProbability)
                             {
-                                Power* NPower = new Power(Player1, &Rend, Bricks[i][j].getXPosition(), Bricks[i][j].getYPosition() + 10);
+                                Power NPower = Power(&Player1, &Rend, Bricks[i][j].getXPosition(), Bricks[i][j].getYPosition() + 10);
                                 Powers.push_back(NPower);
                             }
                         }
                         Bricks[i][j].Draw(j);
-                        if (Player1->getLaserCount() > 0)
+                        if (Player1.getLaserCount() > 0)
                         { //Check collision with laser
-                            if (Player1->CheckLasersCollition(&Bricks[i][j])) 
+                            if (Player1.CheckLasersCollition(&Bricks[i][j])) 
                             {
-                                if (Player1->getPower()[0] == 'T') 
+                                if (Player1.getPower()[0] == 'T') 
                                 {    //Check if alredy exists a traitorous brick in the position of the new traitor
                                     for (k = 0; k < BricksRows; k++) 
                                     {
@@ -95,22 +96,22 @@ int main(int argc, int** argv)
 
             if (Data.BricksRemaining > 0 && Data.Lives > 0) 
             {
-                if (MainBall->Update() == false)
+                if (MainBall.Update() == false)
                     Data.Lives--;
 
-                Player1->Update();
+                Player1.Update();
 
                 if (Powers.size() > 0) 
                 {
                     for (i = 0; i < Powers.size(); i++)
-                        if (Powers[i]->CheckCollision())
+                        if (Powers[i].CheckCollision())
                             Powers.erase(Powers.begin() + i);
                         else
-                            Powers[i]->Update();
+                            Powers[i].Update();
                 }
             }
 
-            PHUD->UpdateHUD(Data);
+            PHUD.UpdateHUD(Data);
             Rend.GenerateOutput();
         }
     }

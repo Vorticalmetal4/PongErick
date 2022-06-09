@@ -23,6 +23,7 @@ public:
 	int getWidth() { return width; }
 	void ChangeXDirection() { Velocity.x *= -1; }
 	void ChangeYDirection() { Velocity.y *= -1; }
+	void SetCollitionWPlayer() { CollWPlayer = false; }
 	void IncXVelocity();
 	void IncYVelocity();
 	bool Update();
@@ -39,4 +40,5 @@ private:
 	int InitialVelocity;
 	int MaxVelocity;
 	int VelocityIncrease;
+	bool CollWPlayer;
 };

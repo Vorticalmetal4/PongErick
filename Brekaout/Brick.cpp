@@ -61,9 +61,14 @@ bool Brick::CheckCollition(Ball* Ball)
 	if (Ball->getXPosition() >= Position.x && Ball->getXPosition() + Ball->getWidth() <= Position.x + width)
 	{
 		if (Ball->getYPosition() >= Position.y && Ball->getYPosition() <= Position.y + height)
+		{
 			Active = false;
-		else if (Ball->getYPosition() + Ball->getHeight() >= Position.y && Ball->getYPosition() + Ball->getHeight() <= Position.y + height)
+			Ball->SetCollitionWPlayer();
+		}
+		else if (Ball->getYPosition() + Ball->getHeight() >= Position.y && Ball->getYPosition() + Ball->getHeight() <= Position.y + height) {
 			Active = false;
+			Ball->SetCollitionWPlayer();
+		}
 		else
 			return false;
 

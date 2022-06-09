@@ -19,6 +19,7 @@ void HUD::UpdateHUD(GameData Data)
 	LivesText.copy(NText, LivesText.size() + 1);
 	NText[LivesText.size()] = '\0';
 	Rend->Write(NText, 0, 0, 920, 30);
+	delete NText;
 
 	string PuntuationText = "Bricks: " + to_string(Data.BricksRemaining);
 	char* PText = new char[LivesText.size() + 1]; // memory leak

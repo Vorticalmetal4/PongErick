@@ -1,6 +1,10 @@
 #include "../SDL2/include/SDL.h"  // nunca uses paths relativos cuando incluyas archivos debe  ser  #include "SDL2/include/SDL.h"
 #include "../SDL2/include/SDL_ttf.h" // nunca uses paths relativos cuando incluyas archivos debe ser  #include "SDL2/include/SDL_ttf.h"
 #include "Renderer.h"
+#include <string>
+#include <iostream>
+
+using namespace std;
 
 const Uint8* State = SDL_GetKeyboardState(NULL);
 
@@ -13,7 +17,7 @@ Renderer::Renderer(void)
     
 }
 
-bool Renderer::Initialize(string Name, int TLXCoordinate, int TLYCoordinate, int Width, int Height, int Flags)
+bool Renderer::Initialize(string Name, int TLXCoordinate, int TLYCoordinate, int Width, int Height, int Flags, string FName)
 {
 
     int sdlResult = SDL_Init(SDL_INIT_VIDEO);
@@ -44,6 +48,8 @@ bool Renderer::Initialize(string Name, int TLXCoordinate, int TLYCoordinate, int
         SDL_Log("Failed to create window: %s", SDL_GetError());
         return false;
     }
+
+    FontName = FName;
 
     mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
@@ -131,7 +137,12 @@ void Renderer::Write(char* NText, int TextW, int TextH, int TextX, int TextY)
 {
 
     TTF_Init();
-    TTF_Font* Font = TTF_OpenFont("ArialCE.ttf", 25);
+    char* FText = new char[FontName.size() + 1]; // memory leak
+    FontName.copy(FText, FontName.size() + 1);
+    FText[FontName.size()] = '\0';
+
+
+    TTF_Font* Font = TTF_OpenFont(FText, 25);
     SDL_Color TextColor = { 255, 255, 255 , 255};
     SDL_Surface* TextSurface = TTF_RenderText_Solid(Font, NText, TextColor);
     SDL_Texture* Texture = SDL_CreateTextureFromSurface(mRenderer, TextSurface);

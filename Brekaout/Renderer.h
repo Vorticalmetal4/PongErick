@@ -1,13 +1,15 @@
 #pragma once 
+#pragma once 
 
 #include <string>
 using namespace std;
+
 
 class Renderer 
 {
 public:
     Renderer(void);
-    bool Initialize(string Name, int TLXCoordinate, int TPYCoordinate, int Width, int Height, int Flags);
+    bool Initialize(string Name, int TLXCoordinate, int TPYCoordinate, int Width, int Height, int Flags, string FName);
     void RunLoop();
     void Shutdown();
     void ProcessInput();
@@ -31,7 +33,9 @@ private:
     float deltaTime = 0;
     float mTicksCount  = 0;
     int WindowHeight;
-    int WindowWidth;
+    int WindowWidth; 
+    string FontName;
+    int FontSize;
     
 };
 

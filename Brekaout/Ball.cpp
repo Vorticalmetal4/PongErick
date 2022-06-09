@@ -29,6 +29,7 @@ Ball::Ball(Renderer *_Rend, Player* _Player1)
 	height = width;
 	Position.x = InitialPosition.x;
 	Position.y = InitialPosition.y;
+	CollWPlayer = false;
 
 	srand(time(NULL));
 	if ((rand() % (10 - 2 + 1) + 2) % 2 == 0)
@@ -52,6 +53,7 @@ bool Ball::Update()
 		Velocity.x *= -1;
 		IncXVelocity();
 		IncYVelocity();
+		CollWPlayer = false;
 	}
 
 
@@ -65,13 +67,16 @@ bool Ball::Update()
 			Position.y = InitialPosition.y;
 			Velocity.x = InitialVelocity;
 			Velocity.y = InitialVelocity;
+			CollWPlayer = false;
 			if ((rand() % (10 - 2 + 1) + 2) % 2 == 0)
 				Velocity.x *= -1;
 			return false;
 		}
 
-		else
+		else {
 			Velocity.y *= -1;
+			CollWPlayer = false;
+		}
 	}
 
 		
@@ -80,11 +85,12 @@ bool Ball::Update()
 	{ //Collision with the player only if the ball is on the player's side
 		if (Position.x >= PlayerXPosition && Position.x + width <= PlayerXPosition + Player1->getWidth())
 		{
-			if (Position.y + height >= Player1->getYPosition() && Position.y + height <= Player1->getYPosition() + Player1->getHeight())
+			if (Position.y + height >= Player1->getYPosition() && Position.y + height <= Player1->getYPosition() + Player1->getHeight() && CollWPlayer == false)
 			{
 				Velocity.y *= -1;
 				IncXVelocity();
 				IncYVelocity();
+				CollWPlayer = true;
 
 				if (Position.x + width / 2 >= PlayerXPosition + Player1->getWidth() / 2) 
 				{ //Chech the collision side
