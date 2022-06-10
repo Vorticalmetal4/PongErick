@@ -39,12 +39,17 @@ int main(int argc, int** argv)
     HUD PHUD = HUD(&Rend, &Player1); // memory leak, realmente necesitas un pointer? 
     Brick Bricks[BricksColumns][BricksRows];
     Ball MainBall = Ball(&Rend, &Player1); // memory leak, realmente necesitas un pointer? 
-    for (int i = 0; i < BricksColumns; i++)
-        for (int j = 0; j < BricksRows; j++)
+    for (i = 0; i < BricksColumns; i++)
+        for (j = 0; j < BricksRows; j++)
             Bricks[i][j].setData(&Rend, i, j, BricksSeparation);
 
 
     vector<Power> Powers; // memory leak
+    for(i = 0; i < ConFile.GetInteger("Power", "MaxPower", 3); i++)
+    {
+        Power NPower = Power(&Player1, &Rend);
+        Powers.push_back(NPower);
+    }
 
     srand(time(NULL));
 
@@ -67,8 +72,15 @@ int main(int argc, int** argv)
                             Data.BricksRemaining--;
                             if ((rand() % (100) + 1) <= PowerProbability)
                             {
-                                Power NPower = Power(&Player1, &Rend, Bricks[i][j].getXPosition(), Bricks[i][j].getYPosition() + 10);
-                                Powers.push_back(NPower);
+                                for (k = 0; k < Powers.size(); k++) 
+                                {
+                                    if (Powers[k].getActive() == false)
+                                    {
+                                        Powers[k].SetData(Bricks[i][j].getXPosition(), Bricks[i][j].getYPosition() + 10, true);
+                                        break;
+                                    }
+                                }
+                                
                             }
                         }
                         Bricks[i][j].Draw(j);
@@ -99,14 +111,17 @@ int main(int argc, int** argv)
 
                 Player1.Update();
 
-                if (Powers.size() > 0) 
+                for (i = 0; i < Powers.size(); i++)
                 {
-                    for (i = 0; i < Powers.size(); i++)
+                    if (Powers[i].getActive())
+                    {
                         if (Powers[i].CheckCollision())
-                            Powers.erase(Powers.begin() + i);
+                            Powers[i].SetData(-50, -50, false);
                         else
                             Powers[i].Update();
+                    }
                 }
+                
             }
 
             PHUD.UpdateHUD(Data);

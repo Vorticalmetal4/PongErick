@@ -6,7 +6,7 @@
 #include <string>
 #include <ctime>
 
-Power::Power(Player* _MainPlayer, Renderer* _Rend, int _X, int _Y)
+Power::Power(Player* _MainPlayer, Renderer* _Rend)
 	:MainPlayer(_MainPlayer),
 	Rend(_Rend)
 {
@@ -19,21 +19,28 @@ Power::Power(Player* _MainPlayer, Renderer* _Rend, int _X, int _Y)
 	Velocity = ConFile.GetInteger("Power", "Velocity", 0);
 	Height = ConFile.GetInteger("Power", "Height", 0);
 	LaserProbability = ConFile.GetInteger("Power", "LaserProbability", 0);
-	Position.x = _X;
-	Position.y = _Y;
-
-
-	srand(time(NULL));
-	if ((rand() % (100) + 1) <= LaserProbability) 
-		PowerType = "L";
-	else
-		PowerType = "T";
+	Position.x = -50;
+	Position.y = -50;
+	Active = false;
 
 }
 
 Power::~Power() 
 {
 
+}
+
+void Power::SetData(int _X, int _Y, bool _Active)
+{
+	srand(time(NULL));
+	if ((rand() % (100) + 1) <= LaserProbability)
+		PowerType = "L";
+	else
+		PowerType = "T";
+
+	Active = _Active;
+	Position.x = _X;
+	Position.y = _Y;
 }
 
 void Power::Update() 
@@ -48,8 +55,8 @@ void Power::Update()
 bool Power::CheckCollision()
 {
 
-	float DeltaTime = Rend->getDeltaTime();
-	float NPositionY = Position.y + DeltaTime * Velocity;
+	DeltaTime = Rend->getDeltaTime();
+	NPositionY = Position.y + DeltaTime * Velocity;
 
 	if (NPositionY + Height <= Rend->getWindowHeight())
 	{

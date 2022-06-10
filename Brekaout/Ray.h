@@ -29,4 +29,6 @@ private:
 	int Height;
 	int Velocity;
 	bool Active;
+
+	int NYPosition;
 };

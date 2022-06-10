@@ -33,7 +33,7 @@ void Ray::SetData(int X, int Y, bool _Active) {
 
 bool Ray::CheckCollition(Brick* ActualBrick, int DeltaTime, char Power, int WindowHeight)
 {
-	int NYPosition = Position.y - DeltaTime * Velocity;
+	NYPosition = Position.y - DeltaTime * Velocity;
 
 	if (NYPosition >= ActualBrick->getYPosition() && NYPosition <= ActualBrick->getYPosition() + ActualBrick->getHeight())
 	{ 

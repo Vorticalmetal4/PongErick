@@ -13,10 +13,12 @@ struct VectorPositionPow
 class Power 
 {
 public:
-	Power(class Player* MainPlayer, class Renderer* Rend, int X, int Y);
+	Power(class Player* MainPlayer, class Renderer* Rend);
 	~Power();
 	void Update();
-	bool CheckCollision(); // spelling -> CheckCollision
+	bool CheckCollision(); 
+	void SetData(int _X, int _Y, bool _Active);
+	bool getActive() { return Active; }
 
 private:
 	Player* MainPlayer;
@@ -27,5 +29,9 @@ private:
 	int Height;
 	int LaserProbability;
 	char* NText;
+
+	float DeltaTime;
+	float NPositionY;
+	bool Active;
 
 };
