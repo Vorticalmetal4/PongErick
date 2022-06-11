@@ -27,12 +27,12 @@ bool Renderer::Initialize(string Name, int TLXCoordinate, int TLYCoordinate, int
         return false;
     }
 
-    char* NText = new char[Name.size() + 1]; 
-    Name.copy(NText, Name.size() + 1);
-    NText[Name.size()] = '\0';
+    char* WNText = (char*)malloc((Name.size() + 1) * sizeof(char));
+    Name.copy(WNText, Name.size() + 1);
+    WNText[Name.size()] = '\0';
 
     mWindow = SDL_CreateWindow(
-        NText, // Window title // deberia pasarse como parametro en initialize
+        WNText, // Window title // deberia pasarse como parametro en initialize
         TLXCoordinate, // Top left x-coordinate of window // deberia pasarse como parametro en initialize
         TLYCoordinate, // Top left y-coordinate of window // deberia pasarse como parametro en initialize
         Width, // Width of window // deberia pasarse como parametro en initialize
@@ -49,6 +49,7 @@ bool Renderer::Initialize(string Name, int TLXCoordinate, int TLYCoordinate, int
         return false;
     }
 
+    free(WNText);
     FontName = FName;
 
     mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
@@ -137,10 +138,9 @@ void Renderer::Write(char* NText, int TextW, int TextH, int TextX, int TextY)
 {
 
     TTF_Init();
-    FText = new char[FontName.size() + 1]; 
+    FText = (char*)malloc((FontName.size() + 1) * sizeof(char));
     FontName.copy(FText, FontName.size() + 1);
     FText[FontName.size()] = '\0';
-
 
     TTF_Font* Font = TTF_OpenFont(FText, 25);
     SDL_Color TextColor = { 255, 255, 255 , 255};
@@ -150,6 +150,7 @@ void Renderer::Write(char* NText, int TextW, int TextH, int TextX, int TextY)
     SDL_Rect TextRect = {TextX, TextY, TextW, TextH};
     SDL_RenderCopy(mRenderer, Texture, NULL, &TextRect);
 
+    free(FText);
     TTF_CloseFont(Font);
     SDL_DestroyTexture(Texture);
     SDL_FreeSurface(TextSurface);

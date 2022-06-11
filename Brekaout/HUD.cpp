@@ -15,17 +15,12 @@ HUD::HUD(Renderer *_Rend, Player* _MainPlayer)
 void HUD::UpdateHUD(GameData Data)
 {
 	ActualText = "Lives: " + to_string(Data.Lives);
-	NText = new char[ActualText.size() + 1]; // memory leak
-	ActualText.copy(NText, ActualText.size() + 1);
-	NText[ActualText.size()] = '\0';
-	Rend->Write(NText, 0, 0, 920, 30);
+	ChangeText(0, 0, 920, 30);
+
 	
 
 	ActualText = "Bricks: " + to_string(Data.BricksRemaining);
-	NText = new char[ActualText.size() + 1]; // memory leak
-	ActualText.copy(NText, ActualText.size() + 1);
-	NText[ActualText.size()] = '\0';
-	Rend->Write(NText, 0, 0, 0 , 30);
+	ChangeText(0, 0, 0, 30);
 
 	ActualText = "Power: ";
 
@@ -44,29 +39,29 @@ void HUD::UpdateHUD(GameData Data)
 		break;
 	}
 
-	NText = new char[ActualText.size() + 1]; // memory leak
-	ActualText.copy(NText, ActualText.size() + 1);
-	NText[ActualText.size()] = '\0';
-	Rend->Write(NText, 0, 0, 400, 30);
+	ChangeText(0, 0, 400, 30);
+	
 
 
 	if (Data.Lives <=  0) 
 	{
 		ActualText = "Game Over"; // se lee un poco raro, generalmente game over
-		NText = new char[ActualText.size() + 1]; // memory leak
-		ActualText.copy(NText, ActualText.size() + 1);
-		NText[ActualText.size()] = '\0';
-		Rend->Write(NText, 50, 50, 470, 350);
+		ChangeText(50, 50, 470, 350);
 	}
 	else if (Data.BricksRemaining <= 0)
 	{
 		ActualText = "Win!"; // se lee un poco raro, generalmente win!
-		NText = new char[ActualText.size() + 1]; // memory leak
-		ActualText.copy(NText, ActualText.size() + 1);
-		NText[ActualText.size()] = '\0';
-		Rend->Write(NText, 50, 50, 470, 350);
+		ChangeText(50, 50, 470, 350);
 	}
 	
 }
 
+void HUD::ChangeText(int TextW, int TextH, int TextX, int TextY) 
+{
+	NText = (char*)malloc((ActualText.size() + 1) * sizeof(char));
+	ActualText.copy(NText, ActualText.size() + 1);
+	NText[ActualText.size()] = '\0';
+	Rend->Write(NText, TextH, TextH, TextX, TextY);
+	free(NText);
+}
 

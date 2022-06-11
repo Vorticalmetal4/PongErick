@@ -25,8 +25,6 @@ Player::Player(Renderer* _Rend)
 	Ammo = 0;
 
 	PlayersRay = new Ray();
-
-
 }
 
 Player::~Player()

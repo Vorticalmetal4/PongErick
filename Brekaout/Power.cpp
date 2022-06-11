@@ -45,10 +45,12 @@ void Power::SetData(int _X, int _Y, bool _Active)
 
 void Power::Update() 
 {
-	NText = new char[PowerType.size() + 1]; // memory leak
+
+	NText = (char*)malloc((PowerType.size() + 1) * sizeof(char));
 	PowerType.copy(NText, PowerType.size() + 1);
 	NText[PowerType.size()] = '\0';
 	Rend->Write(NText, 0, Height, Position.x, Position.y);
+	free(NText);
 
 }
 

@@ -15,6 +15,7 @@ class HUD
 public:
 	HUD(class Renderer* _Rend, class Player* _MainPlayer);
 	void UpdateHUD(GameData Data);
+	void ChangeText(int TextW, int TextH, int TextX, int TextY);
 
 private:
 	Renderer* Rend;
