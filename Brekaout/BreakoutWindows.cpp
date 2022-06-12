@@ -69,7 +69,8 @@ int main(int argc, int** argv)
                     {
                         if (Bricks[i][j].CheckCollition(&MainBall)) 
                         {
-                            Data.BricksRemaining--;
+                            if(Bricks[i][j].getTraitor() == false)
+                                Data.BricksRemaining--;
                             if ((rand() % (100) + 1) <= PowerProbability)
                             {
                                 for (k = 0; k < Powers.size(); k++) 
@@ -89,14 +90,20 @@ int main(int argc, int** argv)
                         {
                             if (Player1.getPower()[0] == 'T') 
                             {    //Check if alredy exists a traitorous brick in the position of the new traitor
+                                Bricks[i][j].setTraitor(true);
+                                cout << "New Traitor" << endl;
                                 for (k = 0; k < BricksRows; k++) 
                                 {
-                                    if (k != i)
-                                        if (Bricks[i][j].getXPosition() == Bricks[k][j].getXPosition() && Bricks[i][j].getYPosition() == Bricks[k][j].getYPosition())
+                                    if (k != j)
+                                        if (Bricks[i][j].getXPosition() == Bricks[i][k].getXPosition() && Bricks[i][j].getYPosition() == Bricks[i][k].getYPosition()) {
                                             Bricks[i][j].setActive(false);
+                                            cout << "One over another" << endl;
+                                        }
                                 }
                             }
-                                Data.BricksRemaining--;
+
+                            Player1.setPower("No power");
+                            Data.BricksRemaining--;
                         }
                         
                     }

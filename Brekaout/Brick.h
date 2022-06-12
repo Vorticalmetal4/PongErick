@@ -19,7 +19,9 @@ public:
 	int getWidth() { return width; }
 	int getHeight() { return height; }
 	bool getActive() { return Active; }
+	bool getTraitor() { return Traitor; }
 	void setActive(bool Change) { Active = Change; }
+	void setTraitor(bool Change) { Traitor = Change; }
 	bool CheckCollition(class Ball* Ball);
 	void setYPosition(int Y) {Position.y = Y; }
 
@@ -29,5 +31,6 @@ private:
 	int height;
 	Renderer* Rend;
 	bool Active;
+	bool Traitor;
 	
 };

@@ -22,6 +22,7 @@ public:
 	int getHeight() { return height; }
 	void ChangePower(string NPower);
 	string getPower() { return Power; }
+	void setPower(string NPower) { Power = NPower; }
 	bool CheckLasersCollition(class Brick* ActualBrick);
 
 private:

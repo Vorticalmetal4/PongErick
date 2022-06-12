@@ -11,6 +11,7 @@ Brick::Brick()
 	Position.x = 5;
 	Position.y = 100;
 	Active = true;
+	Traitor = false;
 }
 
 Brick::~Brick() 
