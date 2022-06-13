@@ -9,9 +9,8 @@ struct VectorPositionBrick
 class Brick 
 {
 public:
-	Brick();
+	Brick(class Renderer* _Rend, int XPosition, int YPosition, float Separation);
 	~Brick();
-	void setData(class Renderer* Rend, int XPosition, int YPosition, float Separation);
 	void Draw(int raw);
 
 	int getXPosition() { return Position.x; }
@@ -32,5 +31,6 @@ private:
 	Renderer* Rend;
 	bool Active;
 	bool Traitor;
+	float VerticalSeparation;
 	
 };

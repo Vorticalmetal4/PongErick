@@ -18,17 +18,17 @@ int main(int argc, int** argv)
 
     if (ConFile.ParseError() < 0)
         ConFile.PrintError("BreakoutWindow"); // Como reemplazarias el string "Main:" y hacerlo generico en cualquier otro archivo o funcion?
-
+    
+    Renderer Rend;
     int PowerProbability = ConFile.GetInteger("Power", "Probability", 0);
-    const int BricksColumns = 10; //Debe ser posible configurarlo en el ini
-    const int BricksRows = 6;
-    const float BricksSeparation = 4.2;
+    const int BricksColumns = ConFile.GetInteger("Brick", "BricksColumns", 0); //Debe ser posible configurarlo en el ini
+    const int BricksRows = ConFile.GetInteger("Brick", "BricksRows", 0);
+    //const float BricksSeparation = ConFile.GetReal("Brick", "BricksSeparation", 0);
     int i, j, k;
     GameData Data;
     Data.BricksRemaining = BricksColumns * BricksRows;
     Data.Lives = ConFile.GetInteger("HUD", "Lives", 3);
 
-    Renderer Rend;
     bool success = Rend.Initialize(ConFile.GetString("Window", "Name", "Error"), 
                                    ConFile.GetInteger("Window", "TopLeftXCoordinate", 0),
                                    ConFile.GetInteger("Window", "TopLeftYCoordinate", 0),
@@ -36,15 +36,26 @@ int main(int argc, int** argv)
                                    ConFile.GetInteger("Window", "Height", 0),
                                    ConFile.GetInteger("Window", "Flags", 0),
                                    ConFile.GetString("Window", "Font", "Error"));
+
+    const float BricksSeparation = (Rend.getWindowWidth() - BricksColumns * ConFile.GetInteger("Brick", "width", 0)) / BricksColumns;
     Ray PlayersRay = Ray();
     Player Player1 = Player(&Rend, &PlayersRay); // memory leak, realmente necesitas un pointer? 
     HUD PHUD = HUD(&Rend, &Player1); // memory leak, realmente necesitas un pointer? 
     Ball MainBall = Ball(&Rend, &Player1); // memory leak, realmente necesitas un pointer? 
-    Brick Bricks[BricksColumns][BricksRows];
+
+    vector<vector<Brick>> Bricks;
 
     for (i = 0; i < BricksColumns; i++)
-        for (j = 0; j < BricksRows; j++)
-            Bricks[i][j].setData(&Rend, i, j, BricksSeparation);
+    {
+        vector<Brick> BricksTem;
+        for(j = 0; j < BricksRows; j++)
+        {
+            Brick BrickT = Brick(&Rend, i, j, BricksSeparation);
+            BricksTem.push_back(BrickT);
+        }
+
+        Bricks.push_back(BricksTem);
+    }
 
 
     vector<Power> Powers; // memory leak

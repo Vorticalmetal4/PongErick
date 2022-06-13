@@ -1,29 +1,31 @@
 #include "Brick.h"
 #include "Renderer.h"
 #include "Ball.h"
+#include "Inih/cpp/INIReader.h"
 #include <cmath>
 
-Brick::Brick()
+Brick::Brick(Renderer* _Rend, int XPosition, int YPosition, float Separation)
+	:Rend(_Rend)
 {
-	Rend = nullptr;
-	width = 97;
-	height = 20;
-	Position.x = 5;
-	Position.y = 100;
+	INIReader ConFile("InitialData.ini");
+
+	if (ConFile.ParseError() < 0)
+		ConFile.PrintError("Brick");
+
+	width = ConFile.GetInteger("Brick", "width", 0);
+	height = ConFile.GetInteger("Brick", "height", 0);
+	Position.x = ConFile.GetInteger("Brick", "InitialX", 0);
+	Position.y = ConFile.GetInteger("Brick", "InitialY", 0);
+	VerticalSeparation = ConFile.GetReal("Brick", "VerticalSeparation", 0);
 	Active = true;
 	Traitor = false;
+	Position.x += XPosition * width + XPosition * Separation;
+	Position.y += YPosition * height + YPosition * VerticalSeparation;
 }
 
 Brick::~Brick() 
 {
 	
-}
-
-void Brick::setData(Renderer* _Rend, int XPosition, int YPosition, float Separation)
-{
-	Rend = _Rend;
-	Position.x += XPosition * width + XPosition * Separation;
-	Position.y += YPosition * height + YPosition * Separation;
 }
 
 void Brick::Draw(int Row) 

@@ -48,7 +48,7 @@ void Player::Update(bool Pause) {
 			break;
 
 		case 'P':
-			if (Ammo > 0)
+			if (Ammo > 0 && !PlayersRay->getActive())
 			{
 				PlayersRay->SetData(Position.x + width / 2, Position.y, true); // memory leak
 				Ammo--;
