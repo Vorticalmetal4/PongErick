@@ -79,7 +79,8 @@ bool Player::CheckLasersCollition(Brick* ActualBrick)
 {
 	if (PlayersRay->getActive()) 
 	{
-		if (PlayersRay->CheckCollition(ActualBrick, Rend->getDeltaTime(), Power[0], Rend->getWindowHeight())) {
+		if (PlayersRay->CheckCollition(ActualBrick, Rend->getDeltaTime(), Power[0], Rend->getWindowHeight())) 
+		{
 			PlayersRay->SetData(-50, -50, false);
 			return true;
 		}
