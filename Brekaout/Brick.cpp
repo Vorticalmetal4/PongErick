@@ -52,7 +52,7 @@ void Brick::Draw(int Row)
 			Rend->DrawRect(Position.x, Position.y, width, height, 0, 128, 255, 255); //Dark Blue
 		break;
 
-		case 5:
+		default:
 			Rend->DrawRect(Position.x, Position.y, width, height, 76, 0, 153, 255); //Dark Purple
 		break;
 	}
