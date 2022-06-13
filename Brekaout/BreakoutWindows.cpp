@@ -5,6 +5,7 @@
 #include "Brick.h"
 #include "HUD.h"
 #include "Power.h"
+#include "Ray.h"
 #include "../Inih/cpp/INIReader.h"
 
 #include <vector>
@@ -19,13 +20,13 @@ int main(int argc, int** argv)
         ConFile.PrintError("BreakoutWindow"); // Como reemplazarias el string "Main:" y hacerlo generico en cualquier otro archivo o funcion?
 
     int PowerProbability = ConFile.GetInteger("Power", "Probability", 0);
-    const int BricksColumns = 10; // deberia ser posible configurarlo en el ini
+    const int BricksColumns = 10; //Debe ser posible configurarlo en el ini
     const int BricksRows = 6;
     const float BricksSeparation = 4.2;
     int i, j, k;
     GameData Data;
     Data.BricksRemaining = BricksColumns * BricksRows;
-    Data.Lives = 5;
+    Data.Lives = ConFile.GetInteger("HUD", "Lives", 3);
 
     Renderer Rend;
     bool success = Rend.Initialize(ConFile.GetString("Window", "Name", "Error"), 
@@ -35,10 +36,12 @@ int main(int argc, int** argv)
                                    ConFile.GetInteger("Window", "Height", 0),
                                    ConFile.GetInteger("Window", "Flags", 0),
                                    ConFile.GetString("Window", "Font", "Error"));
-    Player Player1 = Player(&Rend); // memory leak, realmente necesitas un pointer? 
+    Ray PlayersRay = Ray();
+    Player Player1 = Player(&Rend, &PlayersRay); // memory leak, realmente necesitas un pointer? 
     HUD PHUD = HUD(&Rend, &Player1); // memory leak, realmente necesitas un pointer? 
-    Brick Bricks[BricksColumns][BricksRows];
     Ball MainBall = Ball(&Rend, &Player1); // memory leak, realmente necesitas un pointer? 
+    Brick Bricks[BricksColumns][BricksRows];
+
     for (i = 0; i < BricksColumns; i++)
         for (j = 0; j < BricksRows; j++)
             Bricks[i][j].setData(&Rend, i, j, BricksSeparation);
@@ -91,7 +94,6 @@ int main(int argc, int** argv)
                             if (Player1.getPower()[0] == 'T') 
                             {    //Check if alredy exists a traitorous brick in the position of the new traitor
                                 Bricks[i][j].setTraitor(true);
-                                cout << "New Traitor" << endl;
                                 for (k = 0; k < BricksRows; k++) 
                                 {
                                     if (k != j)
@@ -111,18 +113,18 @@ int main(int argc, int** argv)
                 }
             }
 
-            if (Data.BricksRemaining > 0 && Data.Lives > 0) 
+            if (Data.BricksRemaining > 0 && Data.Lives > 0)
             {
-                if (MainBall.Update() == false)
+                if (MainBall.Update(PHUD.getPause()) == false)
                     Data.Lives--;
 
-                Player1.Update();
+                Player1.Update(PHUD.getPause());
 
                 for (i = 0; i < Powers.size(); i++)
                 {
                     if (Powers[i].getActive())
                     {
-                        if (Powers[i].CheckCollision())
+                        if (Powers[i].CheckCollision(PHUD.getPause()))
                             Powers[i].SetData(-50, -50, false);
                         else
                             Powers[i].Update();

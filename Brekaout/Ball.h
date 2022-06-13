@@ -26,7 +26,7 @@ public:
 	void SetCollitionWPlayer() { CollWPlayer = false; }
 	void IncXVelocity();
 	void IncYVelocity();
-	bool Update();
+	bool Update(bool Pause);
 
 private:
 

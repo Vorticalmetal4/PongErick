@@ -13,9 +13,9 @@ struct VectorPosition
 class Player 
 {
 public:
-	Player(class Renderer* Rend);
+	Player(class Renderer* Rend, class Ray* _PlayersRay);
 	~Player();
-	void Update();
+	void Update(bool Pause);
 	int getXPosition() { return Position.x; }
 	int getYPosition() { return Position.y; }
 	int getWidth() { return width; }

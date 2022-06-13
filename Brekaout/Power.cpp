@@ -54,29 +54,31 @@ void Power::Update()
 
 }
 
-bool Power::CheckCollision()
+bool Power::CheckCollision(bool Pause)
 {
-
-	DeltaTime = Rend->getDeltaTime();
-	NPositionY = Position.y + DeltaTime * Velocity;
-
-	if (NPositionY + Height <= Rend->getWindowHeight())
+	if (!Pause)
 	{
-		if (Position.x >= MainPlayer->getXPosition() && Position.x <= MainPlayer->getXPosition() + MainPlayer->getWidth())
+		DeltaTime = Rend->getDeltaTime();
+		NPositionY = Position.y + DeltaTime * Velocity;
+
+		if (NPositionY + Height <= Rend->getWindowHeight())
 		{
-			if (NPositionY + Height >= MainPlayer->getYPosition() && NPositionY + Height <= MainPlayer->getYPosition() + MainPlayer->getHeight())
+			if (Position.x >= MainPlayer->getXPosition() && Position.x <= MainPlayer->getXPosition() + MainPlayer->getWidth())
 			{
-				MainPlayer->ChangePower(PowerType);
-				return true;
+				if (NPositionY + Height >= MainPlayer->getYPosition() && NPositionY + Height <= MainPlayer->getYPosition() + MainPlayer->getHeight())
+				{
+					MainPlayer->ChangePower(PowerType);
+					return true;
+				}
+				else
+					Position.y = NPositionY;
 			}
 			else
 				Position.y = NPositionY;
 		}
 		else
-			Position.y = NPositionY;
+			return true;
 	}
-	else
-		return true;
 
 	return false;
 }

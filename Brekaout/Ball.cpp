@@ -36,74 +36,76 @@ Ball::Ball(Renderer *_Rend, Player* _Player1)
 		Velocity.x *= -1;
 }
 
-bool Ball::Update() 
+bool Ball::Update(bool Pause) 
 {
-
-	DeltaTime = Rend->getDeltaTime();
-	XInc = DeltaTime * Velocity.x;
-	YInc = DeltaTime * Velocity.y;
-	PlayerXPosition = Player1->getXPosition();
-
-
-
-	if (Position.x + XInc + width <= Rend->getWindowWidth() && Position.x + XInc >= 0)
-		Position.x += XInc;
-	else
-	{ //Collision with the walls
-		Velocity.x *= -1;
-		IncXVelocity();
-		IncYVelocity();
-		CollWPlayer = false;
-	}
-
-
-	if (Position.y + YInc + height <= Rend->getWindowHeight() && Position.y + YInc >= 0) //Collition with the roof
-		Position.y += YInc;
-	else
+	if (!Pause)
 	{
-		if (Position.y + YInc + height >= Rend->getWindowHeight()) 
-		{ //The ball passed the player's line
-			Position.x = InitialPosition.x;
-			Position.y = InitialPosition.y;
-			Velocity.x = InitialVelocity;
-			Velocity.y = InitialVelocity;
+		DeltaTime = Rend->getDeltaTime();
+		XInc = DeltaTime * Velocity.x;
+		YInc = DeltaTime * Velocity.y;
+		PlayerXPosition = Player1->getXPosition();
+
+
+
+		if (Position.x + XInc + width <= Rend->getWindowWidth() && Position.x + XInc >= 0)
+			Position.x += XInc;
+		else
+		{ //Collision with the walls
+			Velocity.x *= -1;
+			IncXVelocity();
+			IncYVelocity();
 			CollWPlayer = false;
-			if ((rand() % (10 - 2 + 1) + 2) % 2 == 0)
-				Velocity.x *= -1;
-			return false;
 		}
 
-		else {
-			Velocity.y *= -1;
-			CollWPlayer = false;
-		}
-	}
 
-		
-
-	if (Position.y > Rend->getWindowHeight() / 2)
-	{ //Collision with the player only if the ball is on the player's side
-		if (Position.x >= PlayerXPosition && Position.x + width <= PlayerXPosition + Player1->getWidth())
+		if (Position.y + YInc + height <= Rend->getWindowHeight() && Position.y + YInc >= 0) //Collition with the roof
+			Position.y += YInc;
+		else
 		{
-			if (Position.y + height >= Player1->getYPosition() && Position.y + height <= Player1->getYPosition() + Player1->getHeight() && CollWPlayer == false)
-			{
-				Velocity.y *= -1;
-				IncXVelocity();
-				IncYVelocity();
-				CollWPlayer = true;
-
-				if (Position.x + width / 2 >= PlayerXPosition + Player1->getWidth() / 2) 
-				{ //Chech the collision side
-					if (Velocity.x < 0)
-						Velocity.x *= -1;
-				}
-				else 
-				{
-					if (Velocity.x > 0)
-						Velocity.x *= -1;
-				}
+			if (Position.y + YInc + height >= Rend->getWindowHeight())
+			{ //The ball passed the player's line
+				Position.x = InitialPosition.x;
+				Position.y = InitialPosition.y;
+				Velocity.x = InitialVelocity;
+				Velocity.y = InitialVelocity;
+				CollWPlayer = false;
+				if ((rand() % (10 - 2 + 1) + 2) % 2 == 0)
+					Velocity.x *= -1;
+				return false;
 			}
 
+			else {
+				Velocity.y *= -1;
+				CollWPlayer = false;
+			}
+		}
+
+
+
+		if (Position.y > Rend->getWindowHeight() / 2)
+		{ //Collision with the player only if the ball is on the player's side
+			if (Position.x >= PlayerXPosition && Position.x + width <= PlayerXPosition + Player1->getWidth())
+			{
+				if (Position.y + height >= Player1->getYPosition() && Position.y + height <= Player1->getYPosition() + Player1->getHeight() && CollWPlayer == false)
+				{
+					Velocity.y *= -1;
+					IncXVelocity();
+					IncYVelocity();
+					CollWPlayer = true;
+
+					if (Position.x + width / 2 >= PlayerXPosition + Player1->getWidth() / 2)
+					{ //Chech the collision side
+						if (Velocity.x < 0)
+							Velocity.x *= -1;
+					}
+					else
+					{
+						if (Velocity.x > 0)
+							Velocity.x *= -1;
+					}
+				}
+
+			}
 		}
 	}
 

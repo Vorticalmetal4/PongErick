@@ -16,7 +16,7 @@ public:
 	Power(class Player* MainPlayer, class Renderer* Rend);
 	~Power();
 	void Update();
-	bool CheckCollision(); 
+	bool CheckCollision(bool Pause); 
 	void SetData(int _X, int _Y, bool _Active);
 	bool getActive() { return Active; }
 

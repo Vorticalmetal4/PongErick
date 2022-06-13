@@ -10,6 +10,7 @@ HUD::HUD(Renderer *_Rend, Player* _MainPlayer)
 	:Rend(_Rend),
 	MainPlayer(_MainPlayer)
 {
+	Pause = false;
 }
 
 void HUD::UpdateHUD(GameData Data)
@@ -40,6 +41,27 @@ void HUD::UpdateHUD(GameData Data)
 	}
 
 	ChangeText(0, 0, 400, 30);
+
+	if (Rend->CheckPause())
+	{
+		if (Pause)
+			Pause = false;
+		else
+			Pause = true;
+		//cout << ActualText << endl;
+	}
+
+	if(Pause)
+	{
+		ActualText = "Pause";
+		ChangeText(50, 50, 465, 350);
+		ActualText = "Keyboard Arrows - Move";
+		ChangeText(50, 50, 370, 375);
+		ActualText = "Space Bar - Shoot Ray";
+		ChangeText(50, 50, 370, 400);
+
+	}
+
 	
 
 

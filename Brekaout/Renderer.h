@@ -24,6 +24,7 @@ public:
     int getWindowWidth() { return WindowWidth; }
     void DrawRect(int x, int y, float width, float height, int r, int g, int b, int alpha);
     char CheckMovement();
+    bool CheckPause();
 
 private:
 
@@ -37,6 +38,8 @@ private:
     string FontName;
     int FontSize;
     char* FText;
+    bool PKeyPressed;
+    int PauseCounter;
     
 };
 

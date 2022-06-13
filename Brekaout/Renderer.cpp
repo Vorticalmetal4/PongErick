@@ -42,6 +42,8 @@ bool Renderer::Initialize(string Name, int TLXCoordinate, int TLYCoordinate, int
 
     WindowHeight = Height;
     WindowWidth = Width;
+    PKeyPressed = false;
+    PauseCounter = 0;
 
     if (!mWindow) 
     {
@@ -103,6 +105,7 @@ void Renderer::UpdateGame()
     deltaTime = (SDL_GetTicks() - mTicksCount) / 1000.0f;
     if (deltaTime > 0.05f) deltaTime = 0.05f;
     mTicksCount = SDL_GetTicks();
+    PauseCounter--;
 
 
 }
@@ -166,4 +169,16 @@ char Renderer::CheckMovement()
         return 'L';
     else if (State[SDL_SCANCODE_SPACE])
         return 'P';
+
+}
+
+bool Renderer::CheckPause() 
+{
+    if (State[SDL_SCANCODE_P] && PauseCounter <= 0)
+    {
+        PauseCounter = 30;
+        return true;
+    }
+
+    return false;
 }

@@ -4,11 +4,12 @@
 #include "../Inih/cpp/INIReader.h"
 #include "Ray.h"
 #include "Brick.h"
+#include "HUD.h"
 
-#include <vector>
 
-Player::Player(Renderer* _Rend)
-	:Rend(_Rend)
+Player::Player(Renderer* _Rend, Ray* _PlayersRay)
+	:Rend(_Rend),
+	PlayersRay(_PlayersRay)
 {
 	INIReader ConFile("InitialData.ini");
 
@@ -24,7 +25,6 @@ Player::Player(Renderer* _Rend)
 	Power = "No power";
 	Ammo = 0;
 
-	PlayersRay = new Ray();
 }
 
 Player::~Player()
@@ -32,18 +32,20 @@ Player::~Player()
 
 }
 
-void Player::Update() {
+void Player::Update(bool Pause) {
 	
-	switch(Rend->CheckMovement()) {
+	if (!Pause)
+	{
+		switch (Rend->CheckMovement()) {
 		case 'R':
 			if (Position.x + (PlayerVelocity * Rend->getDeltaTime() + width) <= Rend->getWindowWidth())
 				Position.x += PlayerVelocity * Rend->getDeltaTime();
-		break;
+			break;
 
 		case 'L':
 			if (Position.x - PlayerVelocity * Rend->getDeltaTime() >= 0)
 				Position.x -= PlayerVelocity * Rend->getDeltaTime();
-		break;
+			break;
 
 		case 'P':
 			if (Ammo > 0)
@@ -51,17 +53,17 @@ void Player::Update() {
 				PlayersRay->SetData(Position.x + width / 2, Position.y, true); // memory leak
 				Ammo--;
 			}
-		break;
-	}
-	
+			break;
+		}
 
+	}
 
 	if (PlayersRay->getActive())
 	{
-		PlayersRay->Move(Rend->getDeltaTime());
-		Rend->DrawRect(PlayersRay->getPositionX(), PlayersRay->getPositionY(), PlayersRay->getWidth(), PlayersRay->getHeigth(), 178, 102, 255, 255);	
+		if(!Pause)
+			PlayersRay->Move(Rend->getDeltaTime());
+		Rend->DrawRect(PlayersRay->getPositionX(), PlayersRay->getPositionY(), PlayersRay->getWidth(), PlayersRay->getHeigth(), 178, 102, 255, 255);
 	}
-
 
 	Rend->DrawRect(Position.x, Position.y, width, height, 178, 102, 255, 255);
 
