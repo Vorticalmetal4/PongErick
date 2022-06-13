@@ -1,7 +1,7 @@
 #include "Ray.h"
 #include "Player.h"
 #include "Brick.h"
-#include "../Inih/cpp/INIReader.h"
+#include "Inih/cpp/INIReader.h"
 
 #include <iostream>
 using namespace std;

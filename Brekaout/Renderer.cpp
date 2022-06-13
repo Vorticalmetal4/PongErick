@@ -1,5 +1,5 @@
-#include "../SDL2/include/SDL.h"  // nunca uses paths relativos cuando incluyas archivos debe  ser  #include "SDL2/include/SDL.h"
-#include "../SDL2/include/SDL_ttf.h" // nunca uses paths relativos cuando incluyas archivos debe ser  #include "SDL2/include/SDL_ttf.h"
+#include "SDL2/include/SDL.h"  // nunca uses paths relativos cuando incluyas archivos debe  ser  #include "SDL2/include/SDL.h"
+#include "SDL2/include/SDL_ttf.h" // nunca uses paths relativos cuando incluyas archivos debe ser  #include "SDL2/include/SDL_ttf.h"
 #include "Renderer.h"
 #include <string>
 #include <iostream>

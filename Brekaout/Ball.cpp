@@ -3,7 +3,7 @@
 #include "Player.h"
 #include "Brick.h"
 #include "HUD.h"
-#include "../Inih/cpp/INIReader.h"
+#include "Inih/cpp/INIReader.h"
 #include <ctime>
 
 Ball::Ball(Renderer *_Rend, Player* _Player1) 

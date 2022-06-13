@@ -6,7 +6,7 @@
 #include "HUD.h"
 #include "Power.h"
 #include "Ray.h"
-#include "../Inih/cpp/INIReader.h"
+#include "Inih/cpp/INIReader.h"
 
 #include <vector>
 #include <ctime>

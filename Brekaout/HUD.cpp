@@ -3,7 +3,7 @@
 #include "Player.h"
 
 #include <string>
-#include "../Inih/cpp/INIReader.h"
+#include "Inih/cpp/INIReader.h"
 
 
 HUD::HUD(Renderer *_Rend, Player* _MainPlayer)
@@ -51,7 +51,7 @@ void HUD::UpdateHUD(GameData Data)
 		//cout << ActualText << endl;
 	}
 
-	if(Pause)
+	if(Pause && Data.Lives > 0 && Data.BricksRemaining > 0)
 	{
 		ActualText = "Pause";
 		ChangeText(50, 50, 465, 350);

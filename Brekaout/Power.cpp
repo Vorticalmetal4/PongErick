@@ -1,7 +1,7 @@
 #include "Power.h"
 #include "Player.h"
 #include "Renderer.h"
-#include "../Inih/cpp/INIReader.h"
+#include "Inih/cpp/INIReader.h"
 
 #include <string>
 #include <ctime>
