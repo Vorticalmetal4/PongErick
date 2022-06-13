@@ -8,10 +8,13 @@
 
 Ball::Ball(Renderer *_Rend, Player* _Player1) 
 	:Rend(_Rend),
-	Player1(_Player1)
+	Player1(_Player1),
+	CollWPlayer(false),
+	XInc(0),
+	YInc(0),
+	PlayerXPosition(0),
+	DeltaTime(0)
 {
-
-
 
 	INIReader ConFile("InitialData.ini");
 
@@ -29,7 +32,6 @@ Ball::Ball(Renderer *_Rend, Player* _Player1)
 	height = width;
 	Position.x = InitialPosition.x;
 	Position.y = InitialPosition.y;
-	CollWPlayer = false;
 
 	srand(time(NULL));
 	if ((rand() % (10 - 2 + 1) + 2) % 2 == 0)

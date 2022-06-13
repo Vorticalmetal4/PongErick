@@ -5,7 +5,9 @@
 #include <cmath>
 
 Brick::Brick(Renderer* _Rend, int XPosition, int YPosition, float Separation)
-	:Rend(_Rend)
+	:Rend(_Rend),
+	Active(true),
+	Traitor(false)
 {
 	INIReader ConFile("InitialData.ini");
 
@@ -17,8 +19,6 @@ Brick::Brick(Renderer* _Rend, int XPosition, int YPosition, float Separation)
 	Position.x = ConFile.GetInteger("Brick", "InitialX", 0);
 	Position.y = ConFile.GetInteger("Brick", "InitialY", 0);
 	VerticalSeparation = ConFile.GetReal("Brick", "VerticalSeparation", 0);
-	Active = true;
-	Traitor = false;
 	Position.x += XPosition * width + XPosition * Separation;
 	Position.y += YPosition * height + YPosition * VerticalSeparation;
 }

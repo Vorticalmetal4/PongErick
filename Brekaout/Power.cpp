@@ -8,7 +8,10 @@
 
 Power::Power(Player* _MainPlayer, Renderer* _Rend)
 	:MainPlayer(_MainPlayer),
-	Rend(_Rend)
+	Rend(_Rend),
+	DeltaTime(0),
+	NPositionY(0),
+	Active(false)
 {
 
 	INIReader ConFile("InitialData.ini");
@@ -21,7 +24,6 @@ Power::Power(Player* _MainPlayer, Renderer* _Rend)
 	LaserProbability = ConFile.GetInteger("Power", "LaserProbability", 0);
 	Position.x = -50;
 	Position.y = -50;
-	Active = false;
 
 }
 

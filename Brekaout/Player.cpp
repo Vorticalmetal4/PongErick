@@ -9,7 +9,9 @@
 
 Player::Player(Renderer* _Rend, Ray* _PlayersRay)
 	:Rend(_Rend),
-	PlayersRay(_PlayersRay)
+	PlayersRay(_PlayersRay),
+	Power("No Power"),
+	Ammo(0)
 {
 	INIReader ConFile("InitialData.ini");
 
@@ -21,9 +23,6 @@ Player::Player(Renderer* _Rend, Ray* _PlayersRay)
 	Position.y = ConFile.GetInteger("Player", "PositionY", 1);
 	width = ConFile.GetInteger("Player", "Width", 80);
 	height = ConFile.GetInteger("Player", "Height", 20);
-
-	Power = "No power";
-	Ammo = 0;
 
 }
 

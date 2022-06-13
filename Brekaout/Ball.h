@@ -30,8 +30,8 @@ public:
 
 private:
 
-	Renderer* Rend = nullptr; 
-	Player* Player1 = nullptr;
+	Renderer* Rend;
+	Player* Player1;
 	VectorPositionB Position;
 	VectorPositionB InitialPosition;
 	VectorVelocity Velocity;

@@ -7,9 +7,8 @@
 using namespace std;
 
 Ray::Ray() 
+	:Active(false)
 {
-	Active = false;
-
 	INIReader ConFile("InitialData.ini");
 
 	if (ConFile.ParseError() < 0)

@@ -23,7 +23,6 @@ int main(int argc, int** argv)
     int PowerProbability = ConFile.GetInteger("Power", "Probability", 0);
     const int BricksColumns = ConFile.GetInteger("Brick", "BricksColumns", 0); //Debe ser posible configurarlo en el ini
     const int BricksRows = ConFile.GetInteger("Brick", "BricksRows", 0);
-    //const float BricksSeparation = ConFile.GetReal("Brick", "BricksSeparation", 0);
     int i, j, k;
     GameData Data;
     Data.BricksRemaining = BricksColumns * BricksRows;

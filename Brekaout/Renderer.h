@@ -38,7 +38,6 @@ private:
     string FontName;
     int FontSize;
     char* FText;
-    bool PKeyPressed;
     int PauseCounter;
     
 };

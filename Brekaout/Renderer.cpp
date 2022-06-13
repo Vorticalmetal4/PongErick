@@ -10,9 +10,12 @@ const Uint8* State = SDL_GetKeyboardState(NULL);
 
 
 Renderer::Renderer(void)
-    :mWindow(nullptr)
-    , mIsRunning(true)
-    , mRenderer(NULL)
+    :mWindow(nullptr),
+    mIsRunning(true),
+    mRenderer(NULL),
+    PauseCounter(0),
+    WindowHeight(0),
+    WindowWidth(0)
 {
     
 }
@@ -42,8 +45,6 @@ bool Renderer::Initialize(string Name, int TLXCoordinate, int TLYCoordinate, int
 
     WindowHeight = Height;
     WindowWidth = Width;
-    PKeyPressed = false;
-    PauseCounter = 0;
 
     if (!mWindow) 
     {

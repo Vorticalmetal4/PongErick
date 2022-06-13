@@ -8,9 +8,9 @@
 
 HUD::HUD(Renderer *_Rend, Player* _MainPlayer)
 	:Rend(_Rend),
-	MainPlayer(_MainPlayer)
+	MainPlayer(_MainPlayer),
+	Pause(false)
 {
-	Pause = false;
 }
 
 void HUD::UpdateHUD(GameData Data)
