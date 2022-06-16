@@ -48,7 +48,6 @@ void HUD::UpdateHUD(GameData Data)
 			Pause = false;
 		else
 			Pause = true;
-		//cout << ActualText << endl;
 	}
 
 	if(Pause && Data.Lives > 0 && Data.BricksRemaining > 0)

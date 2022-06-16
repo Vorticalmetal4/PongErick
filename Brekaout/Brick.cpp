@@ -9,21 +9,17 @@ Brick::Brick(Renderer* _Rend, int XPosition, int YPosition, float Separation)
 	Active(true),
 	Traitor(false)
 {
-	/*INIReader ConFile("InitialData.ini");
+	INIReader ConFile("InitialData.ini");
 
 	if (ConFile.ParseError() < 0)
-		ConFile.PrintError("Brick");*/
+		ConFile.PrintError("Brick");
 
-	/*width = ConFile.GetInteger("Brick", "width", 0);
+	width = ConFile.GetInteger("Brick", "width", 0);
 	height = ConFile.GetInteger("Brick", "height", 0);
 	Position.x = ConFile.GetInteger("Brick", "InitialX", 0);
 	Position.y = ConFile.GetInteger("Brick", "InitialY", 0);
-	VerticalSeparation = ConFile.GetReal("Brick", "VerticalSeparation", 0);*/
-	Position.x = 5;
-	Position.y = 100;
-	width = 97;
-	height = 20;
-	VerticalSeparation = 4.2;
+	VerticalSeparation = ConFile.GetReal("Brick", "VerticalSeparation", 0);
+
 	Position.x += XPosition * width + XPosition * Separation;
 	Position.y += YPosition * height + YPosition * VerticalSeparation;
 }

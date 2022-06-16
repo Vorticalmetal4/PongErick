@@ -14,18 +14,15 @@ Power::Power(Player* _MainPlayer, Renderer* _Rend)
 	Active(false)
 {
 
-	/*INIReader ConFile("InitialData.ini");
+	INIReader ConFile("InitialData.ini");
 
 	if (ConFile.ParseError() < 0)
 		ConFile.PrintError("Power");
 
 	Velocity = ConFile.GetInteger("Power", "Velocity", 0);
 	Height = ConFile.GetInteger("Power", "Height", 0);
-	LaserProbability = ConFile.GetInteger("Power", "LaserProbability", 0);*/
+	LaserProbability = ConFile.GetInteger("Power", "LaserProbability", 0);
 
-	Velocity = 80;
-	Height = 5;
-	LaserProbability = 60;
 	Position.x = -50;
 	Position.y = -50;
 
