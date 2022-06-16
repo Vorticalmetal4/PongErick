@@ -25,6 +25,8 @@ public:
     void DrawRect(int x, int y, float width, float height, int r, int g, int b, int alpha);
     char CheckMovement();
     bool CheckPause();
+    void FreeMemory();
+    
 
 private:
 
@@ -39,6 +41,9 @@ private:
     int FontSize;
     char* FText;
     int PauseCounter;
+
+    class SDL_Surface* TextSurface;
+    class SDL_Texture* Texture;
     
 };
 

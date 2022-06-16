@@ -23,12 +23,12 @@ public:
 private:
 	Player* MainPlayer;
 	Renderer* Rend;
-	string PowerType;
+	char PowerType;
 	VectorPositionPow Position;
 	int Velocity;
 	int Height;
 	int LaserProbability;
-	char* NText;
+	char NText[2];
 
 	float DeltaTime;
 	float NPositionY;

@@ -36,10 +36,11 @@ Power::~Power()
 void Power::SetData(int _X, int _Y, bool _Active)
 {
 	srand(time(NULL));
-	if ((rand() % (100) + 1) <= LaserProbability)
-		PowerType = "L";
+	if ((rand() % (100) + 1) <= LaserProbability) 
+		PowerType = 'L';
 	else
-		PowerType = "T";
+		PowerType = 'T';
+		
 
 	Active = _Active;
 	Position.x = _X;
@@ -48,12 +49,9 @@ void Power::SetData(int _X, int _Y, bool _Active)
 
 void Power::Update() 
 {
-
-	NText = (char*)malloc((PowerType.size() + 1) * sizeof(char));
-	PowerType.copy(NText, PowerType.size() + 1);
-	NText[PowerType.size()] = '\0';
+	NText[0] = PowerType;
+	NText[1] = '\0';
 	Rend->Write(NText, 0, Height, Position.x, Position.y);
-	free(NText);
 
 }
 

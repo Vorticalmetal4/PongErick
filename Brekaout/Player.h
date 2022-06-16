@@ -20,9 +20,9 @@ public:
 	int getYPosition() { return Position.y; }
 	int getWidth() { return width; }
 	int getHeight() { return height; }
-	void ChangePower(string NPower);
-	string getPower() { return Power; }
-	void setPower(string NPower) { Power = NPower; }
+	void ChangePower(char NPower);
+	char getPower() { return Power; }
+	void NoPower() { Power = 'N'; }
 	bool CheckLasersCollition(class Brick* ActualBrick);
 
 private:
@@ -33,7 +33,8 @@ private:
 	int width;
 	int height;
 	int Ammo;
-	string Power;
+	int Middle;
+	char Power;
 	class Ray* PlayersRay;
 
 };

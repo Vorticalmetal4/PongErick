@@ -25,7 +25,7 @@ void HUD::UpdateHUD(GameData Data)
 
 	ActualText = "Power: ";
 
-	switch (MainPlayer->getPower()[0])
+	switch (MainPlayer->getPower())
 	{
 		case 'T':
 			ActualText += "Traitor";

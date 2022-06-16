@@ -102,7 +102,7 @@ int main(int argc, int** argv)
    
                         if (Player1.CheckLasersCollition(&Bricks[i][j])) 
                         {
-                            if (Player1.getPower()[0] == 'T') 
+                            if (Player1.getPower() == 'T') 
                             {    //Check if alredy exists a traitorous brick in the position of the new traitor
                                 Bricks[i][j].setTraitor(true);
                                 for (k = 0; k < BricksRows; k++) 
@@ -110,12 +110,11 @@ int main(int argc, int** argv)
                                     if (k != j)
                                         if (Bricks[i][j].getXPosition() == Bricks[i][k].getXPosition() && Bricks[i][j].getYPosition() == Bricks[i][k].getYPosition()) {
                                             Bricks[i][j].setActive(false);
-                                            cout << "One over another" << endl;
                                         }
                                 }
                             }
 
-                            Player1.setPower("No power");
+                            Player1.NoPower();
                             Data.BricksRemaining--;
                         }
                         
@@ -149,7 +148,7 @@ int main(int argc, int** argv)
         }
     }
         
-
+    Rend.FreeMemory();
     Rend.Shutdown();
 
     return 0;

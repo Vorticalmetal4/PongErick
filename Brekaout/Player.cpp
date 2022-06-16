@@ -10,7 +10,7 @@
 Player::Player(Renderer* _Rend, Ray* _PlayersRay)
 	:Rend(_Rend),
 	PlayersRay(_PlayersRay),
-	Power("No Power"),
+	Power('N'),
 	Ammo(0)
 {
 	INIReader ConFile("InitialData.ini");
@@ -23,6 +23,8 @@ Player::Player(Renderer* _Rend, Ray* _PlayersRay)
 	Position.y = ConFile.GetInteger("Player", "PositionY", 1);
 	width = ConFile.GetInteger("Player", "Width", 80);
 	height = ConFile.GetInteger("Player", "Height", 20);
+
+	Middle = width / 2;
 
 }
 
@@ -49,7 +51,7 @@ void Player::Update(bool Pause) {
 		case 'P':
 			if (Ammo > 0 && !PlayersRay->getActive())
 			{
-				PlayersRay->SetData(Position.x + width / 2, Position.y, true); // memory leak
+				PlayersRay->SetData(Position.x + Middle, Position.y, true); // memory leak
 				Ammo--;
 			}
 			break;
@@ -68,7 +70,7 @@ void Player::Update(bool Pause) {
 
 }
 
-void Player::ChangePower(string NPower) 
+void Player::ChangePower(char NPower) 
 {
 	Power = NPower;
 	Ammo = 1;
@@ -78,7 +80,7 @@ bool Player::CheckLasersCollition(Brick* ActualBrick)
 {
 	if (PlayersRay->getActive()) 
 	{
-		if (PlayersRay->CheckCollition(ActualBrick, Rend->getDeltaTime(), Power[0], Rend->getWindowHeight())) 
+		if (PlayersRay->CheckCollition(ActualBrick, Rend->getDeltaTime(), Power, Rend->getWindowHeight())) 
 		{
 			PlayersRay->SetData(-50, -50, false);
 			return true;

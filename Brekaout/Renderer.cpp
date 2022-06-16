@@ -7,7 +7,7 @@
 using namespace std;
 
 const Uint8* State = SDL_GetKeyboardState(NULL);
-
+TTF_Font* Font;
 
 Renderer::Renderer(void)
     :mWindow(nullptr),
@@ -54,6 +54,12 @@ bool Renderer::Initialize(string Name, int TLXCoordinate, int TLYCoordinate, int
 
     free(WNText);
     FontName = FName;
+
+    TTF_Init();
+
+    FText = (char*)malloc((FontName.size() + 1) * sizeof(char));
+    FontName.copy(FText, FontName.size() + 1);
+    FText[FontName.size()] = '\0';
 
     mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
@@ -136,29 +142,22 @@ void Renderer::DrawRect(int x, int y, float width, float height, int r, int g, i
     };
 
     SDL_RenderFillRect(mRenderer, &Rect);
+    
 }
 
 void Renderer::Write(char* NText, int TextW, int TextH, int TextX, int TextY)
 {
 
-    TTF_Init();
-    FText = (char*)malloc((FontName.size() + 1) * sizeof(char));
-    FontName.copy(FText, FontName.size() + 1);
-    FText[FontName.size()] = '\0';
-
-    TTF_Font* Font = TTF_OpenFont(FText, 25);
-    SDL_Color TextColor = { 255, 255, 255 , 255};
-    SDL_Surface* TextSurface = TTF_RenderText_Solid(Font, NText, TextColor);
-    SDL_Texture* Texture = SDL_CreateTextureFromSurface(mRenderer, TextSurface);
+    Font = TTF_OpenFont(FText, 25);
+    TextSurface = TTF_RenderText_Solid(Font, NText, {255, 255, 255, 255});
+    Texture = SDL_CreateTextureFromSurface(mRenderer, TextSurface);
     SDL_QueryTexture(Texture, NULL, NULL, &TextW, &TextH);
     SDL_Rect TextRect = {TextX, TextY, TextW, TextH};
     SDL_RenderCopy(mRenderer, Texture, NULL, &TextRect);
 
-    free(FText);
     TTF_CloseFont(Font);
-    SDL_DestroyTexture(Texture);
     SDL_FreeSurface(TextSurface);
-    TTF_Quit();
+    SDL_DestroyTexture(Texture);
 
 }
 
@@ -182,4 +181,10 @@ bool Renderer::CheckPause()
     }
 
     return false;
+}
+
+void Renderer::FreeMemory() 
+{
+    free(FText);
+    TTF_Quit();
 }
