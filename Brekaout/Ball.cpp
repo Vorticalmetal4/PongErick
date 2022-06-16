@@ -3,7 +3,7 @@
 #include "Player.h"
 #include "Brick.h"
 #include "HUD.h"
-#include "Inih/cpp/INIReader.h"
+
 #include <ctime>
 
 Ball::Ball(Renderer *_Rend, Player* _Player1) 
@@ -16,7 +16,7 @@ Ball::Ball(Renderer *_Rend, Player* _Player1)
 	DeltaTime(0)
 {
 
-	INIReader ConFile("InitialData.ini");
+	/*INIReader ConFile("InitialData.ini");
 
 	if (ConFile.ParseError() < 0)
 		ConFile.PrintError("Ball");
@@ -27,8 +27,18 @@ Ball::Ball(Renderer *_Rend, Player* _Player1)
 	MaxVelocity = ConFile.GetInteger("Ball", "MaxVelocity", 1);
 	VelocityIncrease = ConFile.GetInteger("Ball", "VelocityIncrease", 1);
 	InitialPosition.x = ConFile.GetInteger("Ball", "InitialX", -1);
-	InitialPosition.y = ConFile.GetInteger("Ball", "InitialY", -1);
-	width = ConFile.GetInteger("Ball", "Size", 1);
+	InitialPosition.y = ConFile.GetInteger("Ball", "InitialY", -1);*/
+
+	InitialPosition.x = 500;
+	InitialPosition.y = 270;
+	InitialVelocity = 220;
+	MaxVelocity = 190;
+	VelocityIncrease = 10;
+	Velocity.x = InitialVelocity;
+	Velocity.y = InitialVelocity;
+
+	//width = ConFile.GetInteger("Ball", "Size", 1);
+	width = 10;
 	height = width;
 	Position.x = InitialPosition.x;
 	Position.y = InitialPosition.y;

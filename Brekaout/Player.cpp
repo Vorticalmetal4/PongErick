@@ -13,7 +13,7 @@ Player::Player(Renderer* _Rend, Ray* _PlayersRay)
 	Power("No Power"),
 	Ammo(0)
 {
-	INIReader ConFile("InitialData.ini");
+	/*INIReader ConFile("InitialData.ini");
 
 	if (ConFile.ParseError() < 0)
 		ConFile.PrintError("Player");
@@ -22,7 +22,13 @@ Player::Player(Renderer* _Rend, Ray* _PlayersRay)
 	Position.x = ConFile.GetInteger("Player", "PositionX", 1);
 	Position.y = ConFile.GetInteger("Player", "PositionY", 1);
 	width = ConFile.GetInteger("Player", "Width", 80);
-	height = ConFile.GetInteger("Player", "Height", 20);
+	height = ConFile.GetInteger("Player", "Height", 20);*/
+
+	PlayerVelocity = 430;
+	Position.x = 500;
+	Position.y = 640;
+	width = 80;
+	height = 20;
 
 }
 

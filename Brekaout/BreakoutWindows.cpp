@@ -14,29 +14,34 @@
 int main(int argc, int** argv) 
 {
 
-    INIReader ConFile("InitialData.ini"); // esta bien, utilizar una biblioteca externa para un proposito tan sencillo es un exceso. puedes hacerlo tu mismo de forma muy sencilla
+    /*INIReader ConFile("InitialData.ini"); // esta bien, utilizar una biblioteca externa para un proposito tan sencillo es un exceso. puedes hacerlo tu mismo de forma muy sencilla
 
     if (ConFile.ParseError() < 0)
         ConFile.PrintError("BreakoutWindow"); // Como reemplazarias el string "Main:" y hacerlo generico en cualquier otro archivo o funcion?
-    
+    */
     Renderer Rend;
-    int PowerProbability = ConFile.GetInteger("Power", "Probability", 0);
+    /*int PowerProbability = ConFile.GetInteger("Power", "Probability", 0);
     const int BricksColumns = ConFile.GetInteger("Brick", "BricksColumns", 0); //Debe ser posible configurarlo en el ini
-    const int BricksRows = ConFile.GetInteger("Brick", "BricksRows", 0);
+    const int BricksRows = ConFile.GetInteger("Brick", "BricksRows", 0);*/
+
+    const int BricksColumns = 10;
+    const int BricksRows = 6;
+    int PowerProbability = 15;
+
     int i, j, k;
     GameData Data;
     Data.BricksRemaining = BricksColumns * BricksRows;
-    Data.Lives = ConFile.GetInteger("HUD", "Lives", 3);
+    Data.Lives = 5;
 
-    bool success = Rend.Initialize(ConFile.GetString("Window", "Name", "Error"), 
-                                   ConFile.GetInteger("Window", "TopLeftXCoordinate", 0),
-                                   ConFile.GetInteger("Window", "TopLeftYCoordinate", 0),
-                                   ConFile.GetInteger("Window", "Width", 0),
-                                   ConFile.GetInteger("Window", "Height", 0),
-                                   ConFile.GetInteger("Window", "Flags", 0),
-                                   ConFile.GetString("Window", "Font", "Error"));
+    bool success = Rend.Initialize("Breakout",
+                                   100,
+                                   20,
+                                   1024,
+                                   700,
+                                   0,
+                                   "ArialCE.ttf");
 
-    const float BricksSeparation = (Rend.getWindowWidth() - BricksColumns * ConFile.GetInteger("Brick", "width", 0)) / BricksColumns;
+    const float BricksSeparation = (Rend.getWindowWidth() - BricksColumns * 97) / BricksColumns;
     Ray PlayersRay = Ray();
     Player Player1 = Player(&Rend, &PlayersRay); // memory leak, realmente necesitas un pointer? 
     HUD PHUD = HUD(&Rend, &Player1); // memory leak, realmente necesitas un pointer? 
@@ -58,7 +63,7 @@ int main(int argc, int** argv)
 
 
     vector<Power> Powers; // memory leak
-    for(i = 0; i < ConFile.GetInteger("Power", "MaxPower", 3); i++)
+    for(i = 0; i < 3; i++)
     {
         Power NPower = Power(&Player1, &Rend);
         Powers.push_back(NPower);

@@ -9,14 +9,18 @@ using namespace std;
 Ray::Ray() 
 	:Active(false)
 {
-	INIReader ConFile("InitialData.ini");
+	/*INIReader ConFile("InitialData.ini");
 
 	if (ConFile.ParseError() < 0)
 		ConFile.PrintError("Ray");
 
 	Width = ConFile.GetInteger("Ray", "Width", 0);
 	Height = ConFile.GetInteger("Ray", "Height", 0);
-	Velocity = ConFile.GetInteger("Ray", "Velocity", 0);
+	Velocity = ConFile.GetInteger("Ray", "Velocity", 0);*/
+
+	Width = 10;
+	Height = 20;
+	Velocity = 10;
 }
 
 Ray::~Ray()
