@@ -10,7 +10,7 @@ class Renderer
 public:
     Renderer(void);
     bool Initialize(string Name, int TLXCoordinate, int TPYCoordinate, int Width, int Height, int Flags, string FName);
-    void RunLoop();
+    //void RunLoop(); isaveg: unused code
     void Shutdown();
     void ProcessInput();
     void UpdateGame();

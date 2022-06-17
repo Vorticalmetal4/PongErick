@@ -142,7 +142,7 @@ int main(int argc, int** argv)
                 
             }
 
-            PHUD.UpdateHUD(Data);
+            PHUD.UpdateHUD(Data); // bad memory usage and your main memory leak
             Rend.GenerateOutput();
         }
     }

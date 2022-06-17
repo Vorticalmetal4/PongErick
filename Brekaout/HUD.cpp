@@ -79,7 +79,7 @@ void HUD::UpdateHUD(GameData Data)
 
 void HUD::ChangeText(int TextW, int TextH, int TextX, int TextY) 
 {
-	NText = (char*)malloc((ActualText.size() + 1) * sizeof(char));
+	NText = (char*)malloc((ActualText.size() + 1) * sizeof(char)); // NO! buffer allocated deallocated in the loop
 	ActualText.copy(NText, ActualText.size() + 1);
 	NText[ActualText.size()] = '\0';
 	Rend->Write(NText, TextH, TextH, TextX, TextY);

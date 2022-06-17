@@ -66,15 +66,16 @@ bool Renderer::Initialize(string Name, int TLXCoordinate, int TLYCoordinate, int
     return true;
 }
 
-void Renderer::RunLoop()
-{
-    while (mIsRunning)
-    {
-        ProcessInput();
-        UpdateGame();
-        GenerateOutput();
-    }
-}
+// isaveg: Unused code
+//void Renderer::RunLoop()
+//{
+//    while (mIsRunning)
+//    {
+//        ProcessInput();
+//        UpdateGame();
+//        GenerateOutput();
+//    }
+//}
 
 void Renderer::Shutdown()
 {
@@ -150,7 +151,7 @@ void Renderer::Write(char* NText, int TextW, int TextH, int TextX, int TextY)
 
     Font = TTF_OpenFont(FText, 25);
     TextSurface = TTF_RenderText_Solid(Font, NText, {255, 255, 255, 255});
-    Texture = SDL_CreateTextureFromSurface(mRenderer, TextSurface);
+    Texture = SDL_CreateTextureFromSurface(mRenderer, TextSurface); // isaveg: verify, do you really need to create and destroy every frame?
     SDL_QueryTexture(Texture, NULL, NULL, &TextW, &TextH);
     SDL_Rect TextRect = {TextX, TextY, TextW, TextH};
     SDL_RenderCopy(mRenderer, Texture, NULL, &TextRect);
@@ -186,5 +187,6 @@ bool Renderer::CheckPause()
 void Renderer::FreeMemory() 
 {
     free(FText);
+    FText = nullptr; // always nullify when  freeing memory
     TTF_Quit();
 }
