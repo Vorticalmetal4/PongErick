@@ -108,9 +108,8 @@ int main(int argc, int** argv)
                                 for (k = 0; k < BricksRows; k++) 
                                 {
                                     if (k != j)
-                                        if (Bricks[i][j].getXPosition() == Bricks[i][k].getXPosition() && Bricks[i][j].getYPosition() == Bricks[i][k].getYPosition()) {
+                                        if (Bricks[i][j].getXPosition() == Bricks[i][k].getXPosition() && Bricks[i][j].getYPosition() == Bricks[i][k].getYPosition())
                                             Bricks[i][j].setActive(false);
-                                        }
                                 }
                             }
 
