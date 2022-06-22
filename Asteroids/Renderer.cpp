@@ -1,5 +1,5 @@
-#include "SDL2/include/SDL.h"  // nunca uses paths relativos cuando incluyas archivos debe  ser  #include "SDL2/include/SDL.h"
-#include "SDL2/include/SDL_ttf.h" // nunca uses paths relativos cuando incluyas archivos debe ser  #include "SDL2/include/SDL_ttf.h"
+#include "SDL2/include/SDL.h"  
+#include "SDL2/include/SDL_ttf.h" 
 #include "Renderer.h"
 #include <string>
 #include <iostream>
@@ -17,7 +17,7 @@ Renderer::Renderer(void)
     WindowHeight(0),
     WindowWidth(0)
 {
-    
+
 }
 
 bool Renderer::Initialize(string Name, int TLXCoordinate, int TLYCoordinate, int Width, int Height, int Flags, string FName)
@@ -46,7 +46,7 @@ bool Renderer::Initialize(string Name, int TLXCoordinate, int TLYCoordinate, int
     WindowHeight = Height;
     WindowWidth = Width;
 
-    if (!mWindow) 
+    if (!mWindow)
     {
         SDL_Log("Failed to create window: %s", SDL_GetError());
         return false;
@@ -66,7 +66,6 @@ bool Renderer::Initialize(string Name, int TLXCoordinate, int TLYCoordinate, int
     return true;
 }
 
-
 void Renderer::Shutdown()
 {
     SDL_DestroyWindow(mWindow);
@@ -80,9 +79,9 @@ void Renderer::ProcessInput()
 {
     SDL_Event event;
     // While there are still events in the queue
-    while (SDL_PollEvent(&event)) 
+    while (SDL_PollEvent(&event))
     {
-        switch (event.type) 
+        switch (event.type)
         {
         case SDL_QUIT:
             mIsRunning = false;
@@ -93,7 +92,7 @@ void Renderer::ProcessInput()
     const Uint8* state = SDL_GetKeyboardState(NULL);
     if (state[SDL_SCANCODE_ESCAPE])
         mIsRunning = false;
-    
+
 }
 
 void Renderer::UpdateGame()
@@ -122,7 +121,7 @@ void Renderer::GenerateOutput()
 }
 
 
-void Renderer::DrawRect(int x, int y, float width, float height, int r, int g, int b, int alpha) 
+void Renderer::DrawRect(int x, int y, float width, float height, int r, int g, int b, int alpha)
 {
     SDL_SetRenderDrawColor(mRenderer, r, g, b, alpha);
     SDL_Rect Rect{
@@ -133,17 +132,17 @@ void Renderer::DrawRect(int x, int y, float width, float height, int r, int g, i
     };
 
     SDL_RenderFillRect(mRenderer, &Rect);
-    
+
 }
 
 void Renderer::Write(char* NText, int TextW, int TextH, int TextX, int TextY)
 {
 
     Font = TTF_OpenFont(FText, 25);
-    TextSurface = TTF_RenderText_Solid(Font, NText, {255, 255, 255, 255});
+    TextSurface = TTF_RenderText_Solid(Font, NText, { 255, 255, 255, 255 });
     Texture = SDL_CreateTextureFromSurface(mRenderer, TextSurface); // isaveg: verify, do you really need to create and destroy every frame?
     SDL_QueryTexture(Texture, NULL, NULL, &TextW, &TextH);
-    SDL_Rect TextRect = {TextX, TextY, TextW, TextH};
+    SDL_Rect TextRect = { TextX, TextY, TextW, TextH };
     SDL_RenderCopy(mRenderer, Texture, NULL, &TextRect);
 
     TTF_CloseFont(Font);
@@ -152,7 +151,7 @@ void Renderer::Write(char* NText, int TextW, int TextH, int TextX, int TextY)
 
 }
 
-char Renderer::CheckMovement() 
+char Renderer::CheckMovement()
 {
     if (State[SDL_SCANCODE_RIGHT])
         return 'R';
@@ -163,7 +162,7 @@ char Renderer::CheckMovement()
 
 }
 
-bool Renderer::CheckPause() 
+bool Renderer::CheckPause()
 {
     if (State[SDL_SCANCODE_P] && PauseCounter <= 0)
     {
@@ -174,7 +173,7 @@ bool Renderer::CheckPause()
     return false;
 }
 
-void Renderer::FreeMemory() 
+void Renderer::FreeMemory()
 {
     free(FText);
     FText = nullptr; // always nullify when  freeing memory
