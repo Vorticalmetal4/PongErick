@@ -179,3 +179,11 @@ void Renderer::FreeMemory()
     FText = nullptr; // always nullify when  freeing memory
     TTF_Quit();
 }
+
+void Renderer::DrawTriangle(int P1x, int P1y, int P2x, int P2y, int P3x, int P3y, int r, int g, int b, int alpha)
+{
+    SDL_SetRenderDrawColor(mRenderer, r, g, b, alpha);
+    SDL_RenderDrawLine(mRenderer, P1x, P1y, P2x, P2y);
+    SDL_RenderDrawLine(mRenderer, P1x, P1y, P3x, P3y);
+    SDL_RenderDrawLine(mRenderer, P2x, P2y, P3x, P3y);
+}

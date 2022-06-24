@@ -14,14 +14,14 @@
 int main(int argc, int** argv) 
 {
 
-    INIReader ConFile("InitialData.ini"); // esta bien, utilizar una biblioteca externa para un proposito tan sencillo es un exceso. puedes hacerlo tu mismo de forma muy sencilla
+    INIReader ConFile("InitialData.ini"); 
 
     if (ConFile.ParseError() < 0)
-        ConFile.PrintError("BreakoutWindow"); // Como reemplazarias el string "Main:" y hacerlo generico en cualquier otro archivo o funcion?
+        ConFile.PrintError("BreakoutWindow"); 
     
     Renderer Rend;
     int PowerProbability = ConFile.GetInteger("Power", "Probability", 0);
-    const int BricksColumns = ConFile.GetInteger("Brick", "BricksColumns", 0); //Debe ser posible configurarlo en el ini
+    const int BricksColumns = ConFile.GetInteger("Brick", "BricksColumns", 0); 
     const int BricksRows = ConFile.GetInteger("Brick", "BricksRows", 0);
 
     int i, j, k;
@@ -39,9 +39,9 @@ int main(int argc, int** argv)
 
     const float BricksSeparation = (Rend.getWindowWidth() - BricksColumns * ConFile.GetInteger("Brick", "width", 97)) / BricksColumns;
     Ray PlayersRay = Ray();
-    Player Player1 = Player(&Rend, &PlayersRay); // memory leak, realmente necesitas un pointer? 
-    HUD PHUD = HUD(&Rend, &Player1); // memory leak, realmente necesitas un pointer? 
-    Ball MainBall = Ball(&Rend, &Player1); // memory leak, realmente necesitas un pointer? 
+    Player Player1 = Player(&Rend, &PlayersRay); 
+    HUD PHUD = HUD(&Rend, &Player1); 
+    Ball MainBall = Ball(&Rend, &Player1); 
 
     vector<vector<Brick>> Bricks;
 
@@ -58,7 +58,7 @@ int main(int argc, int** argv)
     }
 
 
-    vector<Power> Powers; // memory leak
+    vector<Power> Powers; 
     for(i = 0; i < 3; i++)
     {
         Power NPower = Power(&Player1, &Rend);
@@ -76,7 +76,7 @@ int main(int argc, int** argv)
             Rend.UpdateGame();
             Rend.ClearRender();
             for (i = 0; i < BricksColumns; i++)
-            { // indentacion tipo Java, recuerdo que esto no es lo comun en los proyectos 
+            { 
                 for (j = 0; j < BricksRows; j++)
                 {
                     if (Bricks[i][j].getActive())

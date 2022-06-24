@@ -66,12 +66,12 @@ void HUD::UpdateHUD(GameData Data)
 
 	if (Data.Lives <=  0) 
 	{
-		ActualText = "Game Over"; // se lee un poco raro, generalmente game over
+		ActualText = "Game Over"; 
 		ChangeText(50, 50, 470, 350);
 	}
 	else if (Data.BricksRemaining <= 0)
 	{
-		ActualText = "Win!"; // se lee un poco raro, generalmente win!
+		ActualText = "Win!"; 
 		ChangeText(50, 50, 470, 350);
 	}
 	

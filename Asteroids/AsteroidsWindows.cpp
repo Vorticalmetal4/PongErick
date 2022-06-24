@@ -1,5 +1,6 @@
 #include "Inih/cpp/INIReader.h"
 #include "Renderer.h"
+#include "Player.h"
 
 
 int main()
@@ -10,7 +11,7 @@ int main()
 		ConFile.PrintError("AsteroidsWindow");
 
 	Renderer Rend;
-
+    Player MainPlayer = Player(&Rend);
 
     bool success = Rend.Initialize(ConFile.GetString("Window", "Name", "Error"),
                                    ConFile.GetInteger("Window", "TopLeftXCoordinate", 100),
@@ -27,6 +28,10 @@ int main()
             Rend.ProcessInput();
             Rend.UpdateGame();
             Rend.ClearRender();
+
+
+            MainPlayer.Update();
+            Rend.GenerateOutput();
         }
     }
 }

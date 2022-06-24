@@ -24,6 +24,7 @@ public:
     int getWindowHeight() { return WindowHeight; }
     int getWindowWidth() { return WindowWidth; }
     void DrawRect(int x, int y, float width, float height, int r, int g, int b, int alpha);
+    void DrawTriangle(int P1x, int P1y, int P2x, int P2y, int P3x, int P3y, int r, int g, int b, int alpha);
     char CheckMovement();
     bool CheckPause();
     void FreeMemory();
