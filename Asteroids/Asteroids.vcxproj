@@ -149,11 +149,21 @@ copy "$(ProjectDir)\Resources\InitialData.ini" "$(TargetDir)"</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Inih\cpp\INIReader.cpp" />
+    <ClCompile Include="..\Inih\ini.c" />
     <ClCompile Include="AsteroidsWindows.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Renderer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Resources\ArialCE.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\InitialData.ini" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
