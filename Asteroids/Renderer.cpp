@@ -157,8 +157,11 @@ char Renderer::CheckMovement()
         return 'R';
     else if (State[SDL_SCANCODE_LEFT])
         return 'L';
+    else if (State[SDL_SCANCODE_UP])
+        return 'U';
     else if (State[SDL_SCANCODE_SPACE])
         return 'P';
+
 
 }
 
@@ -182,6 +185,7 @@ void Renderer::FreeMemory()
 
 void Renderer::DrawTriangle(int P1x, int P1y, int P2x, int P2y, int P3x, int P3y, int r, int g, int b, int alpha)
 {
+
     SDL_SetRenderDrawColor(mRenderer, r, g, b, alpha);
     SDL_RenderDrawLine(mRenderer, P1x, P1y, P2x, P2y);
     SDL_RenderDrawLine(mRenderer, P1x, P1y, P3x, P3y);
