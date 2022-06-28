@@ -40,7 +40,6 @@ private:
     int WindowHeight;
     int WindowWidth;
     string FontName;
-    int FontSize;
     char* FText;
     int PauseCounter;
 

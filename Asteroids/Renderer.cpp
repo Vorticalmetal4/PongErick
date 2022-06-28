@@ -15,7 +15,10 @@ Renderer::Renderer(void)
     mRenderer(NULL),
     PauseCounter(0),
     WindowHeight(0),
-    WindowWidth(0)
+    WindowWidth(0),
+    FText(nullptr),
+    TextSurface(nullptr),
+    Texture(nullptr)
 {
 
 }
@@ -162,7 +165,7 @@ char Renderer::CheckMovement()
     else if (State[SDL_SCANCODE_SPACE])
         return 'P';
 
-
+    return 'N';
 }
 
 bool Renderer::CheckPause()

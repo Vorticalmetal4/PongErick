@@ -2,16 +2,10 @@
 
 struct PlayerPosition
 {
-	int x;
-	int y;
+	double x;
+	double y;
 	int Angle;
-	float Rotation;
-};
-
-struct PlayerVelocity
-{
-	int x;
-	int y;
+	double Rotation;
 };
 
 class Player
@@ -20,7 +14,7 @@ public:
 	Player(class Renderer* _Rend);
 	~Player();
 	void Update();
-	void Rotation();
+	void MovePoints(bool Rotation);
 
 private:
 	Renderer* Rend;
@@ -28,14 +22,14 @@ private:
 	PlayerPosition SecondPoint;
 	PlayerPosition ThirdPoint;
 	PlayerPosition Center;
-	PlayerVelocity Velocity;
 	int Width;
 	int Height;
-	int HWidth;
-	int HHeight;
-	float H;
+	double H;
 	float DeltaTime;
 	int Velocity;
-	
+	int MaxVelocity;
+	int IncVelocity;
+	int DecVelocity;
+	int RotationVelocity;
 
 };
