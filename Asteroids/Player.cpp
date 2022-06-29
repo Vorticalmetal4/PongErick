@@ -81,20 +81,27 @@ void Player::Update()
 			MovePoints(false);
 			
 		break;
-
-		default:
-			if (Velocity - DecVelocity >= 0)
-			{
-				Velocity -= DecVelocity;
-
-				Center.x += cos(ThirdPoint.Rotation) * Velocity * DeltaTime;
-				Center.y -= sin(ThirdPoint.Rotation) * Velocity * DeltaTime;
-				MovePoints(false);
-			}
-		break;
 		
 	}
 	
+	if (Velocity - DecVelocity >= 0)
+	{
+		Velocity -= DecVelocity;
+
+		Center.x += cos(ThirdPoint.Rotation) * Velocity * DeltaTime;
+		Center.y -= sin(ThirdPoint.Rotation) * Velocity * DeltaTime;
+		MovePoints(false);
+	}
+
+	if (Center.x > Rend->getWindowWidth())
+		Center.x = 0;
+	else if (Center.x < 0)
+		Center.x = Rend->getWindowWidth();
+
+	if (Center.y > Rend->getWindowHeight())
+		Center.y = 0;
+	else if (Center.y < 0)
+		Center.y = Rend->getWindowHeight();
 
 	Rend->DrawTriangle(FirstPoint.x, FirstPoint.y, SecondPoint.x, SecondPoint.y, ThirdPoint.x, ThirdPoint.y, 255, 255, 255, 255);
 
