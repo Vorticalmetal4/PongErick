@@ -1,17 +1,21 @@
 #include "Player.h"
 #include "Inih/cpp/INIReader.h"
 #include "Renderer.h"
+#include "Laser.h"
 
 #include <cmath>
 #include <iostream>
+#include <vector>
 using namespace std;
 
 const double Pi = 3.141592;
 const double Rad = Pi / 180;
+int i;
 
 Player::Player(Renderer* _Rend) 
 	:Rend(_Rend),
-	Velocity(0)
+	Velocity(0),
+	CurrentCooldown(0)
 {
 	INIReader ConFile("InitialData.ini");
 
@@ -36,9 +40,17 @@ Player::Player(Renderer* _Rend)
 	ThirdPoint.Angle = 90;
 	Center.x = FirstPoint.x + HWidth;
 	Center.y = FirstPoint.y - HHeight;
+	ShootCooldown = ConFile.GetInteger("Player", "ShootCooldown", 0);
 
 	H = sqrt(pow(HHeight, 2) + pow(HWidth, 2));
+
+	for(int i = 0; i < ConFile.GetInteger("Player", "NLasers", 0); i++)
+	{
+		Laser NLaser = Laser(Rend);
+		Lasers.push_back(NLaser);
+	}
 	
+
 	MovePoints(true);
 }
 
@@ -79,7 +91,23 @@ void Player::Update()
 			Center.x += cos(ThirdPoint.Rotation) * Velocity * DeltaTime;
 			Center.y -= sin(ThirdPoint.Rotation) * Velocity * DeltaTime;
 			MovePoints(false);
-			
+		break;
+
+		case 'S':
+			if (CurrentCooldown <= 0)
+			{
+				CurrentCooldown = ShootCooldown;
+				for(i = 0; i < Lasers.size(); i++)
+				{
+					if(!Lasers[i].getActive())
+					{
+						cout << "Shoot" << endl;
+						Lasers[i].setActive(true);
+						Lasers[i].setPosition(ThirdPoint.x, ThirdPoint.y, ThirdPoint.Angle,ThirdPoint.Rotation);
+						break;
+					}
+				}
+			}
 		break;
 		
 	}
@@ -103,8 +131,11 @@ void Player::Update()
 	else if (Center.y < 0)
 		Center.y = Rend->getWindowHeight();
 
-	Rend->DrawTriangle(FirstPoint.x, FirstPoint.y, SecondPoint.x, SecondPoint.y, ThirdPoint.x, ThirdPoint.y, 255, 255, 255, 255);
+	for (i = 0; i < Lasers.size(); i++)
+		Lasers[i].Update();
 
+	CurrentCooldown--;
+	Rend->DrawTriangle(&FirstPoint, &SecondPoint, &ThirdPoint, 255, 255, 255, 255);
 }
 
 void Player::MovePoints(bool Rotation) 

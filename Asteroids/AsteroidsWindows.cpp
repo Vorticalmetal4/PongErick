@@ -29,7 +29,6 @@ int main()
             Rend.UpdateGame();
             Rend.ClearRender();
 
-
             MainPlayer.Update();
             Rend.GenerateOutput();
         }

@@ -6,6 +6,13 @@
 #include <string>
 using namespace std;
 
+struct Position
+{
+    double x;
+    double y;
+    int Angle;
+    double Rotation;
+};
 
 class Renderer
 {
@@ -23,8 +30,9 @@ public:
     float getDeltaTime() { return deltaTime; }
     int getWindowHeight() { return WindowHeight; }
     int getWindowWidth() { return WindowWidth; }
-    void DrawRect(int x, int y, float width, float height, int r, int g, int b, int alpha);
-    void DrawTriangle(int P1x, int P1y, int P2x, int P2y, int P3x, int P3y, int r, int g, int b, int alpha);
+    void DrawSimpleRect(int x, int y, float width, float height, int r, int g, int b, int alpha);
+    void DrawRect(Position* P1, Position* P2, Position* P3, Position* P4, int r, int g, int b, int alpha);
+    void DrawTriangle(Position* P1, Position* P2, Position* P3, int r, int g, int b, int alpha);
     char CheckMovement();
     bool CheckPause();
     void FreeMemory();

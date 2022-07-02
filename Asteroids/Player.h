@@ -1,27 +1,22 @@
 #pragma once
 
-struct PlayerPosition
-{
-	double x;
-	double y;
-	int Angle;
-	double Rotation;
-};
+#include <vector>
+#include "Renderer.h"
 
 class Player
 {
 public:
-	Player(class Renderer* _Rend);
+	Player(Renderer* _Rend);
 	~Player();
 	void Update();
 	void MovePoints(bool Rotation);
 
 private:
 	Renderer* Rend;
-	PlayerPosition FirstPoint;
-	PlayerPosition SecondPoint;
-	PlayerPosition ThirdPoint;
-	PlayerPosition Center;
+	Position FirstPoint;
+	Position SecondPoint;
+	Position ThirdPoint;
+	Position Center;
 	int Width;
 	int Height;
 	double H;
@@ -31,5 +26,7 @@ private:
 	int IncVelocity;
 	int DecVelocity;
 	int RotationVelocity;
-
+	std::vector<class Laser> Lasers;
+	int ShootCooldown;
+	int CurrentCooldown;
 };

@@ -1,24 +1,28 @@
 #pragma once
 
-struct LaserPosition
-{
-	double x;
-	double y;
-	double Rotation;
-};
+#include "Renderer.h"
 
 class Laser
 {
 public:
-	Laser(class Renderer*  _Rend);
+	Laser(Renderer*  _Rend);
 	~Laser();
 	void Update();
+	bool getActive() { return Active; }
+	void setActive(bool _Active) { Active = _Active; }
+	void setPosition(double x, double y, int _Angle, double _Rotation);
 
 private:
 	Renderer* Rend;
-	LaserPosition Position;
+	Position FirstPoint;
+	Position SecondPoint;
+	Position ThirdPoint;
+	Position FourthPoint;
+	Position Center;
 	bool Active;
 	int Width;
 	int Height;
 	int Velocity;
+	float DeltaTime;
+	double H;
 };

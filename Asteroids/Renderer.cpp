@@ -124,7 +124,7 @@ void Renderer::GenerateOutput()
 }
 
 
-void Renderer::DrawRect(int x, int y, float width, float height, int r, int g, int b, int alpha)
+void Renderer::DrawSimpleRect(int x, int y, float width, float height, int r, int g, int b, int alpha)
 {
     SDL_SetRenderDrawColor(mRenderer, r, g, b, alpha);
     SDL_Rect Rect{
@@ -163,7 +163,7 @@ char Renderer::CheckMovement()
     else if (State[SDL_SCANCODE_UP])
         return 'U';
     else if (State[SDL_SCANCODE_SPACE])
-        return 'P';
+        return 'S';
 
     return 'N';
 }
@@ -186,11 +186,20 @@ void Renderer::FreeMemory()
     TTF_Quit();
 }
 
-void Renderer::DrawTriangle(int P1x, int P1y, int P2x, int P2y, int P3x, int P3y, int r, int g, int b, int alpha)
+void Renderer::DrawTriangle(Position* P1, Position* P2, Position* P3, int r, int g, int b, int alpha)
 {
-
     SDL_SetRenderDrawColor(mRenderer, r, g, b, alpha);
-    SDL_RenderDrawLine(mRenderer, P1x, P1y, P2x, P2y);
-    SDL_RenderDrawLine(mRenderer, P1x, P1y, P3x, P3y);
-    SDL_RenderDrawLine(mRenderer, P2x, P2y, P3x, P3y);
+    SDL_RenderDrawLine(mRenderer, P1->x, P1->y, P2->x, P2->y);
+    SDL_RenderDrawLine(mRenderer, P1->x, P1->y, P3->x, P3->y);
+    SDL_RenderDrawLine(mRenderer, P2->x, P2->y, P3->x, P3->y);
+}
+
+void Renderer::DrawRect(Position* P1, Position* P2, Position* P3, Position* P4, int r, int g, int b, int alpha)
+{
+    SDL_SetRenderDrawColor(mRenderer, r, g, b, alpha);
+    SDL_RenderDrawLine(mRenderer, P1->x, P1->y, P2->x, P2->y);
+    SDL_RenderDrawLine(mRenderer, P2->x, P2->y, P3->x, P3->y);
+    SDL_RenderDrawLine(mRenderer, P3->x, P3->y, P4->x, P4->y);
+    SDL_RenderDrawLine(mRenderer, P4->x, P4->y, P1->x, P1->y);
+
 }
