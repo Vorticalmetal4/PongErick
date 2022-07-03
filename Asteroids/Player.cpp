@@ -101,7 +101,6 @@ void Player::Update()
 				{
 					if(!Lasers[i].getActive())
 					{
-						cout << "Shoot" << endl;
 						Lasers[i].setActive(true);
 						Lasers[i].setPosition(ThirdPoint.x, ThirdPoint.y, ThirdPoint.Angle,ThirdPoint.Rotation);
 						break;

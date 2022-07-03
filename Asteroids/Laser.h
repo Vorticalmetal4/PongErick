@@ -2,6 +2,12 @@
 
 #include "Renderer.h"
 
+struct AuxPosition
+{
+	double x;
+	double y;
+};
+
 class Laser
 {
 public:
@@ -25,4 +31,11 @@ private:
 	int Velocity;
 	float DeltaTime;
 	double H;
+	int LifeTime;
+	float TimeRemaining;
+
+	AuxPosition P1;
+	AuxPosition P2;
+	AuxPosition P3;
+	AuxPosition P4;
 };

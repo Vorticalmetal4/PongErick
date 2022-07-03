@@ -23,6 +23,7 @@ Laser::Laser(Renderer* _Rend)
 	Width = ConFile.GetInteger("Laser", "Width", 0);
 	Height = ConFile.GetInteger("Laser", "Height", 0);
 	Velocity = ConFile.GetInteger("Laser", "Velocity", 0);
+	LifeTime = ConFile.GetInteger("Laser", "LifeTime", 0);
 	FirstPoint.x = SecondPoint.x = ThirdPoint.x = FourthPoint.x = Center.x = -100;
 	FirstPoint.y = SecondPoint.y = ThirdPoint.y = FourthPoint.y = Center.y = -100;
 	FirstPoint.Rotation = SecondPoint.Rotation = ThirdPoint.Rotation = FourthPoint.Rotation = Center.Rotation = 0;
@@ -41,17 +42,32 @@ void Laser::Update()
 		DeltaTime = Rend->getDeltaTime();
 		Center.x += cos(Center.Rotation) * Velocity * DeltaTime;
 		Center.y -= sin(Center.Rotation) * Velocity * DeltaTime;
+		TimeRemaining -= DeltaTime;
 
-		FirstPoint.x = Center.x + cos(FirstPoint.Rotation) * H;
-		FirstPoint.y = Center.y - sin(FirstPoint.Rotation) * H;
-		SecondPoint.x = Center.x + cos(SecondPoint.Rotation) * H;
-		SecondPoint.y = Center.y - sin(SecondPoint.Rotation) * H;
-		ThirdPoint.x = Center.x + cos(ThirdPoint.Rotation) * H;
-		ThirdPoint.y = Center.y - sin(ThirdPoint.Rotation) * H;
-		FourthPoint.x = Center.x + cos(FourthPoint.Rotation) * H;
-		FourthPoint.y = Center.y - sin(FourthPoint.Rotation) * H;
+		if (Center.x > Rend->getWindowWidth())
+			Center.x = 0;
+		else if (Center.x < 0)
+			Center.x = Rend->getWindowWidth();
+
+		if (Center.y > Rend->getWindowHeight())
+			Center.y = 0;
+		else if (Center.y < 0)
+			Center.y = Rend->getWindowHeight();
+
+		FirstPoint.x = Center.x + P1.x;
+		FirstPoint.y = Center.y + P1.y;
+		SecondPoint.x = Center.x + P2.x;
+		SecondPoint.y = Center.y + P2.y;
+		ThirdPoint.x = Center.x + P3.x;
+		ThirdPoint.y = Center.y + P3.y;
+		FourthPoint.x = Center.x + P4.x;
+		FourthPoint.y = Center.y + P4.y;
 
 		Rend->DrawRect(&FirstPoint, &SecondPoint, &ThirdPoint, &FourthPoint, 255, 255, 255, 255);
+
+		if (TimeRemaining <= 0)
+			Active = false;
+
 	}
 }
 
@@ -71,4 +87,15 @@ void Laser::setPosition(double x, double y, int _Angle, double _Rotation)
 	SecondPoint.Rotation = SecondPoint.Angle * Rad;
 	ThirdPoint.Rotation = ThirdPoint.Angle * Rad;
 	FourthPoint.Rotation = FourthPoint.Angle * Rad;
+
+	P1.x = cos(FirstPoint.Rotation) * H;
+	P1.y = sin(FirstPoint.Rotation) * H;
+	P2.x = cos(SecondPoint.Rotation) * H;
+	P2.y = -sin(SecondPoint.Rotation) * H;
+	P3.x = cos(ThirdPoint.Rotation) * H;
+	P3.y = -sin(ThirdPoint.Rotation) * H;
+	P4.x = cos(FourthPoint.Rotation) * H;
+	P4.y = -sin(FourthPoint.Rotation) * H;
+
+	TimeRemaining = LifeTime;
 }
