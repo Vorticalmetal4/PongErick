@@ -20,11 +20,8 @@ public:
 private:
 	Renderer* Rend;
 	Position FirstPoint;
-	Position Center;
 	int Height;
 	int Width;
-	int HHeigth;
-	int HWidth;
 	bool Active;
 	AuxPosition P1;
 	int Velocity;
