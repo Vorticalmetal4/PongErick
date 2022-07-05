@@ -3,6 +3,8 @@
 #include "Inih/cpp/INIReader.h"
 
 #include <cmath>
+#include <iostream>
+using namespace std;
 
 Asteroid::Asteroid(Renderer* _Rend, int x, int y, int Angle)
 	:Rend(_Rend),
@@ -17,15 +19,22 @@ Asteroid::Asteroid(Renderer* _Rend, int x, int y, int Angle)
 	Width = ConFile.GetInteger("Asteroid", "Width", 1);
 	Height = ConFile.GetInteger("Asteroid", "Height", 1);
 	Velocity = ConFile.GetInteger("Asteroid", "Velocity", 0);
+	HWidth = Width / 2;
+	HHeight = Height / 2;
 
 	FirstPoint.x = x;
 	FirstPoint.y = y;
+
+	Center.x = FirstPoint.x + HWidth;
+	Center.y = FirstPoint.y + HHeight;
 
 	FirstPoint.Angle = Angle;
 	FirstPoint.Rotation = Angle * 3.141592 / 180;
 
 	P1.x = cos(FirstPoint.Rotation) * Velocity;
 	P1.y = -sin(FirstPoint.Rotation) * Velocity;
+
+	H = sqrt(pow(Width / 2, 2) + pow(Height / 2, 2));
 
 }
 
@@ -37,10 +46,13 @@ void Asteroid::Update()
 {
 	if(Active)
 	{
+
 		DeltaTime = Rend->getDeltaTime();
 
 		FirstPoint.x += P1.x * DeltaTime;
 		FirstPoint.y += P1.y * DeltaTime;
+		Center.x = FirstPoint.x + HWidth;
+		Center.y = FirstPoint.y + HHeight;
 
 		if (FirstPoint.x > Rend->getWindowWidth())
 			FirstPoint.x = 0;

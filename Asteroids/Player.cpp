@@ -2,6 +2,7 @@
 #include "Inih/cpp/INIReader.h"
 #include "Renderer.h"
 #include "Laser.h"
+#include "Asteroid.h"
 
 #include <cmath>
 #include <iostream>
@@ -152,4 +153,16 @@ void Player::MovePoints(bool Rotation)
 	SecondPoint.y = Center.y - sin(SecondPoint.Rotation) * H;
 	ThirdPoint.x = Center.x + cos(ThirdPoint.Rotation) * H;
 	ThirdPoint.y = Center.y - sin(ThirdPoint.Rotation) * H;
+}
+
+void Player::CheckCollisionWLasers(Asteroid* CurrAsteroid)
+{
+	for(i = 0; i < Lasers.size(); i++)
+	{
+		if(Lasers[i].getActive())
+		
+			if (Lasers[i].CheckCollision(CurrAsteroid))
+				break;
+		
+	}
 }

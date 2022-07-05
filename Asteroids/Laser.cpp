@@ -1,5 +1,6 @@
 #include "Laser.h"
 #include "Renderer.h"
+#include "Asteroid.h"
 #include "Inih/cpp/INIReader.h"
 
 #include <cmath>
@@ -13,7 +14,8 @@ const double Rad = Pi / 180;
 Laser::Laser(Renderer* _Rend)
 	:Active(false),
 	Rend(_Rend),
-	DeltaTime(0)
+	DeltaTime(0),
+	TimeRemaining(0)
 {
 	INIReader ConFile("InitialData.ini");
 
@@ -29,6 +31,10 @@ Laser::Laser(Renderer* _Rend)
 	FirstPoint.Rotation = SecondPoint.Rotation = ThirdPoint.Rotation = FourthPoint.Rotation = Center.Rotation = 0;
 	FirstPoint.Angle = SecondPoint.Angle = ThirdPoint.Angle = FourthPoint.Angle = Center.Angle = 0;
 	H = sqrt(pow(Height, 2) + pow(Width / 2, 2));
+
+	P1.x = P2.x = P3.x = P4.x = 0;
+	P1.y = P2.y = P3.y = P4.y = 0;
+	
 }
 
 Laser::~Laser()
@@ -98,4 +104,16 @@ void Laser::setPosition(double x, double y, int _Angle, double _Rotation)
 	P4.y = -sin(FourthPoint.Rotation) * H;
 
 	TimeRemaining = LifeTime;
+}
+
+bool Laser::CheckCollision(Asteroid* CurrAsteroid)
+{
+	if (sqrt(pow(CurrAsteroid->getCenterX() - Center.x, 2) + pow(CurrAsteroid->getCenterY() - Center.y, 2)) < H + CurrAsteroid->getHypotenuse())
+	{
+		CurrAsteroid->setActive(false);
+		Active = false;
+		return true;
+	}
+
+	return false;
 }

@@ -54,6 +54,7 @@ int main()
                 if(Asteroids[i].getActive())
                 {
                     Asteroids[i].Update();
+                    MainPlayer.CheckCollisionWLasers(&Asteroids[i]);
                 }
             }
 

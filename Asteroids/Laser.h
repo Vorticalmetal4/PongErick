@@ -2,11 +2,11 @@
 
 #include "Renderer.h"
 
-struct AuxPosition
+/*struct AuxPosition
 {
 	double x;
 	double y;
-};
+};*/
 
 class Laser
 {
@@ -17,6 +17,7 @@ public:
 	bool getActive() { return Active; }
 	void setActive(bool _Active) { Active = _Active; }
 	void setPosition(double x, double y, int _Angle, double _Rotation);
+	bool CheckCollision(class Asteroid* CurrAsteroid);
 
 private:
 	Renderer* Rend;
@@ -34,8 +35,8 @@ private:
 	int LifeTime;
 	float TimeRemaining;
 
-	AuxPosition P1;
-	AuxPosition P2;
-	AuxPosition P3;
-	AuxPosition P4;
+	Position P1;
+	Position P2;
+	Position P3;
+	Position P4;
 };
