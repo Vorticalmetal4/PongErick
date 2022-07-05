@@ -68,3 +68,14 @@ void Asteroid::Update()
 		Rend->DrawSimpleRect(FirstPoint.x, FirstPoint.y, Width, Height, 255, 0, 0, 255);
 	}
 }
+
+bool Asteroid::CheckCollision(Asteroid* OtherAsteroid)
+{
+	if(sqrt(pow(Center.x - OtherAsteroid->getCenterX(), 2) + pow(Center.y - OtherAsteroid->getCenterY(), 2)) < H + OtherAsteroid->getHypotenuse())
+	{
+		OtherAsteroid->setActive(false);
+		Active = false;
+		return true;
+	}
+	return false;
+}

@@ -16,7 +16,7 @@ int main()
 	if (ConFile.ParseError() < 0)
 		ConFile.PrintError("AsteroidsWindow");
 
-    int i;
+    int i, j;
     int NAsteroids = ConFile.GetInteger("Asteroid", "NAsteroids", 0);
 	
     Renderer Rend;
@@ -54,8 +54,14 @@ int main()
                 if(Asteroids[i].getActive())
                 {
                     Asteroids[i].Update();
-                    MainPlayer.CheckCollisionWLasers(&Asteroids[i]);
+                    MainPlayer.CheckCollisions(&Asteroids[i]);
+
+                    for (j = i + 1; j < Asteroids.size(); j++)
+                        if(Asteroids[j].getActive())
+                            if (Asteroids[i].CheckCollision(&Asteroids[j]))
+                                break;
                 }
+
             }
 
             MainPlayer.Update();

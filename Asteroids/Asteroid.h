@@ -19,6 +19,7 @@ public:
 	double getCenterX() { return Center.x; }
 	double getCenterY() { return Center.y; }
 	double getHypotenuse() { return H; }
+	bool CheckCollision(Asteroid* OtherAsteroid);
 
 private:
 	Renderer* Rend;
