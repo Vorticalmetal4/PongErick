@@ -110,7 +110,6 @@ bool Laser::CheckCollision(Asteroid* CurrAsteroid)
 {
 	if (sqrt(pow(CurrAsteroid->getCenterX() - Center.x, 2) + pow(CurrAsteroid->getCenterY() - Center.y, 2)) < H + CurrAsteroid->getHypotenuse())
 	{
-		CurrAsteroid->setActive(false);
 		Active = false;
 		return true;
 	}

@@ -4,12 +4,14 @@
 
 #include <cmath>
 #include <iostream>
+
 using namespace std;
 
 Asteroid::Asteroid(Renderer* _Rend, int x, int y, int Angle)
 	:Rend(_Rend),
 	Active(false),
-	DeltaTime(0)
+	DeltaTime(0),
+	Size(0)
 {
 	INIReader ConFile("InitialData.ini");
 
@@ -19,22 +21,8 @@ Asteroid::Asteroid(Renderer* _Rend, int x, int y, int Angle)
 	Width = ConFile.GetInteger("Asteroid", "Width", 1);
 	Height = ConFile.GetInteger("Asteroid", "Height", 1);
 	Velocity = ConFile.GetInteger("Asteroid", "Velocity", 0);
-	HWidth = Width / 2;
-	HHeight = Height / 2;
 
-	FirstPoint.x = x;
-	FirstPoint.y = y;
-
-	Center.x = FirstPoint.x + HWidth;
-	Center.y = FirstPoint.y + HHeight;
-
-	FirstPoint.Angle = Angle;
-	FirstPoint.Rotation = Angle * 3.141592 / 180;
-
-	P1.x = cos(FirstPoint.Rotation) * Velocity;
-	P1.y = -sin(FirstPoint.Rotation) * Velocity;
-
-	H = sqrt(pow(Width / 2, 2) + pow(Height / 2, 2));
+	UpdateData(x, y, Angle);
 
 }
 
@@ -72,10 +60,39 @@ void Asteroid::Update()
 bool Asteroid::CheckCollision(Asteroid* OtherAsteroid)
 {
 	if(sqrt(pow(Center.x - OtherAsteroid->getCenterX(), 2) + pow(Center.y - OtherAsteroid->getCenterY(), 2)) < H + OtherAsteroid->getHypotenuse())
-	{
-		OtherAsteroid->setActive(false);
-		Active = false;
 		return true;
-	}
+	
 	return false;
+}
+
+void Asteroid::setNewData(double x, double y, int Angle, int ParentSize, int ParentWidth, int ParentHeight, bool NewAsteroid)
+{
+	Size = ParentSize + 1;
+	Width = ParentWidth / 2;
+	Height = ParentHeight / 2;
+
+	if (NewAsteroid)
+		UpdateData(x + Width, y - Height, Angle);
+	else
+		UpdateData(x - Width, y - Height, 360 - Angle);
+}
+
+void Asteroid::UpdateData(double x, double y, int Angle)
+{
+	HWidth = Width / 2;
+	HHeight = Height / 2;
+
+	FirstPoint.x = x;
+	FirstPoint.y = y;
+
+	Center.x = FirstPoint.x + HWidth;
+	Center.y = FirstPoint.y + HHeight;
+
+	FirstPoint.Angle = Center.Angle = Angle;
+	FirstPoint.Rotation = Center.Rotation = Angle * 3.141592 / 180;
+
+	P1.x = cos(FirstPoint.Rotation) * Velocity;
+	P1.y = -sin(FirstPoint.Rotation) * Velocity;
+
+	H = sqrt(pow(Width / 2, 2) + pow(Height / 2, 2));
 }

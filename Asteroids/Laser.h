@@ -32,7 +32,7 @@ private:
 	int Velocity;
 	float DeltaTime;
 	double H;
-	int LifeTime;
+	float LifeTime;
 	float TimeRemaining;
 
 	Position P1;

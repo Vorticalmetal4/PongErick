@@ -155,21 +155,24 @@ void Player::MovePoints(bool Rotation)
 	ThirdPoint.y = Center.y - sin(ThirdPoint.Rotation) * H;
 }
 
-void Player::CheckCollisions(Asteroid* CurrAsteroid)
+bool Player::CheckCollisions(Asteroid* CurrAsteroid)
 {
-	for(i = 0; i < Lasers.size(); i++)
-	{
-		if(Lasers[i].getActive())
-		
-			if (Lasers[i].CheckCollision(CurrAsteroid))
-				break;
-		
-	}
 
-	if(sqrt(pow(Center.x - CurrAsteroid->getCenterX(), 2) + pow(Center.y -  CurrAsteroid->getCenterY(), 2)) < H + CurrAsteroid->getHypotenuse())
+	if (sqrt(pow(Center.x - CurrAsteroid->getCenterX(), 2) + pow(Center.y - CurrAsteroid->getCenterY(), 2)) < H + CurrAsteroid->getHypotenuse())
 	{
 		Center.x = Rend->getWindowWidth() / 2;
 		Center.y = Rend->getWindowHeight() / 2;
 	}
+
+	for(i = 0; i < Lasers.size(); i++)
+	{
+		if (Lasers[i].getActive())
+
+			if (Lasers[i].CheckCollision(CurrAsteroid))
+				return true;
+		
+	}
+
+	return false;
 
 }

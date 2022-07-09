@@ -16,8 +16,10 @@ int main()
 	if (ConFile.ParseError() < 0)
 		ConFile.PrintError("AsteroidsWindow");
 
-    int i, j;
+    int i, j, k, t;
+    int Collisions = 0;
     int NAsteroids = ConFile.GetInteger("Asteroid", "NAsteroids", 0);
+    int AsteroidsMaxSize = ConFile.GetInteger("Asteroid", "MaxSize", 3);
 	
     Renderer Rend;
 
@@ -37,8 +39,11 @@ int main()
     {
         Asteroid NAsteroid = Asteroid(&Rend, rand() % Rend.getWindowWidth(), rand() % Rend.getWindowHeight(), rand() % 360);
         Asteroids.push_back(NAsteroid);
-        if (i < NAsteroids) 
+        if (i < NAsteroids)
+        {
             Asteroids[i].setActive(true);
+            Asteroids[i].setSize(0);
+        }
     }
 
     if(success)
@@ -54,12 +59,43 @@ int main()
                 if(Asteroids[i].getActive())
                 {
                     Asteroids[i].Update();
-                    MainPlayer.CheckCollisions(&Asteroids[i]);
-
-                    for (j = i + 1; j < Asteroids.size(); j++)
-                        if(Asteroids[j].getActive())
-                            if (Asteroids[i].CheckCollision(&Asteroids[j]))
+                    if (MainPlayer.CheckCollisions(&Asteroids[i]))
+                        Collisions = 1;
+                    
+                    for (k = i + 1; k < Asteroids.size(); k++)
+                        if(Asteroids[k].getActive())
+                            if (Asteroids[i].CheckCollision(&Asteroids[k]))
+                            {
+                                t = k;
+                                Collisions = 2;
                                 break;
+                            }
+
+
+                    while (Collisions > 0)
+                    {
+                        if (Collisions == 1)
+                            t = i;
+                        if (Asteroids[t].getSize() < AsteroidsMaxSize)
+                        {
+                            for (j = 0; j < Asteroids.size(); j++)
+                                if (!Asteroids[j].getActive())
+                                {
+                                    Asteroids[j].setActive(true);
+                                    Asteroids[j].setNewData(Asteroids[t].getCenterX(), Asteroids[t].getCenterY(), Asteroids[t].getAngle(), Asteroids[t].getSize(), Asteroids[t].getWidth(), Asteroids[t].getHeight(), true);
+                                    Asteroids[t].setNewData(Asteroids[t].getCenterX(), Asteroids[t].getCenterY(), Asteroids[t].getAngle(), Asteroids[t].getSize(), Asteroids[t].getWidth(), Asteroids[t].getHeight(), false);
+                                    Collisions--;
+                                    break;
+                                }
+
+                        }
+                        else
+                        {
+                            Collisions--;
+                            Asteroids[t].setActive(false);
+                        }
+                    }
+
                 }
 
             }
@@ -69,3 +105,4 @@ int main()
         }
     }
 }
+

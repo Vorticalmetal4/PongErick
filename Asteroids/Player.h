@@ -10,7 +10,7 @@ public:
 	~Player();
 	void Update();
 	void MovePoints(bool Rotation);
-	void CheckCollisions(class Asteroid* CurrAsteroid);
+	bool CheckCollisions(class Asteroid* CurrAsteroid);
 
 private:
 	Renderer* Rend;
