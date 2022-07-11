@@ -26,7 +26,8 @@ int main()
     HUDData GameData;
 
     GameData.Lives = ConFile.GetInteger("HUD", "Lives", 0);
-    GameData.Puntuation = 0;
+    GameData.Score = 0;
+    int Points = ConFile.GetInteger("HUD", "PointsPerAsteroid", 0);
 
     bool success = Rend.Initialize(ConFile.GetString("Window", "Name", "Error"),
                                    ConFile.GetInteger("Window", "TopLeftXCoordinate", 100),
@@ -70,7 +71,10 @@ int main()
                         GameData.Lives--;
 
                     if (MainPlayer.CheckLasersCollisions(&Asteroids[i]))
+                    {
                         Collisions = 1;
+                        GameData.Score += Points * (Asteroids[i].getSize() + 1);
+                    }
                     
                     for (k = i + 1; k < Asteroids.size(); k++)
                         if(Asteroids[k].getActive())
@@ -78,6 +82,8 @@ int main()
                             {
                                 t = k;
                                 Collisions = 2;
+                                GameData.Score += Points * (Asteroids[i].getSize() + 1);
+                                GameData.Score += Points * (Asteroids[k].getSize() + 1);
                                 break;
                             }
 

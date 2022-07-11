@@ -2,6 +2,7 @@
 #include "Renderer.h"
 #include "Inih/cpp/INIReader.h"
 
+#include <string>
 #include <iostream>
 using namespace std;
 
@@ -43,6 +44,8 @@ void HUD::Update(HUDData* Data)
 		LivesP3.x += LivesSeparation;
 		Rend->DrawTriangle(&LivesP1, &LivesP2, &LivesP3, 255, 255, 255, 255);
 	}
+
+	ChangeScore(Data->Score, 50, 50, 0, 10);
 }
 
 void HUD::InitialPosition()
@@ -50,4 +53,13 @@ void HUD::InitialPosition()
 	LivesP1.x = LivesInitialX;
 	LivesP2.x = LivesInitialX + LivesHWidth;
 	LivesP3.x = LivesInitialX + LivesWidth;
+}
+
+void HUD::ChangeScore(int Score, int TextW, int TextH, int TextX, int TextY)
+{
+	ScoreText = to_string(Score);
+	ScoreText.copy(NText, ScoreText.size() + 1);
+	NText[ScoreText.size() + 1] = '\0';
+	Rend->Write(NText, TextH, TextH, TextX, TextY);
+
 }

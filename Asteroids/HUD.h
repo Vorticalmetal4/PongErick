@@ -2,13 +2,13 @@
 
 #include "Renderer.h"
 #include <vector>
-
+#include <string>
 
 
 struct HUDData
 {
 	int Lives;
-	int Puntuation;
+	int Score;
 };
 
 class HUD
@@ -33,6 +33,9 @@ private:
 	int LivesHeight;
 	int LivesSeparation;
 	int i;
+	char NText[7];
+	string ScoreText;
 
 	void InitialPosition();
+	void ChangeScore(int Score, int TextW, int TextH, int TextX, int TextY);
 };
