@@ -2,6 +2,7 @@
 #include "Renderer.h"
 #include "Asteroid.h"
 #include "Inih/cpp/INIReader.h"
+#include "EnemyShip.h"
 
 #include <cmath>
 #include <iostream>
@@ -106,9 +107,20 @@ void Laser::setPosition(double x, double y, int _Angle, double _Rotation)
 	TimeRemaining = LifeTime;
 }
 
-bool Laser::CheckCollision(Asteroid* CurrAsteroid)
+bool Laser::CheckCollisionWAsteroid(Asteroid* CurrAsteroid)
 {
 	if (sqrt(pow(CurrAsteroid->getCenterX() - Center.x, 2) + pow(CurrAsteroid->getCenterY() - Center.y, 2)) < H + CurrAsteroid->getHypotenuse())
+	{
+		Active = false;
+		return true;
+	}
+
+	return false;
+}
+
+bool Laser::CheckCollisionWEnemy(EnemyShip* CurrEnemy)
+{
+	if (sqrt(pow(CurrEnemy->getCenterX() - Center.x, 2) + pow(CurrEnemy->getCenterY() - Center.y, 2)) < H + CurrEnemy->getHypotenuse())
 	{
 		Active = false;
 		return true;

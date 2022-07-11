@@ -3,6 +3,7 @@
 #include <vector>
 #include "Renderer.h"
 
+
 class Player
 {
 public:
@@ -11,7 +12,9 @@ public:
 	void Update();
 	void MovePoints(bool Rotation);
 	bool CheckLasersCollisions(class Asteroid* CurrAsteroid);
-	bool CheckCollision(Asteroid* CurrAsteroid);
+	bool CheckLasersCollisionsWEnemies(class EnemyShip* CurrEnemy);
+	bool CheckCollisionWAsteroids(Asteroid* CurrAsteroid);
+	bool CheckCollisionWEnemies(EnemyShip* CurrEnemy);
 
 private:
 	Renderer* Rend;

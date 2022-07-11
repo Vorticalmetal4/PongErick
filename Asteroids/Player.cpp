@@ -3,6 +3,7 @@
 #include "Renderer.h"
 #include "Laser.h"
 #include "Asteroid.h"
+#include "EnemyShip.h"
 
 #include <cmath>
 #include <iostream>
@@ -161,22 +162,47 @@ bool Player::CheckLasersCollisions(Asteroid* CurrAsteroid)
 	{
 		if (Lasers[i].getActive())
 
-			if (Lasers[i].CheckCollision(CurrAsteroid))
+			if (Lasers[i].CheckCollisionWAsteroid(CurrAsteroid))
 				return true;
 		
 	}
 
 	return false;
-
 }
 
-bool Player::CheckCollision(Asteroid* CurrAsteroid)
+bool Player::CheckCollisionWAsteroids(Asteroid* CurrAsteroid)
 {
 	if (sqrt(pow(Center.x - CurrAsteroid->getCenterX(), 2) + pow(Center.y - CurrAsteroid->getCenterY(), 2)) < H + CurrAsteroid->getHypotenuse())
 	{
 		Center.x = Rend->getWindowWidth() / 2;
 		Center.y = Rend->getWindowHeight() / 2;
 		return true;
+	}
+
+	return false;
+}
+
+bool Player::CheckCollisionWEnemies(EnemyShip* CurrEnemy)
+{
+	if (sqrt(pow(Center.x - CurrEnemy->getCenterX(), 2) + pow(Center.y - CurrEnemy->getCenterY(), 2)) < H + CurrEnemy->getHypotenuse())
+	{
+		Center.x = Rend->getWindowWidth() / 2;
+		Center.y = Rend->getWindowHeight() / 2;
+		return true;
+	}
+
+	return false;
+}
+
+bool Player::CheckLasersCollisionsWEnemies(EnemyShip* CurrEnemy)
+{
+	for (i = 0; i < Lasers.size(); i++)
+	{
+		if (Lasers[i].getActive())
+
+			if (Lasers[i].CheckCollisionWEnemy(CurrEnemy))
+				return true;
+
 	}
 
 	return false;

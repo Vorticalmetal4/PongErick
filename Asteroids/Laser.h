@@ -17,7 +17,8 @@ public:
 	bool getActive() { return Active; }
 	void setActive(bool _Active) { Active = _Active; }
 	void setPosition(double x, double y, int _Angle, double _Rotation);
-	bool CheckCollision(class Asteroid* CurrAsteroid);
+	bool CheckCollisionWAsteroid(class Asteroid* CurrAsteroid);
+	bool CheckCollisionWEnemy(class EnemyShip* CurrEnemy);
 
 private:
 	Renderer* Rend;

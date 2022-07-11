@@ -8,6 +8,7 @@ using namespace std;
 
 const Uint8* State = SDL_GetKeyboardState(NULL);
 TTF_Font* Font;
+SDL_Rect TextRect;
 
 Renderer::Renderer(void)
     :mWindow(nullptr),
@@ -65,6 +66,8 @@ bool Renderer::Initialize(string Name, int TLXCoordinate, int TLYCoordinate, int
     FText[FontName.size()] = '\0';
 
     mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    Font = TTF_OpenFont(FText, 25);
+    
 
     return true;
 }
@@ -141,14 +144,15 @@ void Renderer::DrawSimpleRect(int x, int y, float width, float height, int r, in
 void Renderer::Write(char* NText, int TextW, int TextH, int TextX, int TextY)
 {
 
-    Font = TTF_OpenFont(FText, 25);
+    
     TextSurface = TTF_RenderText_Solid(Font, NText, { 255, 255, 255, 255 });
-    Texture = SDL_CreateTextureFromSurface(mRenderer, TextSurface); // isaveg: verify, do you really need to create and destroy every frame?
-    SDL_QueryTexture(Texture, NULL, NULL, &TextW, &TextH);
-    SDL_Rect TextRect = { TextX, TextY, TextW, TextH };
+    Texture = SDL_CreateTextureFromSurface(mRenderer, TextSurface);  // isaveg: verify, do you really need to create and destroy every frame?
+    SDL_QueryTexture(Texture, NULL, NULL, &TextW, &TextH); 
+    TextRect = { TextX, TextY, TextW, TextH };
+        
     SDL_RenderCopy(mRenderer, Texture, NULL, &TextRect);
 
-    TTF_CloseFont(Font);
+    
     SDL_FreeSurface(TextSurface);
     SDL_DestroyTexture(Texture);
 
@@ -183,6 +187,8 @@ void Renderer::FreeMemory()
 {
     free(FText);
     FText = nullptr; 
+    TTF_CloseFont(Font);
+    Font = nullptr;
     TTF_Quit();
 }
 

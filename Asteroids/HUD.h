@@ -14,7 +14,7 @@ struct HUDData
 class HUD
 {
 public:
-	HUD(class Renderer* _Rend);
+	HUD(Renderer* _Rend);
 	~HUD();
 	void Update(HUDData* Data);
 	

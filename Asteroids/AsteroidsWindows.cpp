@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Asteroid.h"
 #include "HUD.h"
+#include "EnemyShip.h"
 
 #include <iostream> 
 #include <stdlib.h>
@@ -28,6 +29,9 @@ int main()
     GameData.Lives = ConFile.GetInteger("HUD", "Lives", 0);
     GameData.Score = 0;
     int Points = ConFile.GetInteger("HUD", "PointsPerAsteroid", 0);
+    int NEnemies = ConFile.GetInteger("EnemyShip", "NEnemies", 0);
+    int EnemyProb = ConFile.GetInteger("EnemyShip", "EnemyProb", 0);
+    int EnemyPoints = ConFile.GetInteger("EnemyShip", "Points", 0);
 
     bool success = Rend.Initialize(ConFile.GetString("Window", "Name", "Error"),
                                    ConFile.GetInteger("Window", "TopLeftXCoordinate", 100),
@@ -40,6 +44,7 @@ int main()
     HUD MainHUD = HUD(&Rend);
     Player MainPlayer = Player(&Rend);
     vector<Asteroid> Asteroids;
+    vector<EnemyShip> Enemies;
     srand(time(NULL));
 
     for (i = 0; i < NAsteroids * 4; i++)
@@ -52,6 +57,13 @@ int main()
             Asteroids[i].setSize(0);
         }
     }
+
+    for(i = 0; i < NEnemies; i++)
+    {
+        EnemyShip NewEnemy = EnemyShip(&Rend);
+        Enemies.push_back(NewEnemy);
+    }
+
 
     if(success)
     {
@@ -67,13 +79,28 @@ int main()
                 {
                     Asteroids[i].Update();
 
-                    if (MainPlayer.CheckCollision(&Asteroids[i]))
+                    if (MainPlayer.CheckCollisionWAsteroids(&Asteroids[i]))  //Collision between player and asteroids
                         GameData.Lives--;
 
                     if (MainPlayer.CheckLasersCollisions(&Asteroids[i]))
                     {
                         Collisions = 1;
                         GameData.Score += Points * (Asteroids[i].getSize() + 1);
+                        if (rand() % 101 <= EnemyProb)
+                        {
+                            for (k = 0; k < Enemies.size(); k++)
+                            {
+                                if (!Enemies[k].getActive())
+                                {
+                                    if (rand() % 2 == 1)
+                                        Enemies[k].setNewData(true, true);
+                                    else
+                                        Enemies[k].setNewData(false, true);
+                                }
+
+                            }
+                            cout << "Enemy spawned" << endl;
+                        }
                     }
                     
                     for (k = i + 1; k < Asteroids.size(); k++)
@@ -112,6 +139,18 @@ int main()
                         }
                     }
 
+                    for(j = 0; j < Enemies.size(); j++)
+                    {
+                        if (Enemies[j].getActive())
+                        {
+                            Enemies[j].Update();
+                            if (MainPlayer.CheckCollisionWEnemies(&Enemies[j]))
+                                GameData.Lives--;
+                            if (MainPlayer.CheckLasersCollisionsWEnemies(&Enemies[j]))
+                                GameData.Score += EnemyPoints;
+                        }
+                    }
+
                 }
 
                 MainHUD.Update(&GameData);
@@ -120,6 +159,8 @@ int main()
             MainPlayer.Update();
             Rend.GenerateOutput();
         }
+
+        Rend.FreeMemory();
     }
 }
 
