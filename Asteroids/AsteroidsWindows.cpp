@@ -2,6 +2,7 @@
 #include "Renderer.h"
 #include "Player.h"
 #include "Asteroid.h"
+#include "HUD.h"
 
 #include <iostream> 
 #include <stdlib.h>
@@ -22,6 +23,10 @@ int main()
     int AsteroidsMaxSize = ConFile.GetInteger("Asteroid", "MaxSize", 3);
 	
     Renderer Rend;
+    HUDData GameData;
+
+    GameData.Lives = ConFile.GetInteger("HUD", "Lives", 0);
+    GameData.Puntuation = 0;
 
     bool success = Rend.Initialize(ConFile.GetString("Window", "Name", "Error"),
                                    ConFile.GetInteger("Window", "TopLeftXCoordinate", 100),
@@ -30,7 +35,8 @@ int main()
                                    ConFile.GetInteger("Window", "Height", 700),
                                    ConFile.GetInteger("Window", "Flags", 0),
                                    ConFile.GetString("Window", "Font", "Error"));
-
+    
+    HUD MainHUD = HUD(&Rend);
     Player MainPlayer = Player(&Rend);
     vector<Asteroid> Asteroids;
     srand(time(NULL));
@@ -59,7 +65,11 @@ int main()
                 if(Asteroids[i].getActive())
                 {
                     Asteroids[i].Update();
-                    if (MainPlayer.CheckCollisions(&Asteroids[i]))
+
+                    if (MainPlayer.CheckCollision(&Asteroids[i]))
+                        GameData.Lives--;
+
+                    if (MainPlayer.CheckLasersCollisions(&Asteroids[i]))
                         Collisions = 1;
                     
                     for (k = i + 1; k < Asteroids.size(); k++)
@@ -98,6 +108,7 @@ int main()
 
                 }
 
+                MainHUD.Update(&GameData);
             }
 
             MainPlayer.Update();

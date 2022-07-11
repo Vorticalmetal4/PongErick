@@ -38,12 +38,12 @@ bool Renderer::Initialize(string Name, int TLXCoordinate, int TLYCoordinate, int
     WNText[Name.size()] = '\0';
 
     mWindow = SDL_CreateWindow(
-        WNText, // Window title // deberia pasarse como parametro en initialize
-        TLXCoordinate, // Top left x-coordinate of window // deberia pasarse como parametro en initialize
-        TLYCoordinate, // Top left y-coordinate of window // deberia pasarse como parametro en initialize
-        Width, // Width of window // deberia pasarse como parametro en initialize
-        Height, // Height of window // deberia pasarse como parametro en initialize
-        Flags // Flags (0 for no flags set)
+        WNText,
+        TLXCoordinate,
+        TLYCoordinate, 
+        Width, 
+        Height,
+        Flags 
     );
 
     WindowHeight = Height;
@@ -182,7 +182,7 @@ bool Renderer::CheckPause()
 void Renderer::FreeMemory()
 {
     free(FText);
-    FText = nullptr; // always nullify when  freeing memory
+    FText = nullptr; 
     TTF_Quit();
 }
 

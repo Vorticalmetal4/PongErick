@@ -153,12 +153,14 @@ copy "$(ProjectDir)\Resources\InitialData.ini" "$(TargetDir)"</Command>
     <ClCompile Include="..\Inih\ini.c" />
     <ClCompile Include="Asteroid.cpp" />
     <ClCompile Include="AsteroidsWindows.cpp" />
+    <ClCompile Include="HUD.cpp" />
     <ClCompile Include="Laser.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Asteroid.h" />
+    <ClInclude Include="HUD.h" />
     <ClInclude Include="Laser.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Renderer.h" />
