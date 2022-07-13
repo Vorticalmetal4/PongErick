@@ -7,10 +7,10 @@ class EnemyShip
 public: 
 	EnemyShip(Renderer* _Rend);
 	~EnemyShip();
-	void Update();
+	void Update(Position* PlayerCenter);
 	bool getActive() { return Active; }
 	void setActive(bool _Active) { Active = _Active; }
-	void setNewData(bool Left, bool Active);
+	void setNewData(bool Left, bool _Active);
 	double getCenterX() { return Center.x; }
 	double getCenterY() { return Center.y; }
 	double getHypotenuse() { return H; }
@@ -28,5 +28,6 @@ private:
 	int Velocity;
 	bool Active;
 	double H;
+	float DeltaTime;
 
 };

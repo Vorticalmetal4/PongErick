@@ -64,7 +64,6 @@ int main()
         Enemies.push_back(NewEnemy);
     }
 
-
     if(success)
     {
         while(Rend.getIsRunning())
@@ -96,10 +95,12 @@ int main()
                                         Enemies[k].setNewData(true, true);
                                     else
                                         Enemies[k].setNewData(false, true);
+                                    
+                                    cout << "Enemy spawned" << endl;
+                                    break;
                                 }
 
                             }
-                            cout << "Enemy spawned" << endl;
                         }
                     }
                     
@@ -143,7 +144,7 @@ int main()
                     {
                         if (Enemies[j].getActive())
                         {
-                            Enemies[j].Update();
+                            Enemies[j].Update(MainPlayer.getCenter());
                             if (MainPlayer.CheckCollisionWEnemies(&Enemies[j]))
                                 GameData.Lives--;
                             if (MainPlayer.CheckLasersCollisionsWEnemies(&Enemies[j]))

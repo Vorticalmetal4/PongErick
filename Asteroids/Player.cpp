@@ -202,7 +202,6 @@ bool Player::CheckLasersCollisionsWEnemies(EnemyShip* CurrEnemy)
 
 			if (Lasers[i].CheckCollisionWEnemy(CurrEnemy))
 				return true;
-
 	}
 
 	return false;

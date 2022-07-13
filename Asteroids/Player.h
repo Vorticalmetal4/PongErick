@@ -15,6 +15,7 @@ public:
 	bool CheckLasersCollisionsWEnemies(class EnemyShip* CurrEnemy);
 	bool CheckCollisionWAsteroids(Asteroid* CurrAsteroid);
 	bool CheckCollisionWEnemies(EnemyShip* CurrEnemy);
+	Position* getCenter() { return &Center; }
 
 private:
 	Renderer* Rend;
