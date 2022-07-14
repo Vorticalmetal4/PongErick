@@ -133,7 +133,8 @@ void Player::Update()
 		Center.y = Rend->getWindowHeight();
 
 	for (i = 0; i < Lasers.size(); i++)
-		Lasers[i].Update();
+		if(Lasers[i].getActive())
+			Lasers[i].Update();
 
 	CurrentCooldown--;
 	Rend->DrawTriangle(&FirstPoint, &SecondPoint, &ThirdPoint, 255, 255, 255, 255);

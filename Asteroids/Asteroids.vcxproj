@@ -157,6 +157,7 @@ copy "$(ProjectDir)\Resources\InitialData.ini" "$(TargetDir)"</Command>
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="Laser.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Raycaster.cpp" />
     <ClCompile Include="Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -165,6 +166,7 @@ copy "$(ProjectDir)\Resources\InitialData.ini" "$(TargetDir)"</Command>
     <ClInclude Include="HUD.h" />
     <ClInclude Include="Laser.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Raycaster.h" />
     <ClInclude Include="Renderer.h" />
   </ItemGroup>
   <ItemGroup>

@@ -44,38 +44,36 @@ Laser::~Laser()
 
 void Laser::Update()
 {
-	if (Active)
-	{
-		DeltaTime = Rend->getDeltaTime();
-		Center.x += cos(Center.Rotation) * Velocity * DeltaTime;
-		Center.y -= sin(Center.Rotation) * Velocity * DeltaTime;
-		TimeRemaining -= DeltaTime;
 
-		if (Center.x > Rend->getWindowWidth())
-			Center.x = 0;
-		else if (Center.x < 0)
-			Center.x = Rend->getWindowWidth();
+	DeltaTime = Rend->getDeltaTime();
+	Center.x += cos(Center.Rotation) * Velocity * DeltaTime;
+	Center.y -= sin(Center.Rotation) * Velocity * DeltaTime;
+	TimeRemaining -= DeltaTime;
 
-		if (Center.y > Rend->getWindowHeight())
-			Center.y = 0;
-		else if (Center.y < 0)
-			Center.y = Rend->getWindowHeight();
+	if (Center.x > Rend->getWindowWidth())
+		Center.x = 0;
+	else if (Center.x < 0)
+		Center.x = Rend->getWindowWidth();
 
-		FirstPoint.x = Center.x + P1.x;
-		FirstPoint.y = Center.y + P1.y;
-		SecondPoint.x = Center.x + P2.x;
-		SecondPoint.y = Center.y + P2.y;
-		ThirdPoint.x = Center.x + P3.x;
-		ThirdPoint.y = Center.y + P3.y;
-		FourthPoint.x = Center.x + P4.x;
-		FourthPoint.y = Center.y + P4.y;
+	if (Center.y > Rend->getWindowHeight())
+		Center.y = 0;
+	else if (Center.y < 0)
+		Center.y = Rend->getWindowHeight();
 
-		Rend->DrawRect(&FirstPoint, &SecondPoint, &ThirdPoint, &FourthPoint, 255, 255, 255, 255);
+	FirstPoint.x = Center.x + P1.x;
+	FirstPoint.y = Center.y + P1.y;
+	SecondPoint.x = Center.x + P2.x;
+	SecondPoint.y = Center.y + P2.y;
+	ThirdPoint.x = Center.x + P3.x;
+	ThirdPoint.y = Center.y + P3.y;
+	FourthPoint.x = Center.x + P4.x;
+	FourthPoint.y = Center.y + P4.y;
 
-		if (TimeRemaining <= 0)
-			Active = false;
+	Rend->DrawRect(&FirstPoint, &SecondPoint, &ThirdPoint, &FourthPoint, 255, 255, 255, 255);
 
-	}
+	if (TimeRemaining <= 0)
+		Active = false;
+
 }
 
 void Laser::setPosition(double x, double y, int _Angle, double _Rotation)
@@ -96,7 +94,7 @@ void Laser::setPosition(double x, double y, int _Angle, double _Rotation)
 	FourthPoint.Rotation = FourthPoint.Angle * Rad;
 
 	P1.x = cos(FirstPoint.Rotation) * H;
-	P1.y = sin(FirstPoint.Rotation) * H;
+	P1.y = -sin(FirstPoint.Rotation) * H;
 	P2.x = cos(SecondPoint.Rotation) * H;
 	P2.y = -sin(SecondPoint.Rotation) * H;
 	P3.x = cos(ThirdPoint.Rotation) * H;

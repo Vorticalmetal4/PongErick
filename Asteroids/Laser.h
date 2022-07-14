@@ -2,12 +2,6 @@
 
 #include "Renderer.h"
 
-/*struct AuxPosition
-{
-	double x;
-	double y;
-};*/
-
 class Laser
 {
 public:

@@ -1,6 +1,7 @@
 #include "EnemyShip.h"
 #include "Renderer.h"
 #include "Inih/cpp/INIReader.h"
+#include "Raycaster.h"
 
 #include <cmath>
 #include <iostream>
@@ -11,7 +12,8 @@ const double Rad = Pi / 180;
 
 EnemyShip::EnemyShip(Renderer* _Rend)
 	:Rend(_Rend),
-	Active(false)
+	Active(false),
+	Ray(_Rend)
 {
 	INIReader ConFile("InitialData.ini");
 
@@ -25,6 +27,7 @@ EnemyShip::EnemyShip(Renderer* _Rend)
 	HHeight = Height / 2;
 	H = sqrt(pow(HHeight, 2) + pow(HWidth, 2));
 
+
 	setNewData(true, false);
 }
 
@@ -32,23 +35,24 @@ EnemyShip::~EnemyShip()
 {
 }
 
-void EnemyShip::Update(Position* PlayerCenter)
+void EnemyShip::Update(Position* PlayerCenter, double PlayerHypotenuse)
 {
 	DeltaTime = Rend->getDeltaTime();
 
-	Center.Angle = P3.Angle = acos((Center.x * PlayerCenter->x + (Rend->getWindowHeight() - Center.y) * (Rend->getWindowHeight() - PlayerCenter->y)) / (sqrt(pow(Center.x, 2) + pow((Rend->getWindowHeight() - Center.y), 2)) * sqrt(pow(PlayerCenter->x, 2) + pow((Rend->getWindowHeight() - PlayerCenter->y), 2)))) * (180 / Pi);
+	//AngleRotation = acos((Center.x * PlayerCenter->x + (Rend->getWindowHeight() - Center.y) * (Rend->getWindowHeight() - PlayerCenter->y)) / (sqrt(pow(Center.x, 2) + pow((Rend->getWindowHeight() - Center.y), 2)) * sqrt(pow(PlayerCenter->x, 2) + pow((Rend->getWindowHeight() - PlayerCenter->y), 2)))) * (180 / Pi) > 20
 	//Center.Angle = P3.Angle = acos((4 * 2 + -1 * 5) / (sqrt(pow(4, 2) + pow(-1, 2)) * sqrt(pow(2, 2) + pow(5, 2)))) * (180 / Pi);
-	/*double n = (4 * 2 + (-1) * 5) / (sqrt(pow(4, 2) + pow(-1, 2)) * sqrt(pow(2, 2) + pow(5, 2)));
-	cout << n << endl;
-	cout << acos(n) * (180 / Pi) << endl;*/
-	cout << Center.x << " " << Center.y << " Player " << PlayerCenter->x << " " << PlayerCenter->y << endl;
+	/*double n = (4 * 2 + (-1) * 5) / (sqrt(pow(4, 2) + pow(-1, 2)) * sqrt(pow(2, 2) + pow(5, 2)));*/
+	//cout << Center.x << " " << Rend->getWindowHeight()  - Center.y << " Player " << PlayerCenter->x << " " << Rend->getWindowHeight() - PlayerCenter->y << endl;
 
-	if (PlayerCenter->x < Center.x)
-		P3.Angle + 180;
+	if (!Ray.CheckCollision(PlayerCenter->x, PlayerCenter->y, PlayerHypotenuse))
+	{
+		P1.Angle++;
+		P2.Angle++;
+		P3.Angle++;
+		Center.Angle++;
+	}
 
-	cout << P3.Angle << endl;
-	P1.Angle = P3.Angle + 225;
-	P2.Angle = P3.Angle + 135;
+	Ray.Update(Velocity);
 
 	P1.Rotation = P1.Angle * Rad;
 	P2.Rotation = P2.Angle * Rad;
@@ -66,6 +70,8 @@ void EnemyShip::Update(Position* PlayerCenter)
 void EnemyShip::setNewData(bool Left, bool _Active)
 {
 	Active = _Active;
+	Ray.setActive(true);
+	Ray.setPosition(P3.x, P3.y, P3.Angle, P3.Rotation);
 
 	P3.y = Center.y = Rend->getWindowHeight() / 2;
 
@@ -92,6 +98,10 @@ void EnemyShip::setNewData(bool Left, bool _Active)
 
 	P1.y = P2.y = Rend->getWindowHeight() / 2;
 	P3.y = P1.y - Height;
+
+	P3.Angle = Center.Angle = 0;
+	P1.Angle = P3.Angle + 225;
+	P2.Angle = P3.Angle + 135;
 	
 	
 }

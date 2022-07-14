@@ -1,13 +1,14 @@
 #pragma once
 
 #include "Renderer.h"
+#include "Raycaster.h"
 
 class EnemyShip
 {
 public: 
 	EnemyShip(Renderer* _Rend);
 	~EnemyShip();
-	void Update(Position* PlayerCenter);
+	void Update(Position* PlayerCenter, double PlayerHypotenuse);
 	bool getActive() { return Active; }
 	void setActive(bool _Active) { Active = _Active; }
 	void setNewData(bool Left, bool _Active);
@@ -16,6 +17,7 @@ public:
 	double getHypotenuse() { return H; }
 
 private:
+	Raycaster Ray;
 	Renderer* Rend;
 	Position P1;
 	Position P2;
@@ -29,5 +31,4 @@ private:
 	bool Active;
 	double H;
 	float DeltaTime;
-
 };

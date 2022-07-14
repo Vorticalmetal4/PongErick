@@ -95,8 +95,6 @@ int main()
                                         Enemies[k].setNewData(true, true);
                                     else
                                         Enemies[k].setNewData(false, true);
-                                    
-                                    cout << "Enemy spawned" << endl;
                                     break;
                                 }
 
@@ -144,7 +142,7 @@ int main()
                     {
                         if (Enemies[j].getActive())
                         {
-                            Enemies[j].Update(MainPlayer.getCenter());
+                            Enemies[j].Update(MainPlayer.getCenter(), MainPlayer.getHypotenuse());
                             if (MainPlayer.CheckCollisionWEnemies(&Enemies[j]))
                                 GameData.Lives--;
                             if (MainPlayer.CheckLasersCollisionsWEnemies(&Enemies[j]))
