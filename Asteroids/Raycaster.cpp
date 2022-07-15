@@ -28,6 +28,7 @@ void Raycaster::setPosition(double x, double y, int _Angle, double _Rotation)
 {
 	Center.x = x;
 	Center.y = y;
+
 	Center.Angle = _Angle;
 	Center.Rotation = _Rotation;
 
@@ -39,11 +40,17 @@ void Raycaster::setPosition(double x, double y, int _Angle, double _Rotation)
 
 }
 
-void Raycaster::Update(int Velocity)
+void Raycaster::Update(int Velocity, double x, double y)
 {
 	DeltaTime = Rend->getDeltaTime();
-	Center.x =  cos(Center.Rotation);
-	Center.y = sin(Center.Rotation);
+
+	Center.x = x;
+	Center.y = y;
+
+	H = sqrt(pow(Rend->getWindowWidth() - Center.x, 2) +  1);
+
+	Center.x += cos(Center.Rotation) *  H;
+	Center.y += -sin(Center.Rotation) * H;
 
 	cout << Center.x << " " << Center.y << endl;
 
@@ -66,15 +73,18 @@ bool Raycaster::CheckCollision(double PlayerX, double PlayerY, double PlayerH)
 	
 	else
 	{
+
 		P1.Angle++;
 		P2.Angle++;
 		P3.Angle++;
 		P4.Angle++;
+		Center.Angle++;
 
 		P1.Rotation = P1.Angle * Rad;
 		P2.Rotation = P2.Angle * Rad;
 		P3.Rotation = P3.Angle * Rad;
 		P4.Rotation = P4.Angle * Rad;
+		Center.Rotation = Center.Angle * Rad;
 
 		return false;
 	}

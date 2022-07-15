@@ -11,7 +11,7 @@ public:
 	bool getActive() { return Active; }
 	void setActive(bool _Active) { Active = _Active; }
 	void setPosition(double x, double y, int _Angle, double _Rotation);
-	void Update(int Velocity);
+	void Update(int Velocity, double x, double y);
 	bool CheckCollision(double PlayerX, double PlayerY, double PlayerH);
 
 private:
@@ -23,6 +23,7 @@ private:
 	Position P4;
 	Position Center;
 	double H;
+	double D;
 	float DeltaTime;
 
 };

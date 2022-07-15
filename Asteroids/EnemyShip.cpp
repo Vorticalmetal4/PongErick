@@ -52,7 +52,7 @@ void EnemyShip::Update(Position* PlayerCenter, double PlayerHypotenuse)
 		Center.Angle++;
 	}
 
-	Ray.Update(Velocity);
+	Ray.Update(Velocity, P3.x, P3.y);
 
 	P1.Rotation = P1.Angle * Rad;
 	P2.Rotation = P2.Angle * Rad;
