@@ -78,10 +78,10 @@ int main()
                 {
                     Asteroids[i].Update();
 
-                    if (MainPlayer.CheckCollisionWAsteroids(&Asteroids[i]))  //Collision between player and asteroids
+                    if (MainPlayer.CheckCollisions(Asteroids[i].getCenter(), Asteroids[i].getHypotenuse()))  //Collision between player and asteroids
                         GameData.Lives--;
 
-                    if (MainPlayer.CheckLasersCollisions(&Asteroids[i]))
+                    if (MainPlayer.CheckLasersCollisions(Asteroids[i].getCenter(), Asteroids[i].getHypotenuse()))
                     {
                         Collisions = 1;
                         GameData.Score += Points * (Asteroids[i].getSize() + 1);
@@ -104,7 +104,7 @@ int main()
                     
                     for (k = i + 1; k < Asteroids.size(); k++)
                         if(Asteroids[k].getActive())
-                            if (Asteroids[i].CheckCollision(&Asteroids[k]))
+                            if (Asteroids[i].CheckCollision(Asteroids[k].getCenter(), Asteroids[k].getHypotenuse()))
                             {
                                 t = k;
                                 Collisions = 2;
@@ -124,8 +124,8 @@ int main()
                                 if (!Asteroids[j].getActive())
                                 {
                                     Asteroids[j].setActive(true);
-                                    Asteroids[j].setNewData(Asteroids[t].getCenterX(), Asteroids[t].getCenterY(), Asteroids[t].getAngle(), Asteroids[t].getSize(), Asteroids[t].getWidth(), Asteroids[t].getHeight(), true);
-                                    Asteroids[t].setNewData(Asteroids[t].getCenterX(), Asteroids[t].getCenterY(), Asteroids[t].getAngle(), Asteroids[t].getSize(), Asteroids[t].getWidth(), Asteroids[t].getHeight(), false);
+                                    Asteroids[j].setNewData(Asteroids[t].getCenter(), Asteroids[t].getSize(), Asteroids[t].getWidth(), Asteroids[t].getHeight(), true);
+                                    Asteroids[t].setNewData(Asteroids[t].getCenter(), Asteroids[t].getSize(), Asteroids[t].getWidth(), Asteroids[t].getHeight(), false);
                                     Collisions--;
                                     break;
                                 }
@@ -143,9 +143,9 @@ int main()
                         if (Enemies[j].getActive())
                         {
                             Enemies[j].Update(MainPlayer.getCenter(), MainPlayer.getHypotenuse());
-                            if (MainPlayer.CheckCollisionWEnemies(&Enemies[j]))
+                            if (MainPlayer.CheckCollisions(Enemies[j].getCenter(), Enemies[j].getHypotenuse()))
                                 GameData.Lives--;
-                            if (MainPlayer.CheckLasersCollisionsWEnemies(&Enemies[j]))
+                            if (MainPlayer.CheckLasersCollisions(Enemies[j].getCenter(), Enemies[j].getHypotenuse()))
                                 GameData.Score += EnemyPoints;
                         }
                     }

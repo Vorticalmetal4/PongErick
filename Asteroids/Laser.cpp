@@ -105,9 +105,9 @@ void Laser::setPosition(double x, double y, int _Angle, double _Rotation)
 	TimeRemaining = LifeTime;
 }
 
-bool Laser::CheckCollisionWAsteroid(Asteroid* CurrAsteroid)
+bool Laser::CheckCollision(Position* Pos, double ObjectH)
 {
-	if (sqrt(pow(CurrAsteroid->getCenterX() - Center.x, 2) + pow(CurrAsteroid->getCenterY() - Center.y, 2)) < H + CurrAsteroid->getHypotenuse())
+	if (sqrt(pow(Pos->x - Center.x, 2) + pow(Pos->y - Center.y, 2)) < H + ObjectH)
 	{
 		Active = false;
 		return true;
@@ -116,13 +116,3 @@ bool Laser::CheckCollisionWAsteroid(Asteroid* CurrAsteroid)
 	return false;
 }
 
-bool Laser::CheckCollisionWEnemy(EnemyShip* CurrEnemy)
-{
-	if (sqrt(pow(CurrEnemy->getCenterX() - Center.x, 2) + pow(CurrEnemy->getCenterY() - Center.y, 2)) < H + CurrEnemy->getHypotenuse())
-	{
-		Active = false;
-		return true;
-	}
-
-	return false;
-}

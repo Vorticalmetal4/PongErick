@@ -11,10 +11,8 @@ public:
 	~Player();
 	void Update();
 	void MovePoints(bool Rotation);
-	bool CheckLasersCollisions(class Asteroid* CurrAsteroid);
-	bool CheckLasersCollisionsWEnemies(class EnemyShip* CurrEnemy);
-	bool CheckCollisionWAsteroids(Asteroid* CurrAsteroid);
-	bool CheckCollisionWEnemies(EnemyShip* CurrEnemy);
+	bool CheckLasersCollisions(Position* Pos, double ObjectH);
+	bool CheckCollisions(Position* Pos, double ObjectH);
 	Position* getCenter() { return &Center; }
 	double getHypotenuse() { return H; }
 

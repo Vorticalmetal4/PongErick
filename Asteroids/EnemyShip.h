@@ -12,9 +12,8 @@ public:
 	bool getActive() { return Active; }
 	void setActive(bool _Active) { Active = _Active; }
 	void setNewData(bool Left, bool _Active);
-	double getCenterX() { return Center.x; }
-	double getCenterY() { return Center.y; }
 	double getHypotenuse() { return H; }
+	Position* getCenter() { return &Center; }
 
 private:
 	Raycaster Ray;

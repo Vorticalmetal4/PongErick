@@ -157,13 +157,13 @@ void Player::MovePoints(bool Rotation)
 	ThirdPoint.y = Center.y - sin(ThirdPoint.Rotation) * H;
 }
 
-bool Player::CheckLasersCollisions(Asteroid* CurrAsteroid)
+bool Player::CheckLasersCollisions(Position* Pos, double ObjectH)
 {
 	for(i = 0; i < Lasers.size(); i++)
 	{
 		if (Lasers[i].getActive())
 
-			if (Lasers[i].CheckCollisionWAsteroid(CurrAsteroid))
+			if (Lasers[i].CheckCollision(Pos, ObjectH))
 				return true;
 		
 	}
@@ -171,39 +171,18 @@ bool Player::CheckLasersCollisions(Asteroid* CurrAsteroid)
 	return false;
 }
 
-bool Player::CheckCollisionWAsteroids(Asteroid* CurrAsteroid)
+bool Player::CheckCollisions(Position* Pos, double ObjectH)
 {
-	if (sqrt(pow(Center.x - CurrAsteroid->getCenterX(), 2) + pow(Center.y - CurrAsteroid->getCenterY(), 2)) < H + CurrAsteroid->getHypotenuse())
+	if (sqrt(pow(Center.x - Pos->x, 2) + pow(Center.y - Pos->y, 2)) < H + ObjectH)
 	{
 		Center.x = Rend->getWindowWidth() / 2;
 		Center.y = Rend->getWindowHeight() / 2;
+		Velocity = 0;
+		Update();
 		return true;
 	}
 
 	return false;
 }
 
-bool Player::CheckCollisionWEnemies(EnemyShip* CurrEnemy)
-{
-	if (sqrt(pow(Center.x - CurrEnemy->getCenterX(), 2) + pow(Center.y - CurrEnemy->getCenterY(), 2)) < H + CurrEnemy->getHypotenuse())
-	{
-		Center.x = Rend->getWindowWidth() / 2;
-		Center.y = Rend->getWindowHeight() / 2;
-		return true;
-	}
 
-	return false;
-}
-
-bool Player::CheckLasersCollisionsWEnemies(EnemyShip* CurrEnemy)
-{
-	for (i = 0; i < Lasers.size(); i++)
-	{
-		if (Lasers[i].getActive())
-
-			if (Lasers[i].CheckCollisionWEnemy(CurrEnemy))
-				return true;
-	}
-
-	return false;
-}

@@ -57,24 +57,24 @@ void Asteroid::Update()
 	}
 }
 
-bool Asteroid::CheckCollision(Asteroid* OtherAsteroid)
+bool Asteroid::CheckCollision(Position* OtherAsteroidPos, double OtherAsteroidH)
 {
-	if(sqrt(pow(Center.x - OtherAsteroid->getCenterX(), 2) + pow(Center.y - OtherAsteroid->getCenterY(), 2)) < H + OtherAsteroid->getHypotenuse())
+	if(sqrt(pow(Center.x - OtherAsteroidPos->x, 2) + pow(Center.y - OtherAsteroidPos->y, 2)) < H + OtherAsteroidH)
 		return true;
 	
 	return false;
 }
 
-void Asteroid::setNewData(double x, double y, int Angle, int ParentSize, int ParentWidth, int ParentHeight, bool NewAsteroid)
+void Asteroid::setNewData(Position* Pos, int ParentSize, int ParentWidth, int ParentHeight, bool NewAsteroid)
 {
 	Size = ParentSize + 1;
 	Width = ParentWidth / 2;
 	Height = ParentHeight / 2;
 
 	if (NewAsteroid)
-		UpdateData(x + Width, y - Height, Angle);
+		UpdateData(Pos->x + Width, Pos->y - Height, Pos->Angle);
 	else
-		UpdateData(x - Width, y - Height, 360 - Angle);
+		UpdateData(Pos->x - Width, Pos->y - Height, 360 - Pos->Angle);
 }
 
 void Asteroid::UpdateData(double x, double y, int Angle)
