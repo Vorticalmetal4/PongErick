@@ -209,3 +209,9 @@ void Renderer::DrawRect(Position* P1, Position* P2, Position* P3, Position* P4, 
     SDL_RenderDrawLine(mRenderer, P4->x, P4->y, P1->x, P1->y);
 
 }
+
+void Renderer::DrawLine(Position* P1, Position* P2, int r, int g, int b, int alpha)
+{
+    SDL_SetRenderDrawColor(mRenderer, r, g, b, alpha);
+    SDL_RenderDrawLine(mRenderer, P1->x, P1->y, P2->x, P2->y);
+}

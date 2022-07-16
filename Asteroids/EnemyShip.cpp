@@ -52,7 +52,7 @@ void EnemyShip::Update(Position* PlayerCenter, double PlayerHypotenuse)
 		Center.Angle++;
 	}
 
-	Ray.Update(Velocity, P3.x, P3.y);
+	Ray.Update(Velocity, &P3);
 
 	P1.Rotation = P1.Angle * Rad;
 	P2.Rotation = P2.Angle * Rad;
@@ -71,7 +71,6 @@ void EnemyShip::setNewData(bool Left, bool _Active)
 {
 	Active = _Active;
 	Ray.setActive(true);
-	Ray.setPosition(P3.x, P3.y, P3.Angle, P3.Rotation);
 
 	P3.y = Center.y = Rend->getWindowHeight() / 2;
 

@@ -11,12 +11,12 @@ Raycaster::Raycaster(Renderer* _Rend)
 	:Rend(_Rend),
 	Active(false),
 	DeltaTime(0),
-	H(1)
+	D(0)
 {
-	P1.x = P2.x = P3.x = P4.x = Center.x = -100;
-	P1.y = P2.y = P3.y = P4.y = Center.y = -100;
-	P1.Rotation = P2.Rotation = P3.Rotation = P4.Rotation = Center.Rotation = 0;
-	P1.Angle = P2.Angle = P3.Angle = P4.Angle = Center.Angle = 0;
+	P1.x = P2.x = Center.x = -100;
+	P1.y = P2.y = -100;
+	P1.Rotation = P2.Rotation = Center.Rotation = 0;
+	P1.Angle = P2.Angle = Center.Angle = 0;
 
 }
 
@@ -24,68 +24,35 @@ Raycaster::~Raycaster()
 {
 }
 
-void Raycaster::setPosition(double x, double y, int _Angle, double _Rotation)
-{
-	Center.x = x;
-	Center.y = y;
-
-	Center.Angle = _Angle;
-	Center.Rotation = _Rotation;
-
-	P1.Angle = Center.Angle + 315;
-	P2.Angle = Center.Angle + 45;
-	P3.Angle = Center.Angle + 135;
-	P4.Angle = Center.Angle + 225;
-
-
-}
-
-void Raycaster::Update(int Velocity, double x, double y)
+void Raycaster::Update(int Velocity, Position* EnemyP)
 {
 	DeltaTime = Rend->getDeltaTime();
 
-	Center.x = x;
-	Center.y = y;
+	P1.x = P2.x = Center.x = EnemyP->x;
+	P1.y = P2.y = Center.y = EnemyP->y;
 
-	H = sqrt(pow(Rend->getWindowWidth() - Center.x, 2) +  1);
+	Center.Rotation = EnemyP->Rotation;
 
-	Center.x += cos(Center.Rotation) *  H;
-	Center.y += -sin(Center.Rotation) * H;
+	D = Rend->getWindowWidth() - P1.x;
 
-	cout << Center.x << " " << Center.y << endl;
+	P1.x += cos(Center.Rotation);
+	P1.y -= sin(Center.Rotation);
+	P2.x += cos(Center.Rotation) * D;
+	P2.y -= sin(Center.Rotation) * D;
+	Center.x += cos(Center.Rotation) * D / 2;
+	Center.y -= sin(Center.Rotation) * D / 2;
 
-	P1.x = Center.x + cos(P1.Rotation) * H;
-	P1.y = Center.y - sin(P1.Rotation) * H;
-	P2.x = Center.x + cos(P2.Rotation) * H;
-	P2.y = Center.y - sin(P2.Rotation) * H;
-	P3.x = Center.x + cos(P3.Rotation) * H;
-	P3.y = Center.y - sin(P3.Rotation) * H;
-	P4.x = Center.x + cos(P4.Rotation) * H;
-	P4.y = Center.y - sin(P4.Rotation) * H;
-
-	Rend->DrawRect(&P1, &P2, &P3, &P4, 255,  0, 0, 255);
+	Rend->DrawLine(&P1, &P2, 255, 0, 0, 255);
 }
 
 bool Raycaster::CheckCollision(double PlayerX, double PlayerY, double PlayerH)
 {
-	if(sqrt(pow(Center.x - PlayerX, 2) + pow(Center.y - PlayerY, 2)) <  H + PlayerH)
-		return true;
+	m = (P2.y - P1.y) / (P2.x - P1.x);
+
+	if ((PlayerX > P1.x && PlayerX < P2.x) || (PlayerX < P1.x && PlayerX > P2.x))
+		if ((PlayerY > P1.y && PlayerY < P2.y) || (PlayerY < P1.y && PlayerY > P2.y))
+			if (PlayerY - (m * PlayerX + -m * Center.x + Center.y) <= PlayerH)
+				return true;
 	
-	else
-	{
-
-		P1.Angle++;
-		P2.Angle++;
-		P3.Angle++;
-		P4.Angle++;
-		Center.Angle++;
-
-		P1.Rotation = P1.Angle * Rad;
-		P2.Rotation = P2.Angle * Rad;
-		P3.Rotation = P3.Angle * Rad;
-		P4.Rotation = P4.Angle * Rad;
-		Center.Rotation = Center.Angle * Rad;
-
-		return false;
-	}
+	return false;
 }
