@@ -25,6 +25,7 @@ int main()
 	
     Renderer Rend;
     HUDData GameData;
+    bool Pause = false;
 
     GameData.Lives = ConFile.GetInteger("HUD", "Lives", 0);
     GameData.Score = 0;
@@ -71,97 +72,105 @@ int main()
             Rend.ProcessInput();
             Rend.UpdateGame();
             Rend.ClearRender();
+            Pause = MainHUD.getPause();
 
             for(i = 0; i < Asteroids.size(); i++)
             {
                 if(Asteroids[i].getActive())
                 {
-                    Asteroids[i].Update();
+                    Asteroids[i].Update(Pause);
 
-                    if (MainPlayer.CheckCollisions(Asteroids[i].getCenter(), Asteroids[i].getHypotenuse()))  //Collision between player and asteroids
-                        GameData.Lives--;
-
-                    if (MainPlayer.CheckLasersCollisions(Asteroids[i].getCenter(), Asteroids[i].getHypotenuse()))
+                    if (!Pause)
                     {
-                        Collisions = 1;
-                        GameData.Score += Points * (Asteroids[i].getSize() + 1);
-                        if (rand() % 101 <= EnemyProb)
+                        if (MainPlayer.CheckCollisions(Asteroids[i].getCenter(), Asteroids[i].getHypotenuse()))  //Collision between player and asteroids
+                            GameData.Lives--;
+
+                        if (MainPlayer.CheckLasersCollisions(Asteroids[i].getCenter(), Asteroids[i].getHypotenuse()))
                         {
-                            for (k = 0; k < Enemies.size(); k++)
+                            Collisions = 1;
+                            GameData.Score += Points * (Asteroids[i].getSize() + 1);
+                            if (rand() % 101 <= EnemyProb)
                             {
-                                if (!Enemies[k].getActive())
+                                for (k = 0; k < Enemies.size(); k++)
                                 {
-                                    if (rand() % 2 == 1)
-                                        Enemies[k].setNewData(true, true);
-                                    else
-                                        Enemies[k].setNewData(false, true);
+                                    if (!Enemies[k].getActive())
+                                    {
+                                        if (rand() % 2 == 1)
+                                            Enemies[k].setNewData(true, true);
+                                        else
+                                            Enemies[k].setNewData(false, true);
+                                        break;
+                                    }
+
+                                }
+                            }
+                        }
+
+
+                        for (k = i + 1; k < Asteroids.size(); k++)
+                            if (Asteroids[k].getActive())
+                                if (Asteroids[i].CheckCollision(Asteroids[k].getCenter(), Asteroids[k].getHypotenuse()))
+                                {
+                                    t = k;
+                                    Collisions = 2;
+                                    GameData.Score += Points * (Asteroids[i].getSize() + 1);
+                                    GameData.Score += Points * (Asteroids[k].getSize() + 1);
                                     break;
                                 }
 
+
+                        while (Collisions > 0)
+                        {
+                            if (Collisions == 1)
+                                t = i;
+                            if (Asteroids[t].getSize() < AsteroidsMaxSize)
+                            {
+                                for (j = 0; j < Asteroids.size(); j++)
+                                    if (!Asteroids[j].getActive())
+                                    {
+                                        Asteroids[j].setActive(true);
+                                        Asteroids[j].setNewData(Asteroids[t].getCenter(), Asteroids[t].getSize(), Asteroids[t].getWidth(), Asteroids[t].getHeight(), true);
+                                        Asteroids[t].setNewData(Asteroids[t].getCenter(), Asteroids[t].getSize(), Asteroids[t].getWidth(), Asteroids[t].getHeight(), false);
+                                        Collisions--;
+                                        break;
+                                    }
+
+                            }
+                            else
+                            {
+                                Collisions--;
+                                Asteroids[t].setActive(false);
                             }
                         }
                     }
-                    
-                    for (k = i + 1; k < Asteroids.size(); k++)
-                        if(Asteroids[k].getActive())
-                            if (Asteroids[i].CheckCollision(Asteroids[k].getCenter(), Asteroids[k].getHypotenuse()))
-                            {
-                                t = k;
-                                Collisions = 2;
-                                GameData.Score += Points * (Asteroids[i].getSize() + 1);
-                                GameData.Score += Points * (Asteroids[k].getSize() + 1);
-                                break;
-                            }
-
-
-                    while (Collisions > 0)
-                    {
-                        if (Collisions == 1)
-                            t = i;
-                        if (Asteroids[t].getSize() < AsteroidsMaxSize)
-                        {
-                            for (j = 0; j < Asteroids.size(); j++)
-                                if (!Asteroids[j].getActive())
-                                {
-                                    Asteroids[j].setActive(true);
-                                    Asteroids[j].setNewData(Asteroids[t].getCenter(), Asteroids[t].getSize(), Asteroids[t].getWidth(), Asteroids[t].getHeight(), true);
-                                    Asteroids[t].setNewData(Asteroids[t].getCenter(), Asteroids[t].getSize(), Asteroids[t].getWidth(), Asteroids[t].getHeight(), false);
-                                    Collisions--;
-                                    break;
-                                }
-
-                        }
-                        else
-                        {
-                            Collisions--;
-                            Asteroids[t].setActive(false);
-                        }
-                    }
-
-                    for(j = 0; j < Enemies.size(); j++)
-                    {
-                        if (Enemies[j].getActive())
-                        {
-                            Enemies[j].Update(MainPlayer.getCenter(), MainPlayer.getHypotenuse());
-                            if (MainPlayer.CheckCollisions(Enemies[j].getCenter(), Enemies[j].getHypotenuse()))
-                            {
-                                GameData.Lives--;
-                                Enemies[j].setActive(false);
-                            }
-                            if (MainPlayer.CheckLasersCollisions(Enemies[j].getCenter(), Enemies[j].getHypotenuse()))
-                            {
-                                GameData.Score += EnemyPoints;
-                                Enemies[j].setActive(false);
-                            }
-                        }
-                    }
-
                 }
 
-                MainHUD.Update(&GameData);
+                
             }
 
-            MainPlayer.Update();
+            for (j = 0; j < Enemies.size(); j++)
+            {
+                if (Enemies[j].getActive())
+                {
+                    Enemies[j].Update(MainPlayer.getCenter(), MainPlayer.getHypotenuse(), Pause);
+                    if (!Pause)
+                    {
+                        if (MainPlayer.CheckCollisions(Enemies[j].getCenter(), Enemies[j].getHypotenuse()))
+                        {
+                            GameData.Lives--;
+                            Enemies[j].setActive(false);
+                        }
+                        if (MainPlayer.CheckLasersCollisions(Enemies[j].getCenter(), Enemies[j].getHypotenuse()))
+                        {
+                            GameData.Score += EnemyPoints;
+                            Enemies[j].setActive(false);
+                        }
+                    }
+                }
+            }
+
+            MainHUD.Update(&GameData);
+            MainPlayer.Update(Pause);
             Rend.GenerateOutput();
         }
 

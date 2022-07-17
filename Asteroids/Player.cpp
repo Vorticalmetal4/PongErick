@@ -61,12 +61,14 @@ Player::~Player()
 {
 }
 
-void Player::Update()
+void Player::Update(bool Pause)
 {
-	DeltaTime = Rend->getDeltaTime();
-
-	switch(Rend->CheckMovement())
+	if (!Pause)
 	{
+		DeltaTime = Rend->getDeltaTime();
+
+		switch (Rend->CheckMovement())
+		{
 		case 'R':
 			/*FirstPoint.Angle -= (RotationVelocity * DeltaTime);
 			SecondPoint.Angle -= (RotationVelocity * DeltaTime);
@@ -76,7 +78,7 @@ void Player::Update()
 			ThirdPoint.Angle -= RotationVelocity;
 
 			MovePoints(true);
-		break;
+			break;
 
 		case 'L':
 			FirstPoint.Angle += RotationVelocity;
@@ -84,7 +86,7 @@ void Player::Update()
 			ThirdPoint.Angle += RotationVelocity;
 
 			MovePoints(true);
-		break;
+			break;
 
 		case 'U':
 			if (Velocity + IncVelocity <= MaxVelocity)
@@ -93,50 +95,52 @@ void Player::Update()
 			Center.x += cos(ThirdPoint.Rotation) * Velocity * DeltaTime;
 			Center.y -= sin(ThirdPoint.Rotation) * Velocity * DeltaTime;
 			MovePoints(false);
-		break;
+			break;
 
 		case 'S':
 			if (CurrentCooldown <= 0)
 			{
 				CurrentCooldown = ShootCooldown;
-				for(i = 0; i < Lasers.size(); i++)
+				for (i = 0; i < Lasers.size(); i++)
 				{
-					if(!Lasers[i].getActive())
+					if (!Lasers[i].getActive())
 					{
 						Lasers[i].setActive(true);
-						Lasers[i].setPosition(ThirdPoint.x, ThirdPoint.y, ThirdPoint.Angle,ThirdPoint.Rotation);
+						Lasers[i].setPosition(ThirdPoint.x, ThirdPoint.y, ThirdPoint.Angle, ThirdPoint.Rotation);
 						break;
 					}
 				}
 			}
-		break;
-		
+			break;
+
+		}
+
+		if (Velocity - DecVelocity >= 0)
+		{
+			Velocity -= DecVelocity;
+
+			Center.x += cos(ThirdPoint.Rotation) * Velocity * DeltaTime;
+			Center.y -= sin(ThirdPoint.Rotation) * Velocity * DeltaTime;
+			MovePoints(false);
+		}
+
+		if (Center.x > Rend->getWindowWidth())
+			Center.x = 0;
+		else if (Center.x < 0)
+			Center.x = Rend->getWindowWidth();
+
+		if (Center.y > Rend->getWindowHeight())
+			Center.y = 0;
+		else if (Center.y < 0)
+			Center.y = Rend->getWindowHeight();
+
+		CurrentCooldown--;
 	}
-	
-	if (Velocity - DecVelocity >= 0)
-	{
-		Velocity -= DecVelocity;
-
-		Center.x += cos(ThirdPoint.Rotation) * Velocity * DeltaTime;
-		Center.y -= sin(ThirdPoint.Rotation) * Velocity * DeltaTime;
-		MovePoints(false);
-	}
-
-	if (Center.x > Rend->getWindowWidth())
-		Center.x = 0;
-	else if (Center.x < 0)
-		Center.x = Rend->getWindowWidth();
-
-	if (Center.y > Rend->getWindowHeight())
-		Center.y = 0;
-	else if (Center.y < 0)
-		Center.y = Rend->getWindowHeight();
 
 	for (i = 0; i < Lasers.size(); i++)
 		if(Lasers[i].getActive())
-			Lasers[i].Update();
+			Lasers[i].Update(Pause);
 
-	CurrentCooldown--;
 	Rend->DrawTriangle(&FirstPoint, &SecondPoint, &ThirdPoint, 255, 255, 255, 255);
 }
 
@@ -178,7 +182,7 @@ bool Player::CheckCollisions(Position* Pos, double ObjectH)
 		Center.x = Rend->getWindowWidth() / 2;
 		Center.y = Rend->getWindowHeight() / 2;
 		Velocity = 0;
-		Update();
+		Update(false);
 		return true;
 	}
 

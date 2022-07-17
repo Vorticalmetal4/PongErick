@@ -13,7 +13,7 @@ class Asteroid
 public:
 	Asteroid(Renderer* _Rend, int x, int y, int Angle);
 	~Asteroid();
-	void Update();
+	void Update(bool Pause);
 	void setActive(bool _Active) { Active = _Active; }
 	bool getActive() { return Active; }
 	Position* getCenter() { return &Center; }

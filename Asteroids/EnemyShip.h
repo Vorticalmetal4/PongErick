@@ -8,7 +8,7 @@ class EnemyShip
 public: 
 	EnemyShip(Renderer* _Rend);
 	~EnemyShip();
-	void Update(Position* PlayerCenter, double PlayerHypotenuse);
+	void Update(Position* PlayerCenter, double PlayerHypotenuse, bool Pause);
 	bool getActive() { return Active; }
 	void setActive(bool _Active) { Active = _Active; }
 	void setNewData(bool Left, bool _Active);

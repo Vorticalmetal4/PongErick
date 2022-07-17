@@ -7,7 +7,8 @@
 using namespace std;
 
 HUD::HUD(Renderer* _Rend)
-	:Rend(_Rend)
+	:Rend(_Rend),
+	Pause(false)
 {
 	INIReader ConFile("InitialData.ini");
 
@@ -46,6 +47,14 @@ void HUD::Update(HUDData* Data)
 	}
 
 	ChangeScore(Data->Score, 50, 50, 0, 10);
+
+	if(Rend->CheckPause())
+	{
+		if (Pause)
+			Pause = false;
+		else
+			Pause = true;
+	}
 }
 
 void HUD::InitialPosition()

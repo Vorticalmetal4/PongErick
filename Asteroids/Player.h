@@ -2,6 +2,7 @@
 
 #include <vector>
 #include "Renderer.h"
+#include "Laser.h"
 
 
 class Player
@@ -9,7 +10,7 @@ class Player
 public:
 	Player(Renderer* _Rend);
 	~Player();
-	void Update();
+	void Update(bool  Pause);
 	void MovePoints(bool Rotation);
 	bool CheckLasersCollisions(Position* Pos, double ObjectH);
 	bool CheckCollisions(Position* Pos, double ObjectH);
@@ -31,7 +32,7 @@ private:
 	int IncVelocity;
 	int DecVelocity;
 	int RotationVelocity;
-	std::vector<class Laser> Lasers;
+	std::vector<Laser> Lasers;
 	int ShootCooldown;
 	int CurrentCooldown;
 };

@@ -7,7 +7,7 @@ class Laser
 public:
 	Laser(Renderer*  _Rend);
 	~Laser();
-	void Update();
+	void Update(bool Pause);
 	bool getActive() { return Active; }
 	void setActive(bool _Active) { Active = _Active; }
 	void setPosition(double x, double y, int _Angle, double _Rotation);

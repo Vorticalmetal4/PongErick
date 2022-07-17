@@ -17,6 +17,7 @@ public:
 	HUD(Renderer* _Rend);
 	~HUD();
 	void Update(HUDData* Data);
+	bool getPause() { return Pause; }
 	
 
 private:
@@ -35,6 +36,7 @@ private:
 	int i;
 	char NText[7];
 	string ScoreText;
+	bool Pause;
 
 	void InitialPosition();
 	void ChangeScore(int Score, int TextW, int TextH, int TextX, int TextY);

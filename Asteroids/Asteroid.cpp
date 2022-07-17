@@ -30,9 +30,9 @@ Asteroid::~Asteroid()
 {
 }
 
-void Asteroid::Update()
+void Asteroid::Update(bool Pause)
 {
-	if(Active)
+	if (!Pause)
 	{
 
 		DeltaTime = Rend->getDeltaTime();
@@ -52,9 +52,10 @@ void Asteroid::Update()
 		else if (FirstPoint.y < 0)
 			FirstPoint.y = Rend->getWindowHeight();
 
+	}
 
 		Rend->DrawSimpleRect(FirstPoint.x, FirstPoint.y, Width, Height, 255, 0, 0, 255);
-	}
+	
 }
 
 bool Asteroid::CheckCollision(Position* OtherAsteroidPos, double OtherAsteroidH)

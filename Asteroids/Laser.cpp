@@ -42,32 +42,34 @@ Laser::~Laser()
 {
 }
 
-void Laser::Update()
+void Laser::Update(bool Pause)
 {
+	if (!Pause)
+	{
+		DeltaTime = Rend->getDeltaTime();
+		Center.x += cos(Center.Rotation) * Velocity * DeltaTime;
+		Center.y -= sin(Center.Rotation) * Velocity * DeltaTime;
+		TimeRemaining -= DeltaTime;
 
-	DeltaTime = Rend->getDeltaTime();
-	Center.x += cos(Center.Rotation) * Velocity * DeltaTime;
-	Center.y -= sin(Center.Rotation) * Velocity * DeltaTime;
-	TimeRemaining -= DeltaTime;
+		if (Center.x > Rend->getWindowWidth())
+			Center.x = 0;
+		else if (Center.x < 0)
+			Center.x = Rend->getWindowWidth();
 
-	if (Center.x > Rend->getWindowWidth())
-		Center.x = 0;
-	else if (Center.x < 0)
-		Center.x = Rend->getWindowWidth();
+		if (Center.y > Rend->getWindowHeight())
+			Center.y = 0;
+		else if (Center.y < 0)
+			Center.y = Rend->getWindowHeight();
 
-	if (Center.y > Rend->getWindowHeight())
-		Center.y = 0;
-	else if (Center.y < 0)
-		Center.y = Rend->getWindowHeight();
-
-	FirstPoint.x = Center.x + P1.x;
-	FirstPoint.y = Center.y + P1.y;
-	SecondPoint.x = Center.x + P2.x;
-	SecondPoint.y = Center.y + P2.y;
-	ThirdPoint.x = Center.x + P3.x;
-	ThirdPoint.y = Center.y + P3.y;
-	FourthPoint.x = Center.x + P4.x;
-	FourthPoint.y = Center.y + P4.y;
+		FirstPoint.x = Center.x + P1.x;
+		FirstPoint.y = Center.y + P1.y;
+		SecondPoint.x = Center.x + P2.x;
+		SecondPoint.y = Center.y + P2.y;
+		ThirdPoint.x = Center.x + P3.x;
+		ThirdPoint.y = Center.y + P3.y;
+		FourthPoint.x = Center.x + P4.x;
+		FourthPoint.y = Center.y + P4.y;
+	}
 
 	Rend->DrawRect(&FirstPoint, &SecondPoint, &ThirdPoint, &FourthPoint, 255, 255, 255, 255);
 

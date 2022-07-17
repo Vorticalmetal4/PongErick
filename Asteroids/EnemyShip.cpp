@@ -35,45 +35,48 @@ EnemyShip::~EnemyShip()
 {
 }
 
-void EnemyShip::Update(Position* PlayerCenter, double PlayerHypotenuse)
+void EnemyShip::Update(Position* PlayerCenter, double PlayerHypotenuse, bool Pause)
 {
-	DeltaTime = Rend->getDeltaTime();
-
-	if (!Ray.CheckCollision(PlayerCenter->x, PlayerCenter->y, PlayerHypotenuse))
+	if (!Pause)
 	{
-		P1.Angle++;
-		P2.Angle++;
-		P3.Angle++;
-		Center.Angle++;
+		DeltaTime = Rend->getDeltaTime();
+
+		if (!Ray.CheckCollision(PlayerCenter->x, PlayerCenter->y, PlayerHypotenuse))
+		{
+			P1.Angle++;
+			P2.Angle++;
+			P3.Angle++;
+			Center.Angle++;
+		}
+		else
+		{
+			Center.x += cos(Center.Rotation) * Velocity * DeltaTime;
+			Center.y -= sin(Center.Rotation) * Velocity * DeltaTime;
+		}
+
+		Ray.Update(Velocity, &P3);
+
+		P1.Rotation = P1.Angle * Rad;
+		P2.Rotation = P2.Angle * Rad;
+		Center.Rotation = P3.Rotation = Center.Angle * Rad;
+
+		P3.x = Center.x + cos(P3.Rotation) * H;
+		P3.y = Center.y - sin(P3.Rotation) * H;
+		P2.x = Center.x + cos(P2.Rotation) * H;
+		P2.y = Center.y - sin(P2.Rotation) * H;
+		P1.x = Center.x + cos(P1.Rotation) * H;
+		P1.y = Center.y - sin(P1.Rotation) * H;
+
+		if (Center.x > Rend->getWindowWidth())
+			Center.x = 0;
+		else if (Center.x < 0)
+			Center.x = Rend->getWindowWidth();
+
+		if (Center.y > Rend->getWindowHeight())
+			Center.y = 0;
+		else if (Center.y < 0)
+			Center.y = Rend->getWindowHeight();
 	}
-	else
-	{
-		Center.x += cos(Center.Rotation) * Velocity * DeltaTime;
-		Center.y -= sin(Center.Rotation) * Velocity * DeltaTime;
-	}
-
-	Ray.Update(Velocity, &P3);
-
-	P1.Rotation = P1.Angle * Rad;
-	P2.Rotation = P2.Angle * Rad;
-	Center.Rotation = P3.Rotation = Center.Angle * Rad;
-
-	P3.x = Center.x + cos(P3.Rotation) * H;
-	P3.y = Center.y - sin(P3.Rotation) * H;
-	P2.x = Center.x + cos(P2.Rotation) * H;
-	P2.y = Center.y - sin(P2.Rotation) * H;
-	P1.x = Center.x + cos(P1.Rotation) * H;
-	P1.y = Center.y - sin(P1.Rotation) * H;
-
-	if (Center.x > Rend->getWindowWidth())
-		Center.x = 0;
-	else if (Center.x < 0)
-		Center.x = Rend->getWindowWidth();
-
-	if (Center.y > Rend->getWindowHeight())
-		Center.y = 0;
-	else if (Center.y < 0)
-		Center.y = Rend->getWindowHeight();
 
 	Rend->DrawTriangle(&P1, &P2, &P3, 255, 0, 0, 255);
 }
