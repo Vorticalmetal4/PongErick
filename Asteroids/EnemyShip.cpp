@@ -39,17 +39,17 @@ void EnemyShip::Update(Position* PlayerCenter, double PlayerHypotenuse)
 {
 	DeltaTime = Rend->getDeltaTime();
 
-	//AngleRotation = acos((Center.x * PlayerCenter->x + (Rend->getWindowHeight() - Center.y) * (Rend->getWindowHeight() - PlayerCenter->y)) / (sqrt(pow(Center.x, 2) + pow((Rend->getWindowHeight() - Center.y), 2)) * sqrt(pow(PlayerCenter->x, 2) + pow((Rend->getWindowHeight() - PlayerCenter->y), 2)))) * (180 / Pi) > 20
-	//Center.Angle = P3.Angle = acos((4 * 2 + -1 * 5) / (sqrt(pow(4, 2) + pow(-1, 2)) * sqrt(pow(2, 2) + pow(5, 2)))) * (180 / Pi);
-	/*double n = (4 * 2 + (-1) * 5) / (sqrt(pow(4, 2) + pow(-1, 2)) * sqrt(pow(2, 2) + pow(5, 2)));*/
-	//cout << Center.x << " " << Rend->getWindowHeight()  - Center.y << " Player " << PlayerCenter->x << " " << Rend->getWindowHeight() - PlayerCenter->y << endl;
-
 	if (!Ray.CheckCollision(PlayerCenter->x, PlayerCenter->y, PlayerHypotenuse))
 	{
 		P1.Angle++;
 		P2.Angle++;
 		P3.Angle++;
 		Center.Angle++;
+	}
+	else
+	{
+		Center.x += cos(Center.Rotation) * Velocity * DeltaTime;
+		Center.y -= sin(Center.Rotation) * Velocity * DeltaTime;
 	}
 
 	Ray.Update(Velocity, &P3);
@@ -64,6 +64,17 @@ void EnemyShip::Update(Position* PlayerCenter, double PlayerHypotenuse)
 	P2.y = Center.y - sin(P2.Rotation) * H;
 	P1.x = Center.x + cos(P1.Rotation) * H;
 	P1.y = Center.y - sin(P1.Rotation) * H;
+
+	if (Center.x > Rend->getWindowWidth())
+		Center.x = 0;
+	else if (Center.x < 0)
+		Center.x = Rend->getWindowWidth();
+
+	if (Center.y > Rend->getWindowHeight())
+		Center.y = 0;
+	else if (Center.y < 0)
+		Center.y = Rend->getWindowHeight();
+
 	Rend->DrawTriangle(&P1, &P2, &P3, 255, 0, 0, 255);
 }
 
@@ -74,7 +85,7 @@ void EnemyShip::setNewData(bool Left, bool _Active)
 
 	P3.y = Center.y = Rend->getWindowHeight() / 2;
 
-	/*if (Left)
+	if (Left)
 	{
 		P1.x = P2.x = -Height;
 		P3.x = 0;
@@ -89,14 +100,7 @@ void EnemyShip::setNewData(bool Left, bool _Active)
 		P2.y = P3.y - HWidth;
 		P1.y = P3.y + HWidth;
 		Center.x = P3.x + HHeight;
-	}*/
-
-	P1.x = Rend->getWindowWidth() / 2;
-	P2.x = P1.x + Width;
-	P3.x = Center.x = P1.x + HWidth;
-
-	P1.y = P2.y = Rend->getWindowHeight() / 2;
-	P3.y = P1.y - Height;
+	}
 
 	P3.Angle = Center.Angle = 0;
 	P1.Angle = P3.Angle + 225;

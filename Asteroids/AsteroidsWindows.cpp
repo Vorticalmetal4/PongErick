@@ -144,9 +144,15 @@ int main()
                         {
                             Enemies[j].Update(MainPlayer.getCenter(), MainPlayer.getHypotenuse());
                             if (MainPlayer.CheckCollisions(Enemies[j].getCenter(), Enemies[j].getHypotenuse()))
+                            {
                                 GameData.Lives--;
+                                Enemies[j].setActive(false);
+                            }
                             if (MainPlayer.CheckLasersCollisions(Enemies[j].getCenter(), Enemies[j].getHypotenuse()))
+                            {
                                 GameData.Score += EnemyPoints;
+                                Enemies[j].setActive(false);
+                            }
                         }
                     }
 

@@ -11,7 +11,8 @@ Raycaster::Raycaster(Renderer* _Rend)
 	:Rend(_Rend),
 	Active(false),
 	DeltaTime(0),
-	D(0)
+	D(0), 
+	m(0)
 {
 	P1.x = P2.x = Center.x = -100;
 	P1.y = P2.y = -100;
@@ -33,7 +34,10 @@ void Raycaster::Update(int Velocity, Position* EnemyP)
 
 	Center.Rotation = EnemyP->Rotation;
 
-	D = Rend->getWindowWidth() - P1.x;
+	if(P1.x < Rend->getWindowWidth() / 2)
+		D = Rend->getWindowWidth() - P1.x;
+	else 
+		D = P1.x,
 
 	P1.x += cos(Center.Rotation);
 	P1.y -= sin(Center.Rotation);
