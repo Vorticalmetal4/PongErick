@@ -35,8 +35,11 @@ bool Renderer::Initialize(string Name, int TLXCoordinate, int TLYCoordinate, int
     }
 
     char* WNText = (char*)malloc((Name.size() + 1) * sizeof(char));
-    Name.copy(WNText, Name.size() + 1);
-    WNText[Name.size()] = '\0';
+    if (WNText != NULL)
+    {
+        Name.copy(WNText, Name.size() + 1);
+        WNText[Name.size()] = '\0';
+    }
 
     mWindow = SDL_CreateWindow(
         WNText,
@@ -62,8 +65,11 @@ bool Renderer::Initialize(string Name, int TLXCoordinate, int TLYCoordinate, int
     TTF_Init();
 
     FText = (char*)malloc((FontName.size() + 1) * sizeof(char));
-    FontName.copy(FText, FontName.size() + 1);
-    FText[FontName.size()] = '\0';
+    if (FText != NULL)
+    {
+        FontName.copy(FText, FontName.size() + 1);
+        FText[FontName.size()] = '\0';
+    }
 
     mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     Font = TTF_OpenFont(FText, 25);

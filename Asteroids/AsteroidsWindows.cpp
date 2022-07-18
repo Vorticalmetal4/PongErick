@@ -22,10 +22,14 @@ int main()
     int Collisions = 0;
     int NAsteroids = ConFile.GetInteger("Asteroid", "NAsteroids", 0);
     int AsteroidsMaxSize = ConFile.GetInteger("Asteroid", "MaxSize", 3);
-	
+    bool ResetAsteroids = false;
+
     Renderer Rend;
     HUDData GameData;
-    bool Pause = false;
+    bool Pause;
+
+    int AsteroidWidth = ConFile.GetInteger("Asteroid", "Width", 1);
+    int AsteroidHeight = ConFile.GetInteger("Asteroid", "Height", 1);
 
     GameData.Lives = ConFile.GetInteger("HUD", "Lives", 0);
     GameData.Score = 0;
@@ -172,6 +176,18 @@ int main()
             MainHUD.Update(&GameData);
             MainPlayer.Update(Pause);
             Rend.GenerateOutput();
+            
+            for (i = 0; i < Asteroids.size(); i++)
+                if (Asteroids[i].getActive())
+                    ResetAsteroids = false;
+
+            if(ResetAsteroids)
+                for(i = 0; i < NAsteroids; i++)
+                    Asteroids[i].setBigAsteroid(AsteroidWidth, AsteroidHeight);
+            
+
+            ResetAsteroids = true;
+
         }
 
         Rend.FreeMemory();

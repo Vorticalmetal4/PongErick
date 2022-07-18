@@ -23,11 +23,18 @@ Asteroid::Asteroid(Renderer* _Rend, int x, int y, int Angle)
 	Velocity = ConFile.GetInteger("Asteroid", "Velocity", 0);
 
 	UpdateData(x, y, Angle);
-
 }
 
 Asteroid::~Asteroid()
 {
+}
+
+void Asteroid::setBigAsteroid(int _Width, int _Height)
+{
+	Active = true;
+	Size = 0;
+	Width = _Width;
+	Height = _Height;
 }
 
 void Asteroid::Update(bool Pause)

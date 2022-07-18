@@ -25,6 +25,7 @@ public:
 	bool CheckCollision(Position* OtherAsteroidPos, double OtherAsteroidH);
 	void setNewData(Position* Center, int ParentSize, int ParentWidth, int ParentHeight, bool NewAsteroid);
 	void UpdateData(double x, double y, int Angle);
+	void setBigAsteroid(int _Width, int _Height);
 
 private:
 	Renderer* Rend;
