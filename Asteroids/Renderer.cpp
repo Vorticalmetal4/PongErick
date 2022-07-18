@@ -115,8 +115,6 @@ void Renderer::UpdateGame()
     if (deltaTime > 0.05f) deltaTime = 0.05f;
     mTicksCount = SDL_GetTicks();
     PauseCounter--;
-
-
 }
 
 void Renderer::ClearRender()
@@ -133,7 +131,7 @@ void Renderer::GenerateOutput()
 }
 
 
-void Renderer::DrawSimpleRect(int x, int y, float width, float height, int r, int g, int b, int alpha)
+void Renderer::DrawSimpleRect(int x, int y, int width, int height, int r, int g, int b, int alpha)
 {
     SDL_SetRenderDrawColor(mRenderer, r, g, b, alpha);
     SDL_Rect Rect{
@@ -149,8 +147,6 @@ void Renderer::DrawSimpleRect(int x, int y, float width, float height, int r, in
 
 void Renderer::Write(char* NText, int TextW, int TextH, int TextX, int TextY)
 {
-
-    
     TextSurface = TTF_RenderText_Solid(Font, NText, { 255, 255, 255, 255 });
     Texture = SDL_CreateTextureFromSurface(mRenderer, TextSurface);  // isaveg: verify, do you really need to create and destroy every frame?
     SDL_QueryTexture(Texture, NULL, NULL, &TextW, &TextH); 
@@ -158,7 +154,6 @@ void Renderer::Write(char* NText, int TextW, int TextH, int TextX, int TextY)
         
     SDL_RenderCopy(mRenderer, Texture, NULL, &TextRect);
 
-    
     SDL_FreeSurface(TextSurface);
     SDL_DestroyTexture(Texture);
 

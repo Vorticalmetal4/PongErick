@@ -43,10 +43,20 @@ void EnemyShip::Update(Position* PlayerCenter, double PlayerHypotenuse, bool Pau
 
 		if (!Ray.CheckCollision(PlayerCenter->x, PlayerCenter->y, PlayerHypotenuse))
 		{
-			P1.Angle++;
-			P2.Angle++;
-			P3.Angle++;
-			Center.Angle++;
+			if (PlayerCenter->y < Center.y)
+			{
+				P1.Angle++;
+				P2.Angle++;
+				P3.Angle++;
+				Center.Angle++;
+			}
+			else
+			{
+				P1.Angle--;
+				P2.Angle--;
+				P3.Angle--;
+				Center.Angle--;
+			}
 		}
 		else
 		{
@@ -77,7 +87,6 @@ void EnemyShip::Update(Position* PlayerCenter, double PlayerHypotenuse, bool Pau
 		else if (Center.y < 0)
 			Center.y = Rend->getWindowHeight();
 	}
-
 	Rend->DrawTriangle(&P1, &P2, &P3, 255, 0, 0, 255);
 }
 
