@@ -36,6 +36,7 @@ public:
     void DrawLine(Position* P1, Position* P2, int r, int g, int b, int alpha);
     char CheckMovement();
     bool CheckPause();
+    bool CheckReset();
     void FreeMemory();
 
 

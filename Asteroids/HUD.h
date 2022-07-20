@@ -18,6 +18,8 @@ public:
 	~HUD();
 	void Update(HUDData* Data);
 	bool getPause() { return Pause; }
+	bool getReset() { return Reset; }
+	void ResetHUD(bool _Reset);
 	
 
 private:
@@ -36,7 +38,12 @@ private:
 	int i;
 	char NText[7];
 	string ScoreText;
+	char* GameOver;
+	char* Restart;
 	bool Pause;
+	float HWindowWidth;
+	float HWindowHeight;
+	bool Reset;
 
 	void InitialPosition();
 	void ChangeScore(int Score, int TextW, int TextH, int TextX, int TextY);

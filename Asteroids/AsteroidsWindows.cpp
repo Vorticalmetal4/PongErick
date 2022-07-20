@@ -23,6 +23,7 @@ int main()
     int NAsteroids = ConFile.GetInteger("Asteroid", "NAsteroids", 0);
     int AsteroidsMaxSize = ConFile.GetInteger("Asteroid", "MaxSize", 3);
     bool ResetAsteroids = false;
+    bool ResetGame = false;
 
     Renderer Rend;
     HUDData GameData;
@@ -77,6 +78,7 @@ int main()
             Rend.UpdateGame();
             Rend.ClearRender();
             Pause = MainHUD.getPause();
+            ResetGame = MainHUD.getReset();
 
             for(i = 0; i < Asteroids.size(); i++)
             {
@@ -174,12 +176,25 @@ int main()
             }
 
             MainHUD.Update(&GameData);
-            MainPlayer.Update(Pause);
-            Rend.GenerateOutput();
+            if (GameData.Lives > 0)
+                MainPlayer.Update(Pause);
             
             for (i = 0; i < Asteroids.size(); i++)
                 if (Asteroids[i].getActive())
                     ResetAsteroids = false;
+
+            if(ResetGame && GameData.Lives <= 0)
+            {
+                ResetAsteroids = true;
+                GameData.Lives = ConFile.GetInteger("HUD", "Lives", 0);
+                GameData.Score = 0;
+                for (i = 0; i < Asteroids.size(); i++)
+                    Asteroids[i].setActive(false);
+                for (i = 0; i < NEnemies; i++)
+                    Enemies[i].setActive(false);
+                MainHUD.ResetHUD(false);
+            }
+
 
             if(ResetAsteroids)
                 for(i = 0; i < NAsteroids; i++)
@@ -187,6 +202,8 @@ int main()
             
 
             ResetAsteroids = true;
+
+            Rend.GenerateOutput();
 
         }
 

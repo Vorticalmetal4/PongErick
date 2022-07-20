@@ -35,6 +35,7 @@ void Asteroid::setBigAsteroid(int _Width, int _Height)
 	Size = 0;
 	Width = _Width;
 	Height = _Height;
+	H = sqrt(pow(Width / 2, 2) + pow(Height / 2, 2));
 }
 
 void Asteroid::Update(bool Pause)

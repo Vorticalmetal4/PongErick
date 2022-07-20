@@ -8,7 +8,8 @@ using namespace std;
 
 HUD::HUD(Renderer* _Rend)
 	:Rend(_Rend),
-	Pause(false)
+	Pause(false),
+	Reset(false)
 {
 	INIReader ConFile("InitialData.ini");
 
@@ -24,6 +25,26 @@ HUD::HUD(Renderer* _Rend)
 	LivesHWidth = LivesWidth / 2;
 	LivesP1.y = LivesP3.y = LivesY + LivesHeight;
 	LivesP2.y = LivesY;
+
+	string GameOverstr = "Game Over";
+	string Restartstr = "Press R to restart";
+
+	GameOver = (char*)malloc((GameOverstr.size() + 1) * sizeof(char));
+	Restart = (char*)malloc((Restartstr.size() + 1) * sizeof(char));
+
+	if (GameOver != NULL)
+	{
+		GameOverstr.copy(GameOver, GameOverstr.size());
+		GameOver[GameOverstr.size()] = '\0';
+	}
+
+	if (Restart != NULL) {
+		Restartstr.copy(Restart, Restartstr.size());
+		Restart[Restartstr.size()] = '\0';
+	}
+
+	HWindowWidth = Rend->getWindowWidth() / 2;
+	HWindowHeight = Rend->getWindowHeight() / 2;
 
 	InitialPosition();
 
@@ -55,6 +76,18 @@ void HUD::Update(HUDData* Data)
 		else
 			Pause = true;
 	}
+
+
+	if (Data->Lives <= 0)
+	{
+		Rend->Write(GameOver, 100, 100, HWindowWidth - 50, HWindowHeight - 50);
+		
+		Rend->Write(Restart, 100, 100, HWindowWidth - 80, HWindowHeight);
+
+		if (Rend->CheckReset())
+			Reset = true;
+	}
+		
 }
 
 void HUD::InitialPosition()
@@ -71,4 +104,11 @@ void HUD::ChangeScore(int Score, int TextW, int TextH, int TextX, int TextY)
 	NText[ScoreText.size() + 1] = '\0';
 	Rend->Write(NText, TextH, TextH, TextX, TextY);
 
+}
+
+void HUD::ResetHUD(bool _Reset)
+{
+	Reset = _Reset;
+	for (i = 0; i < strlen(NText); i++)
+		NText[i] = ' ';
 }

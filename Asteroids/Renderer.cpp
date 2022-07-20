@@ -184,6 +184,14 @@ bool Renderer::CheckPause()
     return false;
 }
 
+bool Renderer::CheckReset()
+{
+    if (State[SDL_SCANCODE_R])
+        return true;
+   
+    return false;
+}
+
 void Renderer::FreeMemory()
 {
     free(FText);
