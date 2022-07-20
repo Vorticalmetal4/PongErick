@@ -182,7 +182,7 @@ bool Player::CheckCollisions(Position* Pos, double ObjectH)
 		Center.x = Rend->getWindowWidth() / 2;
 		Center.y = Rend->getWindowHeight() / 2;
 		Velocity = 0;
-		Update(false);
+		MovePoints(false);
 		return true;
 	}
 

@@ -94,7 +94,8 @@ int main()
                         if (MainPlayer.CheckLasersCollisions(Asteroids[i].getCenter(), Asteroids[i].getHypotenuse()))
                         {
                             Collisions = 1;
-                            GameData.Score += Points * (Asteroids[i].getSize() + 1);
+                            if(GameData.Lives > 0)
+                                GameData.Score += Points * (Asteroids[i].getSize() + 1);
                             if (rand() % 101 <= EnemyProb)
                             {
                                 for (k = 0; k < Enemies.size(); k++)
@@ -119,8 +120,11 @@ int main()
                                 {
                                     t = k;
                                     Collisions = 2;
-                                    GameData.Score += Points * (Asteroids[i].getSize() + 1);
-                                    GameData.Score += Points * (Asteroids[k].getSize() + 1);
+                                    if (GameData.Lives > 0)
+                                    {
+                                        GameData.Score += Points * (Asteroids[i].getSize() + 1);
+                                        GameData.Score += Points * (Asteroids[k].getSize() + 1);
+                                    }
                                     break;
                                 }
 
@@ -168,7 +172,8 @@ int main()
                         }
                         if (MainPlayer.CheckLasersCollisions(Enemies[j].getCenter(), Enemies[j].getHypotenuse()))
                         {
-                            GameData.Score += EnemyPoints;
+                            if(GameData.Lives > 0)
+                                GameData.Score += EnemyPoints;
                             Enemies[j].setActive(false);
                         }
                     }
