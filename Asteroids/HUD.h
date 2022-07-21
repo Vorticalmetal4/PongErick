@@ -41,8 +41,8 @@ private:
 	char* GameOver;
 	char* Restart;
 	bool Pause;
-	float HWindowWidth;
-	float HWindowHeight;
+	double HWindowWidth;
+	double HWindowHeight;
 	bool Reset;
 
 	void InitialPosition();

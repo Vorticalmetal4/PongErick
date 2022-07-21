@@ -43,8 +43,8 @@ HUD::HUD(Renderer* _Rend)
 		Restart[Restartstr.size()] = '\0';
 	}
 
-	HWindowWidth = Rend->getWindowWidth() / 2;
-	HWindowHeight = Rend->getWindowHeight() / 2;
+	HWindowWidth = Rend->getWindowWidth() / 2.0;
+	HWindowHeight = Rend->getWindowHeight() / 2.0;
 
 	InitialPosition();
 

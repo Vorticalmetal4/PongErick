@@ -21,5 +21,5 @@ private:
 	Position Center;
 	double D;
 	float DeltaTime;
-	float m;
+	double m;
 };

@@ -135,14 +135,15 @@ void Player::Update(bool Pause)
 			Center.y = Rend->getWindowHeight();
 
 		CurrentCooldown--;
+		DamageCooldown--;
+
+		for (i = 0; i < Lasers.size(); i++)
+			if(Lasers[i].getActive())
+				Lasers[i].Update(Pause);
 	}
 
-	for (i = 0; i < Lasers.size(); i++)
-		if(Lasers[i].getActive())
-			Lasers[i].Update(Pause);
-
 	Rend->DrawTriangle(&FirstPoint, &SecondPoint, &ThirdPoint, 255, 255, 255, 255);
-}
+} 
 
 void Player::MovePoints(bool Rotation) 
 {	
@@ -177,13 +178,17 @@ bool Player::CheckLasersCollisions(Position* Pos, double ObjectH)
 
 bool Player::CheckCollisions(Position* Pos, double ObjectH)
 {
-	if (sqrt(pow(Center.x - Pos->x, 2) + pow(Center.y - Pos->y, 2)) < H + ObjectH)
+	if (Invincibility <= 0)
 	{
-		Center.x = Rend->getWindowWidth() / 2;
-		Center.y = Rend->getWindowHeight() / 2;
-		Velocity = 0;
-		MovePoints(false);
-		return true;
+		if (sqrt(pow(Center.x - Pos->x, 2) + pow(Center.y - Pos->y, 2)) < H + ObjectH)
+		{
+			Center.x = Rend->getWindowWidth() / 2;
+			Center.y = Rend->getWindowHeight() / 2;
+			Velocity = 0;
+			MovePoints(false);
+			Invincibility = DamageCooldown;
+			return true;
+		}
 	}
 
 	return false;

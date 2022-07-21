@@ -35,4 +35,6 @@ private:
 	std::vector<Laser> Lasers;
 	int ShootCooldown;
 	int CurrentCooldown;
+	float DamageCooldown;
+	float Invincibility;
 };

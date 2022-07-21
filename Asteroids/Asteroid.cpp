@@ -61,9 +61,7 @@ void Asteroid::Update(bool Pause)
 			FirstPoint.y = Rend->getWindowHeight();
 
 	}
-
 		Rend->DrawSimpleRect(FirstPoint.x, FirstPoint.y, Width, Height, 255, 0, 0, 255);
-	
 }
 
 bool Asteroid::CheckCollision(Position* OtherAsteroidPos, double OtherAsteroidH)

@@ -10,7 +10,7 @@ struct Position
 {
     double x;
     double y;
-    double Angle;
+    int Angle;
     double Rotation;
 };
 

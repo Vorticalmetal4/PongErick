@@ -26,7 +26,7 @@ Laser::Laser(Renderer* _Rend)
 	Width = ConFile.GetInteger("Laser", "Width", 0);
 	Height = ConFile.GetInteger("Laser", "Height", 0);
 	Velocity = ConFile.GetInteger("Laser", "Velocity", 0);
-	LifeTime = ConFile.GetInteger("Laser", "LifeTime", 0);
+	LifeTime = float(ConFile.GetInteger("Laser", "LifeTime", 0));
 	FirstPoint.x = SecondPoint.x = ThirdPoint.x = FourthPoint.x = Center.x = -100;
 	FirstPoint.y = SecondPoint.y = ThirdPoint.y = FourthPoint.y = Center.y = -100;
 	FirstPoint.Rotation = SecondPoint.Rotation = ThirdPoint.Rotation = FourthPoint.Rotation = Center.Rotation = 0;
