@@ -53,9 +53,10 @@ int main()
     vector<EnemyShip> Enemies;
     srand(time(NULL));
 
+
     for (i = 0; i < NAsteroids * 4; i++)
     {
-        Asteroid NAsteroid = Asteroid(&Rend, rand() % Rend.getWindowWidth(), rand() % Rend.getWindowHeight(), rand() % 360);
+        Asteroid NAsteroid = Asteroid(&Rend, (float)(rand() % Rend.getWindowWidth()), (float)(rand() % Rend.getWindowHeight()), rand() % 360);
         Asteroids.push_back(NAsteroid);
         if (i < NAsteroids)
         {

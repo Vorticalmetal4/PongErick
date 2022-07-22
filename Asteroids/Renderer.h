@@ -8,10 +8,10 @@ using namespace std;
 
 struct Position
 {
-    double x;
-    double y;
+    float x;
+    float y;
     int Angle;
-    double Rotation;
+    float Rotation;
 };
 
 class Renderer
@@ -24,13 +24,13 @@ public:
     void UpdateGame();
     void ClearRender();
     void GenerateOutput();
-    void Write(char* NText, int TextW, int TextH, int TextX, int TextY);
+    void Write(char* NText, int TextW, int TextH, float TextX, float TextY);
 
     bool getIsRunning() { return mIsRunning; }
     float getDeltaTime() { return deltaTime; }
     int getWindowHeight() { return WindowHeight; }
     int getWindowWidth() { return WindowWidth; }
-    void DrawSimpleRect(int x, int y, int width, int height, int r, int g, int b, int alpha);
+    void DrawSimpleRect(float x, float y, int width, int height, int r, int g, int b, int alpha);
     void DrawRect(Position* P1, Position* P2, Position* P3, Position* P4, int r, int g, int b, int alpha);
     void DrawTriangle(Position* P1, Position* P2, Position* P3, int r, int g, int b, int alpha);
     void DrawLine(Position* P1, Position* P2, int r, int g, int b, int alpha);

@@ -16,8 +16,8 @@ HUD::HUD(Renderer* _Rend)
 	if (ConFile.ParseError() < 0)
 		ConFile.PrintError("HUD");
 
-	LivesInitialX = ConFile.GetInteger("HUD", "LivesInitialX", 0);
-	LivesY = ConFile.GetInteger("HUD", "LivesY", 0);
+	LivesInitialX = (float)ConFile.GetInteger("HUD", "LivesInitialX", 0);
+	LivesY = (float)ConFile.GetInteger("HUD", "LivesY", 0);
 	LivesWidth = ConFile.GetInteger("HUD", "LivesWidth", 0);
 	LivesHeight = ConFile.GetInteger("HUD", "LivesHeight", 0);
 	LivesSeparation = ConFile.GetInteger("HUD", "LivesSeparation", 0);
@@ -43,8 +43,8 @@ HUD::HUD(Renderer* _Rend)
 		Restart[Restartstr.size()] = '\0';
 	}
 
-	HWindowWidth = Rend->getWindowWidth() / 2.0;
-	HWindowHeight = Rend->getWindowHeight() / 2.0;
+	HWindowWidth = Rend->getWindowWidth() / 2.0f;
+	HWindowHeight = Rend->getWindowHeight() / 2.0f;
 
 	InitialPosition();
 
@@ -80,9 +80,9 @@ void HUD::Update(HUDData* Data)
 
 	if (Data->Lives <= 0)
 	{
-		Rend->Write(GameOver, 100, 100, HWindowWidth - 50, HWindowHeight - 50);
+		Rend->Write(GameOver, 100, 100, HWindowWidth - 50.0f, HWindowHeight - 50.0f);
 		
-		Rend->Write(Restart, 100, 100, HWindowWidth - 80, HWindowHeight);
+		Rend->Write(Restart, 100, 100, HWindowWidth - 80.0f, HWindowHeight);
 
 		if (Rend->CheckReset())
 			Reset = true;
@@ -97,7 +97,7 @@ void HUD::InitialPosition()
 	LivesP3.x = LivesInitialX + LivesWidth;
 }
 
-void HUD::ChangeScore(int Score, int TextW, int TextH, int TextX, int TextY)
+void HUD::ChangeScore(int Score, int TextW, int TextH, float TextX, float TextY)
 {
 	ScoreText = to_string(Score);
 	ScoreText.copy(NText, ScoreText.size() + 1);

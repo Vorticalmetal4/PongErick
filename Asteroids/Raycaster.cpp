@@ -43,8 +43,8 @@ void Raycaster::Update(int Velocity, Position* EnemyP)
 	P1.y -= sin(Center.Rotation);
 	P2.x += cos(Center.Rotation) * D;
 	P2.y -= sin(Center.Rotation) * D;
-	Center.x += cos(Center.Rotation) * D / 2;
-	Center.y -= sin(Center.Rotation) * D / 2;
+	Center.x += cos(Center.Rotation) * D / 2.0f;
+	Center.y -= sin(Center.Rotation) * D / 2.0f;
 
 	Rend->DrawLine(&P1, &P2, 0, 0, 0, 0);
 }

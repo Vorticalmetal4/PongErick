@@ -23,11 +23,11 @@ private:
 	Position P3;
 	Position Center;
 	int Width;
-	int HWidth;
+	float HWidth;
 	int Height;
-	int HHeight;
+	float HHeight;
 	int Velocity;
 	bool Active;
-	double H;
+	float H;
 	float DeltaTime;
 };

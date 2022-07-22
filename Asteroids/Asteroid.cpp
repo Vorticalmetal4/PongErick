@@ -7,7 +7,10 @@
 
 using namespace std;
 
-Asteroid::Asteroid(Renderer* _Rend, int x, int y, int Angle)
+const float Pi = (float)3.141592;
+const float Rad = Pi / 180;
+
+Asteroid::Asteroid(Renderer* _Rend, float x, float y, int Angle)
 	:Rend(_Rend),
 	Active(false),
 	DeltaTime(0),
@@ -35,7 +38,7 @@ void Asteroid::setBigAsteroid(int _Width, int _Height)
 	Size = 0;
 	Width = _Width;
 	Height = _Height;
-	H = sqrt(pow(Width / 2, 2) + pow(Height / 2, 2));
+	H = (float)sqrt(pow(Width / 2, 2) + pow(Height / 2, 2));
 }
 
 void Asteroid::Update(bool Pause)
@@ -53,12 +56,12 @@ void Asteroid::Update(bool Pause)
 		if (FirstPoint.x > Rend->getWindowWidth())
 			FirstPoint.x = 0;
 		else if (FirstPoint.x < 0)
-			FirstPoint.x = Rend->getWindowWidth();
+			FirstPoint.x = (float)Rend->getWindowWidth();
 
 		if (FirstPoint.y > Rend->getWindowHeight())
 			FirstPoint.y = 0;
 		else if (FirstPoint.y < 0)
-			FirstPoint.y = Rend->getWindowHeight();
+			FirstPoint.y = (float)Rend->getWindowHeight();
 
 	}
 		Rend->DrawSimpleRect(FirstPoint.x, FirstPoint.y, Width, Height, 255, 0, 0, 255);
@@ -84,7 +87,7 @@ void Asteroid::setNewData(Position* Pos, int ParentSize, int ParentWidth, int Pa
 		UpdateData(Pos->x - Width, Pos->y - Height, 360 - Pos->Angle);
 }
 
-void Asteroid::UpdateData(double x, double y, int Angle)
+void Asteroid::UpdateData(float x, float y, int Angle)
 {
 	HWidth = Width / 2;
 	HHeight = Height / 2;
@@ -96,10 +99,10 @@ void Asteroid::UpdateData(double x, double y, int Angle)
 	Center.y = FirstPoint.y + HHeight;
 
 	FirstPoint.Angle = Center.Angle = Angle;
-	FirstPoint.Rotation = Center.Rotation = Angle * 3.141592 / 180;
+	FirstPoint.Rotation = Center.Rotation = Angle * Rad;
 
 	P1.x = cos(FirstPoint.Rotation) * Velocity;
 	P1.y = -sin(FirstPoint.Rotation) * Velocity;
 
-	H = sqrt(pow(Width / 2, 2) + pow(Height / 2, 2));
+	H = (float)sqrt(pow(Width / 2, 2) + pow(Height / 2, 2));
 }

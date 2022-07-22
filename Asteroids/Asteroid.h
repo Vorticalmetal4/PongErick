@@ -4,14 +4,14 @@
 
 struct AuxPosition
 {
-	double x;
-	double y;
+	float x;
+	float y;
 };
 
 class Asteroid
 {
 public:
-	Asteroid(Renderer* _Rend, int x, int y, int Angle);
+	Asteroid(Renderer* _Rend, float x, float y, int Angle);
 	~Asteroid();
 	void Update(bool Pause);
 	void setActive(bool _Active) { Active = _Active; }
@@ -24,7 +24,7 @@ public:
 	void setSize(int _Size) { Size = _Size; }
 	bool CheckCollision(Position* OtherAsteroidPos, double OtherAsteroidH);
 	void setNewData(Position* Center, int ParentSize, int ParentWidth, int ParentHeight, bool NewAsteroid);
-	void UpdateData(double x, double y, int Angle);
+	void UpdateData(float x, float y, int Angle);
 	void setBigAsteroid(int _Width, int _Height);
 
 private:
@@ -37,7 +37,7 @@ private:
 	AuxPosition P1;
 	int Velocity;
 	float DeltaTime;
-	double H;
+	float H;
 	int HWidth;
 	int HHeight;
 	int Size;

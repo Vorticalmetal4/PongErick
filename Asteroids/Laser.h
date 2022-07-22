@@ -10,7 +10,7 @@ public:
 	void Update(bool Pause);
 	bool getActive() { return Active; }
 	void setActive(bool _Active) { Active = _Active; }
-	void setPosition(double x, double y, int _Angle, double _Rotation);
+	void setPosition(float x, float y, int _Angle, float _Rotation);
 	bool CheckCollision(Position* Pos, double ObjectH);
 
 private:
@@ -25,7 +25,7 @@ private:
 	int Height;
 	int Velocity;
 	float DeltaTime;
-	double H;
+	float H;
 	float LifeTime;
 	float TimeRemaining;
 

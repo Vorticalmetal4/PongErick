@@ -131,12 +131,12 @@ void Renderer::GenerateOutput()
 }
 
 
-void Renderer::DrawSimpleRect(int x, int y, int width, int height, int r, int g, int b, int alpha)
+void Renderer::DrawSimpleRect(float x, float y, int width, int height, int r, int g, int b, int alpha)
 {
     SDL_SetRenderDrawColor(mRenderer, r, g, b, alpha);
     SDL_Rect Rect{
-    x,
-    y,
+    (int)x,
+    (int)y,
     width,
     height
     };
@@ -145,12 +145,12 @@ void Renderer::DrawSimpleRect(int x, int y, int width, int height, int r, int g,
 
 }
 
-void Renderer::Write(char* NText, int TextW, int TextH, int TextX, int TextY)
+void Renderer::Write(char* NText, int TextW, int TextH, float TextX, float TextY)
 {
     TextSurface = TTF_RenderText_Solid(Font, NText, { 255, 255, 255, 255 });
     Texture = SDL_CreateTextureFromSurface(mRenderer, TextSurface);  // isaveg: verify, do you really need to create and destroy every frame?
     SDL_QueryTexture(Texture, NULL, NULL, &TextW, &TextH); 
-    TextRect = { TextX, TextY, TextW, TextH };
+    TextRect = { (int)TextX, (int)TextY, TextW, TextH };
         
     SDL_RenderCopy(mRenderer, Texture, NULL, &TextRect);
 
@@ -204,24 +204,24 @@ void Renderer::FreeMemory()
 void Renderer::DrawTriangle(Position* P1, Position* P2, Position* P3, int r, int g, int b, int alpha)
 {
     SDL_SetRenderDrawColor(mRenderer, r, g, b, alpha);
-    SDL_RenderDrawLine(mRenderer, P1->x, P1->y, P2->x, P2->y);
-    SDL_RenderDrawLine(mRenderer, P1->x, P1->y, P3->x, P3->y);
-    SDL_RenderDrawLine(mRenderer, P2->x, P2->y, P3->x, P3->y);
+    SDL_RenderDrawLine(mRenderer, (int)P1->x, (int)P1->y, (int)P2->x, (int)P2->y);
+    SDL_RenderDrawLine(mRenderer, (int)P1->x, (int)P1->y, (int)P3->x, (int)P3->y);
+    SDL_RenderDrawLine(mRenderer, (int)P2->x, (int)P2->y, (int)P3->x, (int)P3->y);
 }
 
 void Renderer::DrawRect(Position* P1, Position* P2, Position* P3, Position* P4, int r, int g, int b, int alpha)
 {
     SDL_SetRenderDrawColor(mRenderer, r, g, b, alpha);
-    SDL_RenderDrawLine(mRenderer, P1->x, P1->y, P2->x, P2->y);
-    SDL_RenderDrawLine(mRenderer, P2->x, P2->y, P3->x, P3->y);
-    SDL_RenderDrawLine(mRenderer, P3->x, P3->y, P4->x, P4->y);
-    SDL_RenderDrawLine(mRenderer, P4->x, P4->y, P1->x, P1->y);
+    SDL_RenderDrawLine(mRenderer, (int)P1->x, (int)P1->y, (int)P2->x, (int)P2->y);
+    SDL_RenderDrawLine(mRenderer, (int)P2->x, (int)P2->y, (int)P3->x, (int)P3->y);
+    SDL_RenderDrawLine(mRenderer, (int)P3->x, (int)P3->y, (int)P4->x, (int)P4->y);
+    SDL_RenderDrawLine(mRenderer, (int)P4->x, (int)P4->y, (int)P1->x, (int)P1->y);
 
 }
 
 void Renderer::DrawLine(Position* P1, Position* P2, int r, int g, int b, int alpha)
 {
     SDL_SetRenderDrawColor(mRenderer, r, g, b, alpha);
-    SDL_RenderDrawLine(mRenderer, P1->x, P1->y, P2->x, P2->y);
+    SDL_RenderDrawLine(mRenderer, (int)P1->x, (int)P1->y, (int)P2->x, (int)P2->y);
     
 }

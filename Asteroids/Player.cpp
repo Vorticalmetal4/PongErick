@@ -10,8 +10,8 @@
 #include <vector>
 using namespace std;
 
-const double Pi = 3.141592;
-const double Rad = Pi / 180;
+const float Pi = (float)3.141592;
+const float Rad = Pi / 180;
 int i;
 
 Player::Player(Renderer* _Rend) 
@@ -32,8 +32,8 @@ Player::Player(Renderer* _Rend)
 	int HWidth = Width / 2;
 	Height = ConFile.GetInteger("Player", "Height", 0);
 	int HHeight = Height / 2;
-	FirstPoint.x = ConFile.GetInteger("Player", "PositionX", 0);
-	FirstPoint.y =  SecondPoint.y = ConFile.GetInteger("Player", "PositionY", 0);
+	FirstPoint.x = (float)ConFile.GetInteger("Player", "PositionX", 0);
+	FirstPoint.y =  SecondPoint.y = (float)ConFile.GetInteger("Player", "PositionY", 0);
 	FirstPoint.Angle = 315;
 	SecondPoint.x = FirstPoint.x + Width;
 	SecondPoint.Angle = 225;
@@ -44,7 +44,7 @@ Player::Player(Renderer* _Rend)
 	Center.y = FirstPoint.y - HHeight;
 	ShootCooldown = ConFile.GetInteger("Player", "ShootCooldown", 0);
 
-	H = sqrt(pow(HHeight, 2) + pow(HWidth, 2));
+	H = (float)sqrt(pow(HHeight, 2) + pow(HWidth, 2));
 
 	for(int i = 0; i < ConFile.GetInteger("Player", "NLasers", 0); i++)
 	{
@@ -127,12 +127,12 @@ void Player::Update(bool Pause)
 		if (Center.x > Rend->getWindowWidth())
 			Center.x = 0;
 		else if (Center.x < 0)
-			Center.x = Rend->getWindowWidth();
+			Center.x = (float)Rend->getWindowWidth();
 
 		if (Center.y > Rend->getWindowHeight())
 			Center.y = 0;
 		else if (Center.y < 0)
-			Center.y = Rend->getWindowHeight();
+			Center.y = (float)Rend->getWindowHeight();
 
 		CurrentCooldown--;
 		DamageCooldown--;
@@ -182,8 +182,8 @@ bool Player::CheckCollisions(Position* Pos, double ObjectH)
 	{
 		if (sqrt(pow(Center.x - Pos->x, 2) + pow(Center.y - Pos->y, 2)) < H + ObjectH)
 		{
-			Center.x = Rend->getWindowWidth() / 2;
-			Center.y = Rend->getWindowHeight() / 2;
+			Center.x = Rend->getWindowWidth() / 2.0f;
+			Center.y = Rend->getWindowHeight() / 2.0f;
 			Velocity = 0;
 			MovePoints(false);
 			Invincibility = DamageCooldown;

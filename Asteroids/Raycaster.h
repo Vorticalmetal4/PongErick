@@ -19,7 +19,7 @@ private:
 	Position P1;
 	Position P2;
 	Position Center;
-	double D;
+	float D;
 	float DeltaTime;
-	double m;
+	float m;
 };

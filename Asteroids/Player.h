@@ -25,7 +25,7 @@ private:
 	Position Center;
 	int Width;
 	int Height;
-	double H;
+	float H;
 	float DeltaTime;
 	int Velocity;
 	int MaxVelocity;

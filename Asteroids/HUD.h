@@ -29,8 +29,8 @@ private:
 	Position LivesP2;
 	Position LivesP3;
 	HUDData Data;
-	int LivesInitialX;
-	int LivesY;
+	float LivesInitialX;
+	float LivesY;
 	int LivesHWidth;
 	int LivesWidth;
 	int LivesHeight;
@@ -41,10 +41,10 @@ private:
 	char* GameOver;
 	char* Restart;
 	bool Pause;
-	double HWindowWidth;
-	double HWindowHeight;
+	float HWindowWidth;
+	float HWindowHeight;
 	bool Reset;
 
 	void InitialPosition();
-	void ChangeScore(int Score, int TextW, int TextH, int TextX, int TextY);
+	void ChangeScore(int Score, int TextW, int TextH, float TextX, float TextY);
 };

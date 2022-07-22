@@ -9,8 +9,8 @@
 
 using namespace std;
 
-const double Pi = 3.141592;
-const double Rad = Pi / 180;
+const float Pi = (float)3.141592;
+const float Rad = Pi / 180;
 
 Laser::Laser(Renderer* _Rend)
 	:Active(false),
@@ -31,7 +31,7 @@ Laser::Laser(Renderer* _Rend)
 	FirstPoint.y = SecondPoint.y = ThirdPoint.y = FourthPoint.y = Center.y = -100;
 	FirstPoint.Rotation = SecondPoint.Rotation = ThirdPoint.Rotation = FourthPoint.Rotation = Center.Rotation = 0;
 	FirstPoint.Angle = SecondPoint.Angle = ThirdPoint.Angle = FourthPoint.Angle = Center.Angle = 0;
-	H = sqrt(pow(Height, 2) + pow(Width / 2, 2));
+	H = (float)sqrt(pow(Height, 2) + pow(Width / 2, 2));
 
 	P1.x = P2.x = P3.x = P4.x = 0;
 	P1.y = P2.y = P3.y = P4.y = 0;
@@ -54,12 +54,12 @@ void Laser::Update(bool Pause)
 		if (Center.x > Rend->getWindowWidth())
 			Center.x = 0;
 		else if (Center.x < 0)
-			Center.x = Rend->getWindowWidth();
+			Center.x = (float) Rend->getWindowWidth();
 
 		if (Center.y > Rend->getWindowHeight())
 			Center.y = 0;
 		else if (Center.y < 0)
-			Center.y = Rend->getWindowHeight();
+			Center.y = (float)Rend->getWindowHeight();
 
 		FirstPoint.x = Center.x + P1.x;
 		FirstPoint.y = Center.y + P1.y;
@@ -78,7 +78,7 @@ void Laser::Update(bool Pause)
 
 }
 
-void Laser::setPosition(double x, double y, int _Angle, double _Rotation)
+void Laser::setPosition(float x, float y, int _Angle, float _Rotation)
 {
 	Center.x = x;
 	Center.y = y;
