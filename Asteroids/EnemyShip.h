@@ -12,7 +12,7 @@ public:
 	bool getActive() { return Active; }
 	void setActive(bool _Active) { Active = _Active; }
 	void setNewData(bool Left, bool _Active);
-	double getHypotenuse() { return H; }
+	float getHypotenuse() { return H; }
 	Position* getCenter() { return &Center; }
 
 private:

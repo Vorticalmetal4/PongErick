@@ -17,7 +17,7 @@ public:
 	void setActive(bool _Active) { Active = _Active; }
 	bool getActive() { return Active; }
 	Position* getCenter() { return &Center; }
-	double getHypotenuse() { return H; }
+	float getHypotenuse() { return H; }
 	int getSize() { return Size; }
 	int getWidth() { return Width; }
 	int getHeight() { return Height; }

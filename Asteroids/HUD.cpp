@@ -28,9 +28,11 @@ HUD::HUD(Renderer* _Rend)
 
 	string GameOverstr = "Game Over";
 	string Restartstr = "Press R to restart";
+	string Invincibilitystr = "Invincible";
 
 	GameOver = (char*)malloc((GameOverstr.size() + 1) * sizeof(char));
 	Restart = (char*)malloc((Restartstr.size() + 1) * sizeof(char));
+	Invincible = (char*)malloc((Invincibilitystr.size() + 1) * sizeof(char));
 
 	if (GameOver != NULL)
 	{
@@ -41,6 +43,11 @@ HUD::HUD(Renderer* _Rend)
 	if (Restart != NULL) {
 		Restartstr.copy(Restart, Restartstr.size());
 		Restart[Restartstr.size()] = '\0';
+	}
+
+	if (Invincible != NULL) {
+		Invincibilitystr.copy(Invincible, Invincibilitystr.size());
+		Invincible[Invincibilitystr.size()] = '\0';
 	}
 
 	HWindowWidth = Rend->getWindowWidth() / 2.0f;
@@ -87,6 +94,9 @@ void HUD::Update(HUDData* Data)
 		if (Rend->CheckReset())
 			Reset = true;
 	}
+
+	if (Data->Invincibility >= 0)
+		Rend->Write(Invincible, 100, 100, HWindowWidth - 60, 0, 255, 255, 0, 255);
 		
 }
 

@@ -159,6 +159,20 @@ void Renderer::Write(char* NText, int TextW, int TextH, float TextX, float TextY
 
 }
 
+void Renderer::Write(char* NText, int TextW, int TextH, float TextX, float TextY, Uint8 r, Uint8 g, Uint8 b, Uint8 alpha)
+{
+    TextSurface = TTF_RenderText_Solid(Font, NText, { r, g, b, alpha });
+    Texture = SDL_CreateTextureFromSurface(mRenderer, TextSurface);  // isaveg: verify, do you really need to create and destroy every frame?
+    SDL_QueryTexture(Texture, NULL, NULL, &TextW, &TextH);
+    TextRect = { (int)TextX, (int)TextY, TextW, TextH };
+
+    SDL_RenderCopy(mRenderer, Texture, NULL, &TextRect);
+
+    SDL_FreeSurface(TextSurface);
+    SDL_DestroyTexture(Texture);
+
+}
+
 char Renderer::CheckMovement()
 {
     if (State[SDL_SCANCODE_RIGHT])

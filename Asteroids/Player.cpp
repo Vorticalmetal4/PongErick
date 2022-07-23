@@ -43,8 +43,10 @@ Player::Player(Renderer* _Rend)
 	Center.x = FirstPoint.x + HWidth;
 	Center.y = FirstPoint.y - HHeight;
 	ShootCooldown = ConFile.GetInteger("Player", "ShootCooldown", 0);
+	Invincibility =	DamageCooldown = ConFile.GetInteger("Player", "DamageCooldown", 0);
 
 	H = (float)sqrt(pow(HHeight, 2) + pow(HWidth, 2));
+
 
 	for(int i = 0; i < ConFile.GetInteger("Player", "NLasers", 0); i++)
 	{
@@ -135,14 +137,17 @@ void Player::Update(bool Pause)
 			Center.y = (float)Rend->getWindowHeight();
 
 		CurrentCooldown--;
-		DamageCooldown--;
+		Invincibility -= DeltaTime;
 
 		for (i = 0; i < Lasers.size(); i++)
 			if(Lasers[i].getActive())
 				Lasers[i].Update(Pause);
 	}
 
-	Rend->DrawTriangle(&FirstPoint, &SecondPoint, &ThirdPoint, 255, 255, 255, 255);
+	if(Invincibility <= 0)
+		Rend->DrawTriangle(&FirstPoint, &SecondPoint, &ThirdPoint, 255, 255, 255, 255);
+	else
+		Rend->DrawTriangle(&FirstPoint, &SecondPoint, &ThirdPoint, 255, 255, 0, 255);
 } 
 
 void Player::MovePoints(bool Rotation) 

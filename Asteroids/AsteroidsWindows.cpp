@@ -181,6 +181,7 @@ int main()
                 }
             }
 
+            GameData.Invincibility = MainPlayer.getInvincibiliy();
             MainHUD.Update(&GameData);
             if (GameData.Lives > 0)
                 MainPlayer.Update(Pause);

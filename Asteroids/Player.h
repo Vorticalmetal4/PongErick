@@ -15,7 +15,8 @@ public:
 	bool CheckLasersCollisions(Position* Pos, double ObjectH);
 	bool CheckCollisions(Position* Pos, double ObjectH);
 	Position* getCenter() { return &Center; }
-	double getHypotenuse() { return H; }
+	float getHypotenuse() { return H; }
+	float getInvincibiliy() { return Invincibility; }
 
 private:
 	Renderer* Rend;

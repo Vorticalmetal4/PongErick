@@ -6,6 +6,8 @@
 #include <string>
 using namespace std;
 
+typedef unsigned char Uint8;
+
 struct Position
 {
     float x;
@@ -25,6 +27,7 @@ public:
     void ClearRender();
     void GenerateOutput();
     void Write(char* NText, int TextW, int TextH, float TextX, float TextY);
+    void Write(char* NText, int TextW, int TextH, float TextX, float TextY, Uint8 r, Uint8 g, Uint8 b, Uint8 alpha);
 
     bool getIsRunning() { return mIsRunning; }
     float getDeltaTime() { return deltaTime; }

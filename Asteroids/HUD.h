@@ -9,6 +9,7 @@ struct HUDData
 {
 	int Lives;
 	int Score;
+	float Invincibility;
 };
 
 class HUD
@@ -40,6 +41,7 @@ private:
 	string ScoreText;
 	char* GameOver;
 	char* Restart;
+	char* Invincible;
 	bool Pause;
 	float HWindowWidth;
 	float HWindowHeight;
