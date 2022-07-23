@@ -43,7 +43,7 @@ Player::Player(Renderer* _Rend)
 	Center.x = FirstPoint.x + HWidth;
 	Center.y = FirstPoint.y - HHeight;
 	ShootCooldown = ConFile.GetInteger("Player", "ShootCooldown", 0);
-	Invincibility =	DamageCooldown = ConFile.GetInteger("Player", "DamageCooldown", 0);
+	Invincibility =	DamageCooldown = (float)ConFile.GetInteger("Player", "DamageCooldown", 0);
 
 	H = (float)sqrt(pow(HHeight, 2) + pow(HWidth, 2));
 
@@ -69,23 +69,22 @@ void Player::Update(bool Pause)
 	{
 		DeltaTime = Rend->getDeltaTime();
 
+		Rotation = (int)(RotationVelocity * DeltaTime);
+
 		switch (Rend->CheckMovement())
 		{
 		case 'R':
-			/*FirstPoint.Angle -= (RotationVelocity * DeltaTime);
-			SecondPoint.Angle -= (RotationVelocity * DeltaTime);
-			ThirdPoint.Angle -= (RotationVelocity * DeltaTime);*/
-			FirstPoint.Angle -= RotationVelocity;
-			SecondPoint.Angle -= RotationVelocity;
-			ThirdPoint.Angle -= RotationVelocity;
+			FirstPoint.Angle -= Rotation;
+			SecondPoint.Angle -= Rotation;
+			ThirdPoint.Angle -= Rotation;
 
 			MovePoints(true);
 			break;
 
 		case 'L':
-			FirstPoint.Angle += RotationVelocity;
-			SecondPoint.Angle += RotationVelocity;
-			ThirdPoint.Angle += RotationVelocity;
+			FirstPoint.Angle += Rotation;
+			SecondPoint.Angle += Rotation;
+			ThirdPoint.Angle += Rotation;
 
 			MovePoints(true);
 			break;

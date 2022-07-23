@@ -51,7 +51,7 @@ int main()
     Player MainPlayer = Player(&Rend);
     vector<Asteroid> Asteroids;
     vector<EnemyShip> Enemies;
-    srand(time(NULL));
+    srand((unsigned int)time(NULL));
 
 
     for (i = 0; i < NAsteroids * 4; i++)

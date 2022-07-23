@@ -38,4 +38,5 @@ private:
 	int CurrentCooldown;
 	float DamageCooldown;
 	float Invincibility;
+	int Rotation;
 };

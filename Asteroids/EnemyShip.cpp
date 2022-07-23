@@ -13,7 +13,11 @@ const double Rad = Pi / 180;
 EnemyShip::EnemyShip(Renderer* _Rend)
 	:Rend(_Rend),
 	Active(false),
-	Ray(_Rend)
+	Ray(_Rend),
+	wasPlayerUp(false),
+	wasPlayerLeft(false),
+	ChangeDirection(false),
+	TurnLeft(false)
 {
 	INIReader ConFile("InitialData.ini");
 
@@ -43,7 +47,36 @@ void EnemyShip::Update(Position* PlayerCenter, double PlayerHypotenuse, bool Pau
 
 		if (!Ray.CheckCollision(PlayerCenter->x, PlayerCenter->y, PlayerHypotenuse))
 		{
-			if (PlayerCenter->y < Center.y)
+
+			if ( ((PlayerCenter->y < Center.y && wasPlayerUp) || (PlayerCenter->y > Center.y && !wasPlayerUp)) && ((PlayerCenter->x < Center.x && wasPlayerLeft) || (PlayerCenter->x > Center.x && !wasPlayerLeft)))
+				ChangeDirection = false;
+			else
+				ChangeDirection = true;
+
+			if(ChangeDirection)
+				cout << ChangeDirection << endl;
+
+			if(ChangeDirection)
+			{
+				if (PlayerCenter->y <= Center.y)
+					wasPlayerUp = true;
+				else
+					wasPlayerUp = false;
+
+				if (PlayerCenter->x <= Center.x)
+					wasPlayerLeft = true;
+				else
+					wasPlayerLeft = false;
+
+				if ((wasPlayerUp && P3.x >= Center.x) || (!wasPlayerUp && P3.x <= Center.x))
+					TurnLeft = true;
+				else
+					TurnLeft = false;
+
+				ChangeDirection = false;
+			}
+
+			if (TurnLeft)
 			{
 				P1.Angle++;
 				P2.Angle++;
@@ -57,6 +90,7 @@ void EnemyShip::Update(Position* PlayerCenter, double PlayerHypotenuse, bool Pau
 				P3.Angle--;
 				Center.Angle--;
 			}
+
 		}
 		else
 		{
@@ -94,6 +128,8 @@ void EnemyShip::setNewData(bool Left, bool _Active)
 {
 	Active = _Active;
 	Ray.setActive(true);
+	wasPlayerUp = false;
+	wasPlayerLeft = false;
 
 	P3.y = Center.y = Rend->getWindowHeight() / 2.0f;
 

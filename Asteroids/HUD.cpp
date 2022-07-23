@@ -95,7 +95,7 @@ void HUD::Update(HUDData* Data)
 			Reset = true;
 	}
 
-	if (Data->Invincibility >= 0)
+	else if (Data->Invincibility >= 0)
 		Rend->Write(Invincible, 100, 100, HWindowWidth - 60, 0, 255, 255, 0, 255);
 		
 }

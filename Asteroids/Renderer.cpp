@@ -7,19 +7,19 @@
 using namespace std;
 
 const Uint8* State = SDL_GetKeyboardState(NULL);
-TTF_Font* Font;
+TTF_Font* Font = nullptr;
 SDL_Rect TextRect;
+SDL_Window* mWindow = nullptr;
+SDL_Surface* TextSurface = nullptr;
+SDL_Texture* Texture = nullptr;
+SDL_Renderer* mRenderer = nullptr;
 
 Renderer::Renderer(void)
-    :mWindow(nullptr),
-    mIsRunning(true),
-    mRenderer(NULL),
+    :mIsRunning(true),
     PauseCounter(0),
     WindowHeight(0),
     WindowWidth(0),
-    FText(nullptr),
-    TextSurface(nullptr),
-    Texture(nullptr)
+    FText(nullptr)
 {
 
 }
@@ -113,7 +113,7 @@ void Renderer::UpdateGame()
 
     deltaTime = (SDL_GetTicks() - mTicksCount) / 1000.0f;
     if (deltaTime > 0.05f) deltaTime = 0.05f;
-    mTicksCount = SDL_GetTicks();
+    mTicksCount = (float)SDL_GetTicks();
     PauseCounter--;
 }
 

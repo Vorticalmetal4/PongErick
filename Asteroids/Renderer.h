@@ -45,9 +45,8 @@ public:
 
 private:
 
-    class SDL_Window* mWindow; 
     bool mIsRunning;
-    class SDL_Renderer* mRenderer;
+    
     float deltaTime = 0;
     float mTicksCount = 0;
     int WindowHeight;
@@ -56,7 +55,6 @@ private:
     char* FText;
     int PauseCounter;
 
-    class SDL_Surface* TextSurface;
-    class SDL_Texture* Texture;
+
 
 };

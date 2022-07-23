@@ -30,4 +30,8 @@ private:
 	bool Active;
 	float H;
 	float DeltaTime;
+	bool wasPlayerUp;
+	bool wasPlayerLeft;
+	bool ChangeDirection;
+	bool TurnLeft;
 };
