@@ -5,9 +5,6 @@
 #include "EnemyShip.h"
 
 #include <cmath>
-#include <iostream>
-
-using namespace std;
 
 const float Pi = (float)3.141592;
 const float Rad = Pi / 180;

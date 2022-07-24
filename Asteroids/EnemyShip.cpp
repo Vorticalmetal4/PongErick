@@ -4,11 +4,9 @@
 #include "Raycaster.h"
 
 #include <cmath>
-#include <iostream>
-using namespace std;
 
-const double Pi = (float)3.141592;
-const double Rad = Pi / 180;
+const float Pi = (float)3.141592;
+const float Rad = Pi / 180;
 
 EnemyShip::EnemyShip(Renderer* _Rend)
 	:Rend(_Rend),
@@ -52,9 +50,6 @@ void EnemyShip::Update(Position* PlayerCenter, double PlayerHypotenuse, bool Pau
 				ChangeDirection = false;
 			else
 				ChangeDirection = true;
-
-			if(ChangeDirection)
-				cout << ChangeDirection << endl;
 
 			if(ChangeDirection)
 			{
@@ -121,6 +116,7 @@ void EnemyShip::Update(Position* PlayerCenter, double PlayerHypotenuse, bool Pau
 		else if (Center.y < 0)
 			Center.y = (float)Rend->getWindowHeight();
 	}
+
 	Rend->DrawTriangle(&P1, &P2, &P3, 255, 0, 0, 255);
 }
 

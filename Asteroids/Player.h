@@ -17,6 +17,7 @@ public:
 	Position* getCenter() { return &Center; }
 	float getHypotenuse() { return H; }
 	float getInvincibiliy() { return Invincibility; }
+	void ResetLasers();
 
 private:
 	Renderer* Rend;

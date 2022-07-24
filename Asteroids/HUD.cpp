@@ -36,17 +36,17 @@ HUD::HUD(Renderer* _Rend)
 
 	if (GameOver != NULL)
 	{
-		GameOverstr.copy(GameOver, GameOverstr.size());
+		GameOverstr.copy(GameOver, GameOverstr.size() + 1);
 		GameOver[GameOverstr.size()] = '\0';
 	}
 
 	if (Restart != NULL) {
-		Restartstr.copy(Restart, Restartstr.size());
+		Restartstr.copy(Restart, Restartstr.size() + 1);
 		Restart[Restartstr.size()] = '\0';
 	}
 
 	if (Invincible != NULL) {
-		Invincibilitystr.copy(Invincible, Invincibilitystr.size());
+		Invincibilitystr.copy(Invincible, Invincibilitystr.size() + 1);
 		Invincible[Invincibilitystr.size()] = '\0';
 	}
 
@@ -121,4 +121,12 @@ void HUD::ResetHUD(bool _Reset)
 	Reset = _Reset;
 	for (i = 0; i < strlen(NText); i++)
 		NText[i] = ' ';
+}
+
+void HUD::FreeMemory()
+{
+	free(GameOver);
+	free(Restart);
+	//Restart = nullptr;
+	free(Invincible);
 }

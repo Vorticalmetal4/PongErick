@@ -5,7 +5,6 @@
 #include "HUD.h"
 #include "EnemyShip.h"
 
-#include <iostream> 
 #include <stdlib.h>
 #include <time.h>
 using namespace std;
@@ -199,6 +198,7 @@ int main()
                     Asteroids[i].setActive(false);
                 for (i = 0; i < NEnemies; i++)
                     Enemies[i].setActive(false);
+                MainPlayer.ResetLasers();
                 MainHUD.ResetHUD(false);
             }
 
@@ -215,6 +215,7 @@ int main()
         }
 
         Rend.FreeMemory();
+        MainHUD.FreeMemory();
     }
 }
 

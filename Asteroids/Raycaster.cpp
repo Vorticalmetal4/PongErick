@@ -1,11 +1,8 @@
 #include "Raycaster.h"
 #include "Renderer.h"
 
-#include <iostream>
-using namespace std;
-
-const double Pi = 3.141592;
-const double Rad = Pi / 180;
+const float Pi = (float)3.141592;
+const float Rad = Pi / 180;
 
 Raycaster::Raycaster(Renderer* _Rend)
 	:Rend(_Rend),
@@ -39,14 +36,14 @@ void Raycaster::Update(int Velocity, Position* EnemyP)
 	else 
 		D = P1.x,
 
-	P1.x += cos(Center.Rotation);
-	P1.y -= sin(Center.Rotation);
-	P2.x += cos(Center.Rotation) * D;
-	P2.y -= sin(Center.Rotation) * D;
-	Center.x += cos(Center.Rotation) * D / 2.0f;
-	Center.y -= sin(Center.Rotation) * D / 2.0f;
+	P1.x += cosf(Center.Rotation);
+	P1.y -= sinf(Center.Rotation);
+	P2.x += cosf(Center.Rotation) * D;
+	P2.y -= sinf(Center.Rotation) * D;
+	Center.x += cosf(Center.Rotation) * D / 2.0f;
+	Center.y -= sinf(Center.Rotation) * D / 2.0f;
 
-	Rend->DrawLine(&P1, &P2, 255, 0, 0, 0);
+	Rend->DrawLine(&P1, &P2, 0, 0, 0, 0);
 }
 
 bool Raycaster::CheckCollision(double PlayerX, double PlayerY, double PlayerH)

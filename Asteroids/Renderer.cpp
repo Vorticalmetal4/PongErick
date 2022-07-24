@@ -2,9 +2,6 @@
 #include "SDL2/include/SDL_ttf.h" 
 #include "Renderer.h"
 #include <string>
-#include <iostream>
-
-using namespace std;
 
 const Uint8* State = SDL_GetKeyboardState(NULL);
 TTF_Font* Font = nullptr;
@@ -236,6 +233,7 @@ void Renderer::DrawRect(Position* P1, Position* P2, Position* P3, Position* P4, 
 void Renderer::DrawLine(Position* P1, Position* P2, int r, int g, int b, int alpha)
 {
     SDL_SetRenderDrawColor(mRenderer, r, g, b, alpha);
-    SDL_RenderDrawLine(mRenderer, (int)P1->x, (int)P1->y, (int)P2->x, (int)P2->y);
-    
+    SDL_RenderDrawLine(mRenderer, (int)P1->x, (int)P1->y, (int)P2->x, (int)P2->y);    
 }
+
+

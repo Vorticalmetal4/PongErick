@@ -6,7 +6,6 @@
 #include "EnemyShip.h"
 
 #include <cmath>
-#include <iostream>
 #include <vector>
 using namespace std;
 
@@ -198,4 +197,8 @@ bool Player::CheckCollisions(Position* Pos, double ObjectH)
 	return false;
 }
 
-
+void Player::ResetLasers()
+{
+	for (i = 0; i < Lasers.size(); i++)
+		Lasers[i].setActive(false);
+}

@@ -21,6 +21,7 @@ public:
 	bool getPause() { return Pause; }
 	bool getReset() { return Reset; }
 	void ResetHUD(bool _Reset);
+	void FreeMemory();
 	
 
 private:
