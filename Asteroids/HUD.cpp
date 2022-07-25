@@ -5,6 +5,7 @@
 #include <string>
 #include <iostream>
 using namespace std;
+int l;
 
 HUD::HUD(Renderer* _Rend)
 	:Rend(_Rend),
@@ -66,7 +67,7 @@ void HUD::Update(HUDData* Data)
 
 	InitialPosition();
 
-	for(i = 0; i < Data->Lives; i++)
+	for(l = 0; l < Data->Lives; l++)
 	{
 		LivesP1.x += LivesSeparation;
 		LivesP2.x += LivesSeparation;
@@ -95,8 +96,8 @@ void HUD::Update(HUDData* Data)
 			Reset = true;
 	}
 
-	else if (Data->Invincibility >= 0)
-		Rend->Write(Invincible, 100, 100, HWindowWidth - 60, 0, 255, 255, 0, 255);
+	/*else if (Data->Invincibility >= 0)
+		Rend->Write(Invincible, 100, 100, HWindowWidth - 60, 0, 255, 255, 0, 255);*/
 		
 }
 
@@ -119,14 +120,13 @@ void HUD::ChangeScore(int Score, int TextW, int TextH, float TextX, float TextY)
 void HUD::ResetHUD(bool _Reset)
 {
 	Reset = _Reset;
-	for (i = 0; i < strlen(NText); i++)
-		NText[i] = ' ';
+	for (l = 0; l < strlen(NText); l++)
+		NText[l] = ' ';
 }
 
 void HUD::FreeMemory()
 {
 	free(GameOver);
 	free(Restart);
-	//Restart = nullptr;
 	free(Invincible);
 }

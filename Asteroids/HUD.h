@@ -37,7 +37,6 @@ private:
 	int LivesWidth;
 	int LivesHeight;
 	int LivesSeparation;
-	int i;
 	char NText[7];
 	string ScoreText;
 	char* GameOver;
