@@ -98,8 +98,8 @@ void Asteroid::UpdateData(float x, float y, int Angle)
 	FirstPoint.Angle = Center.Angle = Angle;
 	FirstPoint.Rotation = Center.Rotation = Angle * Rad;
 
-	P1.x = cos(FirstPoint.Rotation) * Velocity;
-	P1.y = -sin(FirstPoint.Rotation) * Velocity;
+	P1.x = cos(FirstPoint.Rotation) * Velocity; // NOTE(isaveg): you are still using the wrong math functions for float values
+	P1.y = -sin(FirstPoint.Rotation) * Velocity; // NOTE(isaveg): you are still using the wrong math functions for float values
 
 	H = (float)sqrt(pow(Width / 2, 2) + pow(Height / 2, 2));
 }

@@ -127,6 +127,7 @@ void HUD::ResetHUD(bool _Reset)
 void HUD::FreeMemory()
 {
 	free(GameOver);
+	GameOver = nullptr; // isaveg: Clear pointer. For clarity sake and pointer access safety
 	free(Restart);
 	free(Invincible);
 }
