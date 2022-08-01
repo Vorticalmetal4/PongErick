@@ -27,7 +27,7 @@ EnemyShip::EnemyShip(Renderer* _Rend)
 	Velocity = ConFile.GetInteger("EnemyShip", "Velocity", 0);
 	HWidth = Width / 2.0f;
 	HHeight = Height / 2.0f;
-	H = (float) sqrt(pow(HHeight, 2) + pow(HWidth, 2));
+	H = sqrtf(powf(HHeight, 2) + powf(HWidth, 2));
 
 
 	setNewData(true, false);
@@ -89,8 +89,8 @@ void EnemyShip::Update(Position* PlayerCenter, double PlayerHypotenuse, bool Pau
 		}
 		else
 		{
-			Center.x += cos(Center.Rotation) * Velocity * DeltaTime;
-			Center.y -= sin(Center.Rotation) * Velocity * DeltaTime;
+			Center.x += cosf(Center.Rotation) * Velocity * DeltaTime;
+			Center.y -= sinf(Center.Rotation) * Velocity * DeltaTime;
 		}
 
 		Ray.Update(Velocity, &P3);

@@ -35,7 +35,7 @@ void Asteroid::setBigAsteroid(int _Width, int _Height)
 	Size = 0;
 	Width = _Width;
 	Height = _Height;
-	H = (float)sqrt(pow(Width / 2, 2) + pow(Height / 2, 2));
+	H = sqrtf(powf(Width / 2.0f, 2) + powf(Height / 2.0f, 2));
 }
 
 void Asteroid::Update(bool Pause)
@@ -66,7 +66,7 @@ void Asteroid::Update(bool Pause)
 
 bool Asteroid::CheckCollision(Position* OtherAsteroidPos, double OtherAsteroidH)
 {
-	if(sqrt(pow(Center.x - OtherAsteroidPos->x, 2) + pow(Center.y - OtherAsteroidPos->y, 2)) < H + OtherAsteroidH)
+	if(sqrtf(powf(Center.x - OtherAsteroidPos->x, 2) + powf(Center.y - OtherAsteroidPos->y, 2)) < H + OtherAsteroidH)
 		return true;
 	
 	return false;
@@ -98,8 +98,8 @@ void Asteroid::UpdateData(float x, float y, int Angle)
 	FirstPoint.Angle = Center.Angle = Angle;
 	FirstPoint.Rotation = Center.Rotation = Angle * Rad;
 
-	P1.x = cos(FirstPoint.Rotation) * Velocity; // NOTE(isaveg): you are still using the wrong math functions for float values
-	P1.y = -sin(FirstPoint.Rotation) * Velocity; // NOTE(isaveg): you are still using the wrong math functions for float values
+	P1.x = cosf(FirstPoint.Rotation) * Velocity; 
+	P1.y = -sinf(FirstPoint.Rotation) * Velocity; 
 
-	H = (float)sqrt(pow(Width / 2, 2) + pow(Height / 2, 2));
+	H = sqrtf(powf(Width / 2.0f, 2) + powf(Height / 2.0f, 2));
 }

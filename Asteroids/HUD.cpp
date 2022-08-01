@@ -23,7 +23,7 @@ HUD::HUD(Renderer* _Rend)
 	LivesHeight = ConFile.GetInteger("HUD", "LivesHeight", 0);
 	LivesSeparation = ConFile.GetInteger("HUD", "LivesSeparation", 0);
 
-	LivesHWidth = LivesWidth / 2;
+	LivesHWidth = LivesWidth / 2.0f;
 	LivesP1.y = LivesP3.y = LivesY + LivesHeight;
 	LivesP2.y = LivesY;
 
@@ -127,7 +127,9 @@ void HUD::ResetHUD(bool _Reset)
 void HUD::FreeMemory()
 {
 	free(GameOver);
-	GameOver = nullptr; // isaveg: Clear pointer. For clarity sake and pointer access safety
+	GameOver = nullptr; 
 	free(Restart);
+	Restart = nullptr;
 	free(Invincible);
+	Invincible = nullptr;
 }

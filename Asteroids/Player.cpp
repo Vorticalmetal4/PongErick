@@ -28,9 +28,9 @@ Player::Player(Renderer* _Rend)
 	DecVelocity = IncVelocity / 2;
 	RotationVelocity = ConFile.GetInteger("Player", "RotationVelocity", 0);
 	Width = ConFile.GetInteger("Player", "Width", 0);
-	int HWidth = Width / 2;
+	float HWidth = Width / 2.0f;
 	Height = ConFile.GetInteger("Player", "Height", 0);
-	int HHeight = Height / 2;
+	float HHeight = Height / 2.0f;
 	FirstPoint.x = (float)ConFile.GetInteger("Player", "PositionX", 0);
 	FirstPoint.y =  SecondPoint.y = (float)ConFile.GetInteger("Player", "PositionY", 0);
 	FirstPoint.Angle = 315;
@@ -44,7 +44,7 @@ Player::Player(Renderer* _Rend)
 	ShootCooldown = ConFile.GetInteger("Player", "ShootCooldown", 0);
 	Invincibility =	DamageCooldown = (float)ConFile.GetInteger("Player", "DamageCooldown", 0);
 
-	H = (float)sqrt(pow(HHeight, 2) + pow(HWidth, 2));
+	H = sqrtf(powf(HHeight, 2) + powf(HWidth, 2));
 
 
 	for(int i = 0; i < ConFile.GetInteger("Player", "NLasers", 0); i++)
@@ -92,8 +92,8 @@ void Player::Update(bool Pause)
 			if (Velocity + IncVelocity <= MaxVelocity)
 				Velocity += IncVelocity;
 
-			Center.x += cos(ThirdPoint.Rotation) * Velocity * DeltaTime;
-			Center.y -= sin(ThirdPoint.Rotation) * Velocity * DeltaTime;
+			Center.x += cosf(ThirdPoint.Rotation) * Velocity * DeltaTime;
+			Center.y -= sinf(ThirdPoint.Rotation) * Velocity * DeltaTime;
 			MovePoints(false);
 			break;
 
@@ -119,8 +119,8 @@ void Player::Update(bool Pause)
 		{
 			Velocity -= DecVelocity;
 
-			Center.x += cos(ThirdPoint.Rotation) * Velocity * DeltaTime;
-			Center.y -= sin(ThirdPoint.Rotation) * Velocity * DeltaTime;
+			Center.x += cosf(ThirdPoint.Rotation) * Velocity * DeltaTime;
+			Center.y -= sinf(ThirdPoint.Rotation) * Velocity * DeltaTime;
 			MovePoints(false);
 		}
 
@@ -157,12 +157,12 @@ void Player::MovePoints(bool Rotation)
 		ThirdPoint.Rotation = ThirdPoint.Angle * Rad;
 	}
 
-	FirstPoint.x = Center.x + cos(FirstPoint.Rotation) * H;
-	FirstPoint.y = Center.y - sin(FirstPoint.Rotation) * H;
-	SecondPoint.x = Center.x + cos(SecondPoint.Rotation) * H;
-	SecondPoint.y = Center.y - sin(SecondPoint.Rotation) * H;
-	ThirdPoint.x = Center.x + cos(ThirdPoint.Rotation) * H;
-	ThirdPoint.y = Center.y - sin(ThirdPoint.Rotation) * H;
+	FirstPoint.x = Center.x + cosf(FirstPoint.Rotation) * H;
+	FirstPoint.y = Center.y - sinf(FirstPoint.Rotation) * H;
+	SecondPoint.x = Center.x + cosf(SecondPoint.Rotation) * H;
+	SecondPoint.y = Center.y - sinf(SecondPoint.Rotation) * H;
+	ThirdPoint.x = Center.x + cosf(ThirdPoint.Rotation) * H;
+	ThirdPoint.y = Center.y - sinf(ThirdPoint.Rotation) * H;
 }
 
 bool Player::CheckLasersCollisions(Position* Pos, double ObjectH)

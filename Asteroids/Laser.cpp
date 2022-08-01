@@ -28,8 +28,7 @@ Laser::Laser(Renderer* _Rend)
 	FirstPoint.y = SecondPoint.y = ThirdPoint.y = FourthPoint.y = Center.y = -100;
 	FirstPoint.Rotation = SecondPoint.Rotation = ThirdPoint.Rotation = FourthPoint.Rotation = Center.Rotation = 0;
 	FirstPoint.Angle = SecondPoint.Angle = ThirdPoint.Angle = FourthPoint.Angle = Center.Angle = 0;
-	H = (float)sqrt(pow(Height, 2) + pow(Width / 2, 2)); // NOTE(isaveg): you are still using the wrong math functions for float values
-
+	H = sqrtf(powf((float)Height, 2) + powf(Width / 2.0f, 2)); 
 	P1.x = P2.x = P3.x = P4.x = 0;
 	P1.y = P2.y = P3.y = P4.y = 0;
 	
@@ -44,8 +43,8 @@ void Laser::Update(bool Pause)
 	if (!Pause)
 	{
 		DeltaTime = Rend->getDeltaTime();
-		Center.x += cos(Center.Rotation) * Velocity * DeltaTime; // NOTE(isaveg): you are still using the wrong math functions for float values
-		Center.y -= sin(Center.Rotation) * Velocity * DeltaTime; // NOTE(isaveg): you are still using the wrong math functions for float values
+		Center.x += cosf(Center.Rotation) * Velocity * DeltaTime; 
+		Center.y -= sinf(Center.Rotation) * Velocity * DeltaTime; 
 		TimeRemaining -= DeltaTime;
 
 		if (Center.x > Rend->getWindowWidth())
@@ -92,22 +91,21 @@ void Laser::setPosition(float x, float y, int _Angle, float _Rotation)
 	ThirdPoint.Rotation = ThirdPoint.Angle * Rad;
 	FourthPoint.Rotation = FourthPoint.Angle * Rad;
 
-	// NOTE(isaveg): you are still using the wrong math functions for float values
-	P1.x = cos(FirstPoint.Rotation) * H;
-	P1.y = -sin(FirstPoint.Rotation) * H;
-	P2.x = cos(SecondPoint.Rotation) * H;
-	P2.y = -sin(SecondPoint.Rotation) * H;
-	P3.x = cos(ThirdPoint.Rotation) * H;
-	P3.y = -sin(ThirdPoint.Rotation) * H;
-	P4.x = cos(FourthPoint.Rotation) * H;
-	P4.y = -sin(FourthPoint.Rotation) * H;
+	P1.x = cosf(FirstPoint.Rotation) * H;
+	P1.y = -sinf(FirstPoint.Rotation) * H;
+	P2.x = cosf(SecondPoint.Rotation) * H;
+	P2.y = -sinf(SecondPoint.Rotation) * H;
+	P3.x = cosf(ThirdPoint.Rotation) * H;
+	P3.y = -sinf(ThirdPoint.Rotation) * H;
+	P4.x = cosf(FourthPoint.Rotation) * H;
+	P4.y = -sinf(FourthPoint.Rotation) * H;
 
 	TimeRemaining = LifeTime;
 }
 
 bool Laser::CheckCollision(Position* Pos, double ObjectH)
 {
-	if (sqrt(pow(Pos->x - Center.x, 2) + pow(Pos->y - Center.y, 2)) < H + ObjectH) // NOTE(isaveg): you are still using the wrong math functions for float values
+	if (sqrtf(powf(Pos->x - Center.x, 2) + powf(Pos->y - Center.y, 2)) < H + ObjectH) 
 	{
 		Active = false;
 		return true;
