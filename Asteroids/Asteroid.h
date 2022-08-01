@@ -24,8 +24,8 @@ public:
 	void setSize(int _Size) { Size = _Size; }
 	bool CheckCollision(Position* OtherAsteroidPos, double OtherAsteroidH);
 	void setNewData(Position* Center, int ParentSize, int ParentWidth, int ParentHeight, bool NewAsteroid);
-	void UpdateData(float x, float y, int Angle);
 	void setBigAsteroid(int _Width, int _Height);
+	void ChangeDirection(int ObjectNumber);
 
 private:
 	Renderer* Rend;
@@ -38,8 +38,11 @@ private:
 	int Velocity;
 	float DeltaTime;
 	float H;
-	int HWidth;
-	int HHeight;
+	float HWidth;
+	float HHeight;
 	int Size;
+	int LastObjectHited;
+
+	void UpdateData(float x, float y, int Angle);
 
 };

@@ -11,7 +11,8 @@ Asteroid::Asteroid(Renderer* _Rend, float x, float y, int Angle)
 	:Rend(_Rend),
 	Active(false),
 	DeltaTime(0),
-	Size(0)
+	Size(0),
+	LastObjectHited(0)
 {
 	INIReader ConFile("InitialData.ini");
 
@@ -35,6 +36,18 @@ void Asteroid::setBigAsteroid(int _Width, int _Height)
 	Size = 0;
 	Width = _Width;
 	Height = _Height;
+
+	if (FirstPoint.x <= 1)
+		FirstPoint.x += Width;
+	else if (FirstPoint.x >= Rend->getWindowWidth())
+		FirstPoint.x -= Width;
+
+	if (FirstPoint.y <= 1)
+		FirstPoint.y += Height;
+	else if (FirstPoint.y >= Rend->getWindowHeight())
+		FirstPoint.y -= Height;
+		
+
 	H = sqrtf(powf(Width / 2.0f, 2) + powf(Height / 2.0f, 2));
 }
 
@@ -50,15 +63,15 @@ void Asteroid::Update(bool Pause)
 		Center.x = FirstPoint.x + HWidth;
 		Center.y = FirstPoint.y + HHeight;
 
-		if (FirstPoint.x > Rend->getWindowWidth())
-			FirstPoint.x = 0;
-		else if (FirstPoint.x < 0)
-			FirstPoint.x = (float)Rend->getWindowWidth();
+		if (FirstPoint.x + Width > Rend->getWindowWidth())
+			ChangeDirection(1);
+		else if (FirstPoint.x <= 0)
+			ChangeDirection(3);
 
-		if (FirstPoint.y > Rend->getWindowHeight())
-			FirstPoint.y = 0;
-		else if (FirstPoint.y < 0)
-			FirstPoint.y = (float)Rend->getWindowHeight();
+		if (FirstPoint.y + Height > Rend->getWindowHeight())
+			ChangeDirection(2);
+		else if (FirstPoint.y <= 0)
+			ChangeDirection(4);
 
 	}
 		Rend->DrawSimpleRect(FirstPoint.x, FirstPoint.y, Width, Height, 255, 0, 0, 255);
@@ -86,8 +99,8 @@ void Asteroid::setNewData(Position* Pos, int ParentSize, int ParentWidth, int Pa
 
 void Asteroid::UpdateData(float x, float y, int Angle)
 {
-	HWidth = Width / 2;
-	HHeight = Height / 2;
+	HWidth = Width / 2.0f;
+	HHeight = Height / 2.0f;
 
 	FirstPoint.x = x;
 	FirstPoint.y = y;
@@ -102,4 +115,16 @@ void Asteroid::UpdateData(float x, float y, int Angle)
 	P1.y = -sinf(FirstPoint.Rotation) * Velocity; 
 
 	H = sqrtf(powf(Width / 2.0f, 2) + powf(Height / 2.0f, 2));
+}
+
+void Asteroid::ChangeDirection(int ObjectNumber)
+{
+	if (ObjectNumber != LastObjectHited)
+	{
+		FirstPoint.Angle += 180;
+		FirstPoint.Rotation = FirstPoint.Angle * Rad;
+		P1.x = cosf(FirstPoint.Rotation) * Velocity;
+		P1.y = -sinf(FirstPoint.Rotation) * Velocity;
+		LastObjectHited = ObjectNumber;
+	}
 }
