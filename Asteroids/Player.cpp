@@ -50,7 +50,7 @@ Player::Player(Renderer* _Rend)
 	for(int i = 0; i < ConFile.GetInteger("Player", "NLasers", 0); i++)
 	{
 		Laser NLaser = Laser(Rend);
-		Lasers.push_back(NLaser);
+		Lasers.push_back(NLaser); // NOTE(isaveg): makes more sense to have a dynamic C array type, and not the vector 
 	}
 	
 
