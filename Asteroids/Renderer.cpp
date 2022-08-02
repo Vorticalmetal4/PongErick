@@ -16,7 +16,10 @@ Renderer::Renderer(void)
     PauseCounter(0),
     WindowHeight(0),
     WindowWidth(0),
-    FText(nullptr)
+    FText(nullptr),
+    deltaTime(0),
+    mTicksCount(0)
+
 {
 
 }

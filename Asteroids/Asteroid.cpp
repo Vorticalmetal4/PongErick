@@ -13,7 +13,7 @@ Asteroid::Asteroid(Renderer* _Rend, float x, float y, int Angle)
 	Active(false),
 	DeltaTime(0),
 	Size(0),
-	LastObjectHited(-1)
+	LastObjectHitted(-1)
 {
 	INIReader ConFile("InitialData.ini");
 
@@ -23,6 +23,7 @@ Asteroid::Asteroid(Renderer* _Rend, float x, float y, int Angle)
 	Width = ConFile.GetInteger("Asteroid", "Width", 1);
 	Height = ConFile.GetInteger("Asteroid", "Height", 1);
 	Velocity = ConFile.GetInteger("Asteroid", "Velocity", 0);
+	SpeedIncrease = ConFile.GetInteger("Asteroid", "SpeedIncrease", 0);
 
 	UpdateData(x, y, Angle);
 }
@@ -31,7 +32,7 @@ Asteroid::~Asteroid()
 {
 }
 
-void Asteroid::setBigAsteroid(int _Width, int _Height, float x, float y)
+void Asteroid::setBigAsteroid(int _Width, int _Height, float x, float y, int _Velocity)
 {
 	Active = true;
 	Size = 0;
@@ -39,7 +40,8 @@ void Asteroid::setBigAsteroid(int _Width, int _Height, float x, float y)
 	Height = _Height;
 	FirstPoint.x = x;
 	FirstPoint.y = y;
-	LastObjectHited = -1;
+	LastObjectHitted = -1;
+	Velocity = _Velocity;
 		
 	H = sqrtf(powf(Width / 2.0f, 2) + powf(Height / 2.0f, 2));
 }
@@ -68,7 +70,7 @@ void Asteroid::Update(bool Pause)
 
 		if (Center.x > Rend->getWindowWidth() || Center.x < 0 || Center.y < 0 || Center.y > Rend->getWindowHeight()){
 			std::cout << "I shouldn't have escaped :c" << endl;
-			LastObjectHited = -1;
+			LastObjectHitted = -1;
 			Active = false;
 		}
 
@@ -84,11 +86,12 @@ bool Asteroid::CheckCollision(Position* OtherAsteroidPos, float OtherAsteroidH)
 	return false;
 }
 
-void Asteroid::setNewData(Position* Pos, int ParentSize, int ParentWidth, int ParentHeight, bool NewAsteroid)
+void Asteroid::setNewData(Position* Pos, int ParentSize, int ParentWidth, int ParentHeight, bool NewAsteroid, int ParentVelocity)
 {
 	Size = ParentSize + 1;
 	Width = ParentWidth / 2;
 	Height = ParentHeight / 2;
+	Velocity = ParentVelocity + SpeedIncrease;
 
 	if (NewAsteroid)
 		UpdateData(Pos->x + Width, Pos->y - Height, Pos->Angle);
@@ -129,12 +132,12 @@ void Asteroid::UpdateData(float x, float y, int Angle)
 
 void Asteroid::ChangeDirection(int ObjectNumber)
 {
-	if (ObjectNumber != LastObjectHited)
+	if (ObjectNumber != LastObjectHitted)
 	{
 		FirstPoint.Angle += 180;
 		FirstPoint.Rotation = FirstPoint.Angle * Rad;
 		P1.x = cosf(FirstPoint.Rotation) * Velocity;
 		P1.y = -sinf(FirstPoint.Rotation) * Velocity;
-		LastObjectHited = ObjectNumber;
+		LastObjectHitted = ObjectNumber;
 	}
 }

@@ -30,6 +30,7 @@ int main()
 
     int AsteroidWidth = ConFile.GetInteger("Asteroid", "Width", 1);
     int AsteroidHeight = ConFile.GetInteger("Asteroid", "Height", 1);
+    int AsteroidVelocity = ConFile.GetInteger("Asteroid", "Velocity", 1);
 
     GameData.Lives = ConFile.GetInteger("HUD", "Lives", 0);
     GameData.Score = 0;
@@ -94,7 +95,7 @@ int main()
                         if (MainPlayer.CheckLasersCollisions(Asteroids[i].getCenter(), Asteroids[i].getHypotenuse()))
                         {
                             Collisions = 1;
-                            Asteroids[i].setLastObjectHited(-1);
+                            Asteroids[i].setLastObjectHitted(-1);
                             if(GameData.Lives > 0)
                                 GameData.Score += Points * (Asteroids[i].getSize() + 1);
                             if (rand() % 101 <= EnemyProb)
@@ -131,8 +132,8 @@ int main()
                                     if (!Asteroids[j].getActive())
                                     {
                                         Asteroids[j].setActive(true);
-                                        Asteroids[j].setNewData(Asteroids[i].getCenter(), Asteroids[i].getSize(), Asteroids[i].getWidth(), Asteroids[i].getHeight(), true);
-                                        Asteroids[i].setNewData(Asteroids[i].getCenter(), Asteroids[i].getSize(), Asteroids[i].getWidth(), Asteroids[i].getHeight(), false);
+                                        Asteroids[j].setNewData(Asteroids[i].getCenter(), Asteroids[i].getSize(), Asteroids[i].getWidth(), Asteroids[i].getHeight(), true, Asteroids[i].getVelocity());
+                                        Asteroids[i].setNewData(Asteroids[i].getCenter(), Asteroids[i].getSize(), Asteroids[i].getWidth(), Asteroids[i].getHeight(), false, Asteroids[i].getVelocity());
                                         break;
                                     }
 
@@ -194,7 +195,7 @@ int main()
 
             if(ResetAsteroids)
                 for(i = 0; i < NAsteroids; i++)
-                    Asteroids[i].setBigAsteroid(AsteroidWidth, AsteroidHeight, (float)(AsteroidWidth + rand() % Rend.getWindowWidth() - AsteroidWidth), (float)(AsteroidHeight + rand() % Rend.getWindowHeight() - AsteroidHeight));
+                    Asteroids[i].setBigAsteroid(AsteroidWidth, AsteroidHeight, (float)(AsteroidWidth + rand() % Rend.getWindowWidth() - AsteroidWidth), (float)(AsteroidHeight + rand() % Rend.getWindowHeight() - AsteroidHeight), AsteroidVelocity);
             
 
             ResetAsteroids = true;

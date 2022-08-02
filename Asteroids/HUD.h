@@ -33,7 +33,7 @@ private:
 	HUDData Data;
 	float LivesInitialX;
 	float LivesY;
-	int LivesHWidth;
+	float LivesHWidth;
 	int LivesWidth;
 	int LivesHeight;
 	int LivesSeparation;

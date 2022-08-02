@@ -5,6 +5,7 @@
 #include "Asteroid.h"
 #include "EnemyShip.h"
 
+#include <iostream>
 #include <cmath>
 #include <vector>
 using namespace std;
@@ -13,10 +14,11 @@ const float Pi = (float)3.141592;
 const float Rad = Pi / 180;
 int i;
 
-Player::Player(Renderer* _Rend) 
+Player::Player(Renderer* _Rend)
 	:Rend(_Rend),
 	Velocity(0),
-	CurrentCooldown(0)
+	CurrentCooldown(0),
+	Lasers(nullptr)
 {
 	INIReader ConFile("InitialData.ini");
 
@@ -32,7 +34,7 @@ Player::Player(Renderer* _Rend)
 	Height = ConFile.GetInteger("Player", "Height", 0);
 	float HHeight = Height / 2.0f;
 	FirstPoint.x = (float)ConFile.GetInteger("Player", "PositionX", 0);
-	FirstPoint.y =  SecondPoint.y = (float)ConFile.GetInteger("Player", "PositionY", 0);
+	FirstPoint.y = SecondPoint.y = (float)ConFile.GetInteger("Player", "PositionY", 0);
 	FirstPoint.Angle = 315;
 	SecondPoint.x = FirstPoint.x + Width;
 	SecondPoint.Angle = 225;
@@ -42,18 +44,26 @@ Player::Player(Renderer* _Rend)
 	Center.x = FirstPoint.x + HWidth;
 	Center.y = FirstPoint.y - HHeight;
 	ShootCooldown = ConFile.GetInteger("Player", "ShootCooldown", 0);
-	Invincibility =	DamageCooldown = (float)ConFile.GetInteger("Player", "DamageCooldown", 0);
+	Invincibility = DamageCooldown = (float)ConFile.GetInteger("Player", "DamageCooldown", 0);
 
 	H = sqrtf(powf(HHeight, 2) + powf(HWidth, 2));
 
 
-	for(int i = 0; i < ConFile.GetInteger("Player", "NLasers", 0); i++)
+	/*for (int i = 0; i < ConFile.GetInteger("Player", "NLasers", 0); i++)
 	{
 		Laser NLaser = Laser(Rend);
-		Lasers.push_back(NLaser); // NOTE(isaveg): makes more sense to have a dynamic C array type, and not the vector 
+		Lasers.push_back(NLaser); // NOTE(isaveg): makes more sense to have a dynamic C array type, and not the vector
+	}*/
+
+	std::cout << sizeof(Laser) << " " << sizeof(Renderer) << endl;
+	int NLasers = ConFile.GetInteger("Player", "NLasers", 0);
+	Lasers = (Laser*)malloc(NLasers * sizeof(Laser));
+	for (int i = 0; i < NLasers; i++)
+	{
+		//Laser* NLaser = new Laser(Rend);
+		Lasers[i] = Laser(Rend);
 	}
 	
-
 	MovePoints(true);
 }
 
@@ -101,7 +111,7 @@ void Player::Update(bool Pause)
 			if (CurrentCooldown <= 0)
 			{
 				CurrentCooldown = ShootCooldown;
-				for (i = 0; i < Lasers.size(); i++)
+				for (i = 0; i < sizeof(Lasers); i++)
 				{
 					if (!Lasers[i].getActive())
 					{
@@ -137,7 +147,7 @@ void Player::Update(bool Pause)
 		CurrentCooldown--;
 		Invincibility -= DeltaTime;
 
-		for (i = 0; i < Lasers.size(); i++)
+		for (i = 0; i < sizeof(Lasers); i++)
 			if(Lasers[i].getActive())
 				Lasers[i].Update(Pause);
 	}
@@ -167,7 +177,7 @@ void Player::MovePoints(bool Rotation)
 
 bool Player::CheckLasersCollisions(Position* Pos, double ObjectH)
 {
-	for(i = 0; i < Lasers.size(); i++)
+	for(i = 0; i < sizeof(Lasers); i++)
 	{
 		if (Lasers[i].getActive())
 
@@ -199,6 +209,6 @@ bool Player::CheckCollisions(Position* Pos, double ObjectH)
 
 void Player::ResetLasers()
 {
-	for (i = 0; i < Lasers.size(); i++)
+	for (i = 0; i < sizeof(Lasers); i++)
 		Lasers[i].setActive(false);
 }

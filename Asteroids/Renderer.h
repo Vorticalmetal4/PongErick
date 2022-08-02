@@ -47,8 +47,8 @@ private:
 
     bool mIsRunning;
     
-    float deltaTime = 0;
-    float mTicksCount = 0;
+    float deltaTime;
+    float mTicksCount;
     int WindowHeight;
     int WindowWidth;
     string FontName;

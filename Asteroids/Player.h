@@ -34,7 +34,7 @@ private:
 	int IncVelocity;
 	int DecVelocity;
 	int RotationVelocity;
-	std::vector<Laser> Lasers;
+	Laser* Lasers;
 	int ShootCooldown;
 	int CurrentCooldown;
 	float DamageCooldown;
