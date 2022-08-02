@@ -55,7 +55,7 @@ int main()
 
     for (i = 0; i < NAsteroids * 4; i++)
     {
-        Asteroid NAsteroid = Asteroid(&Rend, (float)(rand() % Rend.getWindowWidth()), (float)(rand() % Rend.getWindowHeight()), rand() % 360);
+        Asteroid NAsteroid = Asteroid(&Rend, (float)(AsteroidWidth  + rand() % Rend.getWindowWidth() - AsteroidWidth), (float)(AsteroidHeight + rand() % Rend.getWindowHeight() - AsteroidHeight), rand() % 360);
         Asteroids.push_back(NAsteroid);
         if (i < NAsteroids)
         {
@@ -94,6 +94,7 @@ int main()
                         if (MainPlayer.CheckLasersCollisions(Asteroids[i].getCenter(), Asteroids[i].getHypotenuse()))
                         {
                             Collisions = 1;
+                            Asteroids[i].setLastObjectHited(-1);
                             if(GameData.Lives > 0)
                                 GameData.Score += Points * (Asteroids[i].getSize() + 1);
                             if (rand() % 101 <= EnemyProb)
@@ -193,7 +194,7 @@ int main()
 
             if(ResetAsteroids)
                 for(i = 0; i < NAsteroids; i++)
-                    Asteroids[i].setBigAsteroid(AsteroidWidth, AsteroidHeight);
+                    Asteroids[i].setBigAsteroid(AsteroidWidth, AsteroidHeight, (float)(AsteroidWidth + rand() % Rend.getWindowWidth() - AsteroidWidth), (float)(AsteroidHeight + rand() % Rend.getWindowHeight() - AsteroidHeight));
             
 
             ResetAsteroids = true;

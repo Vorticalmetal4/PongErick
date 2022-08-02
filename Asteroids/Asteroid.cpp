@@ -3,6 +3,7 @@
 #include "Inih/cpp/INIReader.h"
 
 #include <cmath>
+#include <iostream>
 
 const float Pi = (float)3.141592;
 const float Rad = Pi / 180;
@@ -12,7 +13,7 @@ Asteroid::Asteroid(Renderer* _Rend, float x, float y, int Angle)
 	Active(false),
 	DeltaTime(0),
 	Size(0),
-	LastObjectHited(0)
+	LastObjectHited(-1)
 {
 	INIReader ConFile("InitialData.ini");
 
@@ -30,24 +31,16 @@ Asteroid::~Asteroid()
 {
 }
 
-void Asteroid::setBigAsteroid(int _Width, int _Height)
+void Asteroid::setBigAsteroid(int _Width, int _Height, float x, float y)
 {
 	Active = true;
 	Size = 0;
 	Width = _Width;
 	Height = _Height;
-
-	if (FirstPoint.x <= 1)
-		FirstPoint.x += Width;
-	else if (FirstPoint.x >= Rend->getWindowWidth())
-		FirstPoint.x -= Width;
-
-	if (FirstPoint.y <= 1)
-		FirstPoint.y += Height;
-	else if (FirstPoint.y >= Rend->getWindowHeight())
-		FirstPoint.y -= Height;
+	FirstPoint.x = x;
+	FirstPoint.y = y;
+	LastObjectHited = -1;
 		
-
 	H = sqrtf(powf(Width / 2.0f, 2) + powf(Height / 2.0f, 2));
 }
 
@@ -63,23 +56,29 @@ void Asteroid::Update(bool Pause)
 		Center.x = FirstPoint.x + HWidth;
 		Center.y = FirstPoint.y + HHeight;
 
-		if (FirstPoint.x + Width > Rend->getWindowWidth())
-			ChangeDirection(1);
+		if (FirstPoint.x + Width >= Rend->getWindowWidth())
+			ChangeDirection(0);
 		else if (FirstPoint.x <= 0)
+			ChangeDirection(2);
+
+		if (FirstPoint.y + Height >= Rend->getWindowHeight())
+			ChangeDirection(1);
+		else if (FirstPoint.y <= 0)
 			ChangeDirection(3);
 
-		if (FirstPoint.y + Height > Rend->getWindowHeight())
-			ChangeDirection(2);
-		else if (FirstPoint.y <= 0)
-			ChangeDirection(4);
+		if (Center.x > Rend->getWindowWidth() || Center.x < 0 || Center.y < 0 || Center.y > Rend->getWindowHeight()){
+			std::cout << "I shouldn't have escaped :c" << endl;
+			LastObjectHited = -1;
+			Active = false;
+		}
 
 	}
 		Rend->DrawSimpleRect(FirstPoint.x, FirstPoint.y, Width, Height, 255, 0, 0, 255);
 }
 
-bool Asteroid::CheckCollision(Position* OtherAsteroidPos, double OtherAsteroidH)
+bool Asteroid::CheckCollision(Position* OtherAsteroidPos, float OtherAsteroidH)
 {
-	if(sqrtf(powf(Center.x - OtherAsteroidPos->x, 2) + powf(Center.y - OtherAsteroidPos->y, 2)) < H + OtherAsteroidH)
+	if(sqrtf(powf(Center.x - OtherAsteroidPos->x, 2) + powf(Center.y - OtherAsteroidPos->y, 2)) < HWidth + OtherAsteroidH)
 		return true;
 	
 	return false;
@@ -99,11 +98,22 @@ void Asteroid::setNewData(Position* Pos, int ParentSize, int ParentWidth, int Pa
 
 void Asteroid::UpdateData(float x, float y, int Angle)
 {
+
 	HWidth = Width / 2.0f;
 	HHeight = Height / 2.0f;
 
 	FirstPoint.x = x;
 	FirstPoint.y = y;
+
+	if (FirstPoint.x <= 1)
+		FirstPoint.x += Width;
+	else if (FirstPoint.x >= Rend->getWindowWidth())
+		FirstPoint.x -= Width;
+
+	if (FirstPoint.y <= 1)
+		FirstPoint.y += Height;
+	else if (FirstPoint.y >= Rend->getWindowHeight())
+		FirstPoint.y -= Height;
 
 	Center.x = FirstPoint.x + HWidth;
 	Center.y = FirstPoint.y + HHeight;

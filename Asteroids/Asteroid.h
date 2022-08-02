@@ -22,9 +22,10 @@ public:
 	int getWidth() { return Width; }
 	int getHeight() { return Height; }
 	void setSize(int _Size) { Size = _Size; }
-	bool CheckCollision(Position* OtherAsteroidPos, double OtherAsteroidH);
+	bool CheckCollision(Position* OtherAsteroidPos, float OtherAsteroidH);
 	void setNewData(Position* Center, int ParentSize, int ParentWidth, int ParentHeight, bool NewAsteroid);
-	void setBigAsteroid(int _Width, int _Height);
+	void setBigAsteroid(int _Width, int _Height, float x, float y);
+	void setLastObjectHited(int _LastObjectHited) { LastObjectHited = _LastObjectHited; }
 	void ChangeDirection(int ObjectNumber);
 
 private:
