@@ -140,7 +140,7 @@ copy "$(ProjectDir)\Resources\InitialData.ini" "$(TargetDir)"</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\;$(SolutionDir)\..\..\CppUnit\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -155,12 +155,14 @@ copy "$(ProjectDir)\Resources\InitialData.ini" "$(TargetDir)"</Command>
 copy "$(ProjectDir)\Resources\InitialData.ini" "$(TargetDir)"</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)\..\SDL2\lib\x$(PlatformArchitecture)\*.dll" "$(TargetDir)"</Command>
+      <Command>copy "$(ProjectDir)\..\SDL2\lib\x$(PlatformArchitecture)\*.dll" "$(TargetDir)"
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Inih\cpp\INIReader.cpp" />
     <ClCompile Include="..\Inih\ini.c" />
+    <ClCompile Include="..\Unity\src\unity.c" />
     <ClCompile Include="Asteroid.cpp" />
     <ClCompile Include="AsteroidsWindows.cpp" />
     <ClCompile Include="EnemyShip.cpp" />
@@ -171,6 +173,8 @@ copy "$(ProjectDir)\Resources\InitialData.ini" "$(TargetDir)"</Command>
     <ClCompile Include="Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Unity\src\unity.h" />
+    <ClInclude Include="..\Unity\src\unity_internals.h" />
     <ClInclude Include="Asteroid.h" />
     <ClInclude Include="EnemyShip.h" />
     <ClInclude Include="HUD.h" />

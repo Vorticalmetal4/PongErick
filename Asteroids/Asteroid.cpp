@@ -1,9 +1,13 @@
 #include "Asteroid.h"
 #include "Renderer.h"
 #include "Inih/cpp/INIReader.h"
+#include "Unity/src/unity.h"
 
 #include <cmath>
 #include <iostream>
+
+
+
 
 const float Pi = (float)3.141592;
 const float Rad = Pi / 180;
@@ -26,6 +30,7 @@ Asteroid::Asteroid(Renderer* _Rend, float x, float y, int Angle)
 	SpeedIncrease = ConFile.GetInteger("Asteroid", "SpeedIncrease", 0);
 
 	UpdateData(x, y, Angle);
+
 }
 
 Asteroid::~Asteroid()
@@ -62,7 +67,7 @@ void Asteroid::Update(bool Pause)
 
 		if (FirstPoint.x + Width >= Rend->getWindowWidth())
 		{
-			FirstPoint.x = Rend->getWindowWidth() - Width - 1;
+			FirstPoint.x = Rend->getWindowWidth() - Width - 1.0f;
 			ChangeDirection(0);
 		}
 		else if (FirstPoint.x <= 0)
@@ -73,7 +78,7 @@ void Asteroid::Update(bool Pause)
 
 		if (FirstPoint.y + Height >= Rend->getWindowHeight())
 		{
-			FirstPoint.y = Rend->getWindowHeight() - Height - 1;
+			FirstPoint.y = Rend->getWindowHeight() - Height - 1.0f;
 			ChangeDirection(1);
 		}
 		else if (FirstPoint.y <= 0)
@@ -82,10 +87,9 @@ void Asteroid::Update(bool Pause)
 			ChangeDirection(3);
 		}
 
-		if (Center.x > Rend->getWindowWidth() || Center.x < 0 || Center.y < 0 || Center.y > Rend->getWindowHeight()){
-			std::cout << "I shouldn't have escaped :c" << endl;
+		if (Center.x > Rend->getWindowWidth() || Center.x < 0 || Center.y < 0 || Center.y > Rend->getWindowHeight())
 			LastObjectHitted = -1;
-		}
+	
 
 	}
 		Rend->DrawSimpleRect(FirstPoint.x, FirstPoint.y, Width, Height, 255, 0, 0, 255);
@@ -141,6 +145,7 @@ void Asteroid::UpdateData(float x, float y, int Angle)
 	P1.y = -sinf(FirstPoint.Rotation) * Velocity; 
 
 	H = sqrtf(powf(Width / 2.0f, 2) + powf(Height / 2.0f, 2));
+
 }
 
 void Asteroid::ChangeDirection(int ObjectNumber)

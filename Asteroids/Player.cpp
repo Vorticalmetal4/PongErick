@@ -55,7 +55,6 @@ Player::Player(Renderer* _Rend)
 		Lasers.push_back(NLaser); // NOTE(isaveg): makes more sense to have a dynamic C array type, and not the vector
 	}*/
 
-	std::cout << sizeof(Laser) << " " << sizeof(Renderer) << endl;
 	int NLasers = ConFile.GetInteger("Player", "NLasers", 0);
 	Lasers = (Laser*)malloc(NLasers * sizeof(Laser));
 	for (int i = 0; i < NLasers; i++)
