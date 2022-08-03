@@ -42,6 +42,8 @@ void Asteroid::setBigAsteroid(int _Width, int _Height, float x, float y, int _Ve
 	FirstPoint.y = y;
 	LastObjectHitted = -1;
 	Velocity = _Velocity;
+	P1.x = cosf(FirstPoint.Rotation) * Velocity;
+	P1.y = -sinf(FirstPoint.Rotation) * Velocity;
 		
 	H = sqrtf(powf(Width / 2.0f, 2) + powf(Height / 2.0f, 2));
 }
@@ -59,19 +61,30 @@ void Asteroid::Update(bool Pause)
 		Center.y = FirstPoint.y + HHeight;
 
 		if (FirstPoint.x + Width >= Rend->getWindowWidth())
+		{
+			FirstPoint.x = Rend->getWindowWidth() - Width - 1;
 			ChangeDirection(0);
+		}
 		else if (FirstPoint.x <= 0)
+		{
+			FirstPoint.x = 1;
 			ChangeDirection(2);
+		}
 
 		if (FirstPoint.y + Height >= Rend->getWindowHeight())
+		{
+			FirstPoint.y = Rend->getWindowHeight() - Height - 1;
 			ChangeDirection(1);
+		}
 		else if (FirstPoint.y <= 0)
+		{
+			FirstPoint.y = 1;
 			ChangeDirection(3);
+		}
 
 		if (Center.x > Rend->getWindowWidth() || Center.x < 0 || Center.y < 0 || Center.y > Rend->getWindowHeight()){
 			std::cout << "I shouldn't have escaped :c" << endl;
 			LastObjectHitted = -1;
-			Active = false;
 		}
 
 	}

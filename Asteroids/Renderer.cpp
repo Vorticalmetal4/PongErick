@@ -145,7 +145,6 @@ void Renderer::DrawSimpleRect(float x, float y, int width, int height, int r, in
 
 }
 
-// FIX-ME(isaveg): Release crashes here
 void Renderer::Write(char* NText, int TextW, int TextH, float TextX, float TextY)
 {
     TextSurface = TTF_RenderText_Solid(Font, NText, { 255, 255, 255, 255 });
