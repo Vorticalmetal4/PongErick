@@ -118,7 +118,7 @@ int main()
 
                         for (k = i + 1; k < Asteroids.size(); k++)
                             if (Asteroids[k].getActive())
-                                if (Asteroids[i].CheckCollision(Asteroids[k].getCenter(), Asteroids[k].getHypotenuse()))
+                                if (Asteroids[i].CheckCollision(Asteroids[k].getP1(), Asteroids[k].getHeight(), Asteroids[k].getWidth()))
                                 {
                                     Asteroids[i].ChangeDirection( k + 4);
                                     Asteroids[k].ChangeDirection( i + 4);

@@ -95,11 +95,11 @@ void Asteroid::Update(bool Pause)
 		Rend->DrawSimpleRect(FirstPoint.x, FirstPoint.y, Width, Height, 255, 0, 0, 255);
 }
 
-bool Asteroid::CheckCollision(Position* OtherAsteroidPos, float OtherAsteroidH)
+bool Asteroid::CheckCollision(Position* OtherAsteroidPos, int OtherAsteroidHeight, int OtherAsteroidWidth)
 {
-	if(sqrtf(powf(Center.x - OtherAsteroidPos->x, 2) + powf(Center.y - OtherAsteroidPos->y, 2)) < HWidth + OtherAsteroidH)
+	if (FirstPoint.x + Width > OtherAsteroidPos->x && FirstPoint.x < OtherAsteroidPos->x + OtherAsteroidWidth && FirstPoint.y + Height > OtherAsteroidPos->y && FirstPoint.y < OtherAsteroidPos->y + OtherAsteroidHeight )
 		return true;
-	
+
 	return false;
 }
 
@@ -158,4 +158,5 @@ void Asteroid::ChangeDirection(int ObjectNumber)
 		P1.y = -sinf(FirstPoint.Rotation) * Velocity;
 		LastObjectHitted = ObjectNumber;
 	}
+
 }

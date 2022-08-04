@@ -16,6 +16,7 @@ public:
 
 	bool getActive() { return Active; }
 	Position* getCenter() { return &Center; }
+	Position* getP1() { return &FirstPoint; }
 	float getHypotenuse() { return H; }
 	int getSize() { return Size; }
 	int getWidth() { return Width; }
@@ -28,7 +29,7 @@ public:
 	void setBigAsteroid(int _Width, int _Height, float x, float y, int _Velocity);
 	void setLastObjectHitted(int _LastObjectHitted) { LastObjectHitted = _LastObjectHitted; }
 
-	bool CheckCollision(Position* OtherAsteroidPos, float OtherAsteroidH);
+	bool CheckCollision(Position* OtherAsteroidPos, int OtherAsteroidHeight, int OtherAsteroidWidth);
 	void ChangeDirection(int ObjectNumber);
 	
 	void Update(bool Pause);

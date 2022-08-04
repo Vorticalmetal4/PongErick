@@ -17,8 +17,7 @@ int i;
 Player::Player(Renderer* _Rend)
 	:Rend(_Rend),
 	Velocity(0),
-	CurrentCooldown(0),
-	Lasers(nullptr)
+	CurrentCooldown(0)
 {
 	INIReader ConFile("InitialData.ini");
 
@@ -56,13 +55,23 @@ Player::Player(Renderer* _Rend)
 	}*/
 
 	int NLasers = ConFile.GetInteger("Player", "NLasers", 0);
+
 	Lasers = (Laser*)malloc(NLasers * sizeof(Laser));
 	for (int i = 0; i < NLasers; i++)
 	{
-		//Laser* NLaser = new Laser(Rend);
-		Lasers[i] = Laser(Rend);
+		if (Rend != nullptr) {
+				Laser NewLaser = Laser(Rend);
+				if (&NewLaser != nullptr)
+				Lasers[i] = NewLaser;
+		}
 	}
 	
+	/*if (Rend != nullptr) {
+		Laser NewLaser = Laser(Rend);
+		if (&NewLaser != nullptr)
+			Lasers[0] = NewLaser;
+	}*/
+
 	MovePoints(true);
 }
 
