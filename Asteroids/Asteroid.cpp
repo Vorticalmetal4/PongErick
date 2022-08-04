@@ -1,7 +1,6 @@
 #include "Asteroid.h"
 #include "Renderer.h"
 #include "Inih/cpp/INIReader.h"
-#include "Unity/src/unity.h"
 
 #include <cmath>
 #include <iostream>
