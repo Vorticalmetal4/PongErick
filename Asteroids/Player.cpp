@@ -5,10 +5,7 @@
 #include "Asteroid.h"
 #include "EnemyShip.h"
 
-#include <iostream>
 #include <cmath>
-#include <vector>
-using namespace std;
 
 const float Pi = (float)3.141592;
 const float Rad = Pi / 180;
@@ -47,30 +44,14 @@ Player::Player(Renderer* _Rend)
 
 	H = sqrtf(powf(HHeight, 2) + powf(HWidth, 2));
 
-
-	/*for (int i = 0; i < ConFile.GetInteger("Player", "NLasers", 0); i++)
-	{
-		Laser NLaser = Laser(Rend);
-		Lasers.push_back(NLaser); // NOTE(isaveg): makes more sense to have a dynamic C array type, and not the vector
-	}*/
-
-	int NLasers = ConFile.GetInteger("Player", "NLasers", 0);
-
-	Lasers = (Laser*)malloc(NLasers * sizeof(Laser));
-	for (int i = 0; i < NLasers; i++)
-	{
-		if (Rend != nullptr) {
-				Laser NewLaser = Laser(Rend);
-				if (&NewLaser != nullptr)
-				Lasers[i] = NewLaser;
-		}
-	}
+	NLasers = ConFile.GetInteger("Player", "NLasers", 0);
 	
-	/*if (Rend != nullptr) {
-		Laser NewLaser = Laser(Rend);
-		if (&NewLaser != nullptr)
-			Lasers[0] = NewLaser;
-	}*/
+	Lasers = nullptr;
+	Lasers =  new Laser[NLasers];
+
+	if (Rend != nullptr)
+		for (i = 0; i < NLasers; i++)
+				Lasers[i] = Laser(Rend);
 
 	MovePoints(true);
 }
@@ -119,7 +100,7 @@ void Player::Update(bool Pause)
 			if (CurrentCooldown <= 0)
 			{
 				CurrentCooldown = ShootCooldown;
-				for (i = 0; i < sizeof(Lasers); i++)
+				for (i = 0; i < NLasers; i++)
 				{
 					if (!Lasers[i].getActive())
 					{
@@ -155,7 +136,7 @@ void Player::Update(bool Pause)
 		CurrentCooldown--;
 		Invincibility -= DeltaTime;
 
-		for (i = 0; i < sizeof(Lasers); i++)
+		for (i = 0; i < NLasers; i++)
 			if(Lasers[i].getActive())
 				Lasers[i].Update(Pause);
 	}
@@ -185,7 +166,7 @@ void Player::MovePoints(bool Rotation)
 
 bool Player::CheckLasersCollisions(Position* Pos, double ObjectH)
 {
-	for(i = 0; i < sizeof(Lasers); i++)
+	for(i = 0; i < NLasers; i++)
 	{
 		if (Lasers[i].getActive())
 
@@ -217,6 +198,6 @@ bool Player::CheckCollisions(Position* Pos, double ObjectH)
 
 void Player::ResetLasers()
 {
-	for (i = 0; i < sizeof(Lasers); i++)
+	for (i = 0; i < NLasers; i++)
 		Lasers[i].setActive(false);
 }

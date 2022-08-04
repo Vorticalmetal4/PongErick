@@ -5,6 +5,7 @@
 class Laser
 {
 public:
+	Laser() = default;
 	Laser(Renderer*  _Rend);
 	~Laser();
 	void Update(bool Pause);

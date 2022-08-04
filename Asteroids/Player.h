@@ -34,7 +34,8 @@ private:
 	int IncVelocity;
 	int DecVelocity;
 	int RotationVelocity;
-	Laser* Lasers;
+	int NLasers;
+	Laser* Lasers = new Laser[NLasers];
 	int ShootCooldown;
 	int CurrentCooldown;
 	float DamageCooldown;

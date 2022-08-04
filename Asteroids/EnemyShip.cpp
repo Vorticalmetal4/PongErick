@@ -8,6 +8,7 @@
 const float Pi = (float)3.141592;
 const float Rad = Pi / 180;
 
+
 EnemyShip::EnemyShip(Renderer* _Rend)
 	:Rend(_Rend),
 	Active(false),

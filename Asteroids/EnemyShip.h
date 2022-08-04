@@ -6,6 +6,7 @@
 class EnemyShip
 {
 public: 
+	EnemyShip(void) = default;
 	EnemyShip(Renderer* _Rend);
 	~EnemyShip();
 	void Update(Position* PlayerCenter, double PlayerHypotenuse, bool Pause);

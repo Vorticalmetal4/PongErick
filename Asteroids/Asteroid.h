@@ -11,6 +11,7 @@ struct AuxPosition
 class Asteroid
 {
 public:
+	Asteroid(void) = default;
 	Asteroid(Renderer* _Rend, float x, float y, int Angle);
 	~Asteroid();
 

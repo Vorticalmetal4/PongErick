@@ -5,6 +5,7 @@
 class Raycaster
 {
 public: 
+	Raycaster(void) = default;
 	Raycaster(Renderer* _Rend);
 	~Raycaster();
 

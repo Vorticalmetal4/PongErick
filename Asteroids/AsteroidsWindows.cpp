@@ -7,7 +7,6 @@
 
 #include <stdlib.h>
 #include <time.h>
-using namespace std;
 
 int main()
 { 
@@ -49,15 +48,19 @@ int main()
     
     HUD MainHUD = HUD(&Rend);
     Player MainPlayer = Player(&Rend);
-    vector<Asteroid> Asteroids;
-    vector<EnemyShip> Enemies;
+
     srand((unsigned int)time(NULL));
 
+    int TotalAsteroids = (int)(NAsteroids * pow(2, AsteroidsMaxSize));
 
-    for (i = 0; i < NAsteroids * 4; i++)
+    Asteroid* Asteroids = new Asteroid[TotalAsteroids];
+    EnemyShip* Enemies = new EnemyShip[NEnemies];
+
+
+    for (i = 0; i < TotalAsteroids; i++)
     {
-        Asteroid NAsteroid = Asteroid(&Rend, (float)(AsteroidWidth  + rand() % Rend.getWindowWidth() - AsteroidWidth), (float)(AsteroidHeight + rand() % Rend.getWindowHeight() - AsteroidHeight), rand() % 360);
-        Asteroids.push_back(NAsteroid);
+        Asteroids[i] = Asteroid(&Rend, (float)(AsteroidWidth + rand() % Rend.getWindowWidth() - AsteroidWidth), (float)(AsteroidHeight + rand() % Rend.getWindowHeight() - AsteroidHeight), rand() % 360);
+        
         if (i < NAsteroids)
         {
             Asteroids[i].setActive(true);
@@ -66,10 +69,8 @@ int main()
     }
 
     for(i = 0; i < NEnemies; i++)
-    {
-        EnemyShip NewEnemy = EnemyShip(&Rend);
-        Enemies.push_back(NewEnemy);
-    }
+        Enemies[i] = EnemyShip(&Rend);
+
 
     if(success)
     {
@@ -81,7 +82,7 @@ int main()
             Pause = MainHUD.getPause();
             ResetGame = MainHUD.getReset();
 
-            for(i = 0; i < Asteroids.size(); i++)
+            for(i = 0; i < TotalAsteroids; i++)
             {
                 if(Asteroids[i].getActive())
                 {
@@ -100,7 +101,7 @@ int main()
                                 GameData.Score += Points * (Asteroids[i].getSize() + 1);
                             if (rand() % 101 <= EnemyProb)
                             {
-                                for (k = 0; k < Enemies.size(); k++)
+                                for (k = 0; k < NEnemies; k++)
                                 {
                                     if (!Enemies[k].getActive())
                                     {
@@ -116,7 +117,7 @@ int main()
                         }
 
 
-                        for (k = i + 1; k < Asteroids.size(); k++)
+                        for (k = i + 1; k < TotalAsteroids; k++)
                             if (Asteroids[k].getActive())
                                 if (Asteroids[i].CheckCollision(Asteroids[k].getP1(), Asteroids[k].getHeight(), Asteroids[k].getWidth()))
                                 {
@@ -128,7 +129,7 @@ int main()
                         {
                             if (Asteroids[i].getSize() < AsteroidsMaxSize)
                             {
-                                for (j = 0; j < Asteroids.size(); j++)
+                                for (j = 0; j < TotalAsteroids; j++)
                                     if (!Asteroids[j].getActive())
                                     {
                                         Asteroids[j].setActive(true);
@@ -148,7 +149,7 @@ int main()
                 
             }
 
-            for (j = 0; j < Enemies.size(); j++)
+            for (j = 0; j < NEnemies; j++)
             {
                 if (Enemies[j].getActive())
                 {
@@ -175,7 +176,7 @@ int main()
             if (GameData.Lives > 0)
                 MainPlayer.Update(Pause);
             
-            for (i = 0; i < Asteroids.size(); i++)
+            for (i = 0; i < TotalAsteroids; i++)
                 if (Asteroids[i].getActive())
                     ResetAsteroids = false;
 
@@ -184,7 +185,7 @@ int main()
                 ResetAsteroids = true;
                 GameData.Lives = ConFile.GetInteger("HUD", "Lives", 0);
                 GameData.Score = 0;
-                for (i = 0; i < Asteroids.size(); i++)
+                for (i = 0; i < TotalAsteroids; i++)
                     Asteroids[i].setActive(false);
                 for (i = 0; i < NEnemies; i++)
                     Enemies[i].setActive(false);
