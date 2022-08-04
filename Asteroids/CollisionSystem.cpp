@@ -1,5 +1,7 @@
 #include "CollisionSystem.h"
 
+#include <cmath>
+
 CollisionSystem::CollisionSystem()
 {
 }
@@ -16,7 +18,15 @@ bool CollisionSystem::Square_Square(Position* Object1Pos, Position* Object2Pos, 
 	return false;
 }
 
-bool CollisionSystem::Square_Circle(Position* CirclePos)
+bool CollisionSystem::Circle_Circle(Position* Object1Pos, Position* Object2Pos, float Object1Hypotenuse, float Object2Hypotenuse)
+{
+	if (sqrtf(powf(Object1Pos->x - Object2Pos->x, 2) + powf(Object1Pos->y - Object2Pos->y, 2)) < Object1Hypotenuse + Object2Hypotenuse)
+		return true;
+
+	return false;
+}
+
+bool CollisionSystem::RayCollision(Position* ObjectPos)
 {
 
 }

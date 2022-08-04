@@ -23,12 +23,12 @@ EnemyShip::EnemyShip(Renderer* _Rend)
 	if (ConFile.ParseError() < 0)
 		ConFile.PrintError("EnemyShip");
 
-	Width = ConFile.GetInteger("EnemyShip", "Width", 0);
-	Height = ConFile.GetInteger("EnemyShip", "Height", 0);
+	OwnDimensions.Width = ConFile.GetInteger("EnemyShip", "Width", 0);
+	OwnDimensions.Height = ConFile.GetInteger("EnemyShip", "Height", 0);
 	Velocity = ConFile.GetInteger("EnemyShip", "Velocity", 0);
-	HWidth = Width / 2.0f;
-	HHeight = Height / 2.0f;
-	H = sqrtf(powf(HHeight, 2) + powf(HWidth, 2));
+	HWidth = OwnDimensions.Width / 2.0f;
+	HHeight = OwnDimensions.Height / 2.0f;
+	OwnDimensions.Hypotenuse = sqrtf(powf(HHeight, 2) + powf(HWidth, 2));
 
 	setNewData(true, false);
 }
@@ -95,16 +95,16 @@ void EnemyShip::Update(Position* PlayerCenter, float PlayerHypotenuse, bool Paus
 
 		Ray.Update(Velocity, &P3);
 
-		P1.Rotation = (float) (P1.Angle * Rad);
-		P2.Rotation = (float) (P2.Angle * Rad);
-		Center.Rotation = P3.Rotation = (float) (Center.Angle * Rad);
+		P1.Rotation = (P1.Angle * Rad);
+		P2.Rotation = (P2.Angle * Rad);
+		Center.Rotation = P3.Rotation = (Center.Angle * Rad);
 
-		P3.x = Center.x + cosf(P3.Rotation) * H;
-		P3.y = Center.y - sinf(P3.Rotation) * H;
-		P2.x = Center.x + cosf(P2.Rotation) * H;
-		P2.y = Center.y - sinf(P2.Rotation) * H;
-		P1.x = Center.x + cosf(P1.Rotation) * H;
-		P1.y = Center.y - sinf(P1.Rotation) * H;
+		P3.x = Center.x + cosf(P3.Rotation) * OwnDimensions.Hypotenuse;
+		P3.y = Center.y - sinf(P3.Rotation) * OwnDimensions.Hypotenuse;
+		P2.x = Center.x + cosf(P2.Rotation) * OwnDimensions.Hypotenuse;
+		P2.y = Center.y - sinf(P2.Rotation) * OwnDimensions.Hypotenuse;
+		P1.x = Center.x + cosf(P1.Rotation) * OwnDimensions.Hypotenuse;
+		P1.y = Center.y - sinf(P1.Rotation) * OwnDimensions.Hypotenuse;
 
 		if (Center.x > Rend->getWindowWidth())
 			Center.x = 0;
@@ -131,7 +131,7 @@ void EnemyShip::setNewData(bool Left, bool _Active)
 
 	if (Left)
 	{
-		P1.x = P2.x =  -(float)Height;
+		P1.x = P2.x = (float) - OwnDimensions.Height;
 		P3.x = 0;
 		P2.y = P3.y + HWidth;
 		P1.y = P3.y - HWidth;
@@ -139,7 +139,7 @@ void EnemyShip::setNewData(bool Left, bool _Active)
 	}
 	else
 	{
-		P1.x = P2.x = (float)Rend->getWindowWidth() + Height;
+		P1.x = P2.x = (float)Rend->getWindowWidth() + OwnDimensions.Height;
 		P3.x = (float)Rend->getWindowWidth();
 		P2.y = P3.y - HWidth;
 		P1.y = P3.y + HWidth;

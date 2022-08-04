@@ -22,14 +22,14 @@ Raycaster::~Raycaster()
 {
 }
 
-void Raycaster::Update(int Velocity, Position* EnemyP)
+void Raycaster::Update(int Velocity, Position* ParentP)
 {
 	DeltaTime = Rend->getDeltaTime();
 
-	P1.x = P2.x = Center.x = EnemyP->x;
-	P1.y = P2.y = Center.y = EnemyP->y;
+	P1.x = P2.x = Center.x = ParentP->x;
+	P1.y = P2.y = Center.y = ParentP->y;
 
-	Center.Rotation = EnemyP->Rotation;
+	Center.Rotation = ParentP->Rotation;
 
 	if(P1.x < Rend->getWindowWidth() / 2)
 		D = Rend->getWindowWidth() - P1.x;
@@ -40,10 +40,10 @@ void Raycaster::Update(int Velocity, Position* EnemyP)
 	P1.y -= sinf(Center.Rotation);
 	P2.x += cosf(Center.Rotation) * D;
 	P2.y -= sinf(Center.Rotation) * D;
-	Center.x += cosf(Center.Rotation) * D / 2.0f;
-	Center.y -= sinf(Center.Rotation) * D / 2.0f;
+	Center.x += cosf(Center.Rotation) * (D / 2.0f);
+	Center.y -= sinf(Center.Rotation) * (D / 2.0f);
 
-	Rend->DrawLine(&P1, &P2, 0, 0, 0, 0);
+	Rend->DrawLine(&P1, &P2, 255, 0, 0, 0);
 }
 
 bool Raycaster::CheckCollision(float PlayerX, float PlayerY, float PlayerH)

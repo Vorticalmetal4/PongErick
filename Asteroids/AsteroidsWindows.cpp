@@ -50,7 +50,7 @@ int main()
                                    ConFile.GetString("Window", "Font", "Error"));
     
     HUD MainHUD = HUD(&Rend);
-    Player MainPlayer = Player(&Rend);
+    Player MainPlayer = Player(&Rend, &CollisionDetector);
 
     srand((unsigned int)time(NULL));
 
@@ -96,7 +96,7 @@ int main()
                         if (MainPlayer.CheckCollisions(Asteroids[i].getCenter(), Asteroids[i].getHypotenuse()))  //Collision between player and asteroids
                             GameData.Lives--;
 
-                        if (MainPlayer.CheckLasersCollisions(Asteroids[i].getCenter(), Asteroids[i].getHypotenuse()))
+                        if (MainPlayer.CheckLasersCollisions(Asteroids[i].getP1(), Asteroids[i].getDimensions(), true))
                         {
                             Collisions = 1;
                             Asteroids[i].setLastObjectHitted(-1);
@@ -164,7 +164,7 @@ int main()
                             GameData.Lives--;
                             Enemies[j].setActive(false);
                         }
-                        if (MainPlayer.CheckLasersCollisions(Enemies[j].getCenter(), Enemies[j].getHypotenuse()))
+                        if (MainPlayer.CheckLasersCollisions(Enemies[j].getCenter(), Enemies[j].getDimensions(), false))
                         {
                             if(GameData.Lives > 0)
                                 GameData.Score += EnemyPoints;

@@ -7,29 +7,31 @@
 class Player
 {
 public:
-	Player(class Renderer* _Rend);
+	Player(class Renderer* _Rend, CollisionSystem* _CollisionDetector);
 	~Player();
-	
+
 	Position* getCenter() { return &Center; }
-	float getHypotenuse() { return H; }
+	float getHypotenuse() { return OwnDimensions.Hypotenuse; }
 	float getInvincibiliy() { return Invincibility; }
 
 	void Update(bool  Pause);
 	void MovePoints(bool Rotation);
-	bool CheckLasersCollisions(Position* Pos, float ObjectH);
-	bool CheckCollisions(Position* Pos, float ObjectH);
+	bool CheckLasersCollisions(Position* OtherObjectPos, Dimension* OtherObjectDimensions, bool isObjectASquare);
+	bool CheckCollisions(Position* OtherObjectPos, float OtherObjectHypotenuse);
 	void ResetLasers();
 
 private:
 	Renderer* Rend;
+
+	CollisionSystem* CollisionDetector;
 
 	Position FirstPoint;
 	Position SecondPoint;
 	Position ThirdPoint;
 	Position Center;
 
-	int Width;
-	int Height;
+	Dimension OwnDimensions;
+
 	int Velocity;
 	int MaxVelocity;
 	int IncVelocity;
@@ -40,7 +42,6 @@ private:
 	int CurrentCooldown;
 	int Rotation;
 
-	float H;
 	float DeltaTime;
 	float DamageCooldown;
 	float Invincibility;

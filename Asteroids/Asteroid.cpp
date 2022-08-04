@@ -84,10 +84,6 @@ void Asteroid::Update(bool Pause)
 			ChangeDirection(3);
 		}
 
-		if (Center.x > Rend->getWindowWidth() || Center.x < 0 || Center.y < 0 || Center.y > Rend->getWindowHeight())
-			cout << "I shouldn't have escaped" << endl;
-	
-
 	}
 		Rend->DrawSimpleRect(FirstPoint.x, FirstPoint.y, OwnDimensions.Width, OwnDimensions.Height, 255, 0, 0, 255);
 }

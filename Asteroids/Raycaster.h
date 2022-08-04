@@ -13,7 +13,7 @@ public:
 
 	void setActive(bool _Active) { Active = _Active; }
 
-	void Update(int Velocity, Position* EnemyP);
+	void Update(int Velocity, Position* ParentP);
 	bool CheckCollision(float PlayerX, float PlayerY, float PlayerH);
 
 private:

@@ -12,7 +12,8 @@ public:
 
 	bool getActive() { return Active; }
 	Position* getCenter() { return &Center; }
-	float getHypotenuse() { return H; }
+	Dimension* getDimensions() { return &OwnDimensions; }
+	float getHypotenuse() { return OwnDimensions.Hypotenuse; }
 
 	void setActive(bool _Active) { Active = _Active; }
 	void setNewData(bool Left, bool _Active);
@@ -28,13 +29,11 @@ private:
 	Position P3;
 	Position Center;
 
-	int Width;
-	int Height;
+	Dimension OwnDimensions;
 	int Velocity;
 
 	float HWidth;
 	float HHeight;
-	float H;
 	float DeltaTime;
 
 	bool wasPlayerUp;

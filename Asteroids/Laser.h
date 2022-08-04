@@ -6,7 +6,7 @@ class Laser
 {
 public:
 	Laser(void) = default;
-	Laser(class Renderer*  _Rend);
+	Laser(class Renderer*  _Rend, CollisionSystem* _CollisionDetector);
 	~Laser();
 
 	bool getActive() { return Active; }
@@ -14,11 +14,13 @@ public:
 	void setActive(bool _Active) { Active = _Active; }
 	void setPosition(float x, float y, int _Angle, float _Rotation);
 
-	bool CheckCollision(Position* Pos, float ObjectH);
+	bool CheckCollision(Position* OtherObjectPos, Dimension* OtherObjectDimensions, bool isObjectASquare);
 	void Update(bool Pause);
 
 private:
 	Renderer* Rend;
+
+	CollisionSystem* CollisionDetector;
 
 	Position FirstPoint;
 	Position SecondPoint;
@@ -32,12 +34,11 @@ private:
 
 	bool Active;
 
-	int Width;
-	int Height;
+	Dimension OwnDimensions;
+
 	int Velocity;
 
 	float DeltaTime;
-	float H;
 	float LifeTime;
 	float TimeRemaining;
 
