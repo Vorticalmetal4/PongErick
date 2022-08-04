@@ -20,6 +20,12 @@ class Renderer
 {
 public:
     Renderer(void);
+
+    bool getIsRunning() { return mIsRunning; }
+    float getDeltaTime() { return deltaTime; }
+    int getWindowHeight() { return WindowHeight; }
+    int getWindowWidth() { return WindowWidth; }
+
     bool Initialize(string Name, int TLXCoordinate, int TPYCoordinate, int Width, int Height, int Flags, string FName);
     void Shutdown();
     void ProcessInput();
@@ -28,11 +34,6 @@ public:
     void GenerateOutput();
     void Write(char* NText, int TextW, int TextH, float TextX, float TextY);
     void Write(char* NText, int TextW, int TextH, float TextX, float TextY, Uint8 r, Uint8 g, Uint8 b, Uint8 alpha);
-
-    bool getIsRunning() { return mIsRunning; }
-    float getDeltaTime() { return deltaTime; }
-    int getWindowHeight() { return WindowHeight; }
-    int getWindowWidth() { return WindowWidth; }
     void DrawSimpleRect(float x, float y, int width, int height, int r, int g, int b, int alpha);
     void DrawRect(Position* P1, Position* P2, Position* P3, Position* P4, int r, int g, int b, int alpha);
     void DrawTriangle(Position* P1, Position* P2, Position* P3, int r, int g, int b, int alpha);
@@ -49,12 +50,14 @@ private:
     
     float deltaTime;
     float mTicksCount;
+
+    int PauseCounter;
     int WindowHeight;
     int WindowWidth;
-    string FontName;
+    
     char* FText;
-    int PauseCounter;
 
-
+    string FontName;
+    
 
 };

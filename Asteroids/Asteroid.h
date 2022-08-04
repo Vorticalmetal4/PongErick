@@ -37,20 +37,25 @@ public:
 
 private:
 	Renderer* Rend;
+
 	Position FirstPoint;
 	Position Center;
+
 	int Height;
 	int Width;
-	bool Active;
-	AuxPosition P1;
 	int Velocity;
+	int Size;
+	int LastObjectHitted;
+	int SpeedIncrease;
+
+	bool Active;
+
+	AuxPosition P1;
+
 	float DeltaTime;
 	float H;
 	float HWidth;
 	float HHeight;
-	int Size;
-	int LastObjectHitted;
-	int SpeedIncrease;
 
 	void UpdateData(float x, float y, int Angle);
 

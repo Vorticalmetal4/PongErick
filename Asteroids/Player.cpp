@@ -164,7 +164,7 @@ void Player::MovePoints(bool Rotation)
 	ThirdPoint.y = Center.y - sinf(ThirdPoint.Rotation) * H;
 }
 
-bool Player::CheckLasersCollisions(Position* Pos, double ObjectH)
+bool Player::CheckLasersCollisions(Position* Pos, float ObjectH)
 {
 	for(i = 0; i < NLasers; i++)
 	{
@@ -172,17 +172,16 @@ bool Player::CheckLasersCollisions(Position* Pos, double ObjectH)
 
 			if (Lasers[i].CheckCollision(Pos, ObjectH))
 				return true;
-		
 	}
 
 	return false;
 }
 
-bool Player::CheckCollisions(Position* Pos, double ObjectH)
+bool Player::CheckCollisions(Position* Pos, float ObjectH)
 {
 	if (Invincibility <= 0)
 	{
-		if (sqrt(pow(Center.x - Pos->x, 2) + pow(Center.y - Pos->y, 2)) < H + ObjectH)
+		if (sqrtf(powf(Center.x - Pos->x, 2) + powf(Center.y - Pos->y, 2)) < H + ObjectH)
 		{
 			Center.x = Rend->getWindowWidth() / 2.0f;
 			Center.y = Rend->getWindowHeight() / 2.0f;

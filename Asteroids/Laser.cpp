@@ -103,7 +103,7 @@ void Laser::setPosition(float x, float y, int _Angle, float _Rotation)
 	TimeRemaining = LifeTime;
 }
 
-bool Laser::CheckCollision(Position* Pos, double ObjectH)
+bool Laser::CheckCollision(Position* Pos, float ObjectH)
 {
 	if (sqrtf(powf(Pos->x - Center.x, 2) + powf(Pos->y - Center.y, 2)) < H + ObjectH) 
 	{

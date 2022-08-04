@@ -10,35 +10,41 @@ class Player
 public:
 	Player(Renderer* _Rend);
 	~Player();
-	void Update(bool  Pause);
-	void MovePoints(bool Rotation);
-	bool CheckLasersCollisions(Position* Pos, double ObjectH);
-	bool CheckCollisions(Position* Pos, double ObjectH);
+	
 	Position* getCenter() { return &Center; }
 	float getHypotenuse() { return H; }
 	float getInvincibiliy() { return Invincibility; }
+
+	void Update(bool  Pause);
+	void MovePoints(bool Rotation);
+	bool CheckLasersCollisions(Position* Pos, float ObjectH);
+	bool CheckCollisions(Position* Pos, float ObjectH);
 	void ResetLasers();
 
 private:
 	Renderer* Rend;
+
 	Position FirstPoint;
 	Position SecondPoint;
 	Position ThirdPoint;
 	Position Center;
+
 	int Width;
 	int Height;
-	float H;
-	float DeltaTime;
 	int Velocity;
 	int MaxVelocity;
 	int IncVelocity;
 	int DecVelocity;
 	int RotationVelocity;
 	int NLasers;
-	Laser* Lasers = new Laser[NLasers];
 	int ShootCooldown;
 	int CurrentCooldown;
+	int Rotation;
+
+	float H;
+	float DeltaTime;
 	float DamageCooldown;
 	float Invincibility;
-	int Rotation;
+
+	Laser* Lasers = new Laser[NLasers];
 };

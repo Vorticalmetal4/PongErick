@@ -9,30 +9,37 @@ public:
 	EnemyShip(void) = default;
 	EnemyShip(Renderer* _Rend);
 	~EnemyShip();
-	void Update(Position* PlayerCenter, double PlayerHypotenuse, bool Pause);
+
 	bool getActive() { return Active; }
+	Position* getCenter() { return &Center; }
+	float getHypotenuse() { return H; }
+
 	void setActive(bool _Active) { Active = _Active; }
 	void setNewData(bool Left, bool _Active);
-	float getHypotenuse() { return H; }
-	Position* getCenter() { return &Center; }
 
+	void Update(Position* PlayerCenter, float PlayerHypotenuse, bool Pause);
 private:
 	Raycaster Ray;
+
 	Renderer* Rend;
+	
 	Position P1;
 	Position P2;
 	Position P3;
 	Position Center;
+
 	int Width;
-	float HWidth;
 	int Height;
-	float HHeight;
 	int Velocity;
-	bool Active;
+
+	float HWidth;
+	float HHeight;
 	float H;
 	float DeltaTime;
+
 	bool wasPlayerUp;
 	bool wasPlayerLeft;
 	bool ChangeDirection;
 	bool TurnLeft;
+	bool Active;
 };

@@ -88,7 +88,7 @@ void Asteroid::Update(bool Pause)
 		}
 
 		if (Center.x > Rend->getWindowWidth() || Center.x < 0 || Center.y < 0 || Center.y > Rend->getWindowHeight())
-			LastObjectHitted = -1;
+			cout << "I shouldn't have escaped" << endl;
 	
 
 	}

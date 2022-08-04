@@ -30,7 +30,6 @@ EnemyShip::EnemyShip(Renderer* _Rend)
 	HHeight = Height / 2.0f;
 	H = sqrtf(powf(HHeight, 2) + powf(HWidth, 2));
 
-
 	setNewData(true, false);
 }
 
@@ -38,7 +37,7 @@ EnemyShip::~EnemyShip()
 {
 }
 
-void EnemyShip::Update(Position* PlayerCenter, double PlayerHypotenuse, bool Pause)
+void EnemyShip::Update(Position* PlayerCenter, float PlayerHypotenuse, bool Pause)
 {
 	if (!Pause)
 	{

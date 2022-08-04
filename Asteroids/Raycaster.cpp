@@ -46,7 +46,7 @@ void Raycaster::Update(int Velocity, Position* EnemyP)
 	Rend->DrawLine(&P1, &P2, 0, 0, 0, 0);
 }
 
-bool Raycaster::CheckCollision(double PlayerX, double PlayerY, double PlayerH)
+bool Raycaster::CheckCollision(float PlayerX, float PlayerY, float PlayerH)
 {
 	m = (P2.y - P1.y) / (P2.x - P1.x);
 
