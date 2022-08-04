@@ -162,7 +162,6 @@ copy "$(ProjectDir)\Resources\InitialData.ini" "$(TargetDir)"</Command>
   <ItemGroup>
     <ClCompile Include="..\Inih\cpp\INIReader.cpp" />
     <ClCompile Include="..\Inih\ini.c" />
-    <ClCompile Include="..\Unity\src\unity.c" />
     <ClCompile Include="Asteroid.cpp" />
     <ClCompile Include="AsteroidsWindows.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
@@ -174,8 +173,6 @@ copy "$(ProjectDir)\Resources\InitialData.ini" "$(TargetDir)"</Command>
     <ClCompile Include="Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Unity\src\unity.h" />
-    <ClInclude Include="..\Unity\src\unity_internals.h" />
     <ClInclude Include="Asteroid.h" />
     <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="EnemyShip.h" />
