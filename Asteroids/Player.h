@@ -3,7 +3,6 @@
 #include "CollisionSystem.h"
 #include "Laser.h"
 
-
 class Player
 {
 public:
@@ -16,9 +15,9 @@ public:
 
 	void Update(bool  Pause);
 	void MovePoints(bool Rotation);
+	void ResetLasers();
 	bool CheckLasersCollisions(Position* OtherObjectPos, Dimension* OtherObjectDimensions, bool isObjectASquare);
 	bool CheckCollisions(Position* OtherObjectPos, float OtherObjectHypotenuse);
-	void ResetLasers();
 
 private:
 	Renderer* Rend;

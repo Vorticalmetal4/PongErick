@@ -25,8 +25,3 @@ bool CollisionSystem::Circle_Circle(Position* Object1Pos, Position* Object2Pos, 
 
 	return false;
 }
-
-bool CollisionSystem::RayCollision(Position* ObjectPos)
-{
-
-}

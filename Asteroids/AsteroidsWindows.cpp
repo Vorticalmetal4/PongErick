@@ -124,7 +124,7 @@ int main()
                             if (Asteroids[k].getActive())
                                 if (CollisionDetector.Square_Square(Asteroids[i].getP1(), Asteroids[k].getP1(), Asteroids[i].getDimensions(), Asteroids[k].getDimensions()))
                                 {
-                                    Asteroids[i].ChangeDirection( k + 4);
+                                    Asteroids[i].ChangeDirection( k + 4); //Increase of four because we have four "walls" in the screen
                                     Asteroids[k].ChangeDirection( i + 4);
                                 }
 
@@ -136,14 +136,14 @@ int main()
                                     if (!Asteroids[j].getActive())
                                     {
                                         Asteroids[j].setActive(true);
-                                        Asteroids[j].setNewData(Asteroids[i].getCenter(), Asteroids[i].getSize(), Asteroids[i].getDimensions(), true, Asteroids[i].getVelocity());
-                                        Asteroids[i].setNewData(Asteroids[i].getCenter(), Asteroids[i].getSize(), Asteroids[i].getDimensions(), false, Asteroids[i].getVelocity());
+                                        Asteroids[j].setNewData(Asteroids[i].getCenter(), Asteroids[i].getSize(), Asteroids[i].getDimensions(), true, Asteroids[i].getVelocity()); //Create a new Asteroid
+                                        Asteroids[i].setNewData(Asteroids[i].getCenter(), Asteroids[i].getSize(), Asteroids[i].getDimensions(), false, Asteroids[i].getVelocity()); //Decrease the size of the destroyed asteroid
                                         break;
                                     }
 
                             }
                             else
-                                Asteroids[i].setActive(false);
+                                Asteroids[i].setActive(false); 
                             Collisions--;
                         }
                     }
@@ -181,7 +181,10 @@ int main()
             
             for (i = 0; i < TotalAsteroids; i++)
                 if (Asteroids[i].getActive())
+                {
                     ResetAsteroids = false;
+                    break;
+                }
 
             if(ResetGame && GameData.Lives <= 0)
             {
