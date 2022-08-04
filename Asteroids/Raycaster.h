@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Renderer.h"
+#include "CollisionSystem.h"
 
 class Raycaster
 {
 public: 
 	Raycaster(void) = default;
-	Raycaster(Renderer* _Rend);
+	Raycaster(class Renderer* _Rend);
 	~Raycaster();
 
 	bool getActive() { return Active; }

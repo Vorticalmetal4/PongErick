@@ -3,18 +3,11 @@
 #pragma once 
 #pragma once 
 
+#include "CollisionSystem.h"
 #include <string>
 using namespace std;
 
 typedef unsigned char Uint8;
-
-struct Position
-{
-    float x;
-    float y;
-    int Angle;
-    float Rotation;
-};
 
 class Renderer
 {

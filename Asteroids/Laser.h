@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Renderer.h"
+#include "CollisionSystem.h"
 
 class Laser
 {
 public:
 	Laser(void) = default;
-	Laser(Renderer*  _Rend);
+	Laser(class Renderer*  _Rend);
 	~Laser();
 
 	bool getActive() { return Active; }

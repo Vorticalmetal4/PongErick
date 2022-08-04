@@ -165,6 +165,7 @@ copy "$(ProjectDir)\Resources\InitialData.ini" "$(TargetDir)"</Command>
     <ClCompile Include="..\Unity\src\unity.c" />
     <ClCompile Include="Asteroid.cpp" />
     <ClCompile Include="AsteroidsWindows.cpp" />
+    <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="EnemyShip.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="Laser.cpp" />
@@ -176,6 +177,7 @@ copy "$(ProjectDir)\Resources\InitialData.ini" "$(TargetDir)"</Command>
     <ClInclude Include="..\Unity\src\unity.h" />
     <ClInclude Include="..\Unity\src\unity_internals.h" />
     <ClInclude Include="Asteroid.h" />
+    <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="EnemyShip.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="Laser.h" />

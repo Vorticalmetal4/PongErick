@@ -6,9 +6,6 @@
 #include <cmath>
 #include <iostream>
 
-
-
-
 const float Pi = (float)3.141592;
 const float Rad = Pi / 180;
 
@@ -24,8 +21,8 @@ Asteroid::Asteroid(Renderer* _Rend, float x, float y, int Angle)
 	if (ConFile.ParseError() < 0)
 		ConFile.PrintError("Player");
 
-	Width = ConFile.GetInteger("Asteroid", "Width", 1);
-	Height = ConFile.GetInteger("Asteroid", "Height", 1);
+	OwnDimensions.Width = ConFile.GetInteger("Asteroid", "Width", 1);
+	OwnDimensions.Height = ConFile.GetInteger("Asteroid", "Height", 1);
 	Velocity = ConFile.GetInteger("Asteroid", "Velocity", 0);
 	SpeedIncrease = ConFile.GetInteger("Asteroid", "SpeedIncrease", 0);
 
@@ -41,8 +38,8 @@ void Asteroid::setBigAsteroid(int _Width, int _Height, float x, float y, int _Ve
 {
 	Active = true;
 	Size = 0;
-	Width = _Width;
-	Height = _Height;
+	OwnDimensions.Width = _Width;
+	OwnDimensions.Height = _Height;
 	FirstPoint.x = x;
 	FirstPoint.y = y;
 	LastObjectHitted = -1;
@@ -50,7 +47,7 @@ void Asteroid::setBigAsteroid(int _Width, int _Height, float x, float y, int _Ve
 	P1.x = cosf(FirstPoint.Rotation) * Velocity;
 	P1.y = -sinf(FirstPoint.Rotation) * Velocity;
 		
-	H = sqrtf(powf(Width / 2.0f, 2) + powf(Height / 2.0f, 2));
+	OwnDimensions.Hypotenuse = sqrtf(powf(OwnDimensions.Width / 2.0f, 2) + powf(OwnDimensions.Height / 2.0f, 2));
 }
 
 void Asteroid::Update(bool Pause)
@@ -65,9 +62,9 @@ void Asteroid::Update(bool Pause)
 		Center.x = FirstPoint.x + HWidth;
 		Center.y = FirstPoint.y + HHeight;
 
-		if (FirstPoint.x + Width >= Rend->getWindowWidth())
+		if (FirstPoint.x + OwnDimensions.Width >= Rend->getWindowWidth())
 		{
-			FirstPoint.x = Rend->getWindowWidth() - Width - 1.0f;
+			FirstPoint.x = Rend->getWindowWidth() - OwnDimensions.Width - 1.0f;
 			ChangeDirection(0);
 		}
 		else if (FirstPoint.x <= 0)
@@ -76,9 +73,9 @@ void Asteroid::Update(bool Pause)
 			ChangeDirection(2);
 		}
 
-		if (FirstPoint.y + Height >= Rend->getWindowHeight())
+		if (FirstPoint.y + OwnDimensions.Height >= Rend->getWindowHeight())
 		{
-			FirstPoint.y = Rend->getWindowHeight() - Height - 1.0f;
+			FirstPoint.y = Rend->getWindowHeight() - OwnDimensions.Height - 1.0f;
 			ChangeDirection(1);
 		}
 		else if (FirstPoint.y <= 0)
@@ -92,48 +89,40 @@ void Asteroid::Update(bool Pause)
 	
 
 	}
-		Rend->DrawSimpleRect(FirstPoint.x, FirstPoint.y, Width, Height, 255, 0, 0, 255);
+		Rend->DrawSimpleRect(FirstPoint.x, FirstPoint.y, OwnDimensions.Width, OwnDimensions.Height, 255, 0, 0, 255);
 }
 
-bool Asteroid::CheckCollision(Position* OtherAsteroidPos, int OtherAsteroidHeight, int OtherAsteroidWidth)
-{
-	if (FirstPoint.x + Width > OtherAsteroidPos->x && FirstPoint.x < OtherAsteroidPos->x + OtherAsteroidWidth && FirstPoint.y + Height > OtherAsteroidPos->y && FirstPoint.y < OtherAsteroidPos->y + OtherAsteroidHeight )
-		return true;
-
-	return false;
-}
-
-void Asteroid::setNewData(Position* Pos, int ParentSize, int ParentWidth, int ParentHeight, bool NewAsteroid, int ParentVelocity)
+void Asteroid::setNewData(Position* Pos, int ParentSize, Dimension* NewDimensions, bool NewAsteroid, int ParentVelocity)
 {
 	Size = ParentSize + 1;
-	Width = ParentWidth / 2;
-	Height = ParentHeight / 2;
+	OwnDimensions.Width = NewDimensions->Width / 2;
+	OwnDimensions.Height = NewDimensions->Height / 2;
 	Velocity = ParentVelocity + SpeedIncrease;
 
 	if (NewAsteroid)
-		UpdateData(Pos->x + Width, Pos->y - Height, Pos->Angle);
+		UpdateData(Pos->x + OwnDimensions.Width, Pos->y - OwnDimensions.Height, Pos->Angle);
 	else
-		UpdateData(Pos->x - Width, Pos->y - Height, 360 - Pos->Angle);
+		UpdateData(Pos->x - OwnDimensions.Width, Pos->y - OwnDimensions.Height, 360 - Pos->Angle);
 }
 
 void Asteroid::UpdateData(float x, float y, int Angle)
 {
 
-	HWidth = Width / 2.0f;
-	HHeight = Height / 2.0f;
+	HWidth = OwnDimensions.Width / 2.0f;
+	HHeight = OwnDimensions.Height / 2.0f;
 
 	FirstPoint.x = x;
 	FirstPoint.y = y;
 
 	if (FirstPoint.x <= 1)
-		FirstPoint.x += Width;
+		FirstPoint.x += OwnDimensions.Width;
 	else if (FirstPoint.x >= Rend->getWindowWidth())
-		FirstPoint.x -= Width;
+		FirstPoint.x -= OwnDimensions.Width;
 
 	if (FirstPoint.y <= 1)
-		FirstPoint.y += Height;
+		FirstPoint.y += OwnDimensions.Height;
 	else if (FirstPoint.y >= Rend->getWindowHeight())
-		FirstPoint.y -= Height;
+		FirstPoint.y -= OwnDimensions.Height;
 
 	Center.x = FirstPoint.x + HWidth;
 	Center.y = FirstPoint.y + HHeight;
@@ -144,7 +133,7 @@ void Asteroid::UpdateData(float x, float y, int Angle)
 	P1.x = cosf(FirstPoint.Rotation) * Velocity; 
 	P1.y = -sinf(FirstPoint.Rotation) * Velocity; 
 
-	H = sqrtf(powf(Width / 2.0f, 2) + powf(Height / 2.0f, 2));
+	OwnDimensions.Hypotenuse = sqrtf(powf(OwnDimensions.Width / 2.0f, 2) + powf(OwnDimensions.Height / 2.0f, 2));
 
 }
 

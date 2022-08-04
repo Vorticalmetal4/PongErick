@@ -4,6 +4,7 @@
 #include "Asteroid.h"
 #include "HUD.h"
 #include "EnemyShip.h"
+#include "CollisionSystem.h"
 
 #include <stdlib.h>
 #include <time.h>
@@ -25,6 +26,8 @@ int main()
 
     Renderer Rend;
     HUDData GameData;
+    CollisionSystem CollisionDetector;
+
     bool Pause;
 
     int AsteroidWidth = ConFile.GetInteger("Asteroid", "Width", 1);
@@ -119,7 +122,7 @@ int main()
 
                         for (k = i + 1; k < TotalAsteroids; k++)
                             if (Asteroids[k].getActive())
-                                if (Asteroids[i].CheckCollision(Asteroids[k].getP1(), Asteroids[k].getHeight(), Asteroids[k].getWidth()))
+                                if (CollisionDetector.Square_Square(Asteroids[i].getP1(), Asteroids[k].getP1(), Asteroids[i].getDimensions(), Asteroids[k].getDimensions()))
                                 {
                                     Asteroids[i].ChangeDirection( k + 4);
                                     Asteroids[k].ChangeDirection( i + 4);
@@ -133,8 +136,8 @@ int main()
                                     if (!Asteroids[j].getActive())
                                     {
                                         Asteroids[j].setActive(true);
-                                        Asteroids[j].setNewData(Asteroids[i].getCenter(), Asteroids[i].getSize(), Asteroids[i].getWidth(), Asteroids[i].getHeight(), true, Asteroids[i].getVelocity());
-                                        Asteroids[i].setNewData(Asteroids[i].getCenter(), Asteroids[i].getSize(), Asteroids[i].getWidth(), Asteroids[i].getHeight(), false, Asteroids[i].getVelocity());
+                                        Asteroids[j].setNewData(Asteroids[i].getCenter(), Asteroids[i].getSize(), Asteroids[i].getDimensions(), true, Asteroids[i].getVelocity());
+                                        Asteroids[i].setNewData(Asteroids[i].getCenter(), Asteroids[i].getSize(), Asteroids[i].getDimensions(), false, Asteroids[i].getVelocity());
                                         break;
                                     }
 

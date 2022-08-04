@@ -1,14 +1,13 @@
 #pragma once
 
-#include <vector>
-#include "Renderer.h"
+#include "CollisionSystem.h"
 #include "Laser.h"
 
 
 class Player
 {
 public:
-	Player(Renderer* _Rend);
+	Player(class Renderer* _Rend);
 	~Player();
 	
 	Position* getCenter() { return &Center; }

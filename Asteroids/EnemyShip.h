@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Renderer.h"
+#include "CollisionSystem.h"
 #include "Raycaster.h"
 
 class EnemyShip
 {
 public: 
 	EnemyShip(void) = default;
-	EnemyShip(Renderer* _Rend);
+	EnemyShip(class Renderer* _Rend);
 	~EnemyShip();
 
 	bool getActive() { return Active; }
