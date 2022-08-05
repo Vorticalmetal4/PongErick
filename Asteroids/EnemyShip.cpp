@@ -117,7 +117,7 @@ void EnemyShip::Update(Position* PlayerCenter, float PlayerHypotenuse, bool Paus
 			Center.y = (float)Rend->getWindowHeight();
 	}
 
-	Rend->DrawTriangle(&P1, &P2, &P3, 0, 0, 0, 255);
+	Rend->DrawTriangle(&P1, &P2, &P3, 255, 0, 0, 255);
 }
 
 void EnemyShip::setNewData(bool Left, bool _Active)

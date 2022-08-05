@@ -43,7 +43,7 @@ void Raycaster::Update(int Velocity, Position* ParentP)
 	Center.x += cosf(Center.Rotation) * (D / 2.0f);
 	Center.y -= sinf(Center.Rotation) * (D / 2.0f);
 
-	Rend->DrawLine(&P1, &P2, 255, 0, 0, 0);
+	Rend->DrawLine(&P1, &P2, 0, 0, 0, 0);
 }
 
 bool Raycaster::CheckCollision(float PlayerX, float PlayerY, float PlayerH)
