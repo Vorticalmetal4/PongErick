@@ -63,23 +63,23 @@ void Asteroid::Update(bool Pause)
 
 		if (FirstPoint.x + OwnDimensions.Width >= Rend->getWindowWidth())
 		{
-			FirstPoint.x = Rend->getWindowWidth() - OwnDimensions.Width - 1.0f;
+			FirstPoint.x = Rend->getWindowWidth() - OwnDimensions.Width - 5.0f;
 			ChangeDirection(0); //"Wall" number
 		}
 		else if (FirstPoint.x <= 0)
 		{
-			FirstPoint.x = 1;
+			FirstPoint.x = 5;
 			ChangeDirection(2);
 		}
 
 		if (FirstPoint.y + OwnDimensions.Height >= Rend->getWindowHeight())
 		{
-			FirstPoint.y = Rend->getWindowHeight() - OwnDimensions.Height - 1.0f;
+			FirstPoint.y = Rend->getWindowHeight() - OwnDimensions.Height - 5.0f;
 			ChangeDirection(1);
 		}
 		else if (FirstPoint.y <= 0)
 		{
-			FirstPoint.y = 1;
+			FirstPoint.y = 5;
 			ChangeDirection(3);
 		}
 

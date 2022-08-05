@@ -136,11 +136,11 @@ void Player::Update(bool Pause)
 
 		CurrentCooldown--;
 		Invincibility -= DeltaTime;
-
-		for (i = 0; i < NLasers; i++)
-			if(Lasers[i].getActive())
-				Lasers[i].Update(Pause);
 	}
+
+	for (i = 0; i < NLasers; i++)
+		if (Lasers[i].getActive())
+			Lasers[i].Update(Pause);
 
 	if(Invincibility <= 0)
 		Rend->DrawTriangle(&FirstPoint, &SecondPoint, &ThirdPoint, 255, 255, 255, 255);

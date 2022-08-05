@@ -62,7 +62,7 @@ int main()
 
     for (i = 0; i < TotalAsteroids; i++)
     {
-        Asteroids[i] = Asteroid(&Rend, (float)(AsteroidWidth + rand() % Rend.getWindowWidth() - AsteroidWidth), (float)(AsteroidHeight + rand() % Rend.getWindowHeight() - AsteroidHeight), rand() % 360);
+        Asteroids[i] = Asteroid(&Rend, (float)(AsteroidWidth + rand() % Rend.getWindowWidth() - AsteroidWidth - 5), (float)(AsteroidHeight + rand() % Rend.getWindowHeight() - AsteroidHeight - 5), rand() % 360);
         
         if (i < NAsteroids)
         {
