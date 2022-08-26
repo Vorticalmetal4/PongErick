@@ -110,14 +110,26 @@ void Asteroid::UpdateData(float x, float y, int Angle)
 	FirstPoint.y = y;
 
 	if (FirstPoint.x <= 1)
+	{
 		FirstPoint.x += OwnDimensions.Width;
+		ChangeDirection(2);
+	}
 	else if (FirstPoint.x >= Rend->getWindowWidth())
+	{
 		FirstPoint.x -= OwnDimensions.Width;
+		ChangeDirection(0);
+	}
 
 	if (FirstPoint.y <= 1)
+	{
 		FirstPoint.y += OwnDimensions.Height;
+		ChangeDirection(3);
+	}
 	else if (FirstPoint.y >= Rend->getWindowHeight())
+	{
 		FirstPoint.y -= OwnDimensions.Height;
+		ChangeDirection(1);
+	}
 
 	Center.x = FirstPoint.x + HWidth;
 	Center.y = FirstPoint.y + HHeight;

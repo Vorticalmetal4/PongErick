@@ -28,14 +28,14 @@ HUD::HUD(Renderer* _Rend)
 	LivesP2.y = LivesY;
 
 	string GameOverstr = ConFile.GetString("HUD", "GameOverstr", "Game Over");
-	string Restartstr = ConFile.GetString("HUD", "Restartstr", "Restart");
+	string Restartstr = ConFile.GetString("HUD", "Restartstr", "Pulse R to Restart");
 	string Invincibilitystr = ConFile.GetString("HUD", "Invincibilitystr", "Invincible");
-	string Puntuationstr = ConFile.GetString("HUD", "Puntuationstr", "Puntuation: ");
+	string Scorestr = ConFile.GetString("HUD", "Scorestr", "Score: ");
 
 	GameOver = (char*)malloc((GameOverstr.size() + 1) * sizeof(char));
 	Restart = (char*)malloc((Restartstr.size() + 1) * sizeof(char));
 	Invincible = (char*)malloc((Invincibilitystr.size() + 1) * sizeof(char));
-	PuntuationA = (char*)malloc((Puntuationstr.size() + 1) *  sizeof(char));
+	ScoreA = (char*)malloc((Scorestr.size() + 1) *  sizeof(char));
 
 	if (GameOver != NULL)
 	{
@@ -53,10 +53,10 @@ HUD::HUD(Renderer* _Rend)
 		Invincible[Invincibilitystr.size()] = '\0';
 	}
 
-	if(PuntuationA != NULL)
+	if(ScoreA != NULL)
 	{
-		Puntuationstr.copy(PuntuationA, Puntuationstr.size() + 1);
-		PuntuationA[Puntuationstr.size()] = '\0';
+		Scorestr.copy(ScoreA, Scorestr.size() + 1);
+		ScoreA[Scorestr.size()] = '\0';
 	}
 
 	HWindowWidth = Rend->getWindowWidth() / 2.0f;
@@ -95,9 +95,9 @@ void HUD::Update(HUDData* Data)
 	if (Data->Lives <= 0)
 	{
 		Rend->Write(GameOver, 100, 100, HWindowWidth - 50.0f, HWindowHeight - 50.0f);		
-		Rend->Write(Restart, 100, 100, HWindowWidth - 25.0f, HWindowHeight);
-		Rend->Write(PuntuationA, 100, 100, HWindowWidth - 80.0, HWindowHeight + 50.0f);
-		ChangeScore(Data->Score, 50, 50, HWindowWidth + 60.0f, HWindowHeight + 50.0f);
+		Rend->Write(Restart, 100, 100, HWindowWidth - 90.0f, HWindowHeight);
+		Rend->Write(ScoreA, 100, 100, HWindowWidth - 48.0, HWindowHeight + 50.0f);
+		ChangeScore(Data->Score, 50, 50, HWindowWidth + 37.0f, HWindowHeight + 50.0f);
 
 		if (Rend->CheckReset())
 			Reset = true;

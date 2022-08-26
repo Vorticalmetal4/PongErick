@@ -33,6 +33,7 @@ int main()
     int AsteroidWidth = ConFile.GetInteger("Asteroid", "Width", 1);
     int AsteroidHeight = ConFile.GetInteger("Asteroid", "Height", 1);
     int AsteroidVelocity = ConFile.GetInteger("Asteroid", "Velocity", 1);
+    int SpawnSeparation = 15;
 
     GameData.Lives = ConFile.GetInteger("HUD", "Lives", 0);
     GameData.Score = 0;
@@ -62,7 +63,7 @@ int main()
 
     for (i = 0; i < TotalAsteroids; i++)
     {
-        Asteroids[i] = Asteroid(&Rend, (float)(AsteroidWidth + rand() % Rend.getWindowWidth() - AsteroidWidth - 5), (float)(AsteroidHeight + rand() % Rend.getWindowHeight() - AsteroidHeight - 5), rand() % 360);
+        Asteroids[i] = Asteroid(&Rend, (float)(AsteroidWidth + SpawnSeparation + rand() % (Rend.getWindowWidth() - 2 * (AsteroidWidth + SpawnSeparation))), (float)(AsteroidHeight + SpawnSeparation + rand() % (Rend.getWindowHeight() - 2 * (AsteroidHeight + SpawnSeparation))), rand() % 360);
         
         if (i < NAsteroids)
         {
