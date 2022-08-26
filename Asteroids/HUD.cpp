@@ -27,13 +27,15 @@ HUD::HUD(Renderer* _Rend)
 	LivesP1.y = LivesP3.y = LivesY + LivesHeight;
 	LivesP2.y = LivesY;
 
-	string GameOverstr = "Game Over";
-	string Restartstr = "Press R to restart";
-	string Invincibilitystr = "Invincible";
+	string GameOverstr = ConFile.GetString("HUD", "GameOverstr", "Game Over");
+	string Restartstr = ConFile.GetString("HUD", "Restartstr", "Restart");
+	string Invincibilitystr = ConFile.GetString("HUD", "Invincibilitystr", "Invincible");
+	string Puntuationstr = ConFile.GetString("HUD", "Puntuationstr", "Puntuation: ");
 
 	GameOver = (char*)malloc((GameOverstr.size() + 1) * sizeof(char));
 	Restart = (char*)malloc((Restartstr.size() + 1) * sizeof(char));
 	Invincible = (char*)malloc((Invincibilitystr.size() + 1) * sizeof(char));
+	PuntuationA = (char*)malloc((Puntuationstr.size() + 1) *  sizeof(char));
 
 	if (GameOver != NULL)
 	{
@@ -49,6 +51,12 @@ HUD::HUD(Renderer* _Rend)
 	if (Invincible != NULL) {
 		Invincibilitystr.copy(Invincible, Invincibilitystr.size() + 1);
 		Invincible[Invincibilitystr.size()] = '\0';
+	}
+
+	if(PuntuationA != NULL)
+	{
+		Puntuationstr.copy(PuntuationA, Puntuationstr.size() + 1);
+		PuntuationA[Puntuationstr.size()] = '\0';
 	}
 
 	HWindowWidth = Rend->getWindowWidth() / 2.0f;
@@ -75,8 +83,6 @@ void HUD::Update(HUDData* Data)
 		Rend->DrawTriangle(&LivesP1, &LivesP2, &LivesP3, 255, 255, 255, 255);
 	}
 
-	ChangeScore(Data->Score, 50, 50, 0, 10);
-
 	if(Rend->CheckPause())
 	{
 		if (Pause)
@@ -88,16 +94,21 @@ void HUD::Update(HUDData* Data)
 
 	if (Data->Lives <= 0)
 	{
-		Rend->Write(GameOver, 100, 100, HWindowWidth - 50.0f, HWindowHeight - 50.0f);
-		
-		Rend->Write(Restart, 100, 100, HWindowWidth - 80.0f, HWindowHeight);
+		Rend->Write(GameOver, 100, 100, HWindowWidth - 50.0f, HWindowHeight - 50.0f);		
+		Rend->Write(Restart, 100, 100, HWindowWidth - 25.0f, HWindowHeight);
+		Rend->Write(PuntuationA, 100, 100, HWindowWidth - 80.0, HWindowHeight + 50.0f);
+		ChangeScore(Data->Score, 50, 50, HWindowWidth + 60.0f, HWindowHeight + 50.0f);
 
 		if (Rend->CheckReset())
 			Reset = true;
 	}
 
-	else if (Data->Invincibility >= 0)
-		Rend->Write(Invincible, 100, 100, HWindowWidth - 60, 0, 255, 255, 0, 255);
+	else 
+	{
+		ChangeScore(Data->Score, 50, 50, 0, 10);
+		if (Data->Invincibility >= 0)
+			Rend->Write(Invincible, 100, 100, HWindowWidth - 60, 0, 255, 255, 0, 255);
+	}
 		
 }
 

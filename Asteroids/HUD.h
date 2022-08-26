@@ -49,6 +49,7 @@ private:
 	char* GameOver;
 	char* Restart;
 	char* Invincible;
+	char* PuntuationA;
 
 	bool Pause;
 	bool Reset;

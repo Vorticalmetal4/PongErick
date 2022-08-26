@@ -3,6 +3,8 @@
 #include "Renderer.h"
 #include <string>
 
+
+
 const Uint8* State = SDL_GetKeyboardState(NULL);
 TTF_Font* Font = nullptr;
 SDL_Rect TextRect;
