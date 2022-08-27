@@ -69,6 +69,17 @@ int main()
         {
             Asteroids[i].setActive(true);
             Asteroids[i].setSize(0);
+            j = 0;
+            while(j < i)
+            {
+                if (CollisionDetector.Square_Square(Asteroids[i].getP1(), Asteroids[j].getP1(), Asteroids[i].getDimensions(), Asteroids[j].getDimensions()))
+                {
+                    Asteroids[i].UpdateData((float)(AsteroidWidth + SpawnSeparation + rand() % (Rend.getWindowWidth() - 2 * (AsteroidWidth + SpawnSeparation))), (float)(AsteroidHeight + SpawnSeparation + rand() % (Rend.getWindowHeight() - 2 * (AsteroidHeight + SpawnSeparation))), Asteroids[i].getAngle());
+                    j = 0;
+                }
+                else
+                    j++;
+            }
         }
     }
 

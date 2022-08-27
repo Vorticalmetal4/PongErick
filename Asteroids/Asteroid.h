@@ -22,6 +22,7 @@ public:
 	int getVelocity() { return Velocity; }
 	bool getActive() { return Active; }
 	float getHypotenuse() { return OwnDimensions.Hypotenuse; }
+	int getAngle() { return FirstPoint.Angle; }
 
 	void setActive(bool _Active) { Active = _Active; }
 	void setSize(int _Size) { Size = _Size; }
@@ -32,6 +33,7 @@ public:
 	void ChangeDirection(int ObjectNumber);
 	
 	void Update(bool Pause);
+	void UpdateData(float x, float y, int Angle);
 
 private:
 	Renderer* Rend;
@@ -53,7 +55,4 @@ private:
 	float DeltaTime;
 	float HWidth;
 	float HHeight;
-
-	void UpdateData(float x, float y, int Angle);
-
 };
