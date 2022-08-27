@@ -151,10 +151,12 @@ copy "$(ProjectDir)\Resources\InitialData.ini" "$(TargetDir)"</Command>
     <ClCompile Include="..\Inih\ini.c" />
     <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="PacmanWindows.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionSystem.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Renderer.h" />
   </ItemGroup>
   <ItemGroup>

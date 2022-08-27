@@ -96,7 +96,7 @@ void HUD::Update(HUDData* Data)
 	{
 		Rend->Write(GameOver, 100, 100, HWindowWidth - 50.0f, HWindowHeight - 50.0f);		
 		Rend->Write(Restart, 100, 100, HWindowWidth - 90.0f, HWindowHeight);
-		Rend->Write(ScoreA, 100, 100, HWindowWidth - 48.0, HWindowHeight + 50.0f);
+		Rend->Write(ScoreA, 100, 100, HWindowWidth - 48.0f, HWindowHeight + 50.0f);
 		ChangeScore(Data->Score, 50, 50, HWindowWidth + 37.0f, HWindowHeight + 50.0f);
 
 		if (Rend->CheckReset())
