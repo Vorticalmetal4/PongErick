@@ -3,7 +3,9 @@
 #include "Renderer.h"
 #include <string>
 
-
+const float Pi = (float)3.141592;
+const float Rad = Pi / 180;
+int i;
 
 const Uint8* State = SDL_GetKeyboardState(NULL);
 TTF_Font* Font = nullptr;
@@ -183,6 +185,8 @@ char Renderer::CheckMovement()
         return 'L';
     else if (State[SDL_SCANCODE_UP])
         return 'U';
+    else if (State[SDL_SCANCODE_DOWN])
+        return 'D';
     else if (State[SDL_SCANCODE_SPACE])
         return 'S';
 
@@ -241,7 +245,19 @@ void Renderer::DrawLine(Position* P1, Position* P2, int r, int g, int b, int alp
     SDL_RenderDrawLineF(mRenderer, P1->x, P1->y, P2->x, P2->y);
 }
 
-void Renderer::DrawCircle()
-{
-    
+void Renderer::DrawIncompleteCircle(Position* Center, int Radius, int r, int g, int b, int alpha, float FirstSpaceAngle, float SecondSpaceAngle) {
+    SDL_SetRenderDrawColor(mRenderer, r, g, b, alpha);
+
+    for (i = 0; i < 360; i ++)
+    {
+        if (Center->Angle > 0)
+        {
+            if (i < FirstSpaceAngle || i > SecondSpaceAngle)
+                SDL_RenderDrawLineF(mRenderer, Center->x, Center->y, Center->x + cosf(i * Rad) * Radius, Center->y - sinf(i * Rad) * Radius);
+        }
+        else
+            if(i > FirstSpaceAngle && i < SecondSpaceAngle)
+                SDL_RenderDrawLineF(mRenderer, Center->x, Center->y, Center->x + cosf(i * Rad) * Radius, Center->y - sinf(i * Rad) * Radius);
+    }
+
 }

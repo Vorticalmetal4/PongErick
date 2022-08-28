@@ -10,6 +10,20 @@ public:
 	void Update();
 
 private:
-	Position P1;
+	Position Center;
+	
 	Renderer* Rend;
+
+	int Radius;
+	int MouthSize;
+	int MouthSpeed;
+
+	float ActualMouthSize;
+	float FirstMouthAngle;
+	float SecondMouthAngle;
+	float DeltaTime;
+
+	int MouthIncrement;
+
+	void AdjustMouthAngles();
 };
