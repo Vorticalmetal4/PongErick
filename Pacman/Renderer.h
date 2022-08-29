@@ -26,11 +26,12 @@ public:
     void GenerateOutput();
     void Write(char* NText, int TextW, int TextH, float TextX, float TextY);
     void Write(char* NText, int TextW, int TextH, float TextX, float TextY, Uint8 r, Uint8 g, Uint8 b, Uint8 alpha);
-    void DrawSimpleRect(float x, float y, int width, int height, int r, int g, int b, int alpha);
+    void DrawSimpleRect(float x, float y, float width, float height, int r, int g, int b, int alpha);
     void DrawRect(Position* P1, Position* P2, Position* P3, Position* P4, int r, int g, int b, int alpha);
     void DrawTriangle(Position* P1, Position* P2, Position* P3, int r, int g, int b, int alpha);
     void DrawLine(Position* P1, Position* P2, int r, int g, int b, int alpha);
     void DrawIncompleteCircle(Position* Center, int Radius, int r, int g, int b, int alpha, float FirstSpaceAngle, float SecondSpaceAngle);
+    void DrawCircle(Position* Center, int Radius, int r, int g, int b, int alpha);
     void FreeMemory();
     char CheckMovement();
 

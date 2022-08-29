@@ -135,14 +135,14 @@ void Renderer::GenerateOutput()
 }
 
 
-void Renderer::DrawSimpleRect(float x, float y, int width, int height, int r, int g, int b, int alpha)
+void Renderer::DrawSimpleRect(float x, float y, float width, float height, int r, int g, int b, int alpha)
 {
     SDL_SetRenderDrawColor(mRenderer, r, g, b, alpha);
     SDL_Rect Rect{
     (int)x,
     (int)y,
-    width,
-    height
+    (int)width,
+    (int)height
     };
 
     SDL_RenderFillRect(mRenderer, &Rect);
@@ -260,4 +260,11 @@ void Renderer::DrawIncompleteCircle(Position* Center, int Radius, int r, int g, 
                 SDL_RenderDrawLineF(mRenderer, Center->x, Center->y, Center->x + cosf(i * Rad) * Radius, Center->y - sinf(i * Rad) * Radius);
     }
 
+}
+
+void Renderer::DrawCircle(Position* Center, int Radius, int r, int g, int b, int alpha)
+{
+    SDL_SetRenderDrawColor(mRenderer, r, g, b, alpha);
+    for (i = 0; i < 360; i++)
+        SDL_RenderDrawLineF(mRenderer, Center->x, Center->y, Center->x + cosf(i * Rad) * Radius, Center->y - sinf(i * Rad) * Radius);
 }

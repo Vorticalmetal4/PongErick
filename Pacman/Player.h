@@ -17,6 +17,7 @@ private:
 	int Radius;
 	int MouthSize;
 	int MouthSpeed;
+	int Speed;
 
 	float ActualMouthSize;
 	float FirstMouthAngle;

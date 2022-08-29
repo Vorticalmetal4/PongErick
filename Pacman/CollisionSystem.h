@@ -11,8 +11,8 @@ struct Position
 
 struct Dimension
 {
-    int Width;
-    int Height;
+    float Width;
+    float Height;
     float Hypotenuse;
 };
 

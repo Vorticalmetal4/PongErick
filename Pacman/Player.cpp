@@ -23,6 +23,7 @@ Player::Player(Renderer* _Rend)
 	Center.y = (float)ConFile.GetInteger("Player", "InitialPositionY", 10);
 	Center.Angle = ConFile.GetInteger("Player", "InitialAngle", 45);
 	Center.Rotation = Center.Angle * Rad;
+	Speed = ConFile.GetInteger("Player", "Speed", 200);
 	Radius = ConFile.GetInteger("Player", "Radius", 10);
 	MouthSize = ConFile.GetInteger("Player", "MouthSize", 30);
 	ActualMouthSize = (float)MouthSize;
@@ -53,24 +54,29 @@ void Player::Update()
 	{
 		case 'R':
 			Center.Angle = 0;
+			Center.x += Speed * DeltaTime;
 		break;
 
 		case 'L':
 			Center.Angle = 180;
+			Center.x -= Speed * DeltaTime;
 		break;
 
 		case 'U':
 			Center.Angle = 90;
+			Center.y -= Speed * DeltaTime;
 		break;
 
 		case 'D':
 			Center.Angle = 270;
+			Center.y += Speed * DeltaTime;
 		break;
 
 		default:
 
 		break;
 	}
+
 	AdjustMouthAngles();
 	Rend->DrawIncompleteCircle(&Center, Radius, 255, 255, 0, 255, FirstMouthAngle, SecondMouthAngle);
 }
