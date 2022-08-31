@@ -32,8 +32,6 @@ int main()
 		ConFile.PrintError("AsteroidsWindow");
 
     int i;
-    int FirstSectionWallsSize = 13;
-    int SecondSectionWallsSize = 13;
 
     float CorridorSize = ConFile.GetInteger("Player", "Radius", 10) * 3.0f;
     float ScoreSpace = (float)ConFile.GetInteger("Wall", "ScoreSpace", 20);
@@ -50,11 +48,11 @@ int main()
         ConFile.GetInteger("Window", "Height", 700),
         ConFile.GetInteger("Window", "Flags", 0),
         ConFile.GetString("Window", "Font", "Error"));
-    
-    Wall* FirstSectionWalls = new Wall[FirstSectionWallsSize];
-    Wall* SecondSectionWalls = new Wall[SecondSectionWallsSize];
 
     //Top left part of the map
+    int FirstSectionWallsSize = 16;
+    Wall* FirstSectionWalls = new Wall[FirstSectionWallsSize];
+    
     FirstSectionWalls[0] = Wall(&Rend, 0, ScoreSpace, 7.5f * CorridorSize + Thickness, Thickness); //Roof - 0
     FirstSectionWalls[1] = Wall(&Rend, FirstSectionWalls->getPosition()->x + FirstSectionWalls[0].getDimension()->Width, 20, Thickness / 2.0f, 2 *  CorridorSize); //Intersection wall between first and second section - 1
     FirstSectionWalls[2] = Wall(&Rend, 0, FirstSectionWalls[0].getPosition()->y + FirstSectionWalls[0].getDimension()->Height, Thickness, 5.5f * CorridorSize); //Left Wall - 2
@@ -68,8 +66,14 @@ int main()
     FirstSectionWalls[10] = Wall(&Rend, FirstSectionWalls[9].getPosition()->x + Thickness, FirstSectionWalls[6].getPosition()->y, 2 * CorridorSize, CorridorSize); //Horizontal wall fourth obstacle - 10
     FirstSectionWalls[11] = Wall(&Rend, FirstSectionWalls[9].getPosition()->x + Thickness + CorridorSize, FirstSectionWalls[9].getPosition()->y, 2 * CorridorSize + 5, CorridorSize); //Horizontal wall intersection obstacle - 11
     FirstSectionWalls[12] = Wall(&Rend, FirstSectionWalls[1].getPosition()->x, FirstSectionWalls[11].getPosition()->y, Thickness / 2.0f, 3 * CorridorSize); //Vertical wall intersection obstacle - 12
-
+    FirstSectionWalls[13] = Wall(&Rend, FirstSectionWalls[11].getPosition()->x, FirstSectionWalls[10].getPosition()->y + FirstSectionWalls[10].getDimension()->Height + CorridorSize, FirstSectionWalls[11].getDimension()->Width - CorridorSize / 2.0f, Thickness); //Ghost's house horizontal wall - 13
+    FirstSectionWalls[14] = Wall(&Rend, FirstSectionWalls[13].getPosition()->x + FirstSectionWalls[13].getDimension()->Width, FirstSectionWalls[13].getPosition()->y, CorridorSize / 2.0f, Thickness, 255, 255, 255, 255);  //Ghost's house door - 14
+    FirstSectionWalls[15] = Wall(&Rend, FirstSectionWalls[13].getPosition()->x, FirstSectionWalls[13].getPosition()->y + FirstSectionWalls[13].getDimension()->Height, Thickness, Thickness + CorridorSize / 2.1f); //Ghost's house vertical wall - 15
+    
     //Top right part of the map
+    int SecondSectionWallsSize = 16;
+    Wall* SecondSectionWalls = new Wall[SecondSectionWallsSize];
+    
     SecondSectionWalls[0] = Wall(&Rend, Rend.getWindowWidth() - FirstSectionWalls[0].getDimension()->Width, FirstSectionWalls[0].getPosition()->y, FirstSectionWalls[0].getDimension()->Width, Thickness);  //Roof - 0
     SecondSectionWalls[1] = Wall(&Rend, FirstSectionWalls[1].getPosition()->x + FirstSectionWalls[1].getDimension()->Width, FirstSectionWalls[1].getPosition()->y, FirstSectionWalls[1].getDimension()->Width, FirstSectionWalls[1].getDimension()->Height); //Intersection wall between second and first section - 1
     SecondSectionWalls[2] = Wall(&Rend, Rend.getWindowWidth() - Thickness, FirstSectionWalls[2].getPosition()->y, Thickness, FirstSectionWalls[2].getDimension()->Height); //Right Wall - 2
@@ -83,6 +87,29 @@ int main()
     SecondSectionWalls[10] = Wall(&Rend, SecondSectionWalls[9].getPosition()->x - FirstSectionWalls[10].getDimension()->Width, FirstSectionWalls[10].getPosition()->y, FirstSectionWalls[10].getDimension()->Width, FirstSectionWalls[10].getDimension()->Height); //Horizontal wall fourth obstacle - 10
     SecondSectionWalls[11] = Wall(&Rend, FirstSectionWalls[11].getPosition()->x + FirstSectionWalls[11].getDimension()->Width + 4, FirstSectionWalls[11].getPosition()->y, FirstSectionWalls[11].getDimension()->Width, FirstSectionWalls[11].getDimension()->Height);  //Horizontal wall intersection obstacle - 11
     SecondSectionWalls[12] = Wall(&Rend, FirstSectionWalls[12].getPosition()->x + FirstSectionWalls[12].getDimension()->Width, FirstSectionWalls[12].getPosition()->y, FirstSectionWalls[12].getDimension()->Width, FirstSectionWalls[12].getDimension()->Height);  //Vertical wall intersection obstacle - 12
+    SecondSectionWalls[13] = Wall(&Rend, FirstSectionWalls[14].getPosition()->x + FirstSectionWalls[14].getDimension()->Width, FirstSectionWalls[14].getPosition()->y, FirstSectionWalls[14].getDimension()->Width, Thickness, 255, 255, 255, 255); //Ghost's house door - 13
+    SecondSectionWalls[14] = Wall(&Rend, SecondSectionWalls[13].getPosition()->x + SecondSectionWalls[13].getDimension()->Width, SecondSectionWalls[13].getPosition()->y, FirstSectionWalls[13].getDimension()->Width, Thickness);  //Ghost's house horizontal wall - 14 
+    SecondSectionWalls[15] = Wall(&Rend, SecondSectionWalls[14].getPosition()->x + SecondSectionWalls[14].getDimension()->Width - Thickness, SecondSectionWalls[14].getPosition()->y + SecondSectionWalls->getDimension()->Height, Thickness, FirstSectionWalls[15].getDimension()->Height);   //Ghost's house vertical wall - 15
+
+    //Bottom left part of the map
+    int ThirdSectionWallsSize = 15;
+    Wall* ThirdSectionWalls = new Wall[ThirdSectionWallsSize];
+
+    ThirdSectionWalls[0] = Wall(&Rend, FirstSectionWalls[6].getPosition()->x, FirstSectionWalls[8].getPosition()->y + FirstSectionWalls[6].getDimension()->Height + CorridorSize, FirstSectionWalls[6].getDimension()->Width, Thickness);   //First horizontal wall - 0
+    ThirdSectionWalls[1] = Wall(&Rend, FirstSectionWalls[7].getPosition()->x, ThirdSectionWalls[0].getPosition()->y, Thickness, FirstSectionWalls[7].getDimension()->Height);   //First vertical wall - 1
+    ThirdSectionWalls[2] = Wall(&Rend, ThirdSectionWalls[0].getPosition()->x, ThirdSectionWalls[1].getPosition()->y + ThirdSectionWalls[1].getDimension()->Height - Thickness, ThirdSectionWalls[0].getDimension()->Width, Thickness);  //Second Horizontal wall - 2
+    ThirdSectionWalls[3] = Wall(&Rend, ThirdSectionWalls[0].getPosition()->x, ThirdSectionWalls[2].getPosition()->y + Thickness, Thickness, 5 * CorridorSize + Thickness); //Second vertical wall - 3
+    ThirdSectionWalls[4] = Wall(&Rend, ThirdSectionWalls[3].getPosition()->x, ThirdSectionWalls[3].getPosition()->y + ThirdSectionWalls[3].getDimension()->Height, 7.5 * CorridorSize, Thickness);  //Floor - 4
+    ThirdSectionWalls[5] = Wall(&Rend, ThirdSectionWalls[4].getPosition()->x + Thickness + CorridorSize, ThirdSectionWalls[2].getPosition()->y + CorridorSize + ThirdSectionWalls[2].getDimension()->Height, 2 * CorridorSize, Thickness);  //Horizontal wall first obstacle - 5
+    ThirdSectionWalls[6] = Wall(&Rend, ThirdSectionWalls[5].getPosition()->x + ThirdSectionWalls[5].getDimension()->Width - Thickness, ThirdSectionWalls[5].getPosition()->y + Thickness, Thickness, 1 * CorridorSize + Thickness); //Vertical wall first obstacle - 6
+    ThirdSectionWalls[7] = Wall(&Rend, ThirdSectionWalls[3].getPosition()->x + Thickness, ThirdSectionWalls[5].getPosition()->y + Thickness + CorridorSize, CorridorSize +  Thickness, Thickness);  //Second obstacle - 7
+    ThirdSectionWalls[8] = Wall(&Rend, ThirdSectionWalls[6].getPosition()->x + ThirdSectionWalls[6].getDimension()->Width + CorridorSize, ThirdSectionWalls[5].getPosition()->y, FirstSectionWalls[4].getDimension()->Width, 0.5f *  CorridorSize); //Third obstacle - 8
+    ThirdSectionWalls[9] = Wall(&Rend, ThirdSectionWalls[5].getPosition()->x, ThirdSectionWalls[7].getPosition()->y + ThirdSectionWalls[7].getDimension()->Height + CorridorSize, 5 * CorridorSize + Thickness, Thickness); //Horizontal wall fourth obstacle - 9
+    ThirdSectionWalls[10] = Wall(&Rend, ThirdSectionWalls[8].getPosition()->x, ThirdSectionWalls[8].getPosition()->y + ThirdSectionWalls[8].getDimension()->Height + CorridorSize, Thickness, 1.5f * CorridorSize); //Vertical wall fourth obstacle - 10
+    ThirdSectionWalls[11] = Wall(&Rend, ThirdSectionWalls[1].getPosition()->x + ThirdSectionWalls[1].getDimension()->Width + CorridorSize, ThirdSectionWalls[1].getPosition()->y, Thickness, ThirdSectionWalls[1].getDimension()->Height);  //Fifth obstacle - 11
+    ThirdSectionWalls[12] = Wall(&Rend, FirstSectionWalls[15].getPosition()->x, FirstSectionWalls[15].getPosition()->y + FirstSectionWalls[15].getDimension()->Height, Thickness, FirstSectionWalls[15].getDimension()->Height); //Ghost's house vertical wall - 12
+    ThirdSectionWalls[13] = Wall(&Rend, ThirdSectionWalls[12].getPosition()->x, ThirdSectionWalls[12].getPosition()->y + ThirdSectionWalls[12].getDimension()->Height, FirstSectionWalls[13].getDimension()->Width + FirstSectionWalls[14].getDimension()->Width, Thickness);   //Ghost's house floor - 13
+    ThirdSectionWalls[14] = Wall(&Rend, ThirdSectionWalls[13].getPosition()->x, ThirdSectionWalls[11].getPosition()->y + ThirdSectionWalls[11].getDimension()->Height - Thickness, ThirdSectionWalls[13].getDimension()->Width, Thickness); //Horizontal wall sixth obstacle
 
     if (success)
     {
@@ -97,6 +124,9 @@ int main()
 
             for (i = 0; i < SecondSectionWallsSize; i++)
                 SecondSectionWalls[i].Draw();
+
+            for (i = 0; i < ThirdSectionWallsSize; i++)
+                ThirdSectionWalls[i].Draw();
 
             MainPlayer.Update();
 
