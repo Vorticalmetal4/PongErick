@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Renderer.h"
+#include "Wall.h"
 
 #include "Inih/cpp/INIReader.h"
 
@@ -8,11 +9,15 @@ using namespace std;
 
 const float Pi = (float)3.141592;
 const float Rad = Pi / 180;
+int it;
 
-Player::Player(Renderer* _Rend)
+Player::Player(Renderer* _Rend, CollisionSystem* _CollisionDetector, float _VerticalSectionsLine, float _HorizontalSectionsLine)
 	:Rend(_Rend),
 	DeltaTime(0.0f),
-	MouthIncrement(-1)
+	MouthIncrement(-1),
+	Section(3),
+	VerticalSectionsLine(_VerticalSectionsLine),
+	HorizontalSectionsLine(_HorizontalSectionsLine)
 {
 	INIReader ConFile("InitialData.ini");
 
@@ -38,10 +43,12 @@ Player::~Player()
 
 }
 
-void Player::Update()
+void Player::Update(Wall* Walls, int NWalls)
 {
 
 	DeltaTime = Rend->getDeltaTime();
+
+	UpdateSection();
 
 	if (ActualMouthSize >= MouthSize)
 		MouthIncrement = -1;
@@ -54,27 +61,44 @@ void Player::Update()
 	{
 		case 'R':
 			Center.Angle = 0;
-			Center.x += Speed * DeltaTime;
 		break;
 
 		case 'L':
 			Center.Angle = 180;
-			Center.x -= Speed * DeltaTime;
 		break;
 
 		case 'U':
 			Center.Angle = 90;
-			Center.y -= Speed * DeltaTime;
 		break;
 
 		case 'D':
 			Center.Angle = 270;
-			Center.y += Speed * DeltaTime;
 		break;
 
 		default:
 
 		break;
+	}
+
+	AuxPos = Center;
+
+
+	if (Center.Angle == 0)
+		Center.x += Speed * DeltaTime;
+
+	else if (Center.Angle == 90)
+		Center.y -= Speed * DeltaTime;
+
+	else if (Center.Angle == 180)
+		Center.x -= Speed * DeltaTime;
+
+	else
+		Center.y += Speed * DeltaTime;
+
+	for (it = 0; it < NWalls; it++)
+	{
+		if (CollisionDetector.Circle_Square(&Center, Walls[it].getPosition(), Radius, Walls[it].getDimension()))
+			Center = AuxPos;
 	}
 
 	AdjustMouthAngles();
@@ -94,6 +118,24 @@ void Player::AdjustMouthAngles()
 	{
 		FirstMouthAngle = ActualMouthSize + Center.Angle;
 		SecondMouthAngle = 360 - ActualMouthSize;	
+	}
+}
+
+void Player::UpdateSection()
+{
+	if (Center.x < HorizontalSectionsLine)
+	{
+		if (Center.y < VerticalSectionsLine)
+			Section = 1;
+		else
+			Section = 3;
+	}
+	else
+	{
+		if (Center.y < VerticalSectionsLine)
+			Section = 2;
+		else
+			Section = 4;
 	}
 }
 

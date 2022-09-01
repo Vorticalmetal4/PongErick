@@ -22,8 +22,9 @@ Renderer::Renderer(void)
     WindowWidth(0),
     FText(nullptr),
     deltaTime(0),
-    mTicksCount(0)
-
+    mTicksCount(0),
+    HWidth(0),
+    HHeight(0)
 {
 
 }
@@ -56,6 +57,8 @@ bool Renderer::Initialize(string Name, int TLXCoordinate, int TLYCoordinate, int
 
     WindowHeight = Height;
     WindowWidth = Width;
+    HWidth = Width / 2.0f;
+    HHeight = Height / 2.0f;
 
     if (!mWindow)
     {

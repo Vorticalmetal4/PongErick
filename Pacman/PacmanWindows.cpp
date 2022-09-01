@@ -33,19 +33,17 @@ int main()
 
     int i;
 
-    float CorridorSize = ConFile.GetInteger("Player", "Radius", 10) * 3.0f;
+    float CorridorSize = ConFile.GetInteger("Wall", "CorridorSize", 24);
     float ScoreSpace = (float)ConFile.GetInteger("Wall", "ScoreSpace", 20);
     float Thickness = (float)ConFile.GetInteger("Wall", "Thickness", 25);
 
     Renderer Rend;
-    CollisionSystem CollisionDetector;
-    Player MainPlayer(&Rend);
 
     bool success = Rend.Initialize(ConFile.GetString("Window", "Name", "Error"),
         ConFile.GetInteger("Window", "TopLeftXCoordinate", 100),
         ConFile.GetInteger("Window", "TopLeftYCoordinate", 20),
         ConFile.GetInteger("Window", "Width", 1080),
-        ConFile.GetInteger("Window", "Height", 700),
+        ConFile.GetInteger("Window", "Height", 720),
         ConFile.GetInteger("Window", "Flags", 0),
         ConFile.GetString("Window", "Font", "Error"));
 
@@ -99,7 +97,7 @@ int main()
     ThirdSectionWalls[1] = Wall(&Rend, FirstSectionWalls[7].getPosition()->x, ThirdSectionWalls[0].getPosition()->y, Thickness, FirstSectionWalls[7].getDimension()->Height);   //First vertical wall - 1
     ThirdSectionWalls[2] = Wall(&Rend, ThirdSectionWalls[0].getPosition()->x, ThirdSectionWalls[1].getPosition()->y + ThirdSectionWalls[1].getDimension()->Height - Thickness, ThirdSectionWalls[0].getDimension()->Width, Thickness);  //Second Horizontal wall - 2
     ThirdSectionWalls[3] = Wall(&Rend, ThirdSectionWalls[0].getPosition()->x, ThirdSectionWalls[2].getPosition()->y + Thickness, Thickness, 5 * CorridorSize + Thickness / 1.8f); //Second vertical wall - 3
-    ThirdSectionWalls[4] = Wall(&Rend, ThirdSectionWalls[3].getPosition()->x, ThirdSectionWalls[3].getPosition()->y + ThirdSectionWalls[3].getDimension()->Height, 7.5 * CorridorSize + Thickness, Thickness);  //Floor - 4
+    ThirdSectionWalls[4] = Wall(&Rend, ThirdSectionWalls[3].getPosition()->x, ThirdSectionWalls[3].getPosition()->y + ThirdSectionWalls[3].getDimension()->Height, 8 * CorridorSize + Thickness, Thickness);  //Floor - 4
     ThirdSectionWalls[5] = Wall(&Rend, ThirdSectionWalls[4].getPosition()->x + Thickness + CorridorSize, ThirdSectionWalls[2].getPosition()->y + CorridorSize + ThirdSectionWalls[2].getDimension()->Height, 2 * CorridorSize, Thickness);  //Horizontal wall first obstacle - 5
     ThirdSectionWalls[6] = Wall(&Rend, ThirdSectionWalls[5].getPosition()->x + ThirdSectionWalls[5].getDimension()->Width - Thickness, ThirdSectionWalls[5].getPosition()->y + Thickness, Thickness, CorridorSize + Thickness); //Vertical wall first obstacle - 6
     ThirdSectionWalls[7] = Wall(&Rend, ThirdSectionWalls[3].getPosition()->x + Thickness, ThirdSectionWalls[5].getPosition()->y + Thickness + CorridorSize, CorridorSize +  Thickness, Thickness);  //Second obstacle - 7
@@ -122,7 +120,7 @@ int main()
     FourthSectionWalls[1] = Wall(&Rend, SecondSectionWalls[7].getPosition()->x, ThirdSectionWalls[1].getPosition()->y, Thickness, ThirdSectionWalls[1].getDimension()->Height); //First vertical right wall - 1
     FourthSectionWalls[2] = Wall(&Rend, SecondSectionWalls[8].getPosition()->x, ThirdSectionWalls[2].getPosition()->y, ThirdSectionWalls[2].getDimension()->Width, Thickness);  //Second horizontal right wall - 2
     FourthSectionWalls[3] = Wall(&Rend, SecondSectionWalls[2].getPosition()->x, ThirdSectionWalls[3].getPosition()->y, Thickness, ThirdSectionWalls[3].getDimension()->Height); //Second vertical right wall - 3
-    FourthSectionWalls[4] = Wall(&Rend, ThirdSectionWalls[4].getPosition()->x + ThirdSectionWalls[4].getDimension()->Width, ThirdSectionWalls[4].getPosition()->y, ThirdSectionWalls[4].getDimension()->Width + CorridorSize, Thickness);  //Floor - 4
+    FourthSectionWalls[4] = Wall(&Rend, ThirdSectionWalls[4].getPosition()->x + ThirdSectionWalls[4].getDimension()->Width, ThirdSectionWalls[4].getPosition()->y, ThirdSectionWalls[4].getDimension()->Width, Thickness);  //Floor - 4
     FourthSectionWalls[5] = Wall(&Rend, FourthSectionWalls[1].getPosition()->x - CorridorSize - Thickness, FourthSectionWalls[1].getPosition()->y, Thickness, FourthSectionWalls[1].getDimension()->Height);    //First obstacle - 5
     FourthSectionWalls[6] = Wall(&Rend, ThirdSectionWalls[14].getPosition()->x + ThirdSectionWalls[14].getDimension()->Width, ThirdSectionWalls[14].getPosition()->y, ThirdSectionWalls[14].getDimension()->Width, Thickness); //Horizontal wall second obstacle (first instersection) - 6
     FourthSectionWalls[7] = Wall(&Rend, ThirdSectionWalls[15].getPosition()->x + ThirdSectionWalls[15].getDimension()->Width, FourthSectionWalls[6].getPosition()->y, ThirdSectionWalls[15].getDimension()->Width, ThirdSectionWalls[15].getDimension()->Height); //Vertical wall second obstacle (first intersection) - 7
@@ -136,6 +134,12 @@ int main()
     FourthSectionWalls[15] = Wall(&Rend, FourthSectionWalls[10].getPosition()->x + FourthSectionWalls[10].getDimension()->Width - Thickness, ThirdSectionWalls[10].getPosition()->y, Thickness, ThirdSectionWalls[10].getDimension()->Height); //Vertical wall seventh obstacle - 15
     FourthSectionWalls[16] = Wall(&Rend, ThirdSectionWalls[13].getPosition()->x + ThirdSectionWalls[13].getDimension()->Width, ThirdSectionWalls[13].getPosition()->y, ThirdSectionWalls[13].getDimension()->Width, Thickness); //Ghost's house floor - 16
     FourthSectionWalls[17] = Wall(&Rend, SecondSectionWalls[15].getPosition()->x, SecondSectionWalls[15].getPosition()->y + SecondSectionWalls[15].getDimension()->Height, Thickness, SecondSectionWalls[15].getDimension()->Height); //Ghost's house wall  
+
+    int MapHeight = FirstSectionWalls[0].getDimension()->Height + FirstSectionWalls[2].getDimension()->Height + FirstSectionWalls[7].getDimension()->Height + CorridorSize / 2.0f;
+    int MapWidth = FourthSectionWalls[4].getDimension()->Width;
+
+    CollisionSystem CollisionDetector;
+    Player MainPlayer(&Rend, &CollisionDetector, MapHeight + ScoreSpace, MapWidth);
 
     if (success)
     {
@@ -157,7 +161,25 @@ int main()
             for (i = 0; i < FourthSectionWallsSize; i++)
                 FourthSectionWalls[i].Draw();
 
-            MainPlayer.Update();
+
+            switch (MainPlayer.getSection())
+            {
+                case 1:
+                    MainPlayer.Update(FirstSectionWalls, FirstSectionWallsSize);
+                break;
+
+                case 2:
+                    MainPlayer.Update(SecondSectionWalls, SecondSectionWallsSize);
+                break;
+                
+                case 3:
+                    MainPlayer.Update(ThirdSectionWalls, ThirdSectionWallsSize);
+                break;
+
+                case 4:
+                    MainPlayer.Update(FourthSectionWalls, FourthSectionWallsSize);
+                break;
+            }
 
             Rend.GenerateOutput();
         }

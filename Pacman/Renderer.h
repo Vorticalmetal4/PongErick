@@ -13,6 +13,8 @@ public:
 
     bool getIsRunning() { return mIsRunning; }
     float getDeltaTime() { return deltaTime; }
+    float getHWindowWidth() { return HWidth; }
+    float getHWindowHeight() { return HHeight; }
     int getWindowHeight() { return WindowHeight; }
     int getWindowWidth() { return WindowWidth; }
 
@@ -42,6 +44,8 @@ private:
 
     float deltaTime;
     float mTicksCount;
+    float HWidth;
+    float HHeight;
 
     int PauseCounter;
     int WindowHeight;

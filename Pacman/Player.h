@@ -4,27 +4,37 @@
 class Player
 {
 public: 
-	Player(class Renderer* _Rend);
+	Player(class Renderer* _Rend, CollisionSystem* _CollisionDetector, float _VerticalSectionsLine, float _HorizontaSectionsLine);
 	~Player();
 
-	void Update();
+	int getSection() { return Section; }
+	int getRadius() { return Radius; }
+	Position* getCenter() { return &Center; }
+
+	void Update(class Wall* Walls, int NWalls);
 
 private:
 	Position Center;
+	Position AuxPos;
 	
 	Renderer* Rend;
 
-	int Radius;
+	CollisionSystem CollisionDetector;
+
 	int MouthSize;
 	int MouthSpeed;
 	int Speed;
+	int Section;
+	int MouthIncrement;
 
+	float Radius;
 	float ActualMouthSize;
 	float FirstMouthAngle;
 	float SecondMouthAngle;
 	float DeltaTime;
-
-	int MouthIncrement;
+	float VerticalSectionsLine;
+	float HorizontalSectionsLine;
 
 	void AdjustMouthAngles();
+	void UpdateSection();
 };
