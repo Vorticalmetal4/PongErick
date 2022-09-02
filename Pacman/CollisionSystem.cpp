@@ -26,7 +26,7 @@ bool CollisionSystem::Circle_Circle(Position* Object1Pos, Position* Object2Pos, 
 	return false;
 }
 
-bool CollisionSystem::Circle_Square(Position* CircleCenter, Position* SquarePoint, int CircleRadius, Dimension* SquareDimension)
+bool CollisionSystem::Circle_Square(Position* CircleCenter, Position* SquarePoint, float CircleRadius, Dimension* SquareDimension)
 {
 	Aux.x = CircleCenter->x;
 	Aux.y = CircleCenter->y;

@@ -8,7 +8,7 @@ public:
 	~Player();
 
 	int getSection() { return Section; }
-	int getRadius() { return Radius; }
+	float getRadius() { return Radius; }
 	Position* getCenter() { return &Center; }
 
 	void Update(class Wall* Walls, int NWalls);

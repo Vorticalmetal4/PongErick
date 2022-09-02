@@ -32,8 +32,8 @@ public:
     void DrawRect(Position* P1, Position* P2, Position* P3, Position* P4, int r, int g, int b, int alpha);
     void DrawTriangle(Position* P1, Position* P2, Position* P3, int r, int g, int b, int alpha);
     void DrawLine(Position* P1, Position* P2, int r, int g, int b, int alpha);
-    void DrawIncompleteCircle(Position* Center, int Radius, int r, int g, int b, int alpha, float FirstSpaceAngle, float SecondSpaceAngle);
-    void DrawCircle(Position* Center, int Radius, int r, int g, int b, int alpha);
+    void DrawIncompleteCircle(Position* Center, float Radius, int r, int g, int b, int alpha, float FirstSpaceAngle, float SecondSpaceAngle);
+    void DrawCircle(Position* Center, float Radius, int r, int g, int b, int alpha);
     void FreeMemory();
     char CheckMovement();
 
@@ -50,6 +50,8 @@ private:
     int PauseCounter;
     int WindowHeight;
     int WindowWidth;
+    float X[360];
+    float Y[360];
 
     char* FText;
 

@@ -33,7 +33,7 @@ int main()
 
     int i;
 
-    float CorridorSize = ConFile.GetInteger("Wall", "CorridorSize", 24);
+    float CorridorSize = (float)ConFile.GetInteger("Wall", "CorridorSize", 24);
     float ScoreSpace = (float)ConFile.GetInteger("Wall", "ScoreSpace", 20);
     float Thickness = (float)ConFile.GetInteger("Wall", "Thickness", 25);
 
@@ -60,7 +60,7 @@ int main()
     FirstSectionWalls[6] = Wall(&Rend, 0, FirstSectionWalls[2].getPosition()->y + FirstSectionWalls[2].getDimension()->Height, FirstSectionWalls[3].getDimension()->Width + CorridorSize, Thickness);  //First horizontal left wall - 6
     FirstSectionWalls[7] = Wall(&Rend, FirstSectionWalls[6].getPosition()->x + FirstSectionWalls[6].getDimension()->Width, FirstSectionWalls[6].getPosition()->y, Thickness, 2.5f * CorridorSize);   // Second vertical left wall - 7
     FirstSectionWalls[8] = Wall(&Rend, FirstSectionWalls[6].getPosition()->x, FirstSectionWalls[6].getPosition()->y + FirstSectionWalls[7].getDimension()->Height - Thickness, FirstSectionWalls[6].getDimension()->Width, FirstSectionWalls[6].getDimension()->Height); //Second horizontal left wall - 8
-    FirstSectionWalls[9] = Wall(&Rend, FirstSectionWalls[5].getPosition()->x + FirstSectionWalls[5].getDimension()->Width + CorridorSize, FirstSectionWalls[5].getPosition()->y, Thickness, FirstSectionWalls[7].getDimension()->Height + CorridorSize + Thickness);    //Vertical wall fourth obstable - 9
+    FirstSectionWalls[9] = Wall(&Rend, FirstSectionWalls[5].getPosition()->x + FirstSectionWalls[5].getDimension()->Width + CorridorSize, FirstSectionWalls[5].getPosition()->y, Thickness, FirstSectionWalls[7].getDimension()->Height + CorridorSize + Thickness + 2);    //Vertical wall fourth obstable - 9
     FirstSectionWalls[10] = Wall(&Rend, FirstSectionWalls[9].getPosition()->x + Thickness, FirstSectionWalls[6].getPosition()->y,2 * CorridorSize, CorridorSize / 2.0f); //Horizontal wall fourth obstacle - 10
     FirstSectionWalls[11] = Wall(&Rend, FirstSectionWalls[9].getPosition()->x + Thickness + CorridorSize, FirstSectionWalls[9].getPosition()->y, 2 * CorridorSize + 5, CorridorSize / 2.0f); //Horizontal wall intersection obstacle - 11
     FirstSectionWalls[12] = Wall(&Rend, FirstSectionWalls[1].getPosition()->x, FirstSectionWalls[11].getPosition()->y, Thickness / 2.0f, 2 * CorridorSize); //Vertical wall intersection obstacle - 12
@@ -135,8 +135,8 @@ int main()
     FourthSectionWalls[16] = Wall(&Rend, ThirdSectionWalls[13].getPosition()->x + ThirdSectionWalls[13].getDimension()->Width, ThirdSectionWalls[13].getPosition()->y, ThirdSectionWalls[13].getDimension()->Width, Thickness); //Ghost's house floor - 16
     FourthSectionWalls[17] = Wall(&Rend, SecondSectionWalls[15].getPosition()->x, SecondSectionWalls[15].getPosition()->y + SecondSectionWalls[15].getDimension()->Height, Thickness, SecondSectionWalls[15].getDimension()->Height); //Ghost's house wall  
 
-    int MapHeight = FirstSectionWalls[0].getDimension()->Height + FirstSectionWalls[2].getDimension()->Height + FirstSectionWalls[7].getDimension()->Height + CorridorSize / 2.0f;
-    int MapWidth = FourthSectionWalls[4].getDimension()->Width;
+    float MapHeight = FirstSectionWalls[0].getDimension()->Height + FirstSectionWalls[2].getDimension()->Height + FirstSectionWalls[7].getDimension()->Height + CorridorSize / 2.0f;
+    float MapWidth = FourthSectionWalls[4].getDimension()->Width;
 
     CollisionSystem CollisionDetector;
     Player MainPlayer(&Rend, &CollisionDetector, MapHeight + ScoreSpace, MapWidth);

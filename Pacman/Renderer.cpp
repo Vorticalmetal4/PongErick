@@ -82,6 +82,12 @@ bool Renderer::Initialize(string Name, int TLXCoordinate, int TLYCoordinate, int
     Font = TTF_OpenFont(FText, 25);
 
 
+    for (i = 0; i  < 360; i++)
+    {
+        X[i] = cosf(i * Rad);
+        Y[i] = sinf(i * Rad);
+    }
+
     return true;
 }
 
@@ -248,7 +254,7 @@ void Renderer::DrawLine(Position* P1, Position* P2, int r, int g, int b, int alp
     SDL_RenderDrawLineF(mRenderer, P1->x, P1->y, P2->x, P2->y);
 }
 
-void Renderer::DrawIncompleteCircle(Position* Center, int Radius, int r, int g, int b, int alpha, float FirstSpaceAngle, float SecondSpaceAngle) {
+void Renderer::DrawIncompleteCircle(Position* Center, float Radius, int r, int g, int b, int alpha, float FirstSpaceAngle, float SecondSpaceAngle) {
     SDL_SetRenderDrawColor(mRenderer, r, g, b, alpha);
 
     for (i = 0; i < 360; i ++)
@@ -256,18 +262,18 @@ void Renderer::DrawIncompleteCircle(Position* Center, int Radius, int r, int g, 
         if (Center->Angle > 0)
         {
             if (i < FirstSpaceAngle || i > SecondSpaceAngle)
-                SDL_RenderDrawLineF(mRenderer, Center->x, Center->y, Center->x + cosf(i * Rad) * Radius, Center->y - sinf(i * Rad) * Radius);
+                SDL_RenderDrawLineF(mRenderer, Center->x, Center->y, Center->x + X[i] * Radius, Center->y - Y[i] * Radius);
         }
         else
             if(i > FirstSpaceAngle && i < SecondSpaceAngle)
-                SDL_RenderDrawLineF(mRenderer, Center->x, Center->y, Center->x + cosf(i * Rad) * Radius, Center->y - sinf(i * Rad) * Radius);
+                SDL_RenderDrawLineF(mRenderer, Center->x, Center->y, Center->x + X[i] * Radius, Center->y - Y[i] * Radius);
     }
 
 }
 
-void Renderer::DrawCircle(Position* Center, int Radius, int r, int g, int b, int alpha)
+void Renderer::DrawCircle(Position* Center, float Radius, int r, int g, int b, int alpha)
 {
     SDL_SetRenderDrawColor(mRenderer, r, g, b, alpha);
     for (i = 0; i < 360; i++)
-        SDL_RenderDrawLineF(mRenderer, Center->x, Center->y, Center->x + cosf(i * Rad) * Radius, Center->y - sinf(i * Rad) * Radius);
+        SDL_RenderDrawLineF(mRenderer, Center->x, Center->y, Center->x + X[i] * Radius, Center->y - Y[i] * Radius);
 }

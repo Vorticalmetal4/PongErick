@@ -29,7 +29,7 @@ Player::Player(Renderer* _Rend, CollisionSystem* _CollisionDetector, float _Vert
 	Center.Angle = ConFile.GetInteger("Player", "InitialAngle", 45);
 	Center.Rotation = Center.Angle * Rad;
 	Speed = ConFile.GetInteger("Player", "Speed", 200);
-	Radius = ConFile.GetInteger("Player", "Radius", 10);
+	Radius = (float)ConFile.GetInteger("Player", "Radius", 10);
 	MouthSize = ConFile.GetInteger("Player", "MouthSize", 30);
 	ActualMouthSize = (float)MouthSize;
 	MouthSpeed = ConFile.GetInteger("Player", "MouthSpeed", 200);
@@ -48,6 +48,11 @@ void Player::Update(Wall* Walls, int NWalls)
 
 	DeltaTime = Rend->getDeltaTime();
 
+	if (Center.x < 0)
+		Center.x = (float)Rend->getWindowHeight();
+	else if (Center.x > Rend->getWindowHeight())
+		Center.x = 0;
+
 	UpdateSection();
 
 	if (ActualMouthSize >= MouthSize)
@@ -56,6 +61,7 @@ void Player::Update(Wall* Walls, int NWalls)
 		MouthIncrement = 1;
 
 	ActualMouthSize += DeltaTime * MouthIncrement * MouthSpeed;
+	AuxPos = Center;
 
 	switch(Rend->CheckMovement())
 	{
@@ -80,9 +86,6 @@ void Player::Update(Wall* Walls, int NWalls)
 		break;
 	}
 
-	AuxPos = Center;
-
-
 	if (Center.Angle == 0)
 		Center.x += Speed * DeltaTime;
 
@@ -98,7 +101,10 @@ void Player::Update(Wall* Walls, int NWalls)
 	for (it = 0; it < NWalls; it++)
 	{
 		if (CollisionDetector.Circle_Square(&Center, Walls[it].getPosition(), Radius, Walls[it].getDimension()))
+		{
 			Center = AuxPos;
+			break;
+		}
 	}
 
 	AdjustMouthAngles();
