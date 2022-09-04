@@ -149,16 +149,18 @@ copy "$(ProjectDir)\Resources\InitialData.ini" "$(TargetDir)"</Command>
   <ItemGroup>
     <ClCompile Include="..\Inih\cpp\INIReader.cpp" />
     <ClCompile Include="..\Inih\ini.c" />
-    <ClCompile Include="..\Unity\unity.c" />
     <ClCompile Include="CollisionSystem.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="PacmanWindows.cpp" />
+    <ClCompile Include="Pill.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Unity\unity.h" />
     <ClInclude Include="CollisionSystem.h" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="Pill.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Wall.h" />
