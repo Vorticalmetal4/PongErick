@@ -1,3 +1,11 @@
+// NOTE(isaveg): De la misma forma que Inih, Renderer es una clase que se esta duplicando en todos los proyectos. En la siguiente deberias convertirlo en una libreria 
+//               y dejarlo fuera del proyecto.
+//               con ese cambio el Input comienza a ser crucial tenerlo separado del Render pues cada juego tendra diferente Input, aunque el render siga utilizando todas las facilidades.
+// 
+// 
+//               Alternativamente puedes solucionar el siguiente problema. 
+//               Como podrias reutilizar el input  para subsiguientes juegos sin desacoplarlo sin cambiar nada de la clase render (es decir sin desacoplar Input de Render)?
+
 #include "SDL2/include/SDL.h"  // nunca uses paths relativos cuando incluyas archivos debe  ser  #include "SDL2/include/SDL.h"
 #include "SDL2/include/SDL_ttf.h" // nunca uses paths relativos cuando incluyas archivos debe ser  #include "SDL2/include/SDL_ttf.h"
 #include "Renderer.h"

@@ -1,6 +1,7 @@
 #include "Raycaster.h"
 #include "Renderer.h"
 
+// NOTE(isaveg): What is this class for and how it is used
 const float Pi = (float)3.141592;
 const float Rad = Pi / 180;
 
