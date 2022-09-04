@@ -1,3 +1,4 @@
+// NOTE(isaveg): Incompleto. De acuerdo al executable, los asteroides son cuadrados que contienen un reloj que indica la hora actual como horas-min-segundos. 
 #include "Asteroid.h"
 #include "Renderer.h"
 #include "Inih/cpp/INIReader.h"

@@ -35,7 +35,7 @@ HUD::HUD(Renderer* _Rend)
 	GameOver = (char*)malloc((GameOverstr.size() + 1) * sizeof(char));
 	Restart = (char*)malloc((Restartstr.size() + 1) * sizeof(char));
 	Invincible = (char*)malloc((Invincibilitystr.size() + 1) * sizeof(char));
-	ScoreA = (char*)malloc((Scorestr.size() + 1) *  sizeof(char));
+	ScoreA = (char*)malloc((Scorestr.size() + 1) *  sizeof(char)); // NOTE(isaveg): Memory leak
 
 	if (GameOver != NULL)
 	{

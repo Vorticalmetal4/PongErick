@@ -24,6 +24,8 @@ private:
 
 	CollisionSystem* CollisionDetector;
 
+	// NOTE(isaveg): Asteroid, Player, EnemyShip all use the collission system, what Object pattern reminds your? 
+	// NOTE(isaveg): Duplicated code
 	Position FirstPoint;
 	Position SecondPoint;
 	Position ThirdPoint;

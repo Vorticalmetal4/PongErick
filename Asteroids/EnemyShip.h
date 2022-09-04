@@ -24,6 +24,8 @@ private:
 
 	Renderer* Rend;
 	
+	// NOTE(isaveg): Asteroid, Player, EnemyShip all use the collission system, what Object pattern reminds your? 
+	// NOTE(isaveg): Duplicated code
 	Position P1;
 	Position P2;
 	Position P3;
