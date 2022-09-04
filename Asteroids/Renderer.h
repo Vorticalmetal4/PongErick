@@ -1,9 +1,10 @@
 #pragma once
 
+// NOTE(isaveg): muchos pragmas!
 #pragma once 
 #pragma once 
 
-#include "CollisionSystem.h"
+#include "CollisionSystem.h" // NOTE(isaveg): El render no deberia saber nada sobre colisiones. Tu sistema de colision es dueño de algunas estructuras que pertenecen a otro tipo de clases
 #include <string>
 using namespace std;
 

@@ -1,3 +1,11 @@
+// NOTE(isaveg): De la misma forma que Inih, Renderer es una clase que se esta duplicando en todos los proyectos. En la siguiente deberias convertirlo en una libreria 
+//               y dejarlo fuera del proyecto.
+//               con ese cambio el Input comienza a ser crucial tenerlo separado del Render pues cada juego tendra diferente Input, aunque el render siga utilizando todas las facilidades.
+// 
+// 
+//               Alternativamente puedes solucionar el siguiente problema. 
+//               Como podrias reutilizar el input  para subsiguientes juegos sin desacoplarlo sin cambiar nada de la clase render (es decir sin desacoplar Input de Render)?
+
 #include "SDL2/include/SDL.h"  
 #include "SDL2/include/SDL_ttf.h" 
 #include "Renderer.h"
@@ -89,12 +97,14 @@ void Renderer::Shutdown()
     SDL_Quit();
 }
 
+// NOTE(isaveg): Renderer and Input are commonly  unrelated. How would you split them? HINT: do not use SDL for input processing
 void Renderer::ProcessInput()
 {
     SDL_Event event;
     // While there are still events in the queue
     while (SDL_PollEvent(&event))
     {
+        // NOTE(isaveg): Missing keyboard/shortcut commands for debbuging and profiling during runtime. Frame rate, increase/decrease player speed, increase/decrease asteroids speed. Anything that helps debugging and testing during runtime
         switch (event.type)
         {
         case SDL_QUIT:
@@ -177,6 +187,7 @@ void Renderer::Write(char* NText, int TextW, int TextH, float TextX, float TextY
 
 char Renderer::CheckMovement()
 {
+    // NOTE(isaveg): All input detection and states should be contained in the ProcessInput method
     if (State[SDL_SCANCODE_RIGHT])
         return 'R';
     else if (State[SDL_SCANCODE_LEFT])
@@ -191,6 +202,7 @@ char Renderer::CheckMovement()
 
 bool Renderer::CheckPause()
 {
+    // NOTE(isaveg): All input detection and states should be contained in the ProcessInput method
     if (State[SDL_SCANCODE_P] && PauseCounter <= 0)
     {
         PauseCounter = 30;
@@ -202,6 +214,7 @@ bool Renderer::CheckPause()
 
 bool Renderer::CheckReset()
 {
+    // NOTE(isaveg): All input detection and states should be contained in the ProcessInput method
     if (State[SDL_SCANCODE_R])
         return true;
    

@@ -48,7 +48,7 @@ Player::Player(Renderer* _Rend, CollisionSystem* _CollisionDetector)
 	NLasers = ConFile.GetInteger("Player", "NLasers", 0);
 	
 	Lasers = nullptr;
-	Lasers =  new Laser[NLasers];
+	Lasers =  new Laser[NLasers]; // NOTE(isaveg): Memory leak
 
 	if (Rend != nullptr)
 		for (i = 0; i < NLasers; i++)

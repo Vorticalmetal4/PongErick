@@ -15,7 +15,7 @@ int main()
     INIReader ConFile("InitialData.ini");
 
 	if (ConFile.ParseError() < 0)
-		ConFile.PrintError("AsteroidsWindow");
+		ConFile.PrintError("AsteroidsWindow"); // NOTE(isaveg): error report is not clear
 
     int i, j, k;
     int Collisions = 0;
@@ -63,7 +63,7 @@ int main()
 
     for (i = 0; i < TotalAsteroids; i++)
     {
-        Asteroids[i] = Asteroid(&Rend, (float)(AsteroidWidth + SpawnSeparation + rand() % (Rend.getWindowWidth() - 2 * (AsteroidWidth + SpawnSeparation))), (float)(AsteroidHeight + SpawnSeparation + rand() % (Rend.getWindowHeight() - 2 * (AsteroidHeight + SpawnSeparation))), rand() % 360);
+        Asteroids[i] = Asteroid(&Rend, (float)(AsteroidWidth + SpawnSeparation + rand() % (Rend.getWindowWidth() - 2 * (AsteroidWidth + SpawnSeparation))), (float)(AsteroidHeight + SpawnSeparation + rand() % (Rend.getWindowHeight() - 2 * (AsteroidHeight + SpawnSeparation))), rand() % 360);  // NOTE(isaveg): Too long lines, split in different lines or create a struct to compact
         
         if (i < NAsteroids)
         {
@@ -74,7 +74,7 @@ int main()
             {
                 if (CollisionDetector.Square_Square(Asteroids[i].getP1(), Asteroids[j].getP1(), Asteroids[i].getDimensions(), Asteroids[j].getDimensions()))
                 {
-                    Asteroids[i].UpdateData((float)(AsteroidWidth + SpawnSeparation + rand() % (Rend.getWindowWidth() - 2 * (AsteroidWidth + SpawnSeparation))), (float)(AsteroidHeight + SpawnSeparation + rand() % (Rend.getWindowHeight() - 2 * (AsteroidHeight + SpawnSeparation))), Asteroids[i].getAngle());
+                    Asteroids[i].UpdateData((float)(AsteroidWidth + SpawnSeparation + rand() % (Rend.getWindowWidth() - 2 * (AsteroidWidth + SpawnSeparation))), (float)(AsteroidHeight + SpawnSeparation + rand() % (Rend.getWindowHeight() - 2 * (AsteroidHeight + SpawnSeparation))), Asteroids[i].getAngle()); // NOTE(isaveg): Too long lines, split in different lines or create a struct to compact
                     j = 0;
                 }
                 else
