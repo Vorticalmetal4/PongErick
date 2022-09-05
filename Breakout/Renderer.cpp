@@ -6,8 +6,8 @@
 //               Alternativamente puedes solucionar el siguiente problema. 
 //               Como podrias reutilizar el input  para subsiguientes juegos sin desacoplarlo sin cambiar nada de la clase render (es decir sin desacoplar Input de Render)?
 
-#include "SDL2/include/SDL.h"  // nunca uses paths relativos cuando incluyas archivos debe  ser  #include "SDL2/include/SDL.h"
-#include "SDL2/include/SDL_ttf.h" // nunca uses paths relativos cuando incluyas archivos debe ser  #include "SDL2/include/SDL_ttf.h"
+#include "SDL2/include/SDL.h"  
+#include "SDL2/include/SDL_ttf.h" 
 #include "Renderer.h"
 #include <string>
 #include <iostream>

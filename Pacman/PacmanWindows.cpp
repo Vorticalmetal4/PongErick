@@ -1,5 +1,5 @@
-#include "Renderer.h"
-#include "CollisionSystem.h"
+#include "CommonFiles/CollisionSystem.h"
+#include "CommonFiles/Renderer.h"
 #include "Player.h"
 #include "Wall.h"
 #include "Map.h"

@@ -1,10 +1,10 @@
 #include "Inih/cpp/INIReader.h"
-#include "Renderer.h"
+#include "CommonFiles/Renderer.h"
 #include "Player.h"
 #include "Asteroid.h"
 #include "HUD.h"
 #include "EnemyShip.h"
-#include "CollisionSystem.h"
+#include "CommonFiles/CollisionSystem.h"
 
 #include <stdlib.h>
 #include <time.h>
@@ -15,7 +15,7 @@ int main()
     INIReader ConFile("InitialData.ini");
 
 	if (ConFile.ParseError() < 0)
-		ConFile.PrintError("AsteroidsWindow"); // NOTE(isaveg): error report is not clear
+		ConFile.PrintError("AsteroidsWindow: ConFile Failed"); // NOTE(isaveg): error report is not clear
 
     int i, j, k;
     int Collisions = 0;

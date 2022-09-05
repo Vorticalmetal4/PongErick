@@ -1,5 +1,5 @@
 #include "Wall.h"
-#include "Renderer.h"
+#include "CommonFiles/Renderer.h"
 #include "Inih/cpp/INIReader.h"
 
 

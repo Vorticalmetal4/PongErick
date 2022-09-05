@@ -1,4 +1,4 @@
-#include "Renderer.h"
+#include "CommonFiles/Renderer.h"
 #include "Player.h"
 #include "SDL2/include/SDL.h"
 #include "Inih/cpp/INIReader.h"
@@ -6,6 +6,8 @@
 #include "Brick.h"
 #include "HUD.h"
 
+#include <iostream>
+using namespace std;
 
 Player::Player(Renderer* _Rend, Ray* _PlayersRay)
 	:Rend(_Rend),
@@ -19,12 +21,12 @@ Player::Player(Renderer* _Rend, Ray* _PlayersRay)
 		ConFile.PrintError("Player");
 
 	PlayerVelocity = ConFile.GetInteger("Player", "PlayerVelocity", -1);
-	Position.x = ConFile.GetInteger("Player", "PositionX", 1);
-	Position.y = ConFile.GetInteger("Player", "PositionY", 1);
-	width = ConFile.GetInteger("Player", "Width", 80);
-	height = ConFile.GetInteger("Player", "Height", 20);
+	ActualPosition.x = (float)ConFile.GetInteger("Player", "PositionX", 1);
+	ActualPosition.y = (float)ConFile.GetInteger("Player", "PositionY", 1);
+	Dimensions.Width = (float)ConFile.GetInteger("Player", "Width", 80);
+	Dimensions.Height = (float)ConFile.GetInteger("Player", "Height", 20);
 
-	Middle = width / 2;
+	Middle = Dimensions.Width / 2;
 
 }
 
@@ -39,19 +41,20 @@ void Player::Update(bool Pause) {
 	{
 		switch (Rend->CheckMovement()) {
 		case 'R':
-			if (Position.x + (PlayerVelocity * Rend->getDeltaTime() + width) <= Rend->getWindowWidth())
-				Position.x += PlayerVelocity * Rend->getDeltaTime();
+			if (ActualPosition.x + (PlayerVelocity * Rend->getDeltaTime() + Dimensions.Width) <= Rend->getWindowWidth())
+				ActualPosition.x += PlayerVelocity * Rend->getDeltaTime();
 			break;
 
 		case 'L':
-			if (Position.x - PlayerVelocity * Rend->getDeltaTime() >= 0)
-				Position.x -= PlayerVelocity * Rend->getDeltaTime();
+			if (ActualPosition.x - PlayerVelocity * Rend->getDeltaTime() >= 0)
+				ActualPosition.x -= PlayerVelocity * Rend->getDeltaTime();
 			break;
 
-		case 'P':
+		case 'S':
 			if (Ammo > 0 && !PlayersRay->getActive())
 			{
-				PlayersRay->SetData(Position.x + Middle, Position.y, true); // memory leak
+				cout << "Player has shooted" << endl;
+				PlayersRay->SetData(ActualPosition.x + Middle, ActualPosition.y, true); 
 				Ammo--;
 			}
 			break;
@@ -63,10 +66,10 @@ void Player::Update(bool Pause) {
 	{
 		if(!Pause)
 			PlayersRay->Move(Rend->getDeltaTime());
-		Rend->DrawRect(PlayersRay->getPositionX(), PlayersRay->getPositionY(), PlayersRay->getWidth(), PlayersRay->getHeigth(), 178, 102, 255, 255);
+		Rend->DrawSimpleRect(PlayersRay->getPosition(), PlayersRay->getDimensions(), 178, 102, 255, 255);
 	}
 
-	Rend->DrawRect(Position.x, Position.y, width, height, 178, 102, 255, 255);
+	Rend->DrawSimpleRect(&ActualPosition, &Dimensions, 178, 102, 255, 255);
 
 }
 

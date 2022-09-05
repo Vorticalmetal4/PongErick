@@ -1,5 +1,5 @@
 #include "Raycaster.h"
-#include "Renderer.h"
+#include "CommonFiles/Renderer.h"
 
 // NOTE(isaveg): What is this class for and how it is used
 const float Pi = (float)3.141592;

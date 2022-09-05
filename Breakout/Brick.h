@@ -1,10 +1,5 @@
 #pragma once
-
-struct VectorPositionBrick 
-{
-	int x;
-	int y;
-};
+#include "CommonFiles/CollisionSystem.h"
 
 class Brick 
 {
@@ -13,21 +8,20 @@ public:
 	~Brick();
 	void Draw(int raw);
 
-	int getXPosition() { return Position.x; }
-	int getYPosition() { return Position.y; }
-	int getWidth() { return width; }
-	int getHeight() { return height; }
+	int getXPosition() { return ActualPosition.x; }
+	int getYPosition() { return ActualPosition.y; }
+	int getWidth() { return Dimensions.Width; }
+	int getHeight() { return Dimensions.Height; }
 	bool getActive() { return Active; }
 	bool getTraitor() { return Traitor; }
 	void setActive(bool Change) { Active = Change; }
 	void setTraitor(bool Change) { Traitor = Change; }
 	bool CheckCollition(class Ball* Ball);
-	void setYPosition(int Y) {Position.y = Y; }
+	void setYPosition(int Y) {ActualPosition.y = Y; }
 
 private:
-	VectorPositionBrick Position;
-	int width;
-	int height;
+	Position ActualPosition;
+	Dimension Dimensions;
 	Renderer* Rend;
 	bool Active;
 	bool Traitor;

@@ -1,5 +1,5 @@
 #include "HUD.h"
-#include "Renderer.h"
+#include "CommonFiles/Renderer.h"
 #include "Inih/cpp/INIReader.h"
 
 #include <string>
@@ -15,7 +15,7 @@ HUD::HUD(Renderer* _Rend)
 	INIReader ConFile("InitialData.ini");
 
 	if (ConFile.ParseError() < 0)
-		ConFile.PrintError("HUD");
+		ConFile.PrintError("HUD: ConFile Failed");
 
 	LivesInitialX = (float)ConFile.GetInteger("HUD", "LivesInitialX", 0);
 	LivesY = (float)ConFile.GetInteger("HUD", "LivesY", 0);

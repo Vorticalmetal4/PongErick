@@ -1,5 +1,5 @@
 #include "Ball.h"
-#include "Renderer.h"
+#include "CommonFiles/Renderer.h"
 #include "Player.h"
 #include "Brick.h"
 #include "HUD.h"
@@ -20,7 +20,7 @@ Ball::Ball(Renderer *_Rend, Player* _Player1)
 	INIReader ConFile("InitialData.ini");
 
 	if (ConFile.ParseError() < 0)
-		ConFile.PrintError("Ball");
+		ConFile.PrintError("Ball: ConFile Failed");
 
 	InitialVelocity = ConFile.GetInteger("Ball", "InitialVelocity", -1);
 	Velocity.x = InitialVelocity;
@@ -30,10 +30,10 @@ Ball::Ball(Renderer *_Rend, Player* _Player1)
 	InitialPosition.x = ConFile.GetInteger("Ball", "InitialX", -1);
 	InitialPosition.y = ConFile.GetInteger("Ball", "InitialY", -1);
 
-	width = ConFile.GetInteger("Ball", "Size", 1);
-	height = width;
-	Position.x = InitialPosition.x;
-	Position.y = InitialPosition.y;
+	Dimensions.Width = ConFile.GetInteger("Ball", "Size", 1);
+	Dimensions.Height = Dimensions.Width;
+	ActualPosition.x = InitialPosition.x;
+	ActualPosition.y = InitialPosition.y;
 
 	srand(time(NULL));
 	if ((rand() % (10 - 2 + 1) + 2) % 2 == 0)
@@ -51,8 +51,8 @@ bool Ball::Update(bool Pause)
 
 
 
-		if (Position.x + XInc + width <= Rend->getWindowWidth() && Position.x + XInc >= 0)
-			Position.x += XInc;
+		if (ActualPosition.x + XInc + Dimensions.Width <= Rend->getWindowWidth() && ActualPosition.x + XInc >= 0)
+			ActualPosition.x += XInc;
 		else
 		{ //Collision with the walls
 			Velocity.x *= -1;
@@ -62,14 +62,14 @@ bool Ball::Update(bool Pause)
 		}
 
 
-		if (Position.y + YInc + height <= Rend->getWindowHeight() && Position.y + YInc >= 0) //Collition with the roof
-			Position.y += YInc;
+		if (ActualPosition.y + YInc + Dimensions.Height <= Rend->getWindowHeight() && ActualPosition.y + YInc >= 0) //Collition with the roof
+			ActualPosition.y += YInc;
 		else
 		{
-			if (Position.y + YInc + height >= Rend->getWindowHeight())
+			if (ActualPosition.y + YInc + Dimensions.Height >= Rend->getWindowHeight())
 			{ //The ball passed the player's line
-				Position.x = InitialPosition.x;
-				Position.y = InitialPosition.y;
+				ActualPosition.x = InitialPosition.x;
+				ActualPosition.y = InitialPosition.y;
 				Velocity.x = InitialVelocity;
 				Velocity.y = InitialVelocity;
 				CollWPlayer = false;
@@ -86,18 +86,18 @@ bool Ball::Update(bool Pause)
 
 
 
-		if (Position.y > Rend->getWindowHeight() / 2)
+		if (ActualPosition.y > Rend->getWindowHeight() / 2)
 		{ //Collision with the player only if the ball is on the player's side
-			if (Position.x >= PlayerXPosition && Position.x + width <= PlayerXPosition + Player1->getWidth())
+			if (ActualPosition.x >= PlayerXPosition && ActualPosition.x + Dimensions.Width <= PlayerXPosition + Player1->getWidth())
 			{
-				if (Position.y + height >= Player1->getYPosition() && Position.y + height <= Player1->getYPosition() + Player1->getHeight() && CollWPlayer == false)
+				if (ActualPosition.y + Dimensions.Height >= Player1->getYPosition() && ActualPosition.y + Dimensions.Height <= Player1->getYPosition() + Player1->getHeight() && CollWPlayer == false)
 				{
 					Velocity.y *= -1;
 					IncXVelocity();
 					IncYVelocity();
 					CollWPlayer = true;
 
-					if (Position.x + width / 2 >= PlayerXPosition + Player1->getWidth() / 2)
+					if (ActualPosition.x + Dimensions.Width / 2 >= PlayerXPosition + Player1->getWidth() / 2)
 					{ //Chech the collision side
 						if (Velocity.x < 0)
 							Velocity.x *= -1;
@@ -113,7 +113,7 @@ bool Ball::Update(bool Pause)
 		}
 	}
 
-	Rend->DrawRect(Position.x, Position.y, width, height, 255, 153, 204, 255);
+	Rend->DrawSimpleRect(&ActualPosition, &Dimensions, 255, 153, 204, 255);
 	return true;
 	
 }

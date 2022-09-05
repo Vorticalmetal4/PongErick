@@ -1,5 +1,5 @@
 #include "Laser.h"
-#include "Renderer.h"
+#include "CommonFiles/Renderer.h"
 #include "Asteroid.h"
 #include "Inih/cpp/INIReader.h"
 #include "EnemyShip.h"
@@ -19,7 +19,7 @@ Laser::Laser(Renderer* _Rend, CollisionSystem* _CollisionDetector)
 	INIReader ConFile("InitialData.ini");
 
 	if (ConFile.ParseError() < 0)
-		ConFile.PrintError("Laser");
+		ConFile.PrintError("Laser: ConFile Failed");
 
 	OwnDimensions.Width = ConFile.GetInteger("Laser", "Width", 0);
 	OwnDimensions.Height = ConFile.GetInteger("Laser", "Height", 0);

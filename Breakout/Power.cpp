@@ -1,6 +1,6 @@
 #include "Power.h"
 #include "Player.h"
-#include "Renderer.h"
+#include "CommonFiles/Renderer.h"
 #include "Inih/cpp/INIReader.h"
 
 #include <string>
@@ -23,8 +23,8 @@ Power::Power(Player* _MainPlayer, Renderer* _Rend)
 	Height = ConFile.GetInteger("Power", "Height", 0);
 	LaserProbability = ConFile.GetInteger("Power", "LaserProbability", 0);
 
-	Position.x = -50;
-	Position.y = -50;
+	ActualPosition.x = -50;
+	ActualPosition.y = -50;
 
 }
 
@@ -43,15 +43,15 @@ void Power::SetData(int _X, int _Y, bool _Active)
 		
 
 	Active = _Active;
-	Position.x = _X;
-	Position.y = _Y;
+	ActualPosition.x = _X;
+	ActualPosition.y = _Y;
 }
 
 void Power::Update() 
 {
 	NText[0] = PowerType;
 	NText[1] = '\0';
-	Rend->Write(NText, 0, Height, Position.x, Position.y);
+	Rend->Write(NText, 0, Height, ActualPosition.x, ActualPosition.y);
 
 }
 
@@ -60,11 +60,11 @@ bool Power::CheckCollision(bool Pause)
 	if (!Pause)
 	{
 		DeltaTime = Rend->getDeltaTime();
-		NPositionY = Position.y + DeltaTime * Velocity;
+		NPositionY = ActualPosition.y + DeltaTime * Velocity;
 
 		if (NPositionY + Height <= Rend->getWindowHeight())
 		{
-			if (Position.x >= MainPlayer->getXPosition() && Position.x <= MainPlayer->getXPosition() + MainPlayer->getWidth())
+			if (ActualPosition.x >= MainPlayer->getXPosition() && ActualPosition.x <= MainPlayer->getXPosition() + MainPlayer->getWidth())
 			{
 				if (NPositionY + Height >= MainPlayer->getYPosition() && NPositionY + Height <= MainPlayer->getYPosition() + MainPlayer->getHeight())
 				{
@@ -72,10 +72,10 @@ bool Power::CheckCollision(bool Pause)
 					return true;
 				}
 				else
-					Position.y = NPositionY;
+					ActualPosition.y = NPositionY;
 			}
 			else
-				Position.y = NPositionY;
+				ActualPosition.y = NPositionY;
 		}
 		else
 			return true;

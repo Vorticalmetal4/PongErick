@@ -1,5 +1,5 @@
 #include "BreakoutWindows.h"
-#include "Renderer.h"
+#include "CommonFiles/Renderer.h"
 #include "Player.h"
 #include "Ball.h"
 #include "Brick.h"

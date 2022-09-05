@@ -1,6 +1,6 @@
 #include "Player.h"
 #include "Inih/cpp/INIReader.h"
-#include "Renderer.h"
+#include "CommonFiles/Renderer.h"
 #include "Laser.h"
 #include "Asteroid.h"
 #include "EnemyShip.h"
@@ -9,7 +9,7 @@
 
 const float Pi = (float)3.141592;
 const float Rad = Pi / 180;
-int i;
+int it;
 
 Player::Player(Renderer* _Rend, CollisionSystem* _CollisionDetector)
 	:Rend(_Rend),
@@ -20,7 +20,7 @@ Player::Player(Renderer* _Rend, CollisionSystem* _CollisionDetector)
 	INIReader ConFile("InitialData.ini");
 
 	if (ConFile.ParseError() < 0)
-		ConFile.PrintError("Player");
+		ConFile.PrintError("Player: ConFile Failed");
 
 	MaxVelocity = ConFile.GetInteger("Player", "MaxVelocity", 0);
 	IncVelocity = ConFile.GetInteger("Player", "IncVelocity", 0);
@@ -51,8 +51,8 @@ Player::Player(Renderer* _Rend, CollisionSystem* _CollisionDetector)
 	Lasers =  new Laser[NLasers]; // NOTE(isaveg): Memory leak
 
 	if (Rend != nullptr)
-		for (i = 0; i < NLasers; i++)
-				Lasers[i] = Laser(Rend, CollisionDetector);
+		for (it = 0; it < NLasers; it++)
+				Lasers[it] = Laser(Rend, CollisionDetector);
 
 	MovePoints(true);
 }
@@ -101,12 +101,12 @@ void Player::Update(bool Pause)
 			if (CurrentCooldown <= 0)
 			{
 				CurrentCooldown = ShootCooldown;
-				for (i = 0; i < NLasers; i++)
+				for (it = 0; it < NLasers; it++)
 				{
-					if (!Lasers[i].getActive())
+					if (!Lasers[it].getActive())
 					{
-						Lasers[i].setActive(true);
-						Lasers[i].setPosition(ThirdPoint.x, ThirdPoint.y, ThirdPoint.Angle, ThirdPoint.Rotation);
+						Lasers[it].setActive(true);
+						Lasers[it].setPosition(ThirdPoint.x, ThirdPoint.y, ThirdPoint.Angle, ThirdPoint.Rotation);
 						break;
 					}
 				}
@@ -138,9 +138,9 @@ void Player::Update(bool Pause)
 		Invincibility -= DeltaTime;
 	}
 
-	for (i = 0; i < NLasers; i++)
-		if (Lasers[i].getActive())
-			Lasers[i].Update(Pause);
+	for (it = 0; it < NLasers; it++)
+		if (Lasers[it].getActive())
+			Lasers[it].Update(Pause);
 
 	if(Invincibility <= 0)
 		Rend->DrawTriangle(&FirstPoint, &SecondPoint, &ThirdPoint, 255, 255, 255, 255);
@@ -167,11 +167,11 @@ void Player::MovePoints(bool Rotation)
 
 bool Player::CheckLasersCollisions(Position* OtherObjectPos, Dimension* OtherObjectDimensions, bool isObjectASquare)
 {
-	for(i = 0; i < NLasers; i++)
+	for(it = 0; it < NLasers; it++)
 	{
-		if (Lasers[i].getActive())
+		if (Lasers[it].getActive())
 
-			if (Lasers[i].CheckCollision(OtherObjectPos, OtherObjectDimensions, isObjectASquare))
+			if (Lasers[it].CheckCollision(OtherObjectPos, OtherObjectDimensions, isObjectASquare))
 				return true;
 	}
 
@@ -198,6 +198,6 @@ bool Player::CheckCollisions(Position* OtherObjectPos, float OtherObjectHypotenu
 
 void Player::ResetLasers()
 {
-	for (i = 0; i < NLasers; i++)
-		Lasers[i].setActive(false);
+	for (it = 0; it < NLasers; it++)
+		Lasers[it].setActive(false);
 }

@@ -1,17 +1,11 @@
-// NOTE(isaveg): De la misma forma que Inih, Renderer es una clase que se esta duplicando en todos los proyectos. En la siguiente deberias convertirlo en una libreria 
-//               y dejarlo fuera del proyecto.
-//               con ese cambio el Input comienza a ser crucial tenerlo separado del Render pues cada juego tendra diferente Input, aunque el render siga utilizando todas las facilidades.
-// 
-// 
-//               Alternativamente puedes solucionar el siguiente problema. 
-//               Como podrias reutilizar el input  para subsiguientes juegos sin desacoplarlo sin cambiar nada de la clase render (es decir sin desacoplar Input de Render)?
-
 #include "SDL2/include/SDL.h"  
 #include "SDL2/include/SDL_ttf.h" 
 #include "Renderer.h"
 #include <string>
 
-
+const float Pi = (float)3.141592;
+const float Rad = Pi / 180;
+int i;
 
 const Uint8* State = SDL_GetKeyboardState(NULL);
 TTF_Font* Font = nullptr;
@@ -28,8 +22,9 @@ Renderer::Renderer(void)
     WindowWidth(0),
     FText(nullptr),
     deltaTime(0),
-    mTicksCount(0)
-
+    mTicksCount(0),
+    HWidth(0),
+    HHeight(0)
 {
 
 }
@@ -54,14 +49,16 @@ bool Renderer::Initialize(string Name, int TLXCoordinate, int TLYCoordinate, int
     mWindow = SDL_CreateWindow(
         WNText,
         TLXCoordinate,
-        TLYCoordinate, 
-        Width, 
+        TLYCoordinate,
+        Width,
         Height,
-        Flags 
+        Flags
     );
 
     WindowHeight = Height;
     WindowWidth = Width;
+    HWidth = Width / 2.0f;
+    HHeight = Height / 2.0f;
 
     if (!mWindow)
     {
@@ -83,7 +80,13 @@ bool Renderer::Initialize(string Name, int TLXCoordinate, int TLYCoordinate, int
 
     mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     Font = TTF_OpenFont(FText, 25);
-    
+
+
+    for (i = 0; i  < 360; i++)
+    {
+        X[i] = cosf(i * Rad);
+        Y[i] = sinf(i * Rad);
+    }
 
     return true;
 }
@@ -97,14 +100,12 @@ void Renderer::Shutdown()
     SDL_Quit();
 }
 
-// NOTE(isaveg): Renderer and Input are commonly  unrelated. How would you split them? HINT: do not use SDL for input processing
 void Renderer::ProcessInput()
 {
     SDL_Event event;
     // While there are still events in the queue
     while (SDL_PollEvent(&event))
     {
-        // NOTE(isaveg): Missing keyboard/shortcut commands for debbuging and profiling during runtime. Frame rate, increase/decrease player speed, increase/decrease asteroids speed. Anything that helps debugging and testing during runtime
         switch (event.type)
         {
         case SDL_QUIT:
@@ -143,14 +144,14 @@ void Renderer::GenerateOutput()
 }
 
 
-void Renderer::DrawSimpleRect(float x, float y, int width, int height, int r, int g, int b, int alpha)
+void Renderer::DrawSimpleRect(Position* ActualPosition, Dimension* Dimensions, int r, int g, int b, int alpha)
 {
     SDL_SetRenderDrawColor(mRenderer, r, g, b, alpha);
     SDL_Rect Rect{
-    (int)x,
-    (int)y,
-    width,
-    height
+    (int)ActualPosition->x,
+    (int)ActualPosition->y,
+    (int)Dimensions->Width,
+    (int)Dimensions->Height
     };
 
     SDL_RenderFillRect(mRenderer, &Rect);
@@ -161,9 +162,9 @@ void Renderer::Write(char* NText, int TextW, int TextH, float TextX, float TextY
 {
     TextSurface = TTF_RenderText_Solid(Font, NText, { 255, 255, 255, 255 });
     Texture = SDL_CreateTextureFromSurface(mRenderer, TextSurface);  // isaveg: verify, do you really need to create and destroy every frame?
-    SDL_QueryTexture(Texture, NULL, NULL, &TextW, &TextH); 
+    SDL_QueryTexture(Texture, NULL, NULL, &TextW, &TextH);
     TextRect = { (int)TextX, (int)TextY, TextW, TextH };
-        
+
     SDL_RenderCopy(mRenderer, Texture, NULL, &TextRect);
 
     SDL_FreeSurface(TextSurface);
@@ -174,7 +175,7 @@ void Renderer::Write(char* NText, int TextW, int TextH, float TextX, float TextY
 void Renderer::Write(char* NText, int TextW, int TextH, float TextX, float TextY, Uint8 r, Uint8 g, Uint8 b, Uint8 alpha)
 {
     TextSurface = TTF_RenderText_Solid(Font, NText, { r, g, b, alpha });
-    Texture = SDL_CreateTextureFromSurface(mRenderer, TextSurface); 
+    Texture = SDL_CreateTextureFromSurface(mRenderer, TextSurface);
     SDL_QueryTexture(Texture, NULL, NULL, &TextW, &TextH);
     TextRect = { (int)TextX, (int)TextY, TextW, TextH };
 
@@ -187,13 +188,14 @@ void Renderer::Write(char* NText, int TextW, int TextH, float TextX, float TextY
 
 char Renderer::CheckMovement()
 {
-    // NOTE(isaveg): All input detection and states should be contained in the ProcessInput method
     if (State[SDL_SCANCODE_RIGHT])
         return 'R';
     else if (State[SDL_SCANCODE_LEFT])
         return 'L';
     else if (State[SDL_SCANCODE_UP])
         return 'U';
+    else if (State[SDL_SCANCODE_DOWN])
+        return 'D';
     else if (State[SDL_SCANCODE_SPACE])
         return 'S';
 
@@ -202,7 +204,6 @@ char Renderer::CheckMovement()
 
 bool Renderer::CheckPause()
 {
-    // NOTE(isaveg): All input detection and states should be contained in the ProcessInput method
     if (State[SDL_SCANCODE_P] && PauseCounter <= 0)
     {
         PauseCounter = 30;
@@ -214,17 +215,16 @@ bool Renderer::CheckPause()
 
 bool Renderer::CheckReset()
 {
-    // NOTE(isaveg): All input detection and states should be contained in the ProcessInput method
     if (State[SDL_SCANCODE_R])
         return true;
-   
+
     return false;
 }
 
 void Renderer::FreeMemory()
 {
     free(FText);
-    FText = nullptr; 
+    FText = nullptr;
     TTF_CloseFont(Font);
     Font = nullptr;
     TTF_Quit();
@@ -251,7 +251,29 @@ void Renderer::DrawRect(Position* P1, Position* P2, Position* P3, Position* P4, 
 void Renderer::DrawLine(Position* P1, Position* P2, int r, int g, int b, int alpha)
 {
     SDL_SetRenderDrawColor(mRenderer, r, g, b, alpha);
-    SDL_RenderDrawLineF(mRenderer, P1->x, P1->y, P2->x, P2->y);    
+    SDL_RenderDrawLineF(mRenderer, P1->x, P1->y, P2->x, P2->y);
 }
 
+void Renderer::DrawIncompleteCircle(Position* Center, float Radius, int r, int g, int b, int alpha, float FirstSpaceAngle, float SecondSpaceAngle) {
+    SDL_SetRenderDrawColor(mRenderer, r, g, b, alpha);
 
+    for (i = 0; i < 360; i ++)
+    {
+        if (Center->Angle > 0)
+        {
+            if (i < FirstSpaceAngle || i > SecondSpaceAngle)
+                SDL_RenderDrawLineF(mRenderer, Center->x, Center->y, Center->x + X[i] * Radius, Center->y - Y[i] * Radius);
+        }
+        else
+            if(i > FirstSpaceAngle && i < SecondSpaceAngle)
+                SDL_RenderDrawLineF(mRenderer, Center->x, Center->y, Center->x + X[i] * Radius, Center->y - Y[i] * Radius);
+    }
+
+}
+
+void Renderer::DrawCircle(Position* Center, float Radius, int r, int g, int b, int alpha)
+{
+    SDL_SetRenderDrawColor(mRenderer, r, g, b, alpha);
+    for (i = 0; i < 360; i++)
+        SDL_RenderDrawLineF(mRenderer, Center->x, Center->y, Center->x + X[i] * Radius, Center->y - Y[i] * Radius);
+}

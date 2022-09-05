@@ -1,10 +1,6 @@
-#pragma once
-
-// NOTE(isaveg): muchos pragmas!
-#pragma once 
 #pragma once 
 
-#include "CollisionSystem.h" // NOTE(isaveg): El render no deberia saber nada sobre colisiones. Tu sistema de colision es dueño de algunas estructuras que pertenecen a otro tipo de clases
+#include "CollisionSystem.h"
 #include <string>
 using namespace std;
 
@@ -17,6 +13,8 @@ public:
 
     bool getIsRunning() { return mIsRunning; }
     float getDeltaTime() { return deltaTime; }
+    float getHWindowWidth() { return HWidth; }
+    float getHWindowHeight() { return HHeight; }
     int getWindowHeight() { return WindowHeight; }
     int getWindowWidth() { return WindowWidth; }
 
@@ -30,10 +28,12 @@ public:
     void GenerateOutput();
     void Write(char* NText, int TextW, int TextH, float TextX, float TextY);
     void Write(char* NText, int TextW, int TextH, float TextX, float TextY, Uint8 r, Uint8 g, Uint8 b, Uint8 alpha);
-    void DrawSimpleRect(float x, float y, int width, int height, int r, int g, int b, int alpha);
+    void DrawSimpleRect(Position* ActualPosition, Dimension* Dimensions, int r, int g, int b, int alpha);
     void DrawRect(Position* P1, Position* P2, Position* P3, Position* P4, int r, int g, int b, int alpha);
     void DrawTriangle(Position* P1, Position* P2, Position* P3, int r, int g, int b, int alpha);
     void DrawLine(Position* P1, Position* P2, int r, int g, int b, int alpha);
+    void DrawIncompleteCircle(Position* Center, float Radius, int r, int g, int b, int alpha, float FirstSpaceAngle, float SecondSpaceAngle);
+    void DrawCircle(Position* Center, float Radius, int r, int g, int b, int alpha);
     void FreeMemory();
     char CheckMovement();
 
@@ -41,17 +41,21 @@ public:
 private:
 
     bool mIsRunning;
-    
+
     float deltaTime;
     float mTicksCount;
+    float HWidth;
+    float HHeight;
 
     int PauseCounter;
     int WindowHeight;
     int WindowWidth;
-    
+    float X[360];
+    float Y[360];
+
     char* FText;
 
     string FontName;
-    
+
 
 };

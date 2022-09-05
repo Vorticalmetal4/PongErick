@@ -157,6 +157,8 @@ copy "$(ProjectDir)\Resources\InitialData.ini" "$(TargetDir)"
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\CommonFiles\CollisionSystem.cpp" />
+    <ClCompile Include="..\CommonFiles\Renderer.cpp" />
     <ClCompile Include="..\Inih\cpp\INIReader.cpp" />
     <ClCompile Include="..\Inih\ini.c" />
     <ClCompile Include="Ball.cpp" />
@@ -166,9 +168,10 @@ copy "$(ProjectDir)\Resources\InitialData.ini" "$(TargetDir)"
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Power.cpp" />
     <ClCompile Include="Ray.cpp" />
-    <ClCompile Include="Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\CommonFiles\CollisionSystem.h" />
+    <ClInclude Include="..\CommonFiles\Renderer.h" />
     <ClInclude Include="Ball.h" />
     <ClInclude Include="BreakoutWindows.h" />
     <ClInclude Include="Brick.h" />
@@ -176,7 +179,6 @@ copy "$(ProjectDir)\Resources\InitialData.ini" "$(TargetDir)"
     <ClInclude Include="Player.h" />
     <ClInclude Include="Power.h" />
     <ClInclude Include="Ray.h" />
-    <ClInclude Include="Renderer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\InitialData.ini" />

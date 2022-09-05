@@ -1,5 +1,5 @@
 #include "Pill.h"
-#include "Renderer.h"
+#include "CommonFiles/Renderer.h"
 #include "Inih/cpp/INIReader.h"
 
 Pill::Pill(Renderer* _Rend, float x, float y)

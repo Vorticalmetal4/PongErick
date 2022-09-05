@@ -160,27 +160,27 @@ copy "$(ProjectDir)\Resources\InitialData.ini" "$(TargetDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\CommonFiles\CollisionSystem.cpp" />
+    <ClCompile Include="..\CommonFiles\Renderer.cpp" />
     <ClCompile Include="..\Inih\cpp\INIReader.cpp" />
     <ClCompile Include="..\Inih\ini.c" />
     <ClCompile Include="Asteroid.cpp" />
     <ClCompile Include="AsteroidsWindows.cpp" />
-    <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="EnemyShip.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="Laser.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Raycaster.cpp" />
-    <ClCompile Include="Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\CommonFiles\CollisionSystem.h" />
+    <ClInclude Include="..\CommonFiles\Renderer.h" />
     <ClInclude Include="Asteroid.h" />
-    <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="EnemyShip.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="Laser.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Raycaster.h" />
-    <ClInclude Include="Renderer.h" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="Resources\ArialCE.ttf" />

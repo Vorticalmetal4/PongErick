@@ -1,6 +1,6 @@
 // NOTE(isaveg): Incompleto. De acuerdo al executable, los asteroides son cuadrados que contienen un reloj que indica la hora actual como horas-min-segundos. 
 #include "Asteroid.h"
-#include "Renderer.h"
+#include "CommonFiles/Renderer.h"
 #include "Inih/cpp/INIReader.h"
 
 #include <cmath>
@@ -19,7 +19,7 @@ Asteroid::Asteroid(Renderer* _Rend, float x, float y, int Angle)
 	INIReader ConFile("InitialData.ini");
 
 	if (ConFile.ParseError() < 0)
-		ConFile.PrintError("Player");
+		ConFile.PrintError("Player: ConFile Failed");
 
 	OwnDimensions.Width = ConFile.GetInteger("Asteroid", "Width", 1);
 	OwnDimensions.Height = ConFile.GetInteger("Asteroid", "Height", 1);

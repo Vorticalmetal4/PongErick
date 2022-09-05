@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CollisionSystem.h"
+#include "CommonFiles/CollisionSystem.h"
 #include "Laser.h"
 
 class Player

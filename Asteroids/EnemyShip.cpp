@@ -1,5 +1,5 @@
 #include "EnemyShip.h"
-#include "Renderer.h"
+#include "CommonFiles/Renderer.h"
 #include "Inih/cpp/INIReader.h"
 #include "Raycaster.h"
 
@@ -21,7 +21,7 @@ EnemyShip::EnemyShip(Renderer* _Rend)
 	INIReader ConFile("InitialData.ini");
 
 	if (ConFile.ParseError() < 0)
-		ConFile.PrintError("EnemyShip");
+		ConFile.PrintError("EnemyShip: ConFile Failed");
 
 	OwnDimensions.Width = ConFile.GetInteger("EnemyShip", "Width", 0);
 	OwnDimensions.Height = ConFile.GetInteger("EnemyShip", "Height", 0);

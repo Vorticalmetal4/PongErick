@@ -1,10 +1,6 @@
 #pragma once
 
-struct VectorPositionB 
-{
-	int x;
-	int y;
-};
+#include "CommonFiles/CollisionSystem.h"
 
 struct VectorVelocity 
 {
@@ -16,11 +12,11 @@ class Ball
 {
 public:
 	Ball(class Renderer* _Rend, class Player* _Player1);
-	int getXPosition() { return Position.x; }
-	int getYPosition() { return Position.y; }
+	int getXPosition() { return ActualPosition.x; }
+	int getYPosition() { return ActualPosition.y; }
 	int getXVelocity() { return Velocity.x; }
-	int getHeight() { return height; }
-	int getWidth() { return width; }
+	int getHeight() { return Dimensions.Height; }
+	int getWidth() { return Dimensions.Width; }
 	void ChangeXDirection() { Velocity.x *= -1; }
 	void ChangeYDirection() { Velocity.y *= -1; }
 	void SetCollitionWPlayer() { CollWPlayer = false; }
@@ -32,11 +28,11 @@ private:
 
 	Renderer* Rend;
 	Player* Player1;
-	VectorPositionB Position;
-	VectorPositionB InitialPosition;
+	Position ActualPosition;
+	Position InitialPosition;
+	Dimension Dimensions;
 	VectorVelocity Velocity;
-	int height;
-	int width;
+
 	int InitialVelocity;
 	int MaxVelocity;
 	int VelocityIncrease;

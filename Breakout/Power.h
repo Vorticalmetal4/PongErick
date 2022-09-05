@@ -1,14 +1,7 @@
 #pragma once
 #include <string>
+#include "CommonFiles/CollisionSystem.h"
 using namespace std;
-
-
-struct VectorPositionPow 
-{
-	int x;
-	int y;
-};
-
 
 class Power 
 {
@@ -24,7 +17,7 @@ private:
 	Player* MainPlayer;
 	Renderer* Rend;
 	char PowerType;
-	VectorPositionPow Position;
+	Position ActualPosition;
 	int Velocity;
 	int Height;
 	int LaserProbability;
