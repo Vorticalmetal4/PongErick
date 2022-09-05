@@ -23,8 +23,8 @@ EnemyShip::EnemyShip(Renderer* _Rend)
 	if (ConFile.ParseError() < 0)
 		ConFile.PrintError("EnemyShip: ConFile Failed");
 
-	OwnDimensions.Width = ConFile.GetInteger("EnemyShip", "Width", 0);
-	OwnDimensions.Height = ConFile.GetInteger("EnemyShip", "Height", 0);
+	OwnDimensions.Width = (float)ConFile.GetInteger("EnemyShip", "Width", 0);
+	OwnDimensions.Height = (float)ConFile.GetInteger("EnemyShip", "Height", 0);
 	Velocity = ConFile.GetInteger("EnemyShip", "Velocity", 0);
 	HWidth = OwnDimensions.Width / 2.0f;
 	HHeight = OwnDimensions.Height / 2.0f;

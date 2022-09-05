@@ -21,8 +21,8 @@ Asteroid::Asteroid(Renderer* _Rend, float x, float y, int Angle)
 	if (ConFile.ParseError() < 0)
 		ConFile.PrintError("Player: ConFile Failed");
 
-	OwnDimensions.Width = ConFile.GetInteger("Asteroid", "Width", 1);
-	OwnDimensions.Height = ConFile.GetInteger("Asteroid", "Height", 1);
+	OwnDimensions.Width = (float)ConFile.GetInteger("Asteroid", "Width", 1);
+	OwnDimensions.Height = (float)ConFile.GetInteger("Asteroid", "Height", 1);
 	Velocity = ConFile.GetInteger("Asteroid", "Velocity", 0);
 	SpeedIncrease = ConFile.GetInteger("Asteroid", "SpeedIncrease", 0);
 
@@ -34,7 +34,7 @@ Asteroid::~Asteroid()
 {
 }
 
-void Asteroid::setBigAsteroid(int _Width, int _Height, float x, float y, int _Velocity)
+void Asteroid::setBigAsteroid(float _Width, float _Height, float x, float y, int _Velocity)
 {
 	Active = true;
 	Size = 0;
@@ -85,7 +85,7 @@ void Asteroid::Update(bool Pause)
 		}
 
 	}
-		Rend->DrawSimpleRect(FirstPoint.x, FirstPoint.y, OwnDimensions.Width, OwnDimensions.Height, 255, 0, 0, 255);
+		Rend->DrawSimpleRect(&FirstPoint, &OwnDimensions, 255, 0, 0, 255);
 }
 
 void Asteroid::setNewData(Position* Pos, int ParentSize, Dimension* NewDimensions, bool NewAsteroid, int ParentVelocity)

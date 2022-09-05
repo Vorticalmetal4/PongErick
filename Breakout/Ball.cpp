@@ -22,20 +22,20 @@ Ball::Ball(Renderer *_Rend, Player* _Player1)
 	if (ConFile.ParseError() < 0)
 		ConFile.PrintError("Ball: ConFile Failed");
 
-	InitialVelocity = ConFile.GetInteger("Ball", "InitialVelocity", -1);
+	InitialVelocity = (float)ConFile.GetInteger("Ball", "InitialVelocity", -1);
 	Velocity.x = InitialVelocity;
 	Velocity.y = InitialVelocity;
-	MaxVelocity = ConFile.GetInteger("Ball", "MaxVelocity", 1);
+	MaxVelocity = (float)ConFile.GetInteger("Ball", "MaxVelocity", 1);
 	VelocityIncrease = ConFile.GetInteger("Ball", "VelocityIncrease", 1);
-	InitialPosition.x = ConFile.GetInteger("Ball", "InitialX", -1);
-	InitialPosition.y = ConFile.GetInteger("Ball", "InitialY", -1);
+	InitialPosition.x = (float)ConFile.GetInteger("Ball", "InitialX", -1);
+	InitialPosition.y = (float)ConFile.GetInteger("Ball", "InitialY", -1);
 
-	Dimensions.Width = ConFile.GetInteger("Ball", "Size", 1);
+	Dimensions.Width = (float)ConFile.GetInteger("Ball", "Size", 1);
 	Dimensions.Height = Dimensions.Width;
 	ActualPosition.x = InitialPosition.x;
 	ActualPosition.y = InitialPosition.y;
 
-	srand(time(NULL));
+	srand((unsigned int)(time(NULL)));
 	if ((rand() % (10 - 2 + 1) + 2) % 2 == 0)
 		Velocity.x *= -1;
 }

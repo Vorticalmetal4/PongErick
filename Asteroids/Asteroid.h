@@ -20,14 +20,14 @@ public:
 	Dimension* getDimensions() { return &OwnDimensions; }
 	int getSize() { return Size; }
 	int getVelocity() { return Velocity; }
+	int getAngle() { return FirstPoint.Angle; }
 	bool getActive() { return Active; }
 	float getHypotenuse() { return OwnDimensions.Hypotenuse; }
-	int getAngle() { return FirstPoint.Angle; }
 
 	void setActive(bool _Active) { Active = _Active; }
 	void setSize(int _Size) { Size = _Size; }
 	void setNewData(Position* Center, int ParentSize, Dimension* NewDimensions, bool NewAsteroid, int ParentVelocity);
-	void setBigAsteroid(int _Width, int _Height, float x, float y, int _Velocity);
+	void setBigAsteroid(float _Width, float _Height, float x, float y, int _Velocity);
 	void setLastObjectHitted(int _LastObjectHitted) { LastObjectHitted = _LastObjectHitted; }
 
 	void ChangeDirection(int ObjectNumber);

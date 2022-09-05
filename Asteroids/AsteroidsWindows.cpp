@@ -214,7 +214,7 @@ int main()
 
             if(ResetAsteroids)
                 for(i = 0; i < NAsteroids; i++)
-                    Asteroids[i].setBigAsteroid(AsteroidWidth, AsteroidHeight, (float)(AsteroidWidth + rand() % Rend.getWindowWidth() - AsteroidWidth), (float)(AsteroidHeight + rand() % Rend.getWindowHeight() - AsteroidHeight), AsteroidVelocity);
+                    Asteroids[i].setBigAsteroid((float)AsteroidWidth, (float)AsteroidHeight, (float)(AsteroidWidth + rand() % Rend.getWindowWidth() - AsteroidWidth), (float)(AsteroidHeight + rand() % Rend.getWindowHeight() - AsteroidHeight), AsteroidVelocity);
             
 
             ResetAsteroids = true;

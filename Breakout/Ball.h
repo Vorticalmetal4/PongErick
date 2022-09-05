@@ -12,11 +12,11 @@ class Ball
 {
 public:
 	Ball(class Renderer* _Rend, class Player* _Player1);
-	int getXPosition() { return ActualPosition.x; }
-	int getYPosition() { return ActualPosition.y; }
-	int getXVelocity() { return Velocity.x; }
-	int getHeight() { return Dimensions.Height; }
-	int getWidth() { return Dimensions.Width; }
+	float getXPosition() { return ActualPosition.x; }
+	float getYPosition() { return ActualPosition.y; }
+	float getXVelocity() { return Velocity.x; }
+	float getHeight() { return Dimensions.Height; }
+	float getWidth() { return Dimensions.Width; }
 	void ChangeXDirection() { Velocity.x *= -1; }
 	void ChangeYDirection() { Velocity.y *= -1; }
 	void SetCollitionWPlayer() { CollWPlayer = false; }
@@ -33,8 +33,8 @@ private:
 	Dimension Dimensions;
 	VectorVelocity Velocity;
 
-	int InitialVelocity;
-	int MaxVelocity;
+	float InitialVelocity;
+	float MaxVelocity;
 	int VelocityIncrease;
 	bool CollWPlayer;
 

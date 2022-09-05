@@ -26,7 +26,7 @@ Player::Player(Renderer* _Rend, Ray* _PlayersRay)
 	Dimensions.Width = (float)ConFile.GetInteger("Player", "Width", 80);
 	Dimensions.Height = (float)ConFile.GetInteger("Player", "Height", 20);
 
-	Middle = Dimensions.Width / 2;
+	Middle = Dimensions.Width / 2.0f;
 
 }
 

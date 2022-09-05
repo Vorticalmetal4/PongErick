@@ -26,9 +26,9 @@ Player::Player(Renderer* _Rend, CollisionSystem* _CollisionDetector)
 	IncVelocity = ConFile.GetInteger("Player", "IncVelocity", 0);
 	DecVelocity = IncVelocity / 2;
 	RotationVelocity = ConFile.GetInteger("Player", "RotationVelocity", 0);
-	OwnDimensions.Width = ConFile.GetInteger("Player", "Width", 0);
+	OwnDimensions.Width = (float)ConFile.GetInteger("Player", "Width", 0);
 	float HWidth = OwnDimensions.Width / 2.0f;
-	OwnDimensions.Height = ConFile.GetInteger("Player", "Height", 0);
+	OwnDimensions.Height = (float)ConFile.GetInteger("Player", "Height", 0);
 	float HHeight = OwnDimensions.Height / 2.0f;
 	FirstPoint.x = (float)ConFile.GetInteger("Player", "PositionX", 0);
 	FirstPoint.y = SecondPoint.y = (float)ConFile.GetInteger("Player", "PositionY", 0);

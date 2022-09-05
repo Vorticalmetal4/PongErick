@@ -14,8 +14,8 @@ Ray::Ray()
 	if (ConFile.ParseError() < 0)
 		ConFile.PrintError("Ray");
 
-	Dimensions.Width = ConFile.GetInteger("Ray", "Width", 0);
-	Dimensions.Height = ConFile.GetInteger("Ray", "Height", 0);
+	Dimensions.Width = (float)ConFile.GetInteger("Ray", "Width", 0);
+	Dimensions.Height = (float)ConFile.GetInteger("Ray", "Height", 0);
 	Velocity = ConFile.GetInteger("Ray", "Velocity", 0);
 
 }
@@ -25,13 +25,13 @@ Ray::~Ray()
 
 }
 
-void Ray::SetData(int X, int Y, bool _Active) {
+void Ray::SetData(float X, float Y, bool _Active) {
 	ActualPosition.x = X;
 	ActualPosition.y = Y;
 	Active = _Active;
 }
 
-bool Ray::CheckCollition(Brick* ActualBrick, int DeltaTime, char Power, int WindowHeight)
+bool Ray::CheckCollition(Brick* ActualBrick, float DeltaTime, char Power, int WindowHeight)
 {
 	NYPosition = ActualPosition.y - DeltaTime * Velocity;
 

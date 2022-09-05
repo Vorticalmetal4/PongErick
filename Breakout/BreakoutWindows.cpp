@@ -37,7 +37,7 @@ int main(int argc, int** argv)
                                    ConFile.GetInteger("Window", "Flags", 0),
                                    ConFile.GetString("Window", "Font", "Error"));
 
-    const float BricksSeparation = (Rend.getWindowWidth() - BricksColumns * ConFile.GetInteger("Brick", "width", 97)) / BricksColumns;
+    const float BricksSeparation = (Rend.getWindowWidth() - BricksColumns * (float)ConFile.GetInteger("Brick", "width", 97)) / BricksColumns;
     Ray PlayersRay = Ray();
     Player Player1 = Player(&Rend, &PlayersRay); 
     HUD PHUD = HUD(&Rend, &Player1); 
@@ -65,7 +65,7 @@ int main(int argc, int** argv)
         Powers.push_back(NPower);
     }
 
-    srand(time(NULL));
+    srand((unsigned int)time(NULL));
 
     if (success)
     {

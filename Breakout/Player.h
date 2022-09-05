@@ -11,10 +11,10 @@ public:
 	Player(class Renderer* Rend, class Ray* _PlayersRay);
 	~Player();
 	void Update(bool Pause);
-	int getXPosition() { return ActualPosition.x; }
-	int getYPosition() { return ActualPosition.y; }
-	int getWidth() { return Dimensions.Width; }
-	int getHeight() { return Dimensions.Height; }
+	float getXPosition() { return ActualPosition.x; }
+	float getYPosition() { return ActualPosition.y; }
+	float getWidth() { return Dimensions.Width; }
+	float getHeight() { return Dimensions.Height; }
 	void ChangePower(char NPower);
 	char getPower() { return Power; }
 	void NoPower() { Power = 'N'; }
@@ -27,7 +27,7 @@ private:
 	Position ActualPosition;
 	Dimension Dimensions;
 	int Ammo;
-	int Middle;
+	float Middle;
 	char Power;
 	class Ray* PlayersRay;
 

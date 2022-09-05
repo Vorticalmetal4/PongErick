@@ -33,9 +33,9 @@ Power::~Power()
 
 }
 
-void Power::SetData(int _X, int _Y, bool _Active)
+void Power::SetData(float _X, float _Y, bool _Active)
 {
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 	if ((rand() % (100) + 1) <= LaserProbability) 
 		PowerType = 'L';
 	else

@@ -10,7 +10,7 @@ public:
 	~Power();
 	void Update();
 	bool CheckCollision(bool Pause); 
-	void SetData(int _X, int _Y, bool _Active);
+	void SetData(float _X, float _Y, bool _Active);
 	bool getActive() { return Active; }
 
 private:

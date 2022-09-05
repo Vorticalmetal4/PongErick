@@ -21,8 +21,8 @@ Laser::Laser(Renderer* _Rend, CollisionSystem* _CollisionDetector)
 	if (ConFile.ParseError() < 0)
 		ConFile.PrintError("Laser: ConFile Failed");
 
-	OwnDimensions.Width = ConFile.GetInteger("Laser", "Width", 0);
-	OwnDimensions.Height = ConFile.GetInteger("Laser", "Height", 0);
+	OwnDimensions.Width = (float)ConFile.GetInteger("Laser", "Width", 0);
+	OwnDimensions.Height = (float)ConFile.GetInteger("Laser", "Height", 0);
 	Velocity = ConFile.GetInteger("Laser", "Velocity", 0);
 	LifeTime = float(ConFile.GetInteger("Laser", "LifeTime", 0));
 	FirstPoint.x = SecondPoint.x = ThirdPoint.x = FourthPoint.x = Center.x = -100;

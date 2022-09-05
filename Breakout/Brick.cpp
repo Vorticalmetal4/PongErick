@@ -18,7 +18,7 @@ Brick::Brick(Renderer* _Rend, int XPosition, int YPosition, float Separation)
 	Dimensions.Height = (float)ConFile.GetInteger("Brick", "height", 0);
 	ActualPosition.x = (float)ConFile.GetInteger("Brick", "InitialX", 0);
 	ActualPosition.y = (float)ConFile.GetInteger("Brick", "InitialY", 0);
-	VerticalSeparation = ConFile.GetReal("Brick", "VerticalSeparation", 0);
+	VerticalSeparation = (float)ConFile.GetInteger("Brick", "VerticalSeparation", 0);
 
 	ActualPosition.x += XPosition * Dimensions.Width + XPosition * Separation;
 	ActualPosition.y += YPosition * Dimensions.Height + YPosition * VerticalSeparation;
