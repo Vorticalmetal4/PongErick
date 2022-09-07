@@ -30,6 +30,7 @@ public:
     void Write(char* NText, int TextW, int TextH, float TextX, float TextY, Uint8 r, Uint8 g, Uint8 b, Uint8 alpha);
     void DrawSimpleRect(Position* ActualPosition, Dimension* Dimensions, int r, int g, int b, int alpha);
     void DrawRect(Position* P1, Position* P2, Position* P3, Position* P4, int r, int g, int b, int alpha);
+    void DrawTriangle(class Triangle* Figure, int r, int g, int b, int alpha);
     void DrawTriangle(Position* P1, Position* P2, Position* P3, int r, int g, int b, int alpha);
     void DrawLine(Position* P1, Position* P2, int r, int g, int b, int alpha);
     void DrawIncompleteCircle(Position* Center, float Radius, int r, int g, int b, int alpha, float FirstSpaceAngle, float SecondSpaceAngle);

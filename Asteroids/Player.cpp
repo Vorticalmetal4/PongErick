@@ -7,9 +7,7 @@
 
 #include <cmath>
 
-const float Pi = (float)3.141592;
-const float Rad = Pi / 180;
-int it;
+int ite;
 
 Player::Player(Renderer* _Rend, CollisionSystem* _CollisionDetector)
 	:Rend(_Rend),
@@ -26,35 +24,26 @@ Player::Player(Renderer* _Rend, CollisionSystem* _CollisionDetector)
 	IncVelocity = ConFile.GetInteger("Player", "IncVelocity", 0);
 	DecVelocity = IncVelocity / 2;
 	RotationVelocity = ConFile.GetInteger("Player", "RotationVelocity", 0);
-	OwnDimensions.Width = (float)ConFile.GetInteger("Player", "Width", 0);
-	float HWidth = OwnDimensions.Width / 2.0f;
-	OwnDimensions.Height = (float)ConFile.GetInteger("Player", "Height", 0);
-	float HHeight = OwnDimensions.Height / 2.0f;
-	FirstPoint.x = (float)ConFile.GetInteger("Player", "PositionX", 0);
-	FirstPoint.y = SecondPoint.y = (float)ConFile.GetInteger("Player", "PositionY", 0);
-	FirstPoint.Angle = 315;
-	SecondPoint.x = FirstPoint.x + OwnDimensions.Width;
-	SecondPoint.Angle = 225;
-	ThirdPoint.x = FirstPoint.x + HWidth;
-	ThirdPoint.y = FirstPoint.y - OwnDimensions.Height;
-	ThirdPoint.Angle = 90;
-	Center.x = FirstPoint.x + HWidth;
-	Center.y = FirstPoint.y - HHeight;
+	Body.setDimensions((float)ConFile.GetInteger("Player", "Width", 0), (float)ConFile.GetInteger("Player", "Height", 0));
+	float HWidth = Body.getDimensions()->Width / 2.0f;
+	float HHeight = Body.getDimensions()->Height / 2.0f;
+	Body.setPointData( (float)ConFile.GetInteger("Player", "PositionX", 0), (float)ConFile.GetInteger("Player", "PositionY", 0), 315, 1);
+	Body.setPointData(Body.getFirstPoint()->x + Body.getDimensions()->Width, Body.getSecondPoint()->y, 225, 2);
+	Body.setPointData(Body.getFirstPoint()->x + HWidth, Body.getFirstPoint()->y - Body.getDimensions()->Height, 90, 3);
+	Body.setPointData(Body.getThirdPoint()->x, Body.getThirdPoint()->y + HHeight, 0, 4);
+
 	ShootCooldown = ConFile.GetInteger("Player", "ShootCooldown", 0);
 	Invincibility = DamageCooldown = (float)ConFile.GetInteger("Player", "DamageCooldown", 0);
 
-	OwnDimensions.Hypotenuse = sqrtf(powf(HHeight, 2) + powf(HWidth, 2));
-
 	NLasers = ConFile.GetInteger("Player", "NLasers", 0);
-	
 	Lasers = nullptr;
 	Lasers =  new Laser[NLasers]; // NOTE(isaveg): Memory leak
 
 	if (Rend != nullptr)
-		for (it = 0; it < NLasers; it++)
-				Lasers[it] = Laser(Rend, CollisionDetector);
+		for (ite = 0; ite < NLasers; ite++)
+				Lasers[ite] = Laser(Rend, CollisionDetector);
 
-	MovePoints(true);
+	Body.MoveEdges(true);
 }
 
 
@@ -73,40 +62,32 @@ void Player::Update(bool Pause)
 		switch (Rend->CheckMovement())
 		{
 		case 'R':
-			FirstPoint.Angle -= Rotation;
-			SecondPoint.Angle -= Rotation;
-			ThirdPoint.Angle -= Rotation;
-
-			MovePoints(true);
+			Body.Rotate(false, Rotation);
+			Body.MoveEdges(true);
 			break;
 
 		case 'L':
-			FirstPoint.Angle += Rotation;
-			SecondPoint.Angle += Rotation;
-			ThirdPoint.Angle += Rotation;
-
-			MovePoints(true);
+			Body.Rotate(true, Rotation);
+			Body.MoveEdges(true);
 			break;
 
 		case 'U':
 			if (Velocity + IncVelocity <= MaxVelocity)
 				Velocity += IncVelocity;
 
-			Center.x += cosf(ThirdPoint.Rotation) * Velocity * DeltaTime;
-			Center.y -= sinf(ThirdPoint.Rotation) * Velocity * DeltaTime;
-			MovePoints(false);
+			Body.MoveCenter(3, Velocity, DeltaTime);
 			break;
 
 		case 'S':
 			if (CurrentCooldown <= 0)
 			{
 				CurrentCooldown = ShootCooldown;
-				for (it = 0; it < NLasers; it++)
+				for (ite = 0; ite < NLasers; ite++)
 				{
-					if (!Lasers[it].getActive())
+					if (!Lasers[ite].getActive())
 					{
-						Lasers[it].setActive(true);
-						Lasers[it].setPosition(ThirdPoint.x, ThirdPoint.y, ThirdPoint.Angle, ThirdPoint.Rotation);
+						Lasers[ite].setActive(true);
+						Lasers[ite].setPosition(Body.getThirdPoint()->x, Body.getThirdPoint()->y, Body.getThirdPoint()->Angle, Body.getThirdPoint()->Rotation);
 						break;
 					}
 				}
@@ -119,59 +100,41 @@ void Player::Update(bool Pause)
 		{
 			Velocity -= DecVelocity;
 
-			Center.x += cosf(ThirdPoint.Rotation) * Velocity * DeltaTime;
-			Center.y -= sinf(ThirdPoint.Rotation) * Velocity * DeltaTime;
-			MovePoints(false);
+			Body.MoveCenter(3, Velocity, DeltaTime);
+			Body.MoveEdges(false);
 		}
 
-		if (Center.x > Rend->getWindowWidth())
-			Center.x = 0;
-		else if (Center.x < 0)
-			Center.x = (float)Rend->getWindowWidth();
+		if (Body.getCenter()->x > Rend->getWindowWidth())
+			Body.ChangeCenterPosition(0, Body.getCenter()->y);
+		else if (Body.getCenter()->x < 0)
+			Body.ChangeCenterPosition((float)Rend->getWindowWidth(), Body.getCenter()->y);
 
-		if (Center.y > Rend->getWindowHeight())
-			Center.y = 0;
-		else if (Center.y < 0)
-			Center.y = (float)Rend->getWindowHeight();
+		if (Body.getCenter()->y > Rend->getWindowHeight())
+			Body.ChangeCenterPosition(Body.getCenter()->x, 0);
+		else if (Body.getCenter()->y < 0)
+			Body.ChangeCenterPosition(Body.getCenter()->x, (float)Rend->getWindowHeight());
 
 		CurrentCooldown--;
 		Invincibility -= DeltaTime;
 	}
 
-	for (it = 0; it < NLasers; it++)
-		if (Lasers[it].getActive())
-			Lasers[it].Update(Pause);
+	for (ite = 0; ite < NLasers; ite++)
+		if (Lasers[ite].getActive())
+			Lasers[ite].Update(Pause);
 
 	if(Invincibility <= 0)
-		Rend->DrawTriangle(&FirstPoint, &SecondPoint, &ThirdPoint, 255, 255, 255, 255);
+		Rend->DrawTriangle(&Body, 255, 255, 255, 255);
 	else
-		Rend->DrawTriangle(&FirstPoint, &SecondPoint, &ThirdPoint, 255, 255, 0, 255);
+		Rend->DrawTriangle(&Body, 255, 255, 0, 255);
 } 
-
-void Player::MovePoints(bool Rotation) 
-{	
-	if(Rotation)
-	{
-		FirstPoint.Rotation = FirstPoint.Angle * Rad;
-		SecondPoint.Rotation = SecondPoint.Angle * Rad;
-		ThirdPoint.Rotation = ThirdPoint.Angle * Rad;
-	}
-
-	FirstPoint.x = Center.x + cosf(FirstPoint.Rotation) * OwnDimensions.Hypotenuse;
-	FirstPoint.y = Center.y - sinf(FirstPoint.Rotation) * OwnDimensions.Hypotenuse;
-	SecondPoint.x = Center.x + cosf(SecondPoint.Rotation) * OwnDimensions.Hypotenuse;
-	SecondPoint.y = Center.y - sinf(SecondPoint.Rotation) * OwnDimensions.Hypotenuse;
-	ThirdPoint.x = Center.x + cosf(ThirdPoint.Rotation) * OwnDimensions.Hypotenuse;
-	ThirdPoint.y = Center.y - sinf(ThirdPoint.Rotation) * OwnDimensions.Hypotenuse;
-}
 
 bool Player::CheckLasersCollisions(Position* OtherObjectPos, Dimension* OtherObjectDimensions, bool isObjectASquare)
 {
-	for(it = 0; it < NLasers; it++)
+	for(ite = 0; ite < NLasers; ite++)
 	{
-		if (Lasers[it].getActive())
+		if (Lasers[ite].getActive())
 
-			if (Lasers[it].CheckCollision(OtherObjectPos, OtherObjectDimensions, isObjectASquare))
+			if (Lasers[ite].CheckCollision(OtherObjectPos, OtherObjectDimensions, isObjectASquare))
 				return true;
 	}
 
@@ -182,12 +145,12 @@ bool Player::CheckCollisions(Position* OtherObjectPos, float OtherObjectHypotenu
 {
 	if (Invincibility <= 0)
 	{
-		if (CollisionDetector->Circle_Circle(&Center, OtherObjectPos, OwnDimensions.Hypotenuse, OtherObjectHypotenuse))
+		if (CollisionDetector->Circle_Circle(Body.getCenter(), OtherObjectPos, Body.getDimensions()->Hypotenuse, OtherObjectHypotenuse))
 		{
-			Center.x = Rend->getWindowWidth() / 2.0f;
-			Center.y = Rend->getWindowHeight() / 2.0f;
+			Body.getCenter()->x = Rend->getWindowWidth() / 2.0f;
+			Body.getCenter()->y = Rend->getWindowHeight() / 2.0f;
 			Velocity = 0;
-			MovePoints(false);
+			Body.MoveEdges(false);
 			Invincibility = DamageCooldown;
 			return true;
 		}
@@ -198,6 +161,6 @@ bool Player::CheckCollisions(Position* OtherObjectPos, float OtherObjectHypotenu
 
 void Player::ResetLasers()
 {
-	for (it = 0; it < NLasers; it++)
-		Lasers[it].setActive(false);
+	for (ite = 0; ite < NLasers; ite++)
+		Lasers[ite].setActive(false);
 }

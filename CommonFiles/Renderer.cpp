@@ -1,6 +1,7 @@
 #include "SDL2/include/SDL.h"  
 #include "SDL2/include/SDL_ttf.h" 
 #include "Renderer.h"
+#include "Triangle.h"
 #include <string>
 
 const float Pi = (float)3.141592;
@@ -228,6 +229,14 @@ void Renderer::FreeMemory()
     TTF_CloseFont(Font);
     Font = nullptr;
     TTF_Quit();
+}
+
+void Renderer::DrawTriangle(Triangle* Figure, int r, int g, int b, int alpha)
+{
+    SDL_SetRenderDrawColor(mRenderer, r, g, b, alpha);
+    SDL_RenderDrawLineF(mRenderer, Figure->getFirstPoint()->x, Figure->getFirstPoint()->y, Figure->getSecondPoint()->x, Figure->getSecondPoint()->y);
+    SDL_RenderDrawLineF(mRenderer, Figure->getFirstPoint()->x, Figure->getFirstPoint()->y, Figure->getThirdPoint()->x, Figure->getThirdPoint()->y);
+    SDL_RenderDrawLineF(mRenderer, Figure->getSecondPoint()->x, Figure->getSecondPoint()->y, Figure->getThirdPoint()->x, Figure->getThirdPoint()->y);
 }
 
 void Renderer::DrawTriangle(Position* P1, Position* P2, Position* P3, int r, int g, int b, int alpha)

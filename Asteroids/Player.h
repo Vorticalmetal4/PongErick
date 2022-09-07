@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CommonFiles/CollisionSystem.h"
+#include "CommonFiles/Triangle.h"
 #include "Laser.h"
 
 class Player
@@ -9,12 +10,11 @@ public:
 	Player(class Renderer* _Rend, CollisionSystem* _CollisionDetector);
 	~Player();
 
-	Position* getCenter() { return &Center; }
-	float getHypotenuse() { return OwnDimensions.Hypotenuse; }
+	Position* getCenter() { return Body.getCenter(); }
+	float getHypotenuse() { return Body.getDimensions()->Hypotenuse; }
 	float getInvincibiliy() { return Invincibility; }
 
 	void Update(bool  Pause);
-	void MovePoints(bool Rotation);
 	void ResetLasers();
 	bool CheckLasersCollisions(Position* OtherObjectPos, Dimension* OtherObjectDimensions, bool isObjectASquare);
 	bool CheckCollisions(Position* OtherObjectPos, float OtherObjectHypotenuse);
@@ -26,12 +26,12 @@ private:
 
 	// NOTE(isaveg): Asteroid, Player, EnemyShip all use the collission system, what Object pattern reminds your? 
 	// NOTE(isaveg): Duplicated code
-	Position FirstPoint;
+	/*Position FirstPoint;
 	Position SecondPoint;
 	Position ThirdPoint;
-	Position Center;
+	Position Center;*/
 
-	Dimension OwnDimensions;
+	Triangle Body;
 
 	int Velocity;
 	int MaxVelocity;
