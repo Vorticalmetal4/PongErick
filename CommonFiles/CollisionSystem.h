@@ -5,7 +5,7 @@ struct Position
 {
     float x;
     float y;
-    int Angle;
+    float Angle;
     float Rotation;
 };
 

@@ -36,8 +36,8 @@ private:
 	int NLasers;
 	int ShootCooldown;
 	int CurrentCooldown;
-	int Rotation;
 
+	float Rotation;
 	float DeltaTime;
 	float DamageCooldown;
 	float Invincibility;

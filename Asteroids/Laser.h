@@ -12,7 +12,7 @@ public:
 	bool getActive() { return Active; }
 
 	void setActive(bool _Active) { Active = _Active; }
-	void setPosition(float x, float y, int _Angle, float _Rotation);
+	void setPosition(float x, float y, float _Angle, float _Rotation);
 
 	bool CheckCollision(Position* OtherObjectPos, Dimension* OtherObjectDimensions, bool isObjectASquare);
 	void Update(bool Pause);

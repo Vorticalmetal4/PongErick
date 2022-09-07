@@ -57,7 +57,7 @@ void Player::Update(bool Pause)
 	{
 		DeltaTime = Rend->getDeltaTime();
 
-		Rotation = (int)(RotationVelocity * DeltaTime);
+		Rotation = RotationVelocity * DeltaTime;
 
 		switch (Rend->CheckMovement())
 		{

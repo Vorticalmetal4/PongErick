@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CommonFiles/Renderer.h"
+#include "CommonFiles/Triangle.h"
 #include <string>
 
 
@@ -28,15 +29,11 @@ public:
 private:
 	Renderer* Rend;
 
-	Position LivesP1;
-	Position LivesP2;
-	Position LivesP3;
+	Triangle LivesBody;
 	
 	HUDData Data;
 	
 	int Lives;
-	int LivesWidth;
-	int LivesHeight;
 	int LivesSeparation;
 
 	float LivesInitialX;

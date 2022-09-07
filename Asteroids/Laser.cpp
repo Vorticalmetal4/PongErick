@@ -75,7 +75,7 @@ void Laser::Update(bool Pause)
 
 }
 
-void Laser::setPosition(float x, float y, int _Angle, float _Rotation)
+void Laser::setPosition(float x, float y, float _Angle, float _Rotation)
 {
 	Center.x = x;
 	Center.y = y;

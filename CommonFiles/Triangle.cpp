@@ -16,7 +16,7 @@ Triangle::~Triangle()
 	
 }
 
-void Triangle::setPointData(float x, float y, int Angle, int Position)
+void Triangle::setPointData(float x, float y, float Angle, int Position)
 {
 	switch (Position)
 	{

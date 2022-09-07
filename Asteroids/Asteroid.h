@@ -12,7 +12,7 @@ class Asteroid
 {
 public:
 	Asteroid(void) = default;
-	Asteroid(class Renderer* _Rend, float x, float y, int Angle);
+	Asteroid(class Renderer* _Rend, float x, float y, float Angle);
 	~Asteroid();
 
 	Position* getCenter() { return &Center; }
@@ -20,7 +20,7 @@ public:
 	Dimension* getDimensions() { return &OwnDimensions; }
 	int getSize() { return Size; }
 	int getVelocity() { return Velocity; }
-	int getAngle() { return FirstPoint.Angle; }
+	float getAngle() { return FirstPoint.Angle; }
 	bool getActive() { return Active; }
 	float getHypotenuse() { return OwnDimensions.Hypotenuse; }
 
@@ -33,7 +33,7 @@ public:
 	void ChangeDirection(int ObjectNumber);
 	
 	void Update(bool Pause);
-	void UpdateData(float x, float y, int Angle);
+	void UpdateData(float x, float y, float Angle);
 
 private:
 	Renderer* Rend;

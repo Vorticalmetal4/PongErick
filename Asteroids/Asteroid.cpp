@@ -9,7 +9,7 @@
 const float Pi = (float)3.141592;
 const float Rad = Pi / 180;
 
-Asteroid::Asteroid(Renderer* _Rend, float x, float y, int Angle)
+Asteroid::Asteroid(Renderer* _Rend, float x, float y, float Angle)
 	:Rend(_Rend),
 	Active(false),
 	DeltaTime(0),
@@ -91,8 +91,8 @@ void Asteroid::Update(bool Pause)
 void Asteroid::setNewData(Position* Pos, int ParentSize, Dimension* NewDimensions, bool NewAsteroid, int ParentVelocity)
 {
 	Size = ParentSize + 1;
-	OwnDimensions.Width = NewDimensions->Width / 2;
-	OwnDimensions.Height = NewDimensions->Height / 2;
+	OwnDimensions.Width = NewDimensions->Width / 2.0f;
+	OwnDimensions.Height = NewDimensions->Height / 2.0f;
 	Velocity = ParentVelocity + SpeedIncrease;
 
 	if (NewAsteroid)
@@ -101,7 +101,7 @@ void Asteroid::setNewData(Position* Pos, int ParentSize, Dimension* NewDimension
 		UpdateData(Pos->x - OwnDimensions.Width, Pos->y - OwnDimensions.Height, 360 - Pos->Angle);
 }
 
-void Asteroid::UpdateData(float x, float y, int Angle)
+void Asteroid::UpdateData(float x, float y, float Angle)
 {
 
 	HWidth = OwnDimensions.Width / 2.0f;

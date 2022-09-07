@@ -63,7 +63,7 @@ int main()
 
     for (i = 0; i < TotalAsteroids; i++)
     {
-        Asteroids[i] = Asteroid(&Rend, (float)(AsteroidWidth + SpawnSeparation + rand() % (Rend.getWindowWidth() - 2 * (AsteroidWidth + SpawnSeparation))), (float)(AsteroidHeight + SpawnSeparation + rand() % (Rend.getWindowHeight() - 2 * (AsteroidHeight + SpawnSeparation))), rand() % 360);  // NOTE(isaveg): Too long lines, split in different lines or create a struct to compact
+        Asteroids[i] = Asteroid(&Rend, (float)(AsteroidWidth + SpawnSeparation + rand() % (Rend.getWindowWidth() - 2 * (AsteroidWidth + SpawnSeparation))), (float)(AsteroidHeight + SpawnSeparation + rand() % (Rend.getWindowHeight() - 2 * (AsteroidHeight + SpawnSeparation))), (float)(rand() % 360));  // NOTE(isaveg): Too long lines, split in different lines or create a struct to compact
         
         if (i < NAsteroids)
         {

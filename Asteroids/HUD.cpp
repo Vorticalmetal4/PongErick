@@ -19,13 +19,10 @@ HUD::HUD(Renderer* _Rend)
 
 	LivesInitialX = (float)ConFile.GetInteger("HUD", "LivesInitialX", 0);
 	LivesY = (float)ConFile.GetInteger("HUD", "LivesY", 0);
-	LivesWidth = ConFile.GetInteger("HUD", "LivesWidth", 0);
-	LivesHeight = ConFile.GetInteger("HUD", "LivesHeight", 0);
+	LivesBody.setDimensions((float)ConFile.GetInteger("HUD", "LivesWidth", 0), (float)ConFile.GetInteger("HUD", "LivesHeight", 0));
 	LivesSeparation = ConFile.GetInteger("HUD", "LivesSeparation", 0);
 
-	LivesHWidth = LivesWidth / 2.0f;
-	LivesP1.y = LivesP3.y = LivesY + LivesHeight;
-	LivesP2.y = LivesY;
+	LivesHWidth = LivesBody.getDimensions()->Width / 2.0f;
 
 	string GameOverstr = ConFile.GetString("HUD", "GameOverstr", "Game Over");
 	string Restartstr = ConFile.GetString("HUD", "Restartstr", "Pulse R to Restart");
@@ -77,10 +74,11 @@ void HUD::Update(HUDData* Data)
 
 	for(l = 0; l < Data->Lives; l++)
 	{
-		LivesP1.x += LivesSeparation;
-		LivesP2.x += LivesSeparation;
-		LivesP3.x += LivesSeparation;
-		Rend->DrawTriangle(&LivesP1, &LivesP2, &LivesP3, 255, 255, 255, 255);
+		LivesBody.setPointData(LivesBody.getFirstPoint()->x + LivesSeparation, LivesBody.getFirstPoint()->y, 0, 1);
+		LivesBody.setPointData(LivesBody.getSecondPoint()->x + LivesSeparation, LivesBody.getSecondPoint()->y, 0, 2);
+		LivesBody.setPointData(LivesBody.getThirdPoint()->x + LivesSeparation, LivesY, 0, 3);
+
+		Rend->DrawTriangle(&LivesBody, 255, 255, 255, 255);
 	}
 
 	if(Rend->CheckPause())
@@ -114,9 +112,11 @@ void HUD::Update(HUDData* Data)
 
 void HUD::InitialPosition()
 {
-	LivesP1.x = LivesInitialX;
-	LivesP2.x = LivesInitialX + LivesHWidth;
-	LivesP3.x = LivesInitialX + LivesWidth;
+
+	LivesBody.setPointData(LivesInitialX, LivesY + LivesBody.getDimensions()->Height, 0, 1);
+	LivesBody.setPointData(LivesInitialX + LivesBody.getDimensions()->Width, LivesBody.getFirstPoint()->y, 0, 2);
+	LivesBody.setPointData(LivesInitialX + LivesHWidth, LivesY, 0, 3);
+
 }
 
 void HUD::ChangeScore(int Score, int TextW, int TextH, float TextX, float TextY)

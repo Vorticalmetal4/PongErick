@@ -7,7 +7,7 @@ public:
 	Triangle();
 	~Triangle();
 
-	void setPointData(float x, float y, int Angle, int Position);
+	void setPointData(float x, float y, float Angle, int Position);
 	void setDimensions(float Width, float Height);
 
 	Position* getFirstPoint() { return &P1; }
