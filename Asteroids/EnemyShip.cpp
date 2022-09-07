@@ -5,10 +5,6 @@
 
 #include <cmath>
 
-const float Pi = (float)3.141592;
-const float Rad = Pi / 180;
-
-
 EnemyShip::EnemyShip(Renderer* _Rend)
 	:Rend(_Rend),
 	Active(false),
@@ -23,12 +19,10 @@ EnemyShip::EnemyShip(Renderer* _Rend)
 	if (ConFile.ParseError() < 0)
 		ConFile.PrintError("EnemyShip: ConFile Failed");
 
-	OwnDimensions.Width = (float)ConFile.GetInteger("EnemyShip", "Width", 0);
-	OwnDimensions.Height = (float)ConFile.GetInteger("EnemyShip", "Height", 0);
+	Body.setDimensions((float)ConFile.GetInteger("EnemyShip", "Width", 0), (float)ConFile.GetInteger("EnemyShip", "Height", 0));
 	Velocity = ConFile.GetInteger("EnemyShip", "Velocity", 0);
-	HWidth = OwnDimensions.Width / 2.0f;
-	HHeight = OwnDimensions.Height / 2.0f;
-	OwnDimensions.Hypotenuse = sqrtf(powf(HHeight, 2) + powf(HWidth, 2));
+	HWidth = Body.getDimensions()->Width / 2.0f;
+	HHeight = Body.getDimensions()->Height / 2.0f;
 
 	setNewData(true, false);
 }
@@ -46,24 +40,24 @@ void EnemyShip::Update(Position* PlayerCenter, float PlayerHypotenuse, bool Paus
 		if (!Ray.CheckCollision(PlayerCenter->x, PlayerCenter->y, PlayerHypotenuse))
 		{
 
-			if ( ((PlayerCenter->y < Center.y && wasPlayerUp) || (PlayerCenter->y > Center.y && !wasPlayerUp)) && ((PlayerCenter->x < Center.x && wasPlayerLeft) || (PlayerCenter->x > Center.x && !wasPlayerLeft)))
+			if (((PlayerCenter->y < Body.getCenter()->y && wasPlayerUp) || (PlayerCenter->y > Body.getCenter()->y && !wasPlayerUp)) && ((PlayerCenter->x < Body.getCenter()->x && wasPlayerLeft) || (PlayerCenter->x > Body.getCenter()->x && !wasPlayerLeft)))
 				ChangeDirection = false;
 			else
 				ChangeDirection = true;
 
-			if(ChangeDirection)
+			if (ChangeDirection)
 			{
-				if (PlayerCenter->y <= Center.y)
+				if (PlayerCenter->y <= Body.getCenter()->y)
 					wasPlayerUp = true;
 				else
 					wasPlayerUp = false;
 
-				if (PlayerCenter->x <= Center.x)
+				if (PlayerCenter->x <= Body.getCenter()->x)
 					wasPlayerLeft = true;
 				else
 					wasPlayerLeft = false;
 
-				if ((wasPlayerUp && P3.x >= Center.x) || (!wasPlayerUp && P3.x <= Center.x))
+				if ((wasPlayerUp && Body.getThirdPoint()->x >= Body.getCenter()->x) || (!wasPlayerUp && Body.getThirdPoint()->x <= Body.getCenter()->x))
 					TurnLeft = true;
 				else
 					TurnLeft = false;
@@ -73,51 +67,35 @@ void EnemyShip::Update(Position* PlayerCenter, float PlayerHypotenuse, bool Paus
 
 			if (TurnLeft)
 			{
-				P1.Angle++;
-				P2.Angle++;
-				P3.Angle++;
-				Center.Angle++;
+				Body.Rotate(true, 1);
+				//Center.Angle++;
 			}
 			else
 			{
-				P1.Angle--;
-				P2.Angle--;
-				P3.Angle--;
-				Center.Angle--;
+				Body.Rotate(false, -1);
+				//Center.Angle--;
 			}
 
 		}
 		else
-		{
-			Center.x += cosf(Center.Rotation) * Velocity * DeltaTime;
-			Center.y -= sinf(Center.Rotation) * Velocity * DeltaTime;
-		}
+			Body.MoveCenter(3, Velocity, DeltaTime);
 
-		Ray.Update(Velocity, &P3);
+		Ray.Update(Velocity, Body.getThirdPoint());
 
-		P1.Rotation = (P1.Angle * Rad);
-		P2.Rotation = (P2.Angle * Rad);
-		Center.Rotation = P3.Rotation = (Center.Angle * Rad);
+		Body.MoveEdges(true);
 
-		P3.x = Center.x + cosf(P3.Rotation) * OwnDimensions.Hypotenuse;
-		P3.y = Center.y - sinf(P3.Rotation) * OwnDimensions.Hypotenuse;
-		P2.x = Center.x + cosf(P2.Rotation) * OwnDimensions.Hypotenuse;
-		P2.y = Center.y - sinf(P2.Rotation) * OwnDimensions.Hypotenuse;
-		P1.x = Center.x + cosf(P1.Rotation) * OwnDimensions.Hypotenuse;
-		P1.y = Center.y - sinf(P1.Rotation) * OwnDimensions.Hypotenuse;
+		if (Body.getCenter()->x > Rend->getWindowWidth())
+			Body.ChangeCenterPosition(0, Body.getCenter()->y);
+		else if (Body.getCenter()->x < 0)
+			Body.ChangeCenterPosition((float)Rend->getWindowWidth(), Body.getCenter()->y);
 
-		if (Center.x > Rend->getWindowWidth())
-			Center.x = 0;
-		else if (Center.x < 0)
-			Center.x = (float)Rend->getWindowWidth();
-
-		if (Center.y > Rend->getWindowHeight())
-			Center.y = 0;
-		else if (Center.y < 0)
-			Center.y = (float)Rend->getWindowHeight();
+		if (Body.getCenter()->y > Rend->getWindowHeight())
+			Body.ChangeCenterPosition(Body.getCenter()->x, 0);
+		else if (Body.getCenter()->y < 0)
+			Body.ChangeCenterPosition(Body.getCenter()->x, (float)Rend->getWindowHeight());
 	}
 
-	Rend->DrawTriangle(&P1, &P2, &P3, 255, 0, 0, 255);
+	Rend->DrawTriangle(&Body, 255, 0, 0, 255);
 }
 
 void EnemyShip::setNewData(bool Left, bool _Active)
@@ -127,28 +105,19 @@ void EnemyShip::setNewData(bool Left, bool _Active)
 	wasPlayerUp = false;
 	wasPlayerLeft = false;
 
-	P3.y = Center.y = Rend->getWindowHeight() / 2.0f;
-
 	if (Left)
 	{
-		P1.x = P2.x = (float) - OwnDimensions.Height;
-		P3.x = 0;
-		P2.y = P3.y + HWidth;
-		P1.y = P3.y - HWidth;
-		Center.x = P3.x - HHeight;
+		Body.setPointData(0, Rend->getWindowHeight() / 2.0f, 0, 3);
+		Body.setPointData(-Body.getDimensions()->Height, Body.getThirdPoint()->y - HWidth, Body.getThirdPoint()->Angle + 225, 1);
+		Body.setPointData(-Body.getDimensions()->Height, Body.getThirdPoint()->y + HWidth, Body.getThirdPoint()->Angle + 135, 2);
+		Body.setPointData(Body.getThirdPoint()->x - HHeight, Body.getThirdPoint()->y, Body.getThirdPoint()->Angle, 4);
 	}
 	else
 	{
-		P1.x = P2.x = (float)Rend->getWindowWidth() + OwnDimensions.Height;
-		P3.x = (float)Rend->getWindowWidth();
-		P2.y = P3.y - HWidth;
-		P1.y = P3.y + HWidth;
-		Center.x = P3.x + HHeight;
-	}
 
-	P3.Angle = Center.Angle = 0;
-	P1.Angle = P3.Angle + 225;
-	P2.Angle = P3.Angle + 135;
-	
-	
+		Body.setPointData((float)Rend->getWindowWidth(), Rend->getWindowHeight() / 2.0f, 0, 3);
+		Body.setPointData((float)Rend->getWindowWidth() + Body.getDimensions()->Height, Body.getThirdPoint()->y + HWidth, Body.getThirdPoint()->Angle + 225, 1);
+		Body.setPointData((float)Rend->getWindowWidth() + Body.getDimensions()->Height, Body.getThirdPoint()->y + HWidth, Body.getThirdPoint()->Angle + 135, 2);
+		Body.setPointData(Body.getThirdPoint()->x + HHeight, Body.getThirdPoint()->y, Body.getThirdPoint()->Angle, 4);
+	}	
 }

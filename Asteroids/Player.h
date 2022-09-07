@@ -25,11 +25,6 @@ private:
 	CollisionSystem* CollisionDetector;
 
 	// NOTE(isaveg): Asteroid, Player, EnemyShip all use the collission system, what Object pattern reminds your? 
-	// NOTE(isaveg): Duplicated code
-	/*Position FirstPoint;
-	Position SecondPoint;
-	Position ThirdPoint;
-	Position Center;*/
 
 	Triangle Body;
 
@@ -47,5 +42,5 @@ private:
 	float DamageCooldown;
 	float Invincibility;
 
-	Laser* Lasers = new Laser[NLasers];
+	Laser* Lasers;
 };

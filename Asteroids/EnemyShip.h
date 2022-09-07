@@ -2,6 +2,7 @@
 
 #include "CommonFiles/CollisionSystem.h"
 #include "Raycaster.h"
+#include "CommonFiles/Triangle.h"
 
 class EnemyShip
 {
@@ -11,9 +12,9 @@ public:
 	~EnemyShip();
 
 	bool getActive() { return Active; }
-	Position* getCenter() { return &Center; }
-	Dimension* getDimensions() { return &OwnDimensions; }
-	float getHypotenuse() { return OwnDimensions.Hypotenuse; }
+	Position* getCenter() { return Body.getCenter(); }
+	Dimension* getDimensions() { return Body.getDimensions(); }
+	float getHypotenuse() { return Body.getDimensions()->Hypotenuse; }
 
 	void setActive(bool _Active) { Active = _Active; }
 	void setNewData(bool Left, bool _Active);
@@ -26,12 +27,9 @@ private:
 	
 	// NOTE(isaveg): Asteroid, Player, EnemyShip all use the collission system, what Object pattern reminds your? 
 	// NOTE(isaveg): Duplicated code
-	Position P1;
-	Position P2;
-	Position P3;
-	Position Center;
 
-	Dimension OwnDimensions;
+	Triangle Body;
+
 	int Velocity;
 
 	float HWidth;
