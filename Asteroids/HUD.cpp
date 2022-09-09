@@ -5,12 +5,12 @@
 #include <string>
 #include <iostream>
 using namespace std;
-int l;
 
 HUD::HUD(Renderer* _Rend)
 	:Rend(_Rend),
 	Pause(false),
-	Reset(false)
+	Reset(false), 
+	ite(0)
 {
 	INIReader ConFile("InitialData.ini");
 
@@ -59,12 +59,10 @@ HUD::HUD(Renderer* _Rend)
 	HWindowWidth = Rend->getWindowWidth() / 2.0f;
 	HWindowHeight = Rend->getWindowHeight() / 2.0f;
 
+	NText[0] = '\0';
+
 	InitialPosition();
 
-}
-
-HUD::~HUD()
-{
 }
 
 void HUD::Update(HUDData* Data)
@@ -72,7 +70,7 @@ void HUD::Update(HUDData* Data)
 
 	InitialPosition();
 
-	for(l = 0; l < Data->Lives; l++)
+	for(ite = 0; ite < Data->Lives; ite++)
 	{
 		LivesBody.setPointData(LivesBody.getFirstPoint()->x + LivesSeparation, LivesBody.getFirstPoint()->y, 0, 1);
 		LivesBody.setPointData(LivesBody.getSecondPoint()->x + LivesSeparation, LivesBody.getSecondPoint()->y, 0, 2);
@@ -131,8 +129,8 @@ void HUD::ChangeScore(int Score, int TextW, int TextH, float TextX, float TextY)
 void HUD::ResetHUD(bool _Reset)
 {
 	Reset = _Reset;
-	for (l = 0; l < strlen(NText); l++)
-		NText[l] = ' ';
+	for (ite = 0; ite < strlen(NText); ite++)
+		NText[ite] = ' ';
 }
 
 void HUD::FreeMemory()

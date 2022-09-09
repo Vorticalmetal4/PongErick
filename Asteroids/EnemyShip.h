@@ -6,10 +6,10 @@
 
 class EnemyShip
 {
-public: 
-	EnemyShip(void) = default;
+public:
+	EnemyShip() = default;
 	EnemyShip(class Renderer* _Rend);
-	~EnemyShip();
+	~EnemyShip() = default;
 
 	bool getActive() { return Active; }
 	Position* getCenter() { return Body.getCenter(); }
@@ -26,9 +26,10 @@ private:
 	Renderer* Rend;
 	
 	// NOTE(isaveg): Asteroid, Player, EnemyShip all use the collission system, what Object pattern reminds your? 
-	// NOTE(isaveg): Duplicated code
 
 	Triangle Body;
+	Position* BodyCenter;
+	Position* BodyThirdPoint;
 
 	int Velocity;
 

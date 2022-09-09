@@ -7,7 +7,7 @@ class Laser
 public:
 	Laser(void) = default;
 	Laser(class Renderer*  _Rend, CollisionSystem* _CollisionDetector);
-	~Laser();
+	~Laser() = default;
 
 	bool getActive() { return Active; }
 

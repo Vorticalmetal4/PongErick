@@ -18,7 +18,7 @@ public:
     int getWindowHeight() { return WindowHeight; }
     int getWindowWidth() { return WindowWidth; }
 
-    bool Initialize(string Name, int TLXCoordinate, int TPYCoordinate, int Width, int Height, int Flags, string FName);
+    bool Initialize(const string Name, int TLXCoordinate, int TPYCoordinate, int Width, int Height, int Flags, const string FName);
     bool CheckPause();
     bool CheckReset();
     void Shutdown();
@@ -40,6 +40,8 @@ public:
 
 
 private:
+
+    int i;
 
     bool mIsRunning;
 

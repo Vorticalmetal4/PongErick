@@ -1,12 +1,14 @@
+//This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
+
 #include "SDL2/include/SDL.h"  
 #include "SDL2/include/SDL_ttf.h" 
 #include "Renderer.h"
 #include "Triangle.h"
 #include <string>
 
-const float Pi = (float)3.141592;
-const float Rad = Pi / 180;
-int i;
+#include <corecrt_math_defines.h>
+const float Rad = (M_PI / 180);
 
 const Uint8* State = SDL_GetKeyboardState(NULL);
 TTF_Font* Font = nullptr;
@@ -27,10 +29,14 @@ Renderer::Renderer(void)
     HWidth(0),
     HHeight(0)
 {
-
+    for (i = 0; i < 360; i++)
+    {
+        X[i] = cosf(i * Rad);
+        Y[i] = sinf(i * Rad);
+    }
 }
 
-bool Renderer::Initialize(string Name, int TLXCoordinate, int TLYCoordinate, int Width, int Height, int Flags, string FName)
+bool Renderer::Initialize(const string Name, int TLXCoordinate, int TLYCoordinate, int Width, int Height, int Flags, const string FName)
 {
 
     int sdlResult = SDL_Init(SDL_INIT_VIDEO);
@@ -81,13 +87,6 @@ bool Renderer::Initialize(string Name, int TLXCoordinate, int TLYCoordinate, int
 
     mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     Font = TTF_OpenFont(FText, 25);
-
-
-    for (i = 0; i  < 360; i++)
-    {
-        X[i] = cosf(i * Rad);
-        Y[i] = sinf(i * Rad);
-    }
 
     return true;
 }

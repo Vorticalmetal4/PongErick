@@ -1,9 +1,10 @@
 #include "Raycaster.h"
 #include "CommonFiles/Renderer.h"
 
+#include <corecrt_math_defines.h>
+
 // NOTE(isaveg): What is this class for and how it is used
-const float Pi = (float)3.141592;
-const float Rad = Pi / 180;
+const float Rad = (float)(M_PI / 180);
 
 Raycaster::Raycaster(Renderer* _Rend)
 	:Rend(_Rend),
@@ -19,10 +20,6 @@ Raycaster::Raycaster(Renderer* _Rend)
 
 }
 
-Raycaster::~Raycaster()
-{
-}
-
 void Raycaster::Update(int Velocity, Position* ParentP)
 {
 	DeltaTime = Rend->getDeltaTime();
@@ -32,14 +29,14 @@ void Raycaster::Update(int Velocity, Position* ParentP)
 
 	Center.Rotation = ParentP->Rotation;
 
-	if(P1.x < Rend->getWindowWidth() / 2)
+	if (P1.x < Rend->getWindowWidth() / 2)
 		D = Rend->getWindowWidth() - P1.x;
-	else 
-		D = P1.x,
+	else
+		D = P1.x;
 
 	P1.x += cosf(Center.Rotation);
 	P1.y -= sinf(Center.Rotation);
-	P2.x += cosf(Center.Rotation) * D;
+	P2.x += cosf(Center.Rotation) * D;;
 	P2.y -= sinf(Center.Rotation) * D;
 	Center.x += cosf(Center.Rotation) * (D / 2.0f);
 	Center.y -= sinf(Center.Rotation) * (D / 2.0f);

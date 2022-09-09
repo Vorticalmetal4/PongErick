@@ -1,3 +1,6 @@
+//This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
+
 #include "Player.h"
 #include "Inih/cpp/INIReader.h"
 #include "CommonFiles/Renderer.h"
@@ -13,7 +16,9 @@ Player::Player(Renderer* _Rend, CollisionSystem* _CollisionDetector)
 	:Rend(_Rend),
 	CollisionDetector(_CollisionDetector),
 	Velocity(0),
-	CurrentCooldown(0)
+	CurrentCooldown(0),
+	DeltaTime(0),
+	Rotation(0)
 {
 	INIReader ConFile("InitialData.ini");
 
@@ -49,6 +54,8 @@ Player::Player(Renderer* _Rend, CollisionSystem* _CollisionDetector)
 
 Player::~Player()
 {
+	for (ite = 0; ite < NLasers; ite++)
+		Lasers[ite].~Laser();
 }
 
 void Player::Update(bool Pause)

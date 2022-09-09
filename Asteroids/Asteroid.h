@@ -13,7 +13,7 @@ class Asteroid
 public:
 	Asteroid(void) = default;
 	Asteroid(class Renderer* _Rend, float x, float y, float Angle);
-	~Asteroid();
+	~Asteroid() = default;
 
 	Position* getCenter() { return &Center; }
 	Position* getP1() { return &FirstPoint; }

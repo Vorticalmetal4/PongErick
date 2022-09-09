@@ -4,10 +4,7 @@
 
 CollisionSystem::CollisionSystem()
 {
-}
-
-CollisionSystem::~CollisionSystem()
-{
+	Aux.x = Aux.y = Aux.Angle =  Aux.Rotation = 0;
 }
 
 bool CollisionSystem::Square_Square(Position* Object1Pos, Position* Object2Pos, Dimension* Object1Dim, Dimension* Object2Dim)

@@ -7,7 +7,7 @@ class Raycaster
 public: 
 	Raycaster(void) = default;
 	Raycaster(class Renderer* _Rend);
-	~Raycaster();
+	~Raycaster() = default;
 
 	bool getActive() { return Active; }
 

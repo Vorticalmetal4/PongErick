@@ -20,7 +20,7 @@ class CollisionSystem
 {
 public:
     CollisionSystem();
-    ~CollisionSystem();
+    ~CollisionSystem() = default;
 
     bool Square_Square(Position* Object1Pos, Position* Objec2Pos, Dimension* Object1Dimensions, Dimension* Object2Dimensions);
     bool Circle_Circle(Position* Object1Pos, Position* Object2Pos, float Object1Hypotenuse, float Object2Hypotenuse);

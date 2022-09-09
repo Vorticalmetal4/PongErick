@@ -3,11 +3,11 @@
 #include "CommonFiles/Renderer.h"
 #include "Inih/cpp/INIReader.h"
 
+#include <corecrt_math_defines.h>
 #include <cmath>
 #include <iostream>
 
-const float Pi = (float)3.141592;
-const float Rad = Pi / 180;
+const float Rad = (float)(M_PI / 180);
 
 Asteroid::Asteroid(Renderer* _Rend, float x, float y, float Angle)
 	:Rend(_Rend),
@@ -28,10 +28,6 @@ Asteroid::Asteroid(Renderer* _Rend, float x, float y, float Angle)
 
 	UpdateData(x, y, Angle);
 
-}
-
-Asteroid::~Asteroid()
-{
 }
 
 void Asteroid::setBigAsteroid(float _Width, float _Height, float x, float y, int _Velocity)

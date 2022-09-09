@@ -15,8 +15,9 @@ struct HUDData
 class HUD
 {
 public:
+	HUD() =  default;
 	HUD(Renderer* _Rend);
-	~HUD();
+	~HUD() = default;
 
 	bool getPause() { return Pause; }
 	bool getReset() { return Reset; }
@@ -30,10 +31,8 @@ private:
 	Renderer* Rend;
 
 	Triangle LivesBody;
-	
-	HUDData Data;
-	
-	int Lives;
+
+	int ite;
 	int LivesSeparation;
 
 	float LivesInitialX;

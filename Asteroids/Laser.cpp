@@ -4,10 +4,10 @@
 #include "Inih/cpp/INIReader.h"
 #include "EnemyShip.h"
 
+#include <corecrt_math_defines.h>
 #include <cmath>
 
-const float Pi = (float)3.141592;
-const float Rad = Pi / 180;
+const float Rad = (float)(M_PI / 180);
 
 Laser::Laser(Renderer* _Rend, CollisionSystem* _CollisionDetector)
 	:Active(false),
@@ -33,10 +33,6 @@ Laser::Laser(Renderer* _Rend, CollisionSystem* _CollisionDetector)
 	P1.x = P2.x = P3.x = P4.x = 0;
 	P1.y = P2.y = P3.y = P4.y = 0;
 	
-}
-
-Laser::~Laser()
-{
 }
 
 void Laser::Update(bool Pause)

@@ -7,6 +7,7 @@
 class Player
 {
 public:
+	Player() = default;
 	Player(class Renderer* _Rend, CollisionSystem* _CollisionDetector);
 	~Player();
 
