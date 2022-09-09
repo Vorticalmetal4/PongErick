@@ -81,7 +81,7 @@ void Asteroid::Update(bool Pause)
 		}
 
 	}
-		Rend->DrawSimpleRect(&FirstPoint, &OwnDimensions, 255, 0, 0, 255);
+		Rend->DrawEmptyRect(&FirstPoint, &OwnDimensions, 255, 0, 0, 255);
 }
 
 void Asteroid::setNewData(Position* Pos, int ParentSize, Dimension* NewDimensions, bool NewAsteroid, int ParentVelocity)

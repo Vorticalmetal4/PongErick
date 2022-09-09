@@ -158,6 +158,20 @@ void Renderer::DrawSimpleRect(Position* ActualPosition, Dimension* Dimensions, i
 
 }
 
+void Renderer::DrawEmptyRect(Position* ActualPosition, Dimension* Dimensions, int r, int g, int b, int alpha)
+{
+    Aux1.x = Aux3.x = ActualPosition->x + Dimensions->Width;
+    Aux1.y = ActualPosition->y;
+    Aux2.x = ActualPosition->x;
+    Aux2.y = Aux3.y = ActualPosition->y + Dimensions->Height;
+
+    DrawLine(ActualPosition, &Aux1, r , g, b, alpha);
+    DrawLine(ActualPosition, &Aux2, r , g, b, alpha);
+    DrawLine( &Aux2 , &Aux3, r , g, b, alpha);
+    DrawLine(&Aux3, &Aux1, r , g, b, alpha);
+
+}
+
 void Renderer::Write(char* NText, int TextW, int TextH, float TextX, float TextY)
 {
     TextSurface = TTF_RenderText_Solid(Font, NText, { 255, 255, 255, 255 });
@@ -284,4 +298,5 @@ void Renderer::DrawCircle(Position* Center, float Radius, int r, int g, int b, i
     SDL_SetRenderDrawColor(mRenderer, r, g, b, alpha);
     for (i = 0; i < 360; i++)
         SDL_RenderDrawLineF(mRenderer, Center->x, Center->y, Center->x + X[i] * Radius, Center->y - Y[i] * Radius);
+
 }
