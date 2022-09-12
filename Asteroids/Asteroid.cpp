@@ -2,6 +2,7 @@
 #include "Asteroid.h"
 #include "CommonFiles/Renderer.h"
 #include "Inih/cpp/INIReader.h"
+#include "ClockHand.h"
 
 #include <corecrt_math_defines.h>
 #include <cmath>
@@ -25,9 +26,13 @@ Asteroid::Asteroid(Renderer* _Rend, float x, float y, float Angle)
 	OwnDimensions.Height = (float)ConFile.GetInteger("Asteroid", "Height", 1);
 	Velocity = ConFile.GetInteger("Asteroid", "Velocity", 0);
 	SpeedIncrease = ConFile.GetInteger("Asteroid", "SpeedIncrease", 0);
+	ClockHandsNumber = ConFile.GetInteger("Asteroid", "ClockHandsNumber", 3);
 
 	UpdateData(x, y, Angle);
 
+	ClockHands = new ClockHand[ClockHandsNumber];
+	for (i = 0; i < ClockHandsNumber; i++)
+		ClockHands[i] = ClockHand(i, (OwnDimensions.Hypotenuse / 4.0f) * (i + 1), Rend);
 }
 
 void Asteroid::setBigAsteroid(float _Width, float _Height, float x, float y, int _Velocity)
@@ -36,17 +41,24 @@ void Asteroid::setBigAsteroid(float _Width, float _Height, float x, float y, int
 	Size = 0;
 	OwnDimensions.Width = _Width;
 	OwnDimensions.Height = _Height;
+	HWidth = OwnDimensions.Width / 2.0f;
+	HHeight = OwnDimensions.Height / 2.0f;
 	FirstPoint.x = x;
 	FirstPoint.y = y;
 	LastObjectHitted = -1;
 	Velocity = _Velocity;
 	P1.x = cosf(FirstPoint.Rotation) * Velocity;
 	P1.y = -sinf(FirstPoint.Rotation) * Velocity;
+	Center.x = FirstPoint.x + HWidth;
+	Center.y = FirstPoint.y + HHeight;
 		
 	OwnDimensions.Hypotenuse = sqrtf(powf(OwnDimensions.Width / 2.0f, 2) + powf(OwnDimensions.Height / 2.0f, 2));
+
+	for(i =  0; i < ClockHandsNumber; i++)
+		ClockHands[i].setSize((OwnDimensions.Hypotenuse / 4.0f) * (i + 1));
 }
 
-void Asteroid::Update(bool Pause)
+void Asteroid::Update(bool Pause, tm* CurrentTime)
 {
 	if (!Pause)
 	{
@@ -81,7 +93,12 @@ void Asteroid::Update(bool Pause)
 		}
 
 	}
-		Rend->DrawEmptyRect(&FirstPoint, &OwnDimensions, 255, 0, 0, 255);
+
+	Rend->DrawEmptyRect(&FirstPoint, &OwnDimensions, 255, 0, 0, 255);
+
+	for (i = 0; i <  ClockHandsNumber; i++)
+		ClockHands[i].Update(Pause, CurrentTime, &Center);
+
 }
 
 void Asteroid::setNewData(Position* Pos, int ParentSize, Dimension* NewDimensions, bool NewAsteroid, int ParentVelocity)
@@ -95,6 +112,9 @@ void Asteroid::setNewData(Position* Pos, int ParentSize, Dimension* NewDimension
 		UpdateData(Pos->x + OwnDimensions.Width, Pos->y - OwnDimensions.Height, Pos->Angle);
 	else
 		UpdateData(Pos->x - OwnDimensions.Width, Pos->y - OwnDimensions.Height, 360 - Pos->Angle);
+
+	for (i = 0; i < ClockHandsNumber; i++)
+		ClockHands[i].setSize((OwnDimensions.Hypotenuse / 4.0f) * (i + 1));
 }
 
 void Asteroid::UpdateData(float x, float y, float Angle)

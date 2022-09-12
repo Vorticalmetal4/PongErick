@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CommonFiles/CollisionSystem.h"
+#include <ctime>
 
 struct AuxPosition
 {
@@ -32,7 +33,7 @@ public:
 
 	void ChangeDirection(int ObjectNumber);
 	
-	void Update(bool Pause);
+	void Update(bool Pause, tm* CurrentTime);
 	void UpdateData(float x, float y, float Angle);
 
 private:
@@ -49,6 +50,8 @@ private:
 	int Size;
 	int LastObjectHitted;
 	int SpeedIncrease;
+	int i;
+	int ClockHandsNumber;
 
 	bool Active;
 
@@ -57,4 +60,6 @@ private:
 	float DeltaTime;
 	float HWidth;
 	float HHeight;
+
+	class ClockHand* ClockHands;
 };

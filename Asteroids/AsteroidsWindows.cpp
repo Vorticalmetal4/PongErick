@@ -8,6 +8,10 @@
 
 #include <stdlib.h>
 #include <time.h>
+#include <ctime>
+#include <iostream>
+using namespace std;
+
 
 int main()
 { 
@@ -23,6 +27,13 @@ int main()
     int AsteroidsMaxSize = ConFile.GetInteger("Asteroid", "MaxSize", 3);
     bool ResetAsteroids = false;
     bool ResetGame = false;
+
+    /*auto Start = std::chrono::system_clock::now();
+    auto Current = std::chrono::system_clock::now();
+    std::chrono::duration<float>CurrentSeconds = Current - Start;*/
+
+    time_t CurrentTime;
+    struct tm CurrentTimeStruct;
 
     Renderer Rend;
     HUDData GameData;
@@ -97,11 +108,17 @@ int main()
             Pause = MainHUD.getPause();
             ResetGame = MainHUD.getReset();
 
+            /*Current = std::chrono::system_clock::now();
+            std::chrono::duration<float>CurrentSeconds = Current - Start;*/
+
+            time(&CurrentTime);
+            localtime_s(&CurrentTimeStruct, &CurrentTime);
+
             for(i = 0; i < TotalAsteroids; i++)
             {
                 if(Asteroids[i].getActive())
                 {
-                    Asteroids[i].Update(Pause);
+                    Asteroids[i].Update(Pause, &CurrentTimeStruct);
 
                     if (!Pause)
                     {
