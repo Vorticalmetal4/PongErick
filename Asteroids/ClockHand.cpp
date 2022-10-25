@@ -51,7 +51,7 @@ void ClockHand::Update(bool Pause, tm* CurrentTime, Position* SquareCenter)
 		{
 			case Hours:
 				if (CurrentTime->tm_hour <= 12)
-					End.Angle = CurrentTime->tm_hour * Multiplier;
+					End.Angle = CurrentTime->tm_hour * Multiplier - 90;
 				else
 					End.Angle = (CurrentTime->tm_hour - 12) * Multiplier - 90;
 			break;

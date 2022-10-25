@@ -33,8 +33,8 @@ private:
 	Renderer* Rend;
 	Position End;
 	float Size;
+	float Multiplier;
 	ClockHandType Type;
-	int Multiplier;
 	Color LineColor;
 	
 };

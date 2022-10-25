@@ -1,5 +1,3 @@
-//This is an open source non-commercial project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 
 #include "SDL2/include/SDL.h"  
 #include "SDL2/include/SDL_ttf.h" 
@@ -8,7 +6,7 @@
 #include <string>
 
 #include <corecrt_math_defines.h>
-const float Rad = (M_PI / 180);
+const float Rad = (float)(M_PI / 180);
 
 const Uint8* State = SDL_GetKeyboardState(NULL);
 TTF_Font* Font = nullptr;
