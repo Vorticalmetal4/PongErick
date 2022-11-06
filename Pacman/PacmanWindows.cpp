@@ -42,6 +42,8 @@ int main()
 
             MainMap.Draw();
 
+            MainPlayer.UpdateSection();
+
             switch (MainPlayer.getSection())
             {
             case 1:

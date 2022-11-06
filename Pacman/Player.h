@@ -12,6 +12,7 @@ public:
 	Position* getCenter() { return &Center; }
 
 	void Update(class Wall* Walls, int NWalls);
+	void UpdateSection();
 
 private:
 	Position Center;
@@ -36,5 +37,4 @@ private:
 	float HorizontalSectionsLine;
 
 	void AdjustMouthAngles();
-	void UpdateSection();
 };

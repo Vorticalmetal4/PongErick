@@ -44,5 +44,5 @@ Wall::~Wall()
 
 void Wall::Draw()
 {
-	Rend->DrawSimpleRect(P1.x, P1.y, OwnDimensions.Width, OwnDimensions.Height, WallColor.r, WallColor.g, WallColor.b, WallColor.alpha);
+	Rend->DrawSimpleRect(&P1, &OwnDimensions, WallColor.r, WallColor.g, WallColor.b, WallColor.alpha);
 }
