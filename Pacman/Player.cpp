@@ -22,7 +22,7 @@ Player::Player(Renderer* _Rend, CollisionSystem* _CollisionDetector, float _Vert
 	INIReader ConFile("InitialData.ini");
 
 	if (ConFile.ParseError() < 0)
-		ConFile.PrintError("AsteroidsWindow");
+		ConFile.PrintError("Player: ConFile Failed");
 
 	Center.x = (float)ConFile.GetInteger("Player", "InitialPositionX", 10);
 	Center.y = (float)ConFile.GetInteger("Player", "InitialPositionY", 10);
@@ -65,22 +65,18 @@ void Player::Update(Wall* Walls, int NWalls)
 	{
 		case 'R':
 			Center.Angle = 0;
-			Center.x += Speed * DeltaTime;
 		break;
 
 		case 'L':
 			Center.Angle = 180;
-			Center.x -= Speed * DeltaTime;
 		break;
 
 		case 'U':
 			Center.Angle = 90;
-			Center.y -= Speed * DeltaTime;
 		break;
 
 		case 'D':
 			Center.Angle = 270;
-			Center.y += Speed * DeltaTime;
 		break;
 
 		default:
@@ -88,6 +84,15 @@ void Player::Update(Wall* Walls, int NWalls)
 		break;
 	}
 		
+	if(Center.Angle == 0)
+		Center.x += Speed * DeltaTime;
+	else if(Center.Angle == 90)
+		Center.y -= Speed * DeltaTime;
+	else if(Center.Angle == 180)
+		Center.x -= Speed * DeltaTime;
+	else
+		Center.y += Speed * DeltaTime;
+
 	for (it = 0; it < NWalls; it++)
 	{
 		if (CollisionDetector.Circle_Square(&Center, Walls[it].getPosition(), Radius, Walls[it].getDimension()))

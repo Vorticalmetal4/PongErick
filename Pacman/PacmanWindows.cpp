@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Wall.h"
 #include "Map.h"
+#include "Ghost.h"
 
 #include "Inih/cpp/INIReader.h"
 
@@ -30,7 +31,8 @@ int main()
     Map MainMap(&Rend);
 
     CollisionSystem CollisionDetector;
-    Player MainPlayer(&Rend, &CollisionDetector, MainMap.getMapHeight() + ConFile.GetInteger("Map", "ScoreSpace", 20), MainMap.getMapWidth());
+    Player Pacman(&Rend, &CollisionDetector, MainMap.getMapHeight() + ConFile.GetInteger("Map", "ScoreSpace", 20), MainMap.getMapWidth());
+    Ghost Blinky(&Rend, &CollisionDetector, 0,&Pacman);
 
     if (success)
     {
@@ -42,26 +44,28 @@ int main()
 
             MainMap.Draw();
 
-            MainPlayer.UpdateSection();
+            Pacman.UpdateSection();
 
-            switch (MainPlayer.getSection())
+            switch (Pacman.getSection())
             {
             case 1:
-                MainPlayer.Update(MainMap.getFirstSectionWalls(), MainMap.getFirstSectionWallsSize());
+                Pacman.Update(MainMap.getFirstSectionWalls(), MainMap.getFirstSectionWallsSize());
                 break;
 
             case 2:
-                MainPlayer.Update(MainMap.getSecondSectionWalls(), MainMap.getSecondSectionWallsSize());
+                Pacman.Update(MainMap.getSecondSectionWalls(), MainMap.getSecondSectionWallsSize());
                 break;
 
             case 3:
-                MainPlayer.Update(MainMap.getThirdSectionWalls(), MainMap.getThirdSectionWallsSize());
+                Pacman.Update(MainMap.getThirdSectionWalls(), MainMap.getThirdSectionWallsSize());
                 break;
 
             case 4:
-                MainPlayer.Update(MainMap.getFourthSectionWalls(), MainMap.getFourthSectionWallsSize());
+                Pacman.Update(MainMap.getFourthSectionWalls(), MainMap.getFourthSectionWallsSize());
                 break;
             }
+
+            Blinky.Update();
 
             Rend.GenerateOutput();
         }
