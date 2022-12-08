@@ -31,7 +31,7 @@ int main()
     Map MainMap(&Rend);
 
     CollisionSystem CollisionDetector;
-    Player Pacman(&Rend, &CollisionDetector, MainMap.getMapHeight() + ConFile.GetInteger("Map", "ScoreSpace", 20), MainMap.getMapWidth());
+    Player Pacman(&Rend, &CollisionDetector, &MainMap);
     Ghost Blinky(&Rend, &CollisionDetector, 0,&Pacman);
 
     if (success)
@@ -44,28 +44,10 @@ int main()
 
             MainMap.Draw();
 
-            Pacman.UpdateSection();
-
-            switch (Pacman.getSection())
-            {
-            case 1:
-                Pacman.Update(MainMap.getFirstSectionWalls(), MainMap.getFirstSectionWallsSize());
-                break;
-
-            case 2:
-                Pacman.Update(MainMap.getSecondSectionWalls(), MainMap.getSecondSectionWallsSize());
-                break;
-
-            case 3:
-                Pacman.Update(MainMap.getThirdSectionWalls(), MainMap.getThirdSectionWallsSize());
-                break;
-
-            case 4:
-                Pacman.Update(MainMap.getFourthSectionWalls(), MainMap.getFourthSectionWallsSize());
-                break;
-            }
+            Pacman.Update();
 
             Blinky.Update();
+
 
             Rend.GenerateOutput();
         }

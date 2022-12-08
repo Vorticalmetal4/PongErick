@@ -93,18 +93,18 @@ void Ghost::Update()
 void Ghost::SearchPath(Position* Goal)
 {
 	//Check Up
-	AuxPosition.x = FirstPoint.x;
-	AuxPosition.y = (FirstPoint.y - Speed * DeltaTime) + HHeight;
+	AuxPosition.x = FirstPoint.x + HWidth;
+	AuxPosition.y = (FirstPoint.y + Speed * DeltaTime) + HHeight;
 	if (CalculateDistance(false))
 		CurrentDirection = EDirection::Up;
 
 	//Check Down
-	AuxPosition.y = (FirstPoint.y + Speed * DeltaTime) + HHeight;
+	AuxPosition.y = (FirstPoint.y - Speed * DeltaTime) + HHeight;
 	if (CalculateDistance(false))
 		CurrentDirection = EDirection::Down;
 
 	//Check Left
-	AuxPosition.y = FirstPoint.y;
+	AuxPosition.y = FirstPoint.y + HHeight;
 	AuxPosition.x = (FirstPoint.x - Speed * DeltaTime) + HWidth;
 	if (CalculateDistance(false))
 		CurrentDirection = EDirection::Left;
@@ -112,7 +112,7 @@ void Ghost::SearchPath(Position* Goal)
 	//CheckRight
 	AuxPosition.x = (FirstPoint.x + Speed * DeltaTime) + HWidth;
 	if (CalculateDistance(false))
-		CurrentDirection = EDirection::Left;
+		CurrentDirection = EDirection::Right;
 
 	switch (CurrentDirection)
 	{
@@ -151,6 +151,8 @@ bool Ghost::CalculateDistance(bool isInitialDistance)
 			CurrentDistance = AuxDistance;
 			return true;
 		}
+
+		return false;
 	}
 
 }

@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "CommonFiles/Renderer.h"
 #include "Wall.h"
+#include "Map.h"
 
 #include "Inih/cpp/INIReader.h"
 
@@ -11,13 +12,13 @@ const float Pi = (float)3.141592;
 const float Rad = Pi / 180;
 int it;
 
-Player::Player(Renderer* _Rend, CollisionSystem* _CollisionDetector, float _VerticalSectionsLine, float _HorizontalSectionsLine)
+Player::Player(Renderer* _Rend, CollisionSystem* _CollisionDetector, Map* _LevelMap)
 	:Rend(_Rend),
+	CollisionDetector(_CollisionDetector),
 	DeltaTime(0.0f),
 	MouthIncrement(-1),
 	Section(3),
-	VerticalSectionsLine(_VerticalSectionsLine),
-	HorizontalSectionsLine(_HorizontalSectionsLine)
+	LevelMap(_LevelMap)
 {
 	INIReader ConFile("InitialData.ini");
 
@@ -34,6 +35,9 @@ Player::Player(Renderer* _Rend, CollisionSystem* _CollisionDetector, float _Vert
 	ActualMouthSize = (float)MouthSize;
 	MouthSpeed = ConFile.GetInteger("Player", "MouthSpeed", 200);
 
+	VerticalSectionsLine = LevelMap->getMapWidth();
+	HorizontalSectionsLine = LevelMap->getMapHeight() + ConFile.GetInteger("Map", "ScoreSpace", 20);
+
 	AdjustMouthAngles();
 }
 
@@ -43,10 +47,13 @@ Player::~Player()
 
 }
 
-void Player::Update(Wall* Walls, int NWalls)
+void Player::Update()
 {
 
 	DeltaTime = Rend->getDeltaTime();
+
+	UpdateSection();
+	ObtainSectionWalls();
 
 	if (Center.x < 0)
 		Center.x = (float)Rend->getWindowHeight();
@@ -93,9 +100,9 @@ void Player::Update(Wall* Walls, int NWalls)
 	else
 		Center.y += Speed * DeltaTime;
 
-	for (it = 0; it < NWalls; it++)
+	for (it = 0; it < SectionNWalls; it++)
 	{
-		if (CollisionDetector.Circle_Square(&Center, Walls[it].getPosition(), Radius, Walls[it].getDimension()))
+		if (CollisionDetector->Circle_Square(&Center, Walls[it].getPosition(), Radius, Walls[it].getDimension()))
 		{
 			Center = AuxPos;
 			break;
@@ -140,3 +147,29 @@ void Player::UpdateSection()
 	}
 }
 
+void Player::ObtainSectionWalls()
+{
+	switch (Section)
+	{
+		case 1:
+			Walls = LevelMap->getFirstSectionWalls();
+			SectionNWalls = LevelMap->getFirstSectionWallsSize();
+		break;
+
+		case 2:
+			Walls = LevelMap->getSecondSectionWalls();
+			SectionNWalls = LevelMap->getSecondSectionWallsSize();
+		break;
+
+		case 3:
+			Walls = LevelMap->getThirdSectionWalls();
+			SectionNWalls = LevelMap->getThirdSectionWallsSize();
+		break;
+
+		case 4:
+			Walls = LevelMap->getFourthSectionWalls();
+			SectionNWalls = LevelMap->getFourthSectionWallsSize();
+		break;
+	}
+
+}
