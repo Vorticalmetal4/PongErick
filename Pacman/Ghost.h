@@ -29,24 +29,32 @@ struct ColorStruct
 class Ghost
 {
 public:
-	Ghost(class Renderer* _Rend, CollisionSystem* _CollisionDetector, int Number, class Player* _Pacman);
+	Ghost(class Renderer* _Rend, CollisionSystem* _CollisionDetector, int Number, class Player* _Pacman, class Map* _LevelMap);
 	~Ghost();
 
 	void Update();
 private:
 	Position FirstPoint;
 	Position AuxPosition;
+	Position Center;
 	Position* PlayerCurrentPosition;
 	Dimension OwnDimensions;
 
 	Renderer* Rend;
 	CollisionSystem* CollisionDetector;
 	Player* Pacman;
+	Map* LevelMap;
+	class Wall* Walls;
 
 	ColorStruct Color;
 	EGhostType Type;
 	EDirection CurrentDirection;
 
+	int SectionWallsNumber;
+	int Section;
+
+	float VerticalSectionsLine;
+	float HorizontalSectionsLine;
 	float Speed;
 	float DeltaTime;
 	float HHeight;
@@ -55,5 +63,7 @@ private:
 	float AuxDistance;
 
 	void SearchPath(Position* Goal);
+	void ObtainSectionWalls();
+	void UpdateSection();
 	bool CalculateDistance(bool isInitalDistance);
 };

@@ -3,6 +3,8 @@
 #include "Wall.h"
 #include "Inih/cpp/INIReader.h"
 
+#include <iostream>
+
 Map::Map(Renderer* _Rend)
     :Rend(_Rend),
     i(0)
@@ -11,7 +13,7 @@ Map::Map(Renderer* _Rend)
     INIReader ConFile("InitialData.ini");
 
     if (ConFile.ParseError() < 0)
-        ConFile.PrintError("AsteroidsWindow");
+        ConFile.PrintError("Map: ConFile Failed");
 
     float CorridorSize = (float)ConFile.GetInteger("Wall", "CorridorSize", 24);
     float ScoreSpace = (float)ConFile.GetInteger("Map", "ScoreSpace", 20);
@@ -110,7 +112,7 @@ Map::Map(Renderer* _Rend)
     FourthSectionWalls[17] = Wall(Rend, SecondSectionWalls[15].getPosition()->x, SecondSectionWalls[15].getPosition()->y + SecondSectionWalls[15].getDimension()->Height, Thickness, SecondSectionWalls[15].getDimension()->Height); //Ghost's house wall  
 
     MapHeight = FirstSectionWalls[0].getDimension()->Height + FirstSectionWalls[2].getDimension()->Height + FirstSectionWalls[7].getDimension()->Height + CorridorSize / 2.0f;
-    MapWidth = FourthSectionWalls[4].getDimension()->Width;
+    MapWidth = ConFile.GetInteger("Window", "Width", 0);
 
 }
 
@@ -127,4 +129,27 @@ void Map::Draw()
 
     for (i = 0; i < FourthSectionWallsSize; i++)
         FourthSectionWalls[i].Draw();
+
+    INIReader ConFile("InitialData.ini");
+
+    if (ConFile.ParseError() < 0)
+        ConFile.PrintError("Map: ConFile Failed");
+
+    Position P1;
+    Position P2;
+    P1.x = 0;
+    P1.y = P2.y = MapHeight + ConFile.GetInteger("Map", "ScoreSpace", 20);
+    //std::cout << "P1.y = " << P1.y << std::endl;
+    P2.x = MapWidth;
+
+    Rend->DrawLine(&P1, &P2, 255, 0, 0, 255);    
+    
+    Position P3;
+    Position P4;
+    P3.x = P4.x = MapWidth / 2.0f;
+    //std::cout << "P3.x = " << P3.x << std::endl;
+    P3.y = 0;
+    P4.y = P1.y * 2;
+
+    Rend->DrawLine(&P3, &P4, 0, 255, 0, 255);
 }

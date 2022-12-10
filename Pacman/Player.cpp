@@ -35,8 +35,11 @@ Player::Player(Renderer* _Rend, CollisionSystem* _CollisionDetector, Map* _Level
 	ActualMouthSize = (float)MouthSize;
 	MouthSpeed = ConFile.GetInteger("Player", "MouthSpeed", 200);
 
-	VerticalSectionsLine = LevelMap->getMapWidth();
-	HorizontalSectionsLine = LevelMap->getMapHeight() + ConFile.GetInteger("Map", "ScoreSpace", 20);
+	VerticalSectionsLine = LevelMap->getMapWidth() / 2.0f;
+	HorizontalSectionsLine = (LevelMap->getMapHeight() + ConFile.GetInteger("Map", "ScoreSpace", 20));
+
+	/*std::cout << HorizontalSectionsLine << std::endl;
+	std::cout << VerticalSectionsLine << std::endl;*/
 
 	AdjustMouthAngles();
 }
@@ -54,6 +57,7 @@ void Player::Update()
 
 	UpdateSection();
 	ObtainSectionWalls();
+	std::cout << Section << std::endl;
 
 	if (Center.x < 0)
 		Center.x = (float)Rend->getWindowHeight();
@@ -131,16 +135,16 @@ void Player::AdjustMouthAngles()
 
 void Player::UpdateSection()
 {
-	if (Center.x < HorizontalSectionsLine)
+	if (Center.x < VerticalSectionsLine)
 	{
-		if (Center.y < VerticalSectionsLine)
+		if (Center.y < HorizontalSectionsLine)
 			Section = 1;
 		else
 			Section = 3;
 	}
 	else
 	{
-		if (Center.y < VerticalSectionsLine)
+		if (Center.y < HorizontalSectionsLine)
 			Section = 2;
 		else
 			Section = 4;

@@ -1,14 +1,17 @@
 #include "CommonFiles/Renderer.h"
 #include "Inih/cpp/INIReader.h"
 #include "Player.h"
+#include "Map.h"
+#include "Wall.h"
 #include "Ghost.h"
 
 #include <iostream>
 
-Ghost::Ghost(Renderer* _Rend, CollisionSystem* _CollisionDetector, int Number, Player* _Pacman)
+Ghost::Ghost(Renderer* _Rend, CollisionSystem* _CollisionDetector, int Number, Player* _Pacman, Map* _LevelMap)
 	:Rend(_Rend),
 	Pacman(_Pacman),
 	CollisionDetector(_CollisionDetector),
+	LevelMap(_LevelMap),
 	PlayerCurrentPosition(nullptr),
 	AuxDistance(0)
 {
@@ -55,6 +58,9 @@ Ghost::Ghost(Renderer* _Rend, CollisionSystem* _CollisionDetector, int Number, P
 	Speed = (float)ConFile.GetInteger("Ghost", "Speed", 0);
 	HWidth = OwnDimensions.Width / 2.0f;
 	HHeight = OwnDimensions.Height / 2.0f;
+
+	VerticalSectionsLine = LevelMap->getMapWidth();
+	HorizontalSectionsLine = LevelMap->getMapHeight() + ConFile.GetInteger("Map", "ScoreSpace", 20);
 }
 
 Ghost::~Ghost()
@@ -66,7 +72,13 @@ void Ghost::Update()
 {
 	DeltaTime = Rend->getDeltaTime();
 	PlayerCurrentPosition = Pacman->getCenter();
+	Center.x = FirstPoint.x + HWidth;
+	Center.y = FirstPoint.y + HHeight;
+
+	UpdateSection();
+	ObtainSectionWalls();
 	CalculateDistance(true);
+	//std::cout << Section << std::endl;
 
 	switch (Type)
 	{
@@ -93,24 +105,24 @@ void Ghost::Update()
 void Ghost::SearchPath(Position* Goal)
 {
 	//Check Up
-	AuxPosition.x = FirstPoint.x + HWidth;
-	AuxPosition.y = (FirstPoint.y + Speed * DeltaTime) + HHeight;
+	AuxPosition.x = Center.x;
+	AuxPosition.y = Center.y + Speed * DeltaTime;
 	if (CalculateDistance(false))
 		CurrentDirection = EDirection::Up;
 
 	//Check Down
-	AuxPosition.y = (FirstPoint.y - Speed * DeltaTime) + HHeight;
+	AuxPosition.y = Center.y - Speed * DeltaTime;
 	if (CalculateDistance(false))
 		CurrentDirection = EDirection::Down;
 
 	//Check Left
-	AuxPosition.y = FirstPoint.y + HHeight;
-	AuxPosition.x = (FirstPoint.x - Speed * DeltaTime) + HWidth;
+	AuxPosition.y = Center.y;
+	AuxPosition.x = Center.x - Speed * DeltaTime;
 	if (CalculateDistance(false))
 		CurrentDirection = EDirection::Left;
 
 	//CheckRight
-	AuxPosition.x = (FirstPoint.x + Speed * DeltaTime) + HWidth;
+	AuxPosition.x = Center.x + Speed * DeltaTime;
 	if (CalculateDistance(false))
 		CurrentDirection = EDirection::Right;
 
@@ -153,6 +165,52 @@ bool Ghost::CalculateDistance(bool isInitialDistance)
 		}
 
 		return false;
+	}
+
+}
+
+void Ghost::UpdateSection()
+{
+	if (Center.x < VerticalSectionsLine)
+	{
+		if (Center.y < HorizontalSectionsLine)
+			Section = 1;
+		else
+			Section = 3;
+	}
+	else
+	{
+		if (Center.y < HorizontalSectionsLine)
+			Section = 2;
+		else
+			Section = 4;
+	}
+}
+
+
+void Ghost::ObtainSectionWalls()
+{
+	switch (Section)
+	{
+	case 1:
+		Walls = LevelMap->getFirstSectionWalls();
+		SectionWallsNumber = LevelMap->getFirstSectionWallsSize();
+		break;
+
+	case 2:
+		Walls = LevelMap->getSecondSectionWalls();
+		SectionWallsNumber = LevelMap->getSecondSectionWallsSize();
+		break;
+
+	case 3:
+		Walls = LevelMap->getThirdSectionWalls();
+		SectionWallsNumber = LevelMap->getThirdSectionWallsSize();
+		break;
+
+	case 4:
+		Walls = LevelMap->getFourthSectionWalls();
+		SectionWallsNumber = LevelMap->getFourthSectionWallsSize();
+		break;
 	}
 
 }

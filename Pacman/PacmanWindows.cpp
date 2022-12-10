@@ -28,11 +28,11 @@ int main()
         ConFile.GetInteger("Window", "Flags", 0),
         ConFile.GetString("Window", "Font", "Error"));
 
-    Map MainMap(&Rend);
+    Map LevelMap(&Rend);
 
     CollisionSystem CollisionDetector;
-    Player Pacman(&Rend, &CollisionDetector, &MainMap);
-    Ghost Blinky(&Rend, &CollisionDetector, 0,&Pacman);
+    Player Pacman(&Rend, &CollisionDetector, &LevelMap);
+    Ghost Blinky(&Rend, &CollisionDetector, 0,&Pacman, &LevelMap);
 
     if (success)
     {
@@ -42,7 +42,7 @@ int main()
             Rend.UpdateGame();
             Rend.ClearRender();
 
-            MainMap.Draw();
+            LevelMap.Draw();
 
             Pacman.Update();
 
