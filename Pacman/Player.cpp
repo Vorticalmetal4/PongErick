@@ -57,7 +57,6 @@ void Player::Update()
 
 	UpdateSection();
 	ObtainSectionWalls();
-	std::cout << Section << std::endl;
 
 	if (Center.x < 0)
 		Center.x = (float)Rend->getWindowHeight();

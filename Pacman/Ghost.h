@@ -36,6 +36,7 @@ public:
 private:
 	Position FirstPoint;
 	Position AuxPosition;
+	Position AuxPosition2;
 	Position Center;
 	Position* PlayerCurrentPosition;
 	Dimension OwnDimensions;
@@ -52,6 +53,7 @@ private:
 
 	int SectionWallsNumber;
 	int Section;
+	int i;
 
 	float VerticalSectionsLine;
 	float HorizontalSectionsLine;
@@ -61,9 +63,13 @@ private:
 	float HWidth;
 	float CurrentDistance;
 	float AuxDistance;
+	float MovementIncrement;
+
+	bool isInitialDistance;
 
 	void SearchPath(Position* Goal);
 	void ObtainSectionWalls();
 	void UpdateSection();
 	bool CalculateDistance(bool isInitalDistance);
+	bool CheckCollisionWithWalls();
 };
