@@ -35,8 +35,8 @@ public:
 	void Update();
 private:
 	Position FirstPoint;
-	Position AuxPosition;
-	Position AuxPosition2;
+	//Position AuxPosition;
+	//Position AuxPosition2;
 	Position Center;
 	Position* PlayerCurrentPosition;
 	Dimension OwnDimensions;
@@ -49,7 +49,7 @@ private:
 
 	ColorStruct Color;
 	EGhostType Type;
-	EDirection CurrentDirection;
+	//EDirection CurrentDirection;
 
 	int SectionWallsNumber;
 	int Section;
@@ -61,15 +61,16 @@ private:
 	float DeltaTime;
 	float HHeight;
 	float HWidth;
-	float CurrentDistance;
-	float AuxDistance;
+	// CurrentDistance;
+	//float AuxDistance;
 	float MovementIncrement;
 
 	bool isInitialDistance;
 
-	void SearchPath(Position* Goal);
+	//void SearchPath(Position* Goal);
 	void ObtainSectionWalls();
 	void UpdateSection();
-	bool CalculateDistance(bool isInitalDistance);
-	bool CheckCollisionWithWalls();
+	float CalculateDistance(Position* Goal, Position* AuxPosition);
+	bool CheckCollisionWithWalls(Position* AuxPosition2);
+	EDirection SearchPath(Position* Goal, Position* RecPosition);
 };
