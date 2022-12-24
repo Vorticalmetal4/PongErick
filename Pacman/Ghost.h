@@ -49,11 +49,12 @@ private:
 
 	ColorStruct Color;
 	EGhostType Type;
-	//EDirection CurrentDirection;
+	EDirection MovementDirection;
 
 	int SectionWallsNumber;
 	int Section;
 	int i;
+	int SearchPathIterations;
 
 	float VerticalSectionsLine;
 	float HorizontalSectionsLine;
@@ -70,7 +71,8 @@ private:
 	//void SearchPath(Position* Goal);
 	void ObtainSectionWalls();
 	void UpdateSection();
+	Position Move(EDirection NewDirection, Position CurrentPosition);
 	float CalculateDistance(Position* Goal, Position* AuxPosition);
+	float SearchPath(Position* Goal, Position RecPosition, int Iterations);
 	bool CheckCollisionWithWalls(Position* AuxPosition2);
-	EDirection SearchPath(Position* Goal, Position* RecPosition);
 };

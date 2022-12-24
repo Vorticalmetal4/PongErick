@@ -58,6 +58,7 @@ Ghost::Ghost(Renderer* _Rend, CollisionSystem* _CollisionDetector, int Number, P
 	Speed = (float)ConFile.GetInteger("Ghost", "Speed", 0);
 	HWidth = OwnDimensions.Width / 2.0f;
 	HHeight = OwnDimensions.Height / 2.0f;
+	SearchPathIterations = 6;
 
 	VerticalSectionsLine = LevelMap->getMapWidth() / 2.0f;
 	HorizontalSectionsLine = LevelMap->getMapHeight() + ConFile.GetInteger("Map", "ScoreSpace", 20);
@@ -74,16 +75,19 @@ void Ghost::Update()
 	PlayerCurrentPosition = Pacman->getCenter();
 	Center.x = FirstPoint.x + HWidth;
 	Center.y = FirstPoint.y + HHeight;
-	//CurrentDirection = EDirection::None;
 	
 	UpdateSection();
 	ObtainSectionWalls();
-	//CalculateDistance(true);
+	
+	if (CheckCollisionWithWalls(&FirstPoint))
+		cout << "I'm colliding with a wall" << endl;
+
+	MovementDirection = None;
 
 	switch (Type)
 	{
 		case Red:
-			SearchPath(PlayerCurrentPosition, &FirstPoint);
+			SearchPath(PlayerCurrentPosition, FirstPoint, SearchPathIterations);
 		break;
 
 		case Pink:
@@ -99,90 +103,25 @@ void Ghost::Update()
 		break;
 	}
 
+	FirstPoint = Move(MovementDirection, FirstPoint);
 	Rend->DrawSimpleRect(&FirstPoint, &OwnDimensions, Color.r, Color.g, Color.b, Color.alpha);
 }
 
-/*void Ghost::SearchPath(Position* Goal)
+float Ghost::SearchPath(Position* Goal, Position RecPosition, int Iterations) 
 {
-
-	//Check Up
-	AuxPosition.x = Center.x;
-	AuxPosition.y = Center.y - MovementIncrement;
-	AuxPosition2.x = FirstPoint.x;
-	AuxPosition2.y = FirstPoint.y - MovementIncrement;
-	if (!CheckCollisionWithWalls())
-	{
-		if (CalculateDistance(false))
-			CurrentDirection = EDirection::Up;
-	}
-
-	//Check Down
-	AuxPosition.y = Center.y + MovementIncrement;
-	AuxPosition2.y = FirstPoint.y + MovementIncrement;
-	if (!CheckCollisionWithWalls())
-	{
-		if (CalculateDistance(false))
-			CurrentDirection = EDirection::Down;
-	}
-
-	//Check Left
-	AuxPosition.y = Center.y;
-	AuxPosition.x = Center.x - MovementIncrement;
-	AuxPosition2.y = FirstPoint.y;
-	AuxPosition2.x = FirstPoint.x - MovementIncrement;
-	if (!CheckCollisionWithWalls())
-	{
-		if (CalculateDistance(false))
-			CurrentDirection = EDirection::Left;
-	}
-
-	//CheckRight
-	AuxPosition.x = Center.x + MovementIncrement;
-	AuxPosition2.x = FirstPoint.x + MovementIncrement;
-	if (!CheckCollisionWithWalls())
-	{
-		if (CalculateDistance(false))
-			CurrentDirection = EDirection::Right;
-	}
-
-	cout << CurrentDirection << endl;
-
-	switch (CurrentDirection)
-	{
-		case Up:
-			FirstPoint.y -= MovementIncrement;
-		break;
-
-		case Down:
-			FirstPoint.y += MovementIncrement;
-		break;
-
-		case Left:
-			FirstPoint.x -= MovementIncrement;
-		break;
-		
-		case Right:
-			FirstPoint.x += MovementIncrement;
-		break;
-	}
-
-}*/
-
-EDirection Ghost::SearchPath(Position* Goal, Position* RecPosition) 
-{
-	Position CurrentPosition = *RecPosition;
+	Position CurrentPosition;
 	Position AuxPosition;
 	Position AuxPosition2;
 	Position CurrentCenter;
 	EDirection CurrentDirection = EDirection::None;
 
+	CurrentPosition.x = RecPosition.x;
+	CurrentPosition.y = RecPosition.y;
 	CurrentCenter.x = CurrentPosition.x + HWidth;
 	CurrentCenter.y = CurrentPosition.y + HHeight;
 
 	float AuxDistance;
 	float CurrentDistance = CalculateDistance(Goal, &CurrentCenter);
-
-	//cout << "Center: " << CurrentCenter.x << " y " << CurrentCenter.y << endl;
 
 	MovementIncrement = Speed * DeltaTime;
 	//Check Up
@@ -192,7 +131,11 @@ EDirection Ghost::SearchPath(Position* Goal, Position* RecPosition)
 	AuxPosition2.y = CurrentPosition.y - MovementIncrement;
 	if (!CheckCollisionWithWalls(&AuxPosition2))
 	{
-		AuxDistance = CalculateDistance(Goal, &AuxPosition);
+		if(Iterations > 0)
+			AuxDistance = SearchPath(Goal, Move(Up, AuxPosition2), Iterations - 1);
+		else
+			AuxDistance = CalculateDistance(Goal, &AuxPosition);
+
 		if (AuxDistance < CurrentDistance)
 		{
 			CurrentDistance = AuxDistance;
@@ -205,7 +148,11 @@ EDirection Ghost::SearchPath(Position* Goal, Position* RecPosition)
 	AuxPosition2.y = CurrentPosition.y + MovementIncrement;
 	if (!CheckCollisionWithWalls(&AuxPosition2))
 	{
-		AuxDistance = CalculateDistance(Goal, &AuxPosition);
+		if (Iterations > 0)
+			AuxDistance = SearchPath(Goal, Move(Down, AuxPosition2), Iterations - 1);
+		else
+			AuxDistance = CalculateDistance(Goal, &AuxPosition);
+
 		if (AuxDistance < CurrentDistance)
 		{
 			CurrentDistance = AuxDistance;
@@ -220,7 +167,11 @@ EDirection Ghost::SearchPath(Position* Goal, Position* RecPosition)
 	AuxPosition2.x = CurrentPosition.x - MovementIncrement;
 	if (!CheckCollisionWithWalls(&AuxPosition2))
 	{
-		AuxDistance = CalculateDistance(Goal, &AuxPosition);
+		if (Iterations > 0)
+			AuxDistance = SearchPath(Goal, Move(Left, AuxPosition2), Iterations - 1);
+		else
+			AuxDistance = CalculateDistance(Goal, &AuxPosition);
+			
 		if (AuxDistance < CurrentDistance)
 		{
 			CurrentDistance = AuxDistance;
@@ -233,8 +184,11 @@ EDirection Ghost::SearchPath(Position* Goal, Position* RecPosition)
 	AuxPosition2.x = CurrentPosition.x + MovementIncrement;
 	if (!CheckCollisionWithWalls(&AuxPosition2))
 	{
-		AuxDistance = CalculateDistance(Goal, &AuxPosition);
-		//cout << AuxDistance << " y " << CurrentDistance << endl;
+		if (Iterations > 0)
+			AuxDistance = SearchPath(Goal, Move(Right, AuxPosition2), Iterations - 1);
+		else
+			AuxDistance = CalculateDistance(Goal, &AuxPosition);
+
 		if (AuxDistance < CurrentDistance)
 		{
 			CurrentDistance = AuxDistance;
@@ -242,49 +196,29 @@ EDirection Ghost::SearchPath(Position* Goal, Position* RecPosition)
 		}
 	}
 
-	switch (CurrentDirection)
-	{
-	case Up:
-		FirstPoint.y -= MovementIncrement;
-		break;
+	if (Iterations == SearchPathIterations)
+		MovementDirection = CurrentDirection;
 
-	case Down:
-		FirstPoint.y += MovementIncrement;
-		break;
-
-	case Left:
-		FirstPoint.x -= MovementIncrement;
-		break;
-
-	case Right:
-		FirstPoint.x += MovementIncrement;
-		break;
-	}
-
-	cout << CurrentDirection << endl;
-	return CurrentDirection;
+	return CurrentDistance;
 }
 
 float Ghost::CalculateDistance(Position* Goal, Position* AuxPosition)
 {
-	cout << AuxPosition->x << " y " << AuxPosition->y << ": " << Goal->x << " y " << Goal->y << endl;
-	float Test = sqrtf(powf(AuxPosition->x - Goal->x, 2) + powf(AuxPosition->y - Goal->y, 2));
-	cout << Test << endl;
-	return Test;
+	return sqrtf(powf(AuxPosition->x - Goal->x, 2) + powf(AuxPosition->y - Goal->y, 2));;
 }
 
 void Ghost::UpdateSection()
 {
-	if (Center.x < VerticalSectionsLine)
+	if (FirstPoint.x < VerticalSectionsLine)
 	{
-		if (Center.y < HorizontalSectionsLine)
+		if (FirstPoint.y < HorizontalSectionsLine)
 			Section = 1;
 		else
 			Section = 3;
 	}
 	else
 	{
-		if (Center.y < HorizontalSectionsLine)
+		if (FirstPoint.y < HorizontalSectionsLine)
 			Section = 2;
 		else
 			Section = 4;
@@ -328,4 +262,32 @@ bool Ghost::CheckCollisionWithWalls(Position* AuxPosition2)
 	}
 
 	return false;
+}
+
+Position Ghost::Move(EDirection NewDirection, Position CurrentPosition)
+{
+	switch (NewDirection)
+	{
+		case Up:
+			CurrentPosition.y -= MovementIncrement;
+		break;
+
+		case Down:
+			CurrentPosition.y += MovementIncrement;
+		break;
+
+		case Left:
+			CurrentPosition.x -= MovementIncrement;
+		break;
+
+		case Right:
+			CurrentPosition.x += MovementIncrement;
+		break;
+
+		default:
+
+		break;
+	}
+
+	return CurrentPosition;
 }
