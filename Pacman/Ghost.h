@@ -62,17 +62,14 @@ private:
 	float DeltaTime;
 	float HHeight;
 	float HWidth;
-	// CurrentDistance;
-	//float AuxDistance;
 	float MovementIncrement;
 
 	bool isInitialDistance;
 
-	//void SearchPath(Position* Goal);
 	void ObtainSectionWalls();
 	void UpdateSection();
-	Position Move(EDirection NewDirection, Position CurrentPosition);
 	float CalculateDistance(Position* Goal, Position* AuxPosition);
-	float SearchPath(Position* Goal, Position RecPosition, int Iterations);
+	float SearchPath(Position* Goal, Position RecPosition, int Iterations, EDirection LastDirection);
 	bool CheckCollisionWithWalls(Position* AuxPosition2);
+	Position Move(EDirection NewDirection, Position CurrentPosition);
 };

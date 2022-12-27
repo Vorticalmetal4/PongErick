@@ -13,38 +13,44 @@ Ghost::Ghost(Renderer* _Rend, CollisionSystem* _CollisionDetector, int Number, P
 	CollisionDetector(_CollisionDetector),
 	LevelMap(_LevelMap),
 	PlayerCurrentPosition(nullptr),
-	isInitialDistance(true)
+	Walls(nullptr),
+	isInitialDistance(true),
+	DeltaTime(0),
+	Section(0),
+	SectionWallsNumber(0),
+	i(0),
+	MovementIncrement(0),
+	MovementDirection(None)
 {
 	switch (Number)
 	{
-	case 0:
-		Type = EGhostType::Red;
-		Color.r = Color.alpha = 255;
-		Color.g = Color.b = 0;
+		case 0:
+			Type = Red;
+			Color.r = Color.alpha = 255;
+			Color.g = Color.b = 0;
 
 		break;
 
-	case 1:
-		Type = EGhostType::Pink;
-		Color.r = Color.alpha = 255;
-		Color.g = 192;
-		Color.g = 203;
+		case 1:
+			Type = Pink;
+			Color.r = Color.alpha = 255;
+			Color.g = 192;
+			Color.g = 203;
 		break;
 
-	case 2:
-		Type = EGhostType::Blue;
-		Color.r = Color.g = 0;
-		Color.b = Color.alpha = 255;
+		case 2:
+			Type = Blue;
+			Color.r = Color.g = 0;
+			Color.b = Color.alpha = 255;
 		break;
 
-	default:
-		Type = EGhostType::Orange;
-		Color.r = Color.alpha = 255;
-		Color.g = 165;
-		Color.b = 0;
+		default:
+			Type = Orange;
+			Color.r = Color.alpha = 255;
+			Color.g = 165;
+			Color.b = 0;
 		break;
 
-		//AuxPosition = FirstPoint;
 	}
 
 	INIReader ConFile("InitialData.ini");
@@ -54,11 +60,14 @@ Ghost::Ghost(Renderer* _Rend, CollisionSystem* _CollisionDetector, int Number, P
 
 	FirstPoint.x = (float)ConFile.GetInteger("Ghost", "InitialPositionX", 0);
 	FirstPoint.y = (float)ConFile.GetInteger("Ghost", "InitialPositionY", 0);
-	OwnDimensions.Width = OwnDimensions.Height = ConFile.GetInteger("Ghost", "Size", 10);
+	OwnDimensions.Width = OwnDimensions.Height = (float)ConFile.GetInteger("Ghost", "Size", 10);
+	SearchPathIterations = ConFile.GetInteger("Ghost", "SearchPathIterations", 0);
 	Speed = (float)ConFile.GetInteger("Ghost", "Speed", 0);
 	HWidth = OwnDimensions.Width / 2.0f;
 	HHeight = OwnDimensions.Height / 2.0f;
-	SearchPathIterations = 6;
+	Center.x = FirstPoint.x + HWidth;
+	Center.y = FirstPoint.y - HHeight;
+	cout << SearchPathIterations << endl;
 
 	VerticalSectionsLine = LevelMap->getMapWidth() / 2.0f;
 	HorizontalSectionsLine = LevelMap->getMapHeight() + ConFile.GetInteger("Map", "ScoreSpace", 20);
@@ -78,16 +87,13 @@ void Ghost::Update()
 	
 	UpdateSection();
 	ObtainSectionWalls();
-	
-	if (CheckCollisionWithWalls(&FirstPoint))
-		cout << "I'm colliding with a wall" << endl;
 
 	MovementDirection = None;
 
 	switch (Type)
 	{
 		case Red:
-			SearchPath(PlayerCurrentPosition, FirstPoint, SearchPathIterations);
+			SearchPath(PlayerCurrentPosition, FirstPoint, SearchPathIterations, None);
 		break;
 
 		case Pink:
@@ -107,13 +113,13 @@ void Ghost::Update()
 	Rend->DrawSimpleRect(&FirstPoint, &OwnDimensions, Color.r, Color.g, Color.b, Color.alpha);
 }
 
-float Ghost::SearchPath(Position* Goal, Position RecPosition, int Iterations) 
+float Ghost::SearchPath(Position* Goal, Position RecPosition, int Iterations, EDirection LastDirection) 
 {
 	Position CurrentPosition;
 	Position AuxPosition;
 	Position AuxPosition2;
 	Position CurrentCenter;
-	EDirection CurrentDirection = EDirection::None;
+	EDirection CurrentDirection = None;
 
 	CurrentPosition.x = RecPosition.x;
 	CurrentPosition.y = RecPosition.y;
@@ -129,34 +135,34 @@ float Ghost::SearchPath(Position* Goal, Position RecPosition, int Iterations)
 	AuxPosition.y = CurrentCenter.y - MovementIncrement;
 	AuxPosition2.x = CurrentPosition.x;
 	AuxPosition2.y = CurrentPosition.y - MovementIncrement;
-	if (!CheckCollisionWithWalls(&AuxPosition2))
+	if (!CheckCollisionWithWalls(&AuxPosition2) && LastDirection != Down)
 	{
 		if(Iterations > 0)
-			AuxDistance = SearchPath(Goal, Move(Up, AuxPosition2), Iterations - 1);
+			AuxDistance = SearchPath(Goal, Move(Up, AuxPosition2), Iterations - 1, Up);
 		else
 			AuxDistance = CalculateDistance(Goal, &AuxPosition);
 
 		if (AuxDistance < CurrentDistance)
 		{
 			CurrentDistance = AuxDistance;
-			CurrentDirection = EDirection::Up;
+			CurrentDirection = Up;
 		}
 	}
 
 	//Check Down
 	AuxPosition.y = CurrentCenter.y + MovementIncrement;
 	AuxPosition2.y = CurrentPosition.y + MovementIncrement;
-	if (!CheckCollisionWithWalls(&AuxPosition2))
+	if (!CheckCollisionWithWalls(&AuxPosition2) && LastDirection != Up)
 	{
 		if (Iterations > 0)
-			AuxDistance = SearchPath(Goal, Move(Down, AuxPosition2), Iterations - 1);
+			AuxDistance = SearchPath(Goal, Move(Down, AuxPosition2), Iterations - 1, Down);
 		else
 			AuxDistance = CalculateDistance(Goal, &AuxPosition);
 
 		if (AuxDistance < CurrentDistance)
 		{
 			CurrentDistance = AuxDistance;
-			CurrentDirection = EDirection::Down;
+			CurrentDirection = Down;
 		}
 	}
 
@@ -165,34 +171,34 @@ float Ghost::SearchPath(Position* Goal, Position RecPosition, int Iterations)
 	AuxPosition.x = CurrentCenter.x - MovementIncrement;
 	AuxPosition2.y = CurrentPosition.y;
 	AuxPosition2.x = CurrentPosition.x - MovementIncrement;
-	if (!CheckCollisionWithWalls(&AuxPosition2))
+	if (!CheckCollisionWithWalls(&AuxPosition2) && LastDirection != Right)
 	{
 		if (Iterations > 0)
-			AuxDistance = SearchPath(Goal, Move(Left, AuxPosition2), Iterations - 1);
+			AuxDistance = SearchPath(Goal, Move(Left, AuxPosition2), Iterations - 1, Left);
 		else
 			AuxDistance = CalculateDistance(Goal, &AuxPosition);
 			
 		if (AuxDistance < CurrentDistance)
 		{
 			CurrentDistance = AuxDistance;
-			CurrentDirection = EDirection::Left;
+			CurrentDirection = Left;
 		}
 	}
 
 	//CheckRight
 	AuxPosition.x = CurrentCenter.x + MovementIncrement;
 	AuxPosition2.x = CurrentPosition.x + MovementIncrement;
-	if (!CheckCollisionWithWalls(&AuxPosition2))
+	if (!CheckCollisionWithWalls(&AuxPosition2) && LastDirection != Left)
 	{
 		if (Iterations > 0)
-			AuxDistance = SearchPath(Goal, Move(Right, AuxPosition2), Iterations - 1);
+			AuxDistance = SearchPath(Goal, Move(Right, AuxPosition2), Iterations - 1, Right);
 		else
 			AuxDistance = CalculateDistance(Goal, &AuxPosition);
 
 		if (AuxDistance < CurrentDistance)
 		{
 			CurrentDistance = AuxDistance;
-			CurrentDirection = EDirection::Right;
+			CurrentDirection = Right;
 		}
 	}
 
