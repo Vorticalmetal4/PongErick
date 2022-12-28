@@ -8,7 +8,6 @@
 #include <corecrt_math_defines.h>
 const float Rad = (float)(M_PI / 180);
 
-const Uint8* State = SDL_GetKeyboardState(NULL);
 TTF_Font* Font = nullptr;
 SDL_Rect TextRect;
 SDL_Window* mWindow = nullptr;
@@ -32,6 +31,8 @@ Renderer::Renderer(void)
         X[i] = cosf(i * Rad);
         Y[i] = sinf(i * Rad);
     }
+
+    State = SDL_GetKeyboardState(NULL);
 }
 
 bool Renderer::Initialize(const string Name, int TLXCoordinate, int TLYCoordinate, int Width, int Height, int Flags, const string FName)

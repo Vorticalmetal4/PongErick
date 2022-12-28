@@ -2,6 +2,7 @@
 #include "Inih/cpp/INIReader.h"
 #include "Ball.h"
 #include "Paddle.h"
+#include "Score.h"
 
 #include <iostream>
 
@@ -17,7 +18,7 @@ int main()
 
 
     if (ConFile.ParseError() < 0)
-        ConFile.PrintError("PongWindow");
+        ConFile.PrintError("PongWindow could not find the ConFile");
 
 
     bool success = Rend.Initialize(ConFile.GetString("Window", "Name", "Error"),
@@ -29,9 +30,10 @@ int main()
         ConFile.GetString("Window", "Font", "Error"));
 
 
-    Ball GameBall = Ball(WindowWidth / 2, WindowHeight / 2, 150, 150, Thickness);
-    Paddle Player1 = Paddle(200, 300, Thickness * 4, 400, Thickness); 
-    Paddle Player2 = Paddle(824, 300, Thickness * 4, 400, Thickness); 
+    Ball GameBall = Ball(&Rend);
+    Paddle Player1 = Paddle(&Rend, &GameBall, true); 
+    Paddle Player2 = Paddle(&Rend, &GameBall, false); 
+    Score Sc = Score();
 
     if (success)
     {
@@ -41,6 +43,10 @@ int main()
             Rend.UpdateGame();
             Rend.ClearRender();
 
+            Player1.Update();
+            Player2.Update();
+
+            GameBall.Update();
 
             Rend.GenerateOutput();
         }

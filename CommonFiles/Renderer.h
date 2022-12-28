@@ -17,6 +17,7 @@ public:
     float getHWindowHeight() { return HHeight; }
     int getWindowHeight() { return WindowHeight; }
     int getWindowWidth() { return WindowWidth; }
+    const Uint8* getState() { return State; }
 
     bool Initialize(const string Name, int TLXCoordinate, int TPYCoordinate, int Width, int Height, int Flags, const string FName);
     bool CheckPause();
@@ -64,4 +65,6 @@ private:
     Position Aux1;
     Position Aux2;
     Position Aux3;
+
+    const Uint8* State;
 };

@@ -1,23 +1,31 @@
-#pragma once // CPP: Esto es valido para la  mayoria de los compiladores modernos, aunque siempre estar atento que no es la unica forma de evitar multiple inclusion
+#pragma once
+#include "CommonFiles/CollisionSystem.h"
+
+class Renderer;
+
+struct VelocityVector
+{
+	int x;
+	int y;
+};
 
 class Ball {
 public:
-	Ball(int x, int y, int xVelocity, int yVelocity, int Size);
-	int getXPosition();
-	int getYPosition();
-	int getXVelocity();
-	int getYVelocity();
-	int getSize();
-	void Move(int xinc, int yinc);
-	void GameStarted();
-	void setXVelocity();
-	void setYVelocity();
-	void WallCollition(int Height, int Width, class Score* Sc);
+	Ball(Renderer* _Rend);
+	void Update();
 
 private:
-	int xPosition;
-	int yPosition;
-	int xVelocity;
-	int yVelocity;
-	int Size;
+	Position FirstPoint;
+	Position InitialPoint;
+	Renderer* Rend;
+	Dimension OwnDimensions;
+
+	VelocityVector Velocity;
+
+	int VelocityIncrement;
+	int DecreasesNumber;
+
+	float DeltaTime;
+	float IncrementX;
+	float IncrementY;
 };

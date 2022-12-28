@@ -128,7 +128,7 @@
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;freetype.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)\..\SDL2\lib\x$(PlatformArchitecture)\SDL2.dll" "$(TargetDir)"</Command>
+      <Command>copy "$(ProjectDir)\..\SDL2\lib\x$(PlatformArchitecture)\*.dll" "$(TargetDir)"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>copy "$(ProjectDir)\Resources\ArialCE.ttf" "$(TargetDir)"
@@ -152,21 +152,22 @@ copy "$(ProjectDir)\Resources\InitialData.ini" "$(TargetDir)""</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\CommonFiles\Renderer.cpp" />
     <ClCompile Include="..\Inih\cpp\INIReader.cpp" />
     <ClCompile Include="..\Inih\ini.c" />
     <ClCompile Include="Ball.cpp" />
     <ClCompile Include="PongWindows.cpp" />
     <ClCompile Include="Score.cpp" />
-    <ClCompile Include="Stick.cpp" />
+    <ClCompile Include="Paddle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\CommonFiles\Renderer.h" />
     <ClInclude Include="Ball.h" />
     <ClInclude Include="Score.h" />
-    <ClInclude Include="Stick.h" />
+    <ClInclude Include="Paddle.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\Tesis\Codes\PrototypeExample\Resources\InitialData.ini" />
-    <None Include="..\Pong\game.exe" />
+    <None Include="Resources\InitialData.ini" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

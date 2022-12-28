@@ -1,71 +1,54 @@
 #include "Ball.h"
 #include <stdlib.h>
 #include <time.h>
+#include "Inih/cpp/INIReader.h"
+#include "CommonFiles/Renderer.h"
 #include "Score.h"
-#include <iostream>
 
-using namespace std;
 
-Ball::Ball(int x, int y, int xVelocity, int yVelocity, int Size) {
-	xPosition = x;
-	yPosition = y;
-	this->xVelocity = xVelocity;
-	this->yVelocity = yVelocity;
-	this->Size = Size;
+Ball::Ball(Renderer* _Rend)
+	:DeltaTime(0),
+	Rend(_Rend)
+{
+
+	INIReader ConFile("InitialData.ini");
+
+	if (ConFile.ParseError() < 0)
+		ConFile.PrintError("Ball could not find the ConFile");
+
+	OwnDimensions.Width = OwnDimensions.Height = (float)ConFile.GetInteger("Ball", "Size", 0);
+	FirstPoint.x = Rend->getHWindowWidth();
+	FirstPoint.y = Rend->getHWindowHeight();
+	InitialPoint = FirstPoint;
+	Velocity.y = Velocity.x = ConFile.GetInteger("Ball", "Velocity", 0);
+	VelocityIncrement = ConFile.GetInteger("Ball", "VelocityIncrement", 0);
+	DecreasesNumber = ConFile.GetInteger("Ball", "DecreasesNumber", 0);
+
 }
 
-int Ball::getXPosition() { return xPosition; } // ESTILO: Este formato es mas comun en .h y no cpp
+void Ball::Update()
+{
+	DeltaTime = Rend->getDeltaTime();
+	IncrementX = DeltaTime * Velocity.x;
+	IncrementY = DeltaTime * Velocity.y;
 
-int Ball::getYPosition() { return yPosition; }
+	if (FirstPoint.x + IncrementX >= Rend->getWindowWidth() || FirstPoint.x + IncrementX < 0)
+	{
+		Velocity.x = (Velocity.x > 0) ? Velocity.x - VelocityIncrement * DecreasesNumber : Velocity.x + VelocityIncrement * DecreasesNumber;
+		Velocity.y = (Velocity.y > 0) ? Velocity.y - VelocityIncrement * DecreasesNumber : Velocity.y + VelocityIncrement * DecreasesNumber;
+		FirstPoint = InitialPoint;
+	}
 
-int Ball::getXVelocity() { return xVelocity; }
+	if (FirstPoint.y + OwnDimensions.Height + IncrementY >= Rend->getWindowHeight() || FirstPoint.y + IncrementY < 0)
+		Velocity.y *= -1;
 
-int Ball::getYVelocity() { return yVelocity; }
-
-int Ball::getSize() { return Size; }
-
-void Ball::GameStarted() {
-	int na1 = 1 + rand() % (10 - 1);
-	int na2 = 1 + rand() % (10 - 1);
-
-	srand(time(NULL));
-
-	if (na1 % 2 == 0)
-		xVelocity *= -1;
-
-	if (na2 % 2 == 0)
-		yVelocity *= -1;
+	FirstPoint.x += IncrementX;
+	FirstPoint.y += IncrementY;
+	
+	Rend->DrawSimpleRect(&FirstPoint, &OwnDimensions, 255, 255, 255, 255);
 }
 
-void Ball::setXVelocity() {
-
-	if (xVelocity > 0)
-		if (xVelocity <= 400)
-			xVelocity += 20;
-		else
-			if (xVelocity >= -400)
-				xVelocity -= 20;
-
-	xVelocity *= -1;
-}
-
-void Ball::setYVelocity() {
-	if (yVelocity > 0)
-		if (yVelocity <= 400)
-			yVelocity += 20;
-		else
-			if (yVelocity >= -400)
-				yVelocity -= 20;
-
-	yVelocity *= 1;
-}
-
-void Ball::Move(int xinc, int yinc) {
-	xPosition += xinc;
-	yPosition += yinc;
-}
-
-void Ball::WallCollition(int Height, int Width, Score* Sc) {
+/*void Ball::WallCollition(int Height, int Width, Score* Sc) {
 	if (xPosition >= Width || xPosition <= 0) {
 		xVelocity *= -1;
 		if (xPosition > Width / 2)
@@ -105,4 +88,4 @@ void Ball::WallCollition(int Height, int Width, Score* Sc) {
 	}
 	else if (yPosition + Size >= Height || yPosition <= 0)
 		yVelocity *= -1;
-}
+}*/

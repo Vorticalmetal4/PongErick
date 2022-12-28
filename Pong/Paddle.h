@@ -1,24 +1,28 @@
 #pragma once
+#include "CommonFiles/CollisionSystem.h"
 
+
+class Renderer;
+class Ball;
 
 class Paddle {
 public:
-	Paddle(int x, int y, int _Height, int _Velocity, int _Width);
-	int getYPosition() { return yPosition; } 
-	int getXPosition() { return xPosition; }
-	int getVelocity() { return Velocity; }
-	int getHeight() { return Height; }
-	void Move(int yInc);
-	bool CheckBorders(int yInc, int top, int down);
-	bool CollitionWBall(class Ball* GameBall, int Side);
-
+	Paddle(Renderer* _Rend, Ball* _GameBall, bool _isPlayer1);
+	void Update();
 
 private:
-	int xPosition;
-	int yPosition;
-	int Height;
-	int Width;
+	Renderer* Rend;
+	Ball* GameBall;
+	Position FirstPoint;
+	Dimension OwnDimensions;
+	const Uint8* StateP;
+
 	int Velocity;
 
+	float DeltaTime;
+	float Increment;
 
+	bool isPlayer1;
+
+	bool CheckInput(bool isGoingUp);
 };
