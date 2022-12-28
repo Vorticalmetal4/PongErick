@@ -1,4 +1,3 @@
-
 #include "SDL2/include/SDL.h"  
 #include "SDL2/include/SDL_ttf.h" 
 #include "Renderer.h"

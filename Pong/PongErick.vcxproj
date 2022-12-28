@@ -152,18 +152,17 @@ copy "$(ProjectDir)\Resources\InitialData.ini" "$(TargetDir)""</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\CommonFiles\CollisionSystem.cpp" />
     <ClCompile Include="..\CommonFiles\Renderer.cpp" />
     <ClCompile Include="..\Inih\cpp\INIReader.cpp" />
     <ClCompile Include="..\Inih\ini.c" />
     <ClCompile Include="Ball.cpp" />
     <ClCompile Include="PongWindows.cpp" />
-    <ClCompile Include="Score.cpp" />
     <ClCompile Include="Paddle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\CommonFiles\Renderer.h" />
     <ClInclude Include="Ball.h" />
-    <ClInclude Include="Score.h" />
     <ClInclude Include="Paddle.h" />
   </ItemGroup>
   <ItemGroup>

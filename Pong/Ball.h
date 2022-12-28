@@ -13,6 +13,10 @@ class Ball {
 public:
 	Ball(Renderer* _Rend);
 	void Update();
+	void CollisionWPaddle();
+	void Reset();
+	Position* getPosition() { return &FirstPoint; }
+	Dimension* getDimensions() { return &OwnDimensions; }
 
 private:
 	Position FirstPoint;
@@ -28,4 +32,7 @@ private:
 	float DeltaTime;
 	float IncrementX;
 	float IncrementY;
+
+
+
 };

@@ -1,15 +1,14 @@
 #include "CommonFiles/Renderer.h"
+#include "CommonFiles/CollisionSystem.h"
 #include "Inih/cpp/INIReader.h"
 #include "Ball.h"
 #include "Paddle.h"
-#include "Score.h"
-
-#include <iostream>
 
 int main()
 {
 
     Renderer Rend;
+    CollisionSystem CollisionDetector;
     INIReader ConFile("InitialData.ini");
 
     int WindowWidth = ConFile.GetInteger("Window", "Width", 1080);
@@ -31,9 +30,10 @@ int main()
 
 
     Ball GameBall = Ball(&Rend);
-    Paddle Player1 = Paddle(&Rend, &GameBall, true); 
-    Paddle Player2 = Paddle(&Rend, &GameBall, false); 
-    Score Sc = Score();
+    Paddle Player1 = Paddle(&Rend,&CollisionDetector, &GameBall, true); 
+    Paddle Player2 = Paddle(&Rend, &CollisionDetector, &GameBall, false); 
+    Player1.setOtherPaddle(&Player2);
+    Player2.setOtherPaddle(&Player1);
 
     if (success)
     {
@@ -43,10 +43,10 @@ int main()
             Rend.UpdateGame();
             Rend.ClearRender();
 
+            GameBall.Update();
+
             Player1.Update();
             Player2.Update();
-
-            GameBall.Update();
 
             Rend.GenerateOutput();
         }
