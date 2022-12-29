@@ -11,12 +11,10 @@ struct VectorVelocity
 class Ball 
 {
 public:
-	Ball(class Renderer* _Rend, class Player* _Player1);
-	float getXPosition() { return ActualPosition.x; }
-	float getYPosition() { return ActualPosition.y; }
+	Ball(class Renderer* _Rend, CollisionSystem* CollisionDetector, class Player* _Player1);
+	Position* getPosition() { return &CurrentPosition; }
+	Dimension* getDimensions() { return &Dimensions; }
 	float getXVelocity() { return Velocity.x; }
-	float getHeight() { return Dimensions.Height; }
-	float getWidth() { return Dimensions.Width; }
 	void ChangeXDirection() { Velocity.x *= -1; }
 	void ChangeYDirection() { Velocity.y *= -1; }
 	void SetCollitionWPlayer() { CollWPlayer = false; }
@@ -27,8 +25,9 @@ public:
 private:
 
 	Renderer* Rend;
+	CollisionSystem* CollisionDetector;
 	Player* Player1;
-	Position ActualPosition;
+	Position CurrentPosition;
 	Position InitialPosition;
 	Dimension Dimensions;
 	VectorVelocity Velocity;

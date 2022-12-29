@@ -22,7 +22,7 @@ Paddle::Paddle(Renderer* _Rend, CollisionSystem* _CollisionDetector, Ball* _Game
 		ConFile.PrintError("Paddle could not find the ConFile");
 
 	Velocity = ConFile.GetInteger("Paddle", "Velocity", 0);
-	OwnDimensions.Width = ConFile.GetInteger("Paddle", "Thickness", 0);
+	OwnDimensions.Width = (float)ConFile.GetInteger("Paddle", "Thickness", 0);
 	OwnDimensions.Height = OwnDimensions.Width * 4;
 	GoalDistance = ConFile.GetInteger("Paddle", "GoalDistance", 50);
 
@@ -43,6 +43,7 @@ Paddle::Paddle(Renderer* _Rend, CollisionSystem* _CollisionDetector, Ball* _Game
 	ScoreDimensions.Width = (float)ConFile.GetInteger("HUD", "ScoreWidth", 0);
 	ScoreDimensions.Height = (float)ConFile.GetInteger("HUD", "ScoreHeight", 0);
 
+	PrintScore();
 	StateP = Rend->getState();
 }
 
@@ -116,5 +117,5 @@ void Paddle::PrintScore()
 	ScoreText = to_string(Score);
 	ScoreText.copy(NText, ScoreText.size() + 1);
 	NText[ScoreText.size() + 1] = '\0';
-	Rend->Write(NText, ScoreDimensions.Width, ScoreDimensions.Height, ScorePosition.x, ScorePosition.y);
+	Rend->Write(NText, (int)ScoreDimensions.Width, (int)ScoreDimensions.Height, ScorePosition.x, ScorePosition.y);
 }

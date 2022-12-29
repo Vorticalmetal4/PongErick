@@ -6,8 +6,9 @@
 #include <iostream>
 using namespace std;
 
-Ray::Ray() 
-	:Active(false)
+Ray::Ray(CollisionSystem* _CollisionDetector) 
+	:Active(false),
+	CollisionDetector(_CollisionDetector)
 {
 	INIReader ConFile("InitialData.ini");
 
@@ -35,23 +36,21 @@ bool Ray::CheckCollition(Brick* ActualBrick, float DeltaTime, char Power, int Wi
 {
 	NYPosition = ActualPosition.y - DeltaTime * Velocity;
 
-	if (NYPosition >= ActualBrick->getYPosition() && NYPosition <= ActualBrick->getYPosition() + ActualBrick->getHeight())
+	if (CollisionDetector->Square_Square(&ActualPosition, ActualBrick->getPosition(), &Dimensions, ActualBrick->getDimensions()))
 	{ 
-		if (ActualPosition.x >= ActualBrick->getXPosition() && ActualPosition.x <= ActualBrick->getXPosition() + ActualBrick->getWidth())
+		switch (Power)
 		{
-			switch (Power)
-			{
-				case 'T':
-					ActualBrick->setYPosition(WindowHeight - ActualBrick->getHeight());
-				break;
+			case 'T':
+				ActualBrick->setYPosition(WindowHeight - ActualBrick->getHeight());
+			break;
 
-				case 'L':
-					ActualBrick->setActive(false);
-				break;
-			}
-
-			return true;
+			case 'L':
+				ActualBrick->setActive(false);
+			break;
 		}
+
+		return true;
+		
 	}
 	else if (NYPosition <= 0) 
 		return true;

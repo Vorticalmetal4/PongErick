@@ -1,5 +1,6 @@
 #include "BreakoutWindows.h"
 #include "CommonFiles/Renderer.h"
+#include "CommonFiles/CollisionSystem.h"
 #include "Player.h"
 #include "Ball.h"
 #include "Brick.h"
@@ -20,6 +21,7 @@ int main(int argc, int** argv)
         ConFile.PrintError("BreakoutWindow"); 
     
     Renderer Rend;
+    CollisionSystem CollisionDetector;
     int PowerProbability = ConFile.GetInteger("Power", "Probability", 0);
     const int BricksColumns = ConFile.GetInteger("Brick", "BricksColumns", 0); 
     const int BricksRows = ConFile.GetInteger("Brick", "BricksRows", 0);
@@ -38,10 +40,10 @@ int main(int argc, int** argv)
                                    ConFile.GetString("Window", "Font", "Error"));
 
     const float BricksSeparation = (Rend.getWindowWidth() - BricksColumns * (float)ConFile.GetInteger("Brick", "width", 97)) / BricksColumns;
-    Ray PlayersRay = Ray();
+    Ray PlayersRay = Ray(&CollisionDetector);
     Player Player1 = Player(&Rend, &PlayersRay); 
     HUD PHUD = HUD(&Rend, &Player1); 
-    Ball MainBall = Ball(&Rend, &Player1); 
+    Ball MainBall = Ball(&Rend, &CollisionDetector,&Player1); 
 
     vector<vector<Brick>> Bricks;
 
@@ -50,7 +52,7 @@ int main(int argc, int** argv)
         vector<Brick> BricksTem;
         for(j = 0; j < BricksRows; j++)
         {
-            Brick BrickT = Brick(&Rend, i, j, BricksSeparation);
+            Brick BrickT = Brick(&Rend, &CollisionDetector,i, j, BricksSeparation);
             BricksTem.push_back(BrickT);
         }
 
@@ -91,7 +93,7 @@ int main(int argc, int** argv)
                                 {
                                     if (Powers[k].getActive() == false)
                                     {
-                                        Powers[k].SetData(Bricks[i][j].getXPosition(), Bricks[i][j].getYPosition() + 10, true);
+                                        Powers[k].SetData(Bricks[i][j].getPosition()->x, Bricks[i][j].getPosition()->y + 10, true);
                                         break;
                                     }
                                 }
@@ -108,7 +110,7 @@ int main(int argc, int** argv)
                                 for (k = 0; k < BricksRows; k++) 
                                 {
                                     if (k != j)
-                                        if (Bricks[i][j].getXPosition() == Bricks[i][k].getXPosition() && Bricks[i][j].getYPosition() == Bricks[i][k].getYPosition())
+                                        if (Bricks[i][j].getPosition()->x == Bricks[i][k].getPosition()->x && Bricks[i][j].getPosition()->y == Bricks[i][k].getPosition()->y)
                                             Bricks[i][j].setActive(false);
                                 }
                             }

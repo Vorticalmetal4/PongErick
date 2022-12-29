@@ -11,8 +11,8 @@ public:
 	Player(class Renderer* Rend, class Ray* _PlayersRay);
 	~Player();
 	void Update(bool Pause);
-	float getXPosition() { return ActualPosition.x; }
-	float getYPosition() { return ActualPosition.y; }
+	Position* getPosition() { return &CurrentPosition; }
+	Dimension* getDimensions() { return &Dimensions; }
 	float getWidth() { return Dimensions.Width; }
 	float getHeight() { return Dimensions.Height; }
 	void ChangePower(char NPower);
@@ -23,11 +23,12 @@ public:
 private:
 
 	Renderer* Rend;
-	int PlayerVelocity;
-	Position ActualPosition;
+	Position CurrentPosition;
 	Dimension Dimensions;
+	int PlayerVelocity;
 	int Ammo;
 	float Middle;
+	float MovementIncrement;
 	char Power;
 	class Ray* PlayersRay;
 

@@ -4,12 +4,12 @@
 class Brick 
 {
 public:
-	Brick(class Renderer* _Rend, int XPosition, int YPosition, float Separation);
+	Brick(class Renderer* _Rend,  CollisionSystem* _CollisionDetector,int XPosition, int YPosition, float Separation);
 	~Brick();
 	void Draw(int raw);
 
-	float getXPosition() { return ActualPosition.x; }
-	float getYPosition() { return ActualPosition.y; }
+	Position* getPosition() { return &CurrentPosition; };
+	Dimension* getDimensions() { return &Dimensions; }
 	float getWidth() { return Dimensions.Width; }
 	float getHeight() { return Dimensions.Height; }
 	bool getActive() { return Active; }
@@ -17,10 +17,11 @@ public:
 	void setActive(bool Change) { Active = Change; }
 	void setTraitor(bool Change) { Traitor = Change; }
 	bool CheckCollition(class Ball* Ball);
-	void setYPosition(float Y) {ActualPosition.y = Y; }
+	void setYPosition(float Y) {CurrentPosition.y = Y; }
 
 private:
-	Position ActualPosition;
+	Position CurrentPosition;
+	CollisionSystem* CollisionDetector;
 	Dimension Dimensions;
 	Renderer* Rend;
 	bool Active;

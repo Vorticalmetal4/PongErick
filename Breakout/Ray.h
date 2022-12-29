@@ -6,7 +6,7 @@
 class Ray 
 {
 public:
-	Ray();
+	Ray(CollisionSystem* _CollisionDetector);
 	~Ray();
 	Position* getPosition() { return &ActualPosition; }
 	Dimension* getDimensions() { return &Dimensions; }
@@ -18,6 +18,7 @@ public:
 
 private:
 	Position ActualPosition;
+	CollisionSystem* CollisionDetector;
 	Dimension Dimensions;
 	int Velocity;
 	bool Active;

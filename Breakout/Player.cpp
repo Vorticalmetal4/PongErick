@@ -21,8 +21,8 @@ Player::Player(Renderer* _Rend, Ray* _PlayersRay)
 		ConFile.PrintError("Player");
 
 	PlayerVelocity = ConFile.GetInteger("Player", "PlayerVelocity", -1);
-	ActualPosition.x = (float)ConFile.GetInteger("Player", "PositionX", 1);
-	ActualPosition.y = (float)ConFile.GetInteger("Player", "PositionY", 1);
+	CurrentPosition.x = (float)ConFile.GetInteger("Player", "PositionX", 1);
+	CurrentPosition.y = (float)ConFile.GetInteger("Player", "PositionY", 1);
 	Dimensions.Width = (float)ConFile.GetInteger("Player", "Width", 80);
 	Dimensions.Height = (float)ConFile.GetInteger("Player", "Height", 20);
 
@@ -39,25 +39,23 @@ void Player::Update(bool Pause) {
 	
 	if (!Pause)
 	{
+		MovementIncrement = PlayerVelocity * Rend->getDeltaTime();
 		switch (Rend->CheckMovement()) {
 		case 'R':
-			if (ActualPosition.x + (PlayerVelocity * Rend->getDeltaTime() + Dimensions.Width) <= Rend->getWindowWidth())
-				ActualPosition.x += PlayerVelocity * Rend->getDeltaTime();
-			break;
+			CurrentPosition.x = (CurrentPosition.x + MovementIncrement + Dimensions.Width <= Rend->getWindowWidth()) ? CurrentPosition.x + MovementIncrement : CurrentPosition.x;
+		break;
 
 		case 'L':
-			if (ActualPosition.x - PlayerVelocity * Rend->getDeltaTime() >= 0)
-				ActualPosition.x -= PlayerVelocity * Rend->getDeltaTime();
-			break;
+			CurrentPosition.x = (CurrentPosition.x - MovementIncrement >= 0) ? CurrentPosition.x - MovementIncrement : CurrentPosition.x;
+		break;
 
 		case 'S':
 			if (Ammo > 0 && !PlayersRay->getActive())
 			{
-				cout << "Player has shooted" << endl;
-				PlayersRay->SetData(ActualPosition.x + Middle, ActualPosition.y, true); 
+				PlayersRay->SetData(CurrentPosition.x + Middle, CurrentPosition.y, true); 
 				Ammo--;
 			}
-			break;
+		break;
 		}
 
 	}
@@ -69,7 +67,7 @@ void Player::Update(bool Pause) {
 		Rend->DrawSimpleRect(PlayersRay->getPosition(), PlayersRay->getDimensions(), 178, 102, 255, 255);
 	}
 
-	Rend->DrawSimpleRect(&ActualPosition, &Dimensions, 178, 102, 255, 255);
+	Rend->DrawSimpleRect(&CurrentPosition, &Dimensions, 178, 102, 255, 255);
 
 }
 

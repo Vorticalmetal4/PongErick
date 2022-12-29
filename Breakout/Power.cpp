@@ -64,9 +64,9 @@ bool Power::CheckCollision(bool Pause)
 
 		if (NPositionY + Height <= Rend->getWindowHeight())
 		{
-			if (ActualPosition.x >= MainPlayer->getXPosition() && ActualPosition.x <= MainPlayer->getXPosition() + MainPlayer->getWidth())
+			if (ActualPosition.x >= MainPlayer->getPosition()->x && ActualPosition.x <= MainPlayer->getPosition()->x + MainPlayer->getWidth())
 			{
-				if (NPositionY + Height >= MainPlayer->getYPosition() && NPositionY + Height <= MainPlayer->getYPosition() + MainPlayer->getHeight())
+				if (NPositionY + Height >= MainPlayer->getPosition()->y && NPositionY + Height <= MainPlayer->getPosition()->y + MainPlayer->getHeight())
 				{
 					MainPlayer->ChangePower(PowerType);
 					return true;
