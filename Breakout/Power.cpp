@@ -17,7 +17,7 @@ Power::Power(Player* _MainPlayer, Renderer* _Rend)
 	INIReader ConFile("InitialData.ini");
 
 	if (ConFile.ParseError() < 0)
-		ConFile.PrintError("Power");
+		ConFile.PrintError("Power could not find ConFile");
 
 	Velocity = ConFile.GetInteger("Power", "Velocity", 0);
 	Height = ConFile.GetInteger("Power", "Height", 0);
@@ -26,6 +26,8 @@ Power::Power(Player* _MainPlayer, Renderer* _Rend)
 	ActualPosition.x = -50;
 	ActualPosition.y = -50;
 
+	NText[0] = ' ';
+	PowerType = ' ';
 }
 
 Power::~Power() 

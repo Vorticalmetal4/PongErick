@@ -14,14 +14,14 @@ class HUD
 {
 public:
 	HUD(class Renderer* _Rend, class Player* _MainPlayer);
-	void UpdateHUD(GameData Data);
-	void ChangeText(int TextW, int TextH, int TextX, int TextY);
+	void UpdateHUD(GameData* Data);
+	void ChangeText(int TextW, int TextH, float TextX, float TextY);
 	bool getPause() { return Pause; }
 
 private:
 	Renderer* Rend;
 	Player* MainPlayer;
-	string ActualText;
-	char* NText;
+	string CurrentText;
+	char NText[25];
 	bool Pause;
 };

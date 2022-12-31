@@ -21,7 +21,7 @@ Ball::Ball(Renderer *_Rend, CollisionSystem* _CollisionDetector,Player* _Player1
 	INIReader ConFile("InitialData.ini");
 
 	if (ConFile.ParseError() < 0)
-		ConFile.PrintError("Ball: ConFile Failed");
+		ConFile.PrintError("Ball could not find ConFile");
 
 	InitialVelocity = (float)ConFile.GetInteger("Ball", "InitialVelocity", -1);
 	Velocity.x = InitialVelocity;

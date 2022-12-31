@@ -13,12 +13,13 @@ Player::Player(Renderer* _Rend, Ray* _PlayersRay)
 	:Rend(_Rend),
 	PlayersRay(_PlayersRay),
 	Power('N'),
-	Ammo(0)
+	Ammo(0),
+	MovementIncrement(0)
 {
 	INIReader ConFile("InitialData.ini");
 
 	if (ConFile.ParseError() < 0)
-		ConFile.PrintError("Player");
+		ConFile.PrintError("Player could not find ConFile");
 
 	PlayerVelocity = ConFile.GetInteger("Player", "PlayerVelocity", -1);
 	CurrentPosition.x = (float)ConFile.GetInteger("Player", "PositionX", 1);

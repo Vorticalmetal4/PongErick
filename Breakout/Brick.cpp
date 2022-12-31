@@ -13,7 +13,7 @@ Brick::Brick(Renderer* _Rend, CollisionSystem* _CollisionDetector,int XPosition,
 	INIReader ConFile("InitialData.ini");
 
 	if (ConFile.ParseError() < 0)
-		ConFile.PrintError("Brick");
+		ConFile.PrintError("Brick could not find ConFile");
 
 	Dimensions.Width = (float)ConFile.GetInteger("Brick", "width", 0);
 	Dimensions.Height = (float)ConFile.GetInteger("Brick", "height", 0);

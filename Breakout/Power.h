@@ -16,11 +16,12 @@ public:
 private:
 	Player* MainPlayer;
 	Renderer* Rend;
-	char PowerType;
 	Position ActualPosition;
 	int Velocity;
 	int Height;
 	int LaserProbability;
+
+	char PowerType;
 	char NText[2];
 
 	float DeltaTime;

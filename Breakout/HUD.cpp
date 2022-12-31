@@ -11,32 +11,33 @@ HUD::HUD(Renderer *_Rend, Player* _MainPlayer)
 	MainPlayer(_MainPlayer),
 	Pause(false)
 {
+	NText[0] = ' ';
 }
 
-void HUD::UpdateHUD(GameData Data)
+void HUD::UpdateHUD(GameData* Data)
 {
-	ActualText = "Lives: " + to_string(Data.Lives);
+	CurrentText = "Lives: " + to_string(Data->Lives);
 	ChangeText(0, 0, 920, 30);
 
 	
 
-	ActualText = "Bricks: " + to_string(Data.BricksRemaining);
+	CurrentText = "Bricks: " + to_string(Data->BricksRemaining);
 	ChangeText(0, 0, 0, 30);
 
-	ActualText = "Power: ";
+	CurrentText = "Power: ";
 
 	switch (MainPlayer->getPower())
 	{
 		case 'T':
-			ActualText += "Traitor";
+			CurrentText += "Traitor";
 		break;	
 
 		case 'L':
-			ActualText += "Laser";
+			CurrentText += "Laser";
 		break;
 
 		default:
-			ActualText += "No Power";
+			CurrentText += "No Power";
 		break;
 	}
 
@@ -50,13 +51,13 @@ void HUD::UpdateHUD(GameData Data)
 			Pause = true;
 	}
 
-	if(Pause && Data.Lives > 0 && Data.BricksRemaining > 0)
+	if(Pause && Data->Lives > 0 && Data->BricksRemaining > 0)
 	{
-		ActualText = "Pause";
+		CurrentText = "Pause";
 		ChangeText(50, 50, 465, 350);
-		ActualText = "Keyboard Arrows - Move";
+		CurrentText = "Keyboard Arrows - Move";
 		ChangeText(50, 50, 370, 375);
-		ActualText = "Space Bar - Shoot Ray";
+		CurrentText = "Space Bar - Shoot Ray";
 		ChangeText(50, 50, 370, 400);
 
 	}
@@ -64,25 +65,23 @@ void HUD::UpdateHUD(GameData Data)
 	
 
 
-	if (Data.Lives <=  0) 
+	if (Data->Lives <=  0) 
 	{
-		ActualText = "Game Over"; 
+		CurrentText = "Game Over"; 
 		ChangeText(50, 50, 470, 350);
 	}
-	else if (Data.BricksRemaining <= 0)
+	else if (Data->BricksRemaining <= 0)
 	{
-		ActualText = "Win!"; 
+		CurrentText = "Win!"; 
 		ChangeText(50, 50, 470, 350);
 	}
 	
 }
 
-void HUD::ChangeText(int TextW, int TextH, int TextX, int TextY) 
+void HUD::ChangeText(int TextW, int TextH, float TextX, float TextY) 
 {
-	NText = (char*)malloc((ActualText.size() + 1) * sizeof(char)); // NO! buffer allocated deallocated in the loop
-	ActualText.copy(NText, ActualText.size() + 1);
-	NText[ActualText.size()] = '\0';
+	CurrentText.copy(NText, CurrentText.size() + 1);
+	NText[CurrentText.size()] = '\0';
 	Rend->Write(NText, TextH, TextH, TextX, TextY);
-	free(NText);
 }
 

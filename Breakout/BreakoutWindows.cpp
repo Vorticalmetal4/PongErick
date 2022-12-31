@@ -18,7 +18,7 @@ int main(int argc, int** argv)
     INIReader ConFile("InitialData.ini"); 
 
     if (ConFile.ParseError() < 0)
-        ConFile.PrintError("BreakoutWindow"); 
+        ConFile.PrintError("BreakoutWindow could not find ConFile"); 
     
     Renderer Rend;
     CollisionSystem CollisionDetector;
@@ -71,7 +71,6 @@ int main(int argc, int** argv)
 
     if (success)
     {
-        // La memoria principal de tu programa se incremente con el tiempo, identifica porque y arreglalo
         while (Rend.getIsRunning())
         {
             Rend.ProcessInput();
@@ -144,7 +143,7 @@ int main(int argc, int** argv)
                 
             }
 
-            PHUD.UpdateHUD(Data); // bad memory usage and your main memory leak
+            PHUD.UpdateHUD(&Data); 
             Rend.GenerateOutput();
         }
     }
