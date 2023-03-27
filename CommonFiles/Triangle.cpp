@@ -20,27 +20,28 @@ void Triangle::setPointData(float x, float y, float Angle, int Position)
 {
 	switch (Position)
 	{
-	case 1:
-		P1.x = x;
-		P1.y = y;
-		P1.Angle = Angle;
-	break;
+		case 1:
+			P1.x = x;
+			P1.y = y;
+			P1.Angle = Angle;
+		break;
 
-	case 2:
-		P2.x = x;
-		P2.y = y;
-		P2.Angle = Angle;
-	break;
+		case 2:
+			P2.x = x;
+			P2.y = y;
+			P2.Angle = Angle;
+		break;
 
-	case 3:
-		P3.x = x;
-		P3.y = y;
-		P3.Angle = Angle;
+		case 3:
+			P3.x = x;
+			P3.y = y;
+			P3.Angle = Angle;
+		break;
 
 		default:
-			Center.x = x;
-			Center.y = y;
-			Center.Angle = Angle;
+				Center.x = x;
+				Center.y = y;
+				Center.Angle = Angle;
 		break;
 	}
 

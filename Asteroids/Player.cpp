@@ -33,7 +33,7 @@ Player::Player(Renderer* _Rend, CollisionSystem* _CollisionDetector)
 	float HWidth = Body.getDimensions()->Width / 2.0f;
 	float HHeight = Body.getDimensions()->Height / 2.0f;
 	Body.setPointData( (float)ConFile.GetInteger("Player", "PositionX", 0), (float)ConFile.GetInteger("Player", "PositionY", 0), 315, 1);
-	Body.setPointData(Body.getFirstPoint()->x + Body.getDimensions()->Width, Body.getSecondPoint()->y, 225, 2);
+	Body.setPointData(Body.getFirstPoint()->x + Body.getDimensions()->Width, Body.getFirstPoint()->y, 225, 2);
 	Body.setPointData(Body.getFirstPoint()->x + HWidth, Body.getFirstPoint()->y - Body.getDimensions()->Height, 90, 3);
 	Body.setPointData(Body.getThirdPoint()->x, Body.getThirdPoint()->y + HHeight, 0, 4);
 

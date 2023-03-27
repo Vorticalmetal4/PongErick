@@ -11,14 +11,12 @@ int main()
     CollisionSystem CollisionDetector;
     INIReader ConFile("InitialData.ini");
 
-    int WindowWidth = ConFile.GetInteger("Window", "Width", 1080);
-    int WindowHeight = ConFile.GetInteger("Window", "Height", 720);
-    int Thickness = ConFile.GetInteger("Paddle", "Thickness", 0);
-
-
     if (ConFile.ParseError() < 0)
         ConFile.PrintError("PongWindow could not find the ConFile");
 
+    int WindowWidth = ConFile.GetInteger("Window", "Width", 1080);
+    int WindowHeight = ConFile.GetInteger("Window", "Height", 720);
+    int Thickness = ConFile.GetInteger("Paddle", "Thickness", 0);
 
     bool success = Rend.Initialize(ConFile.GetString("Window", "Name", "Error"),
         ConFile.GetInteger("Window", "TopLeftXCoordinate", 100),
